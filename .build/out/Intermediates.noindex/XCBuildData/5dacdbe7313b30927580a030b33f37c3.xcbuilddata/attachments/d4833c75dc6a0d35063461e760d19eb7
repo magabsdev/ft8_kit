@@ -1,0 +1,29 @@
+{
+  "" : {
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests-primary.dia",
+    "emit-module-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests-primary-emit-module.dia",
+    "pch" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests-primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/DerivedSources/test_entry_point.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/test_entry_point.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/test_entry_point.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/test_entry_point.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/test_entry_point.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/test_entry_point.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/test_entry_point.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/test_entry_point.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/test_entry_point~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests/FT8EncoderTests.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8EncoderTests-p.build/Objects-normal/arm64/FT8EncoderTests~partial.swiftmodule"
+  }
+}

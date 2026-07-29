@@ -1,0 +1,282 @@
+import Foundation
+
+public enum FT8MessageCodec {
+    private static let max22: UInt32 = 4_194_304
+    private static let nTokens: UInt32 = 2_063_592
+    private static let maxGrid4: UInt16 = 32_400
+
+    public static func pack(_ message: FT8Message) throws -> FT8BitBuffer {
+        switch message {
+        case .freeText(let text):
+            return try packFreeText(text)
+        case .standard(let to, let from, let extra):
+            return try packStandard(to: to, from: from, extra: extra)
+        case .telemetry, .unsupported:
+            throw FT8ProtocolError.unsupportedMessageType(type: -1, subtype: -1)
+        }
+    }
+
+    public static func unpack(_ payload: FT8BitBuffer) throws -> FT8Message {
+        guard payload.count == FT8Constants.informationBitCount else {
+            throw FT8ProtocolError.invalidPayloadLength(payload.count)
+        }
+
+        let i3 = Int(value(payload.bits, range: 74..<77))
+        let n3 = Int(value(payload.bits, range: 71..<74))
+
+        switch i3 {
+        case 0 where n3 == 0:
+            return unpackFreeText(payload)
+        case 0 where n3 == 5:
+            return .telemetry(payloadHex(payload.bits[0..<71]))
+        case 1, 2:
+            return try unpackStandard(payload, i3: i3)
+        default:
+            return .unsupported(type: i3, subtype: n3, payloadHex: payloadHex(payload.bits[0..<77]))
+        }
+    }
+
+    private static func unpackFreeText(_ payload: FT8BitBuffer) -> FT8Message {
+        var number = FT8BitBuffer(Array(payload.bits[0..<71]))
+        var characters = [Character](repeating: " ", count: 13)
+        for index in stride(from: 12, through: 0, by: -1) {
+            characters[index] = FT8Constants.freeTextAlphabet[number.divide(by: 42)]
+        }
+        return .freeText(String(characters).trimmingCharacters(in: .whitespaces))
+    }
+
+    private static func unpackStandard(_ payload: FT8BitBuffer, i3: Int) throws -> FT8Message {
+        let n29a = UInt32(value(payload.bits, range: 0..<29))
+        let n29b = UInt32(value(payload.bits, range: 29..<58))
+        let ir = Int(payload.bits[58])
+        let grid = UInt16(value(payload.bits, range: 59..<74))
+
+        let callTo = try unpack28(n29a >> 1, suffix: Int(n29a & 1), i3: i3)
+        let callFrom = try unpack28(n29b >> 1, suffix: Int(n29b & 1), i3: i3)
+        let extra = unpackGrid(grid, ir: ir)
+        return .standard(to: callTo, from: callFrom, extra: extra)
+    }
+
+    private static func unpack28(_ raw: UInt32, suffix: Int, i3: Int) throws -> String {
+        if raw < nTokens {
+            switch raw {
+            case 0: return "DE"
+            case 1: return "QRZ"
+            case 2: return "CQ"
+            case 3...1002:
+                return String(format: "CQ %03u", raw - 3)
+            case 1003...532_443:
+                var n = raw - 1003
+                var chars = [Character](repeating: " ", count: 4)
+                let alphabet = Array(" ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                for index in stride(from: 3, through: 0, by: -1) {
+                    chars[index] = alphabet[Int(n % 27)]
+                    n /= 27
+                }
+                return "CQ " + String(chars).trimmingCharacters(in: .whitespaces)
+            default:
+                throw FT8ProtocolError.invalidPackedField
+            }
+        }
+
+        var n = raw - nTokens
+        if n < max22 {
+            return String(format: "<%06X>", n)
+        }
+        n -= max22
+
+        let lettersSpace = Array(" ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        let alphanumeric = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        let alphanumericSpace = Array(" 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        let numeric = Array("0123456789")
+
+        var callsign = [Character](repeating: " ", count: 6)
+        callsign[5] = lettersSpace[Int(n % 27)]; n /= 27
+        callsign[4] = lettersSpace[Int(n % 27)]; n /= 27
+        callsign[3] = lettersSpace[Int(n % 27)]; n /= 27
+        callsign[2] = numeric[Int(n % 10)]; n /= 10
+        callsign[1] = alphanumeric[Int(n % 36)]; n /= 36
+        callsign[0] = alphanumericSpace[Int(n % 37)]
+
+        var result = String(callsign).trimmingCharacters(in: .whitespaces)
+        if result.hasPrefix("3D0"), result.count > 3 {
+            result = "3DA0" + String(result.dropFirst(3))
+        } else if result.first == "Q", result.count > 1,
+                  String(result.dropFirst().prefix(1)).rangeOfCharacter(from: .letters) != nil {
+            result = "3X" + String(result.dropFirst())
+        }
+
+        guard result.count >= 3 else { throw FT8ProtocolError.invalidPackedField }
+        if suffix != 0 {
+            if i3 == 1 { result += "/R" }
+            else if i3 == 2 { result += "/P" }
+            else { throw FT8ProtocolError.invalidPackedField }
+        }
+        return result
+    }
+
+    private static func unpackGrid(_ packed: UInt16, ir: Int) -> String {
+        if packed <= maxGrid4 {
+            var n = packed
+            let d2 = Int(n % 10); n /= 10
+            let d1 = Int(n % 10); n /= 10
+            let b = Int(n % 18); n /= 18
+            let a = Int(n % 18)
+            let grid = "\(Character(UnicodeScalar(65 + a)!))\(Character(UnicodeScalar(65 + b)!))\(d1)\(d2)"
+            return ir == 1 ? "R \(grid)" : grid
+        }
+
+        let report = Int(packed - maxGrid4)
+        switch report {
+        case 1: return ""
+        case 2: return "RRR"
+        case 3: return "RR73"
+        case 4: return "73"
+        default:
+            let value = report - 35
+            let formatted = String(format: "%+03d", value)
+            return ir == 1 ? "R\(formatted)" : formatted
+        }
+    }
+
+    private static func packFreeText(_ input: String) throws -> FT8BitBuffer {
+        let upper = input.uppercased()
+        guard upper.count <= 13 else { throw FT8ProtocolError.messageTooLong(upper.count) }
+        let padded = upper.padding(toLength: 13, withPad: " ", startingAt: 0)
+        var number = FT8BitBuffer(count: 71)
+        for character in padded {
+            guard let index = FT8Constants.freeTextAlphabet.firstIndex(of: character) else {
+                throw FT8ProtocolError.unsupportedCharacter(character)
+            }
+            number.multiply(by: 42)
+            number.add(index)
+        }
+        return FT8BitBuffer(number.bits + [UInt8](repeating: 0, count: 6))
+    }
+
+    private static func packStandard(to: String, from: String, extra: String) throws -> FT8BitBuffer {
+        let (toValue, toSuffix) = try pack28(to)
+        let (fromValue, fromSuffix) = try pack28(from)
+        let i3 = (to.uppercased().hasSuffix("/P") || from.uppercased().hasSuffix("/P")) ? 2 : 1
+        let (gridValue, ir) = try packGrid(extra)
+
+        var bits = [UInt8]()
+        append(UInt64((toValue << 1) | UInt32(toSuffix)), width: 29, to: &bits)
+        append(UInt64((fromValue << 1) | UInt32(fromSuffix)), width: 29, to: &bits)
+        bits.append(UInt8(ir))
+        append(UInt64(gridValue), width: 15, to: &bits)
+        append(UInt64(i3), width: 3, to: &bits)
+        return FT8BitBuffer(bits)
+    }
+
+    private static func pack28(_ input: String) throws -> (UInt32, Int) {
+        let upper = input.uppercased()
+        if upper == "DE" { return (0, 0) }
+        if upper == "QRZ" { return (1, 0) }
+        if upper == "CQ" { return (2, 0) }
+
+        var suffix = 0
+        var base = upper
+        if base.hasSuffix("/R") || base.hasSuffix("/P") {
+            suffix = 1
+            base.removeLast(2)
+        }
+
+        var chars = [Character](repeating: " ", count: 6)
+        let source = Array(base)
+        if source.count <= 6, source.count >= 3 {
+            if source.count > 2, source[2].isNumber {
+                for index in source.indices { chars[index] = source[index] }
+            } else if source.count > 1, source[1].isNumber, source.count <= 5 {
+                for index in source.indices { chars[index + 1] = source[index] }
+            }
+        }
+
+        let a0 = Array(" 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        let a1 = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        let digits = Array("0123456789")
+        let suffixAlphabet = Array(" ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        guard let i0 = a0.firstIndex(of: chars[0]),
+              let i1 = a1.firstIndex(of: chars[1]),
+              let i2 = digits.firstIndex(of: chars[2]),
+              let i3 = suffixAlphabet.firstIndex(of: chars[3]),
+              let i4 = suffixAlphabet.firstIndex(of: chars[4]),
+              let i5 = suffixAlphabet.firstIndex(of: chars[5]) else {
+            throw FT8ProtocolError.invalidPackedField
+        }
+
+        var n = UInt32(i0)
+        n = n * 36 + UInt32(i1)
+        n = n * 10 + UInt32(i2)
+        n = n * 27 + UInt32(i3)
+        n = n * 27 + UInt32(i4)
+        n = n * 27 + UInt32(i5)
+        return (nTokens + max22 + n, suffix)
+    }
+
+    private static func packGrid(_ input: String) throws -> (UInt16, Int) {
+        let upper = input.uppercased()
+        if upper.isEmpty { return (maxGrid4 + 1, 0) }
+        if upper == "RRR" { return (maxGrid4 + 2, 0) }
+        if upper == "RR73" { return (maxGrid4 + 3, 0) }
+        if upper == "73" { return (maxGrid4 + 4, 0) }
+
+        var report = upper
+        var ir = 0
+        if report.hasPrefix("R+") || report.hasPrefix("R-") {
+            ir = 1
+            report.removeFirst()
+        }
+        if let value = Int(report), (-50...49).contains(value) {
+            return (maxGrid4 + UInt16(35 + value), ir)
+        }
+
+        let chars = Array(upper)
+        guard chars.count == 4,
+              let a = chars[0].asciiValue, let b = chars[1].asciiValue,
+              (65...82).contains(a), (65...82).contains(b),
+              let d1 = chars[2].wholeNumberValue, let d2 = chars[3].wholeNumberValue else {
+            throw FT8ProtocolError.invalidPackedField
+        }
+        var n = UInt16(a - 65)
+        n = n * 18 + UInt16(b - 65)
+        n = n * 10 + UInt16(d1)
+        n = n * 10 + UInt16(d2)
+        return (n, 0)
+    }
+
+    private static func value(_ bits: [UInt8], range: Range<Int>) -> UInt64 {
+        var result: UInt64 = 0
+        for index in range { result = (result << 1) | UInt64(bits[index]) }
+        return result
+    }
+
+    private static func append(_ value: UInt64, width: Int, to bits: inout [UInt8]) {
+        for shift in stride(from: width - 1, through: 0, by: -1) {
+            bits.append(UInt8((value >> UInt64(shift)) & 1))
+        }
+    }
+
+    private static func payloadHex(_ bits: ArraySlice<UInt8>) -> String {
+        var padded = Array(bits)
+        while padded.count % 8 != 0 { padded.append(0) }
+        return stride(from: 0, to: padded.count, by: 8).map { offset in
+            var byte: UInt8 = 0
+            for bit in padded[offset..<offset + 8] { byte = (byte << 1) | bit }
+            return String(format: "%02X", byte)
+        }.joined()
+    }
+}
+
+public extension FT8MessageCodec {
+    static func pack(_ text: String) throws -> FT8BitBuffer {
+        let normalised = text.uppercased().split(whereSeparator: { $0.isWhitespace }).joined(separator: " ")
+        let fields = normalised.split(separator: " ").map(String.init)
+        if fields.count == 3 {
+            if let standard = try? pack(.standard(to: fields[0], from: fields[1], extra: fields[2])) {
+                return standard
+            }
+        }
+        return try pack(.freeText(normalised))
+    }
+}

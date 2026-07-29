@@ -1,0 +1,4 @@
+module FT8Decoder {
+header "FT8Decoder-Swift.h"
+export *
+}

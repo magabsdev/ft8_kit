@@ -1,0 +1,69 @@
+{
+  "" : {
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Protocol-primary.dia",
+    "emit-module-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Protocol-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Protocol-primary-emit-module.dia",
+    "pch" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Protocol-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Protocol-primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8BitBuffer.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8BitBuffer.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8BitBuffer.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8BitBuffer.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8BitBuffer.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8BitBuffer.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8BitBuffer.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8BitBuffer.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8BitBuffer~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8CRC.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8CRC.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8CRC.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8CRC.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8CRC.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8CRC.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8CRC.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8CRC.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8CRC~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Constants.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Constants.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Constants.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Constants.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Constants.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Constants.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Constants.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Constants.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Constants~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8GrayCode.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8GrayCode.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8GrayCode.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8GrayCode.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8GrayCode.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8GrayCode.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8GrayCode.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8GrayCode.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8GrayCode~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Message.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Message.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Message.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Message.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Message.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Message.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Message.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Message.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8Message~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8MessageCodec.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8MessageCodec.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8MessageCodec.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8MessageCodec.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8MessageCodec.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8MessageCodec.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8MessageCodec.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8MessageCodec.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Protocol-t.build/Objects-normal/arm64/FT8MessageCodec~partial.swiftmodule"
+  }
+}
