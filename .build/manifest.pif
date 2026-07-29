@@ -2,14 +2,14 @@
   {
     "contents" : {
       "guid" : "Workspace:/Users/mag/Developer/FT8Kit",
-      "name" : "FT8Kit",
+      "name" : "FT8DSP",
       "path" : "/Users/mag/Developer/FT8Kit",
       "projects" : [
-        "5269ac6012aca5275bda13b63c263fd18bc1e134ec98506b125a2dcfd61f35fd",
-        "820bdb8928d51ae79cba5804ec0daf7a2265acbac69140d0a3108e0b6510c8be"
+        "8aaa8e4d5e6bcf67d07d27a58ca55bef604a0364fd5bf4e09f9ac2926123845e",
+        "4358c0447043bcdc76efaf2b47231dd4bbc20ed8f2b03fb91e71e1724367d2ea"
       ]
     },
-    "signature" : "79d6c37c94e1f1e7605ed3da5d2f2faa30d9dd37aea0c36217fca983ae624f1f",
+    "signature" : "f104db00a3f96bef0b77e8e7694cccde693b46ca3c27dc2064fc3cbdd926ab84",
     "type" : "workspace"
   },
   {
@@ -48,8 +48,8 @@
               "DEBUG=1"
             ],
             "INDEX_ENABLE_DATA_STORE" : "YES",
-            "IPHONEOS_DEPLOYMENT_TARGET" : "16.0",
-            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "16.0",
+            "IPHONEOS_DEPLOYMENT_TARGET" : "15.0",
+            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "15.0",
             "KEEP_PRIVATE_EXTERNS" : "NO",
             "LIBTOOL_NO_WARNING_FOR_NO_SYMBOLS" : "YES",
             "LINKER_DRIVER" : "auto",
@@ -68,9 +68,6 @@
             ],
             "PRODUCT_NAME" : "$(TARGET_NAME)",
             "SKIP_INSTALL" : "YES",
-            "SPECIALIZATION_SDK_OPTIONS[__platform_filter=ios;ios-simulator]" : [
-
-            ],
             "SPECIALIZATION_SDK_OPTIONS[__platform_filter=macos]" : [
 
             ],
@@ -129,8 +126,8 @@
               "$(inherited)",
               "SWIFT_PACKAGE"
             ],
-            "IPHONEOS_DEPLOYMENT_TARGET" : "16.0",
-            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "16.0",
+            "IPHONEOS_DEPLOYMENT_TARGET" : "15.0",
+            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "15.0",
             "KEEP_PRIVATE_EXTERNS" : "NO",
             "LIBTOOL_NO_WARNING_FOR_NO_SYMBOLS" : "YES",
             "LINKER_DRIVER" : "auto",
@@ -148,9 +145,6 @@
             ],
             "PRODUCT_NAME" : "$(TARGET_NAME)",
             "SKIP_INSTALL" : "YES",
-            "SPECIALIZATION_SDK_OPTIONS[__platform_filter=ios;ios-simulator]" : [
-
-            ],
             "SPECIALIZATION_SDK_OPTIONS[__platform_filter=macos]" : [
 
             ],
@@ -207,15 +201,15 @@
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_2::REF_0",
-                "name" : "FT8ProtocolTests.swift",
-                "path" : "FT8ProtocolTests.swift",
+                "name" : "SpectrumTests.swift",
+                "path" : "SpectrumTests.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
             "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_2",
-            "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests",
-            "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests",
+            "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests",
+            "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests",
             "sourceTree" : "<absolute>",
             "type" : "group"
           },
@@ -224,15 +218,23 @@
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_3::REF_0",
-                "name" : "FT8EncoderTests.swift",
-                "path" : "FT8EncoderTests.swift",
+                "name" : "FFT.swift",
+                "path" : "FFT.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_3::REF_1",
+                "name" : "Spectrum.swift",
+                "path" : "Spectrum.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
             "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_3",
-            "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests",
-            "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
             "sourceTree" : "<absolute>",
             "type" : "group"
           },
@@ -241,194 +243,23 @@
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_0",
-                "name" : "FT8BitBuffer.swift",
-                "path" : "FT8BitBuffer.swift",
+                "name" : "FFT.swift",
+                "path" : "FFT.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               },
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_1",
-                "name" : "FT8CRC.swift",
-                "path" : "FT8CRC.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_2",
-                "name" : "FT8Constants.swift",
-                "path" : "FT8Constants.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_3",
-                "name" : "FT8GrayCode.swift",
-                "path" : "FT8GrayCode.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_4",
-                "name" : "FT8Message.swift",
-                "path" : "FT8Message.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_5",
-                "name" : "FT8MessageCodec.swift",
-                "path" : "FT8MessageCodec.swift",
+                "name" : "Spectrum.swift",
+                "path" : "Spectrum.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
             "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
-            "sourceTree" : "<absolute>",
-            "type" : "group"
-          },
-          {
-            "children" : [
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_0",
-                "name" : "FT8BitBuffer.swift",
-                "path" : "FT8BitBuffer.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_1",
-                "name" : "FT8CRC.swift",
-                "path" : "FT8CRC.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_2",
-                "name" : "FT8Constants.swift",
-                "path" : "FT8Constants.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_3",
-                "name" : "FT8GrayCode.swift",
-                "path" : "FT8GrayCode.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_4",
-                "name" : "FT8Message.swift",
-                "path" : "FT8Message.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_5",
-                "name" : "FT8MessageCodec.swift",
-                "path" : "FT8MessageCodec.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              }
-            ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
-            "sourceTree" : "<absolute>",
-            "type" : "group"
-          },
-          {
-            "children" : [
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_0",
-                "name" : "FT8Encoder.swift",
-                "path" : "FT8Encoder.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_1",
-                "name" : "FT8LDPCGenerator.swift",
-                "path" : "FT8LDPCGenerator.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_2",
-                "name" : "FT8WAVEncoder.swift",
-                "path" : "FT8WAVEncoder.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_3",
-                "name" : "FT8Waveform.swift",
-                "path" : "FT8Waveform.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              }
-            ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
-            "sourceTree" : "<absolute>",
-            "type" : "group"
-          },
-          {
-            "children" : [
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_0",
-                "name" : "FT8Encoder.swift",
-                "path" : "FT8Encoder.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_1",
-                "name" : "FT8LDPCGenerator.swift",
-                "path" : "FT8LDPCGenerator.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_2",
-                "name" : "FT8WAVEncoder.swift",
-                "path" : "FT8WAVEncoder.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_3",
-                "name" : "FT8Waveform.swift",
-                "path" : "FT8Waveform.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              }
-            ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
             "sourceTree" : "<absolute>",
             "type" : "group"
           }
@@ -443,23 +274,17 @@
       "path" : "/Users/mag/Developer/FT8Kit/Package.swift",
       "projectDirectory" : "/Users/mag/Developer/FT8Kit",
       "projectIsPackage" : "true",
-      "projectName" : "FT8Kit",
+      "projectName" : "FT8DSP",
       "targets" : [
-        "c65b5335705e4ca7e2c982f0cf5145973df9b3ecbbea17cb69a4fe85bf308ca2",
-        "dc5b8594858a479bbdc50083541b06e1173f1655e320f96ec911b46e1b2f8674",
-        "50962af0a0e08ca8cbc4174e80f82c67d0bca37fb785923386c1ea4627d998b0",
-        "96c136f9f9b00690666b98199865b8d1ce327080c5c5a06c4333702dcb2c5ae7",
-        "57acd3ade09370ced464c8939c872e0c25cfb129356ab7352d057a15bf657981",
-        "c2a20fafc9c058366bad2097cfc56b5367b373be19935293d7b3abd5bb1b2fdb",
-        "dbea921fbc5f474e526982b5b008817c33c68443b34ede0d46c13d44f84c65e2",
-        "ea81b1f42ba7d60ea3914cbc62dc38274c4646a08c7d5f2e018776e4a402bd09",
-        "3f60dd1c2597257a66e69e8075a7ff3b82e6cfdce40ef855969ebcf61a2c4a27",
-        "8c8b400a271ff3964fe3edd0f01bf6079151d83ea56bdd92b75894513f8481b4",
-        "7deca375366e1609298fb4c60a6805bd11dd11dfd8fea323c1a52a7bdcf6f769",
-        "1370c3fe4601b42b3a0639a0e580d0b93b685f67613d1aab47f02f9cbee687b0"
+        "430b5453b015a036983b9c88fa9ee34fd24168eef54abe3b70c420e2c83ee2ec",
+        "f8ed8d662198c01562c0855e67486be162652a7c4f69673970f2e01a59590b1c",
+        "362337c15de03232c97662fdd657b71f1faea448e7df710778e212709d4a864f",
+        "73d2d6f4b15ee8e63a876f21c3c862fede10b790dec0206c547689fc3db5e60a",
+        "7f39f6c53da4a718d090b04adf2e1f3b88b5fe64ef29f2eddb9ca5a7e40ed834",
+        "5541854ca647eb0dd6a03ce4d680cefc8a4384b3160ed170e972be4d1d07696c"
       ]
     },
-    "signature" : "5269ac6012aca5275bda13b63c263fd18bc1e134ec98506b125a2dcfd61f35fd",
+    "signature" : "8aaa8e4d5e6bcf67d07d27a58ca55bef604a0364fd5bf4e09f9ac2926123845e",
     "type" : "project"
   },
   {
@@ -487,8 +312,8 @@
             ],
             "MACOSX_DEPLOYMENT_TARGET" : "14.0",
             "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ProtocolTests",
-            "PRODUCT_MODULE_NAME" : "FT8ProtocolTests",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8DSPTests",
+            "PRODUCT_MODULE_NAME" : "FT8DSPTests",
             "PRODUCT_NAME" : "$(TARGET_NAME)",
             "SDKROOT" : "auto",
             "SDK_VARIANT" : "auto",
@@ -501,15 +326,15 @@
             "SWIFT_LIBRARIES_ONLY" : "YES",
             "SWIFT_PACKAGE_NAME" : "ft8kit",
             "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8ProtocolTests.symbolgraphs",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8ProtocolTests.symbolgraphs",
-            "TARGET_NAME" : "FT8ProtocolTests",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSPTests.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSPTests.symbolgraphs",
+            "TARGET_NAME" : "FT8DSPTests",
             "TARGET_TEMP_DIR_SUFFIX" : "-p",
             "TVOS_DEPLOYMENT_TARGET" : "17.0",
             "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
             "XROS_DEPLOYMENT_TARGET" : "1.0"
           },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests::BUILDCONFIG_0",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDCONFIG_0",
           "impartedBuildProperties" : {
             "buildSettings" : {
 
@@ -538,8 +363,8 @@
             ],
             "MACOSX_DEPLOYMENT_TARGET" : "14.0",
             "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ProtocolTests",
-            "PRODUCT_MODULE_NAME" : "FT8ProtocolTests",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8DSPTests",
+            "PRODUCT_MODULE_NAME" : "FT8DSPTests",
             "PRODUCT_NAME" : "$(TARGET_NAME)",
             "SDKROOT" : "auto",
             "SDK_VARIANT" : "auto",
@@ -552,15 +377,15 @@
             "SWIFT_LIBRARIES_ONLY" : "YES",
             "SWIFT_PACKAGE_NAME" : "ft8kit",
             "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8ProtocolTests.symbolgraphs",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8ProtocolTests.symbolgraphs",
-            "TARGET_NAME" : "FT8ProtocolTests",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSPTests.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSPTests.symbolgraphs",
+            "TARGET_NAME" : "FT8DSPTests",
             "TARGET_TEMP_DIR_SUFFIX" : "-p",
             "TVOS_DEPLOYMENT_TARGET" : "17.0",
             "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
             "XROS_DEPLOYMENT_TARGET" : "1.0"
           },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests::BUILDCONFIG_1",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDCONFIG_1",
           "impartedBuildProperties" : {
             "buildSettings" : {
 
@@ -575,27 +400,27 @@
             {
               "codeSignOnCopy" : "false",
               "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_2::REF_0",
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests::BUILDPHASE_0::0",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_0::0",
               "platformFilters" : [
 
               ],
               "removeHeadersOnCopy" : "false"
             }
           ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests::BUILDPHASE_0",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_0",
           "type" : "com.apple.buildphase.sources"
         },
         {
           "buildFiles" : [
             {
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests::BUILDPHASE_1::0",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_1::0",
               "platformFilters" : [
 
               ],
-              "targetReference" : "PACKAGE-TARGET:FT8Protocol"
+              "targetReference" : "PACKAGE-TARGET:FT8DSP"
             }
           ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests::BUILDPHASE_1",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_1",
           "type" : "com.apple.buildphase.frameworks"
         }
       ],
@@ -607,23 +432,23 @@
       ],
       "dependencies" : [
         {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
+          "guid" : "PACKAGE-TARGET:FT8DSP",
           "platformFilters" : [
 
           ]
         }
       ],
-      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests",
-      "name" : "FT8ProtocolTests-product",
+      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests",
+      "name" : "FT8DSPTests-product",
       "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests",
+        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests",
         "name" : "$(EXECUTABLE_NAME)",
         "type" : "file"
       },
       "productTypeIdentifier" : "com.apple.product-type.bundle.unit-test",
       "type" : "standard"
     },
-    "signature" : "c65b5335705e4ca7e2c982f0cf5145973df9b3ecbbea17cb69a4fe85bf308ca2",
+    "signature" : "430b5453b015a036983b9c88fa9ee34fd24168eef54abe3b70c420e2c83ee2ec",
     "type" : "target"
   },
   {
@@ -642,19 +467,19 @@
             "LINKER_DRIVER" : "swiftc",
             "MACOSX_DEPLOYMENT_TARGET" : "14.0",
             "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ProtocolTests-test-runner",
-            "PRODUCT_MODULE_NAME" : "FT8ProtocolTests_test_runner",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8DSPTests-test-runner",
+            "PRODUCT_MODULE_NAME" : "FT8DSPTests_test_runner",
             "PRODUCT_NAME" : "$(TARGET_NAME)",
             "SDKROOT" : "auto",
             "SDK_VARIANT" : "auto",
             "SKIP_INSTALL" : "NO",
             "SWIFT_VERSION" : "5.0",
-            "TARGET_NAME" : "FT8ProtocolTests-test-runner",
+            "TARGET_NAME" : "FT8DSPTests-test-runner",
             "TVOS_DEPLOYMENT_TARGET" : "17.0",
             "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
             "XROS_DEPLOYMENT_TARGET" : "1.0"
           },
-          "guid" : "PACKAGE-TARGET:FT8ProtocolTests_test_runner::BUILDCONFIG_0",
+          "guid" : "PACKAGE-TARGET:FT8DSPTests_test_runner::BUILDCONFIG_0",
           "impartedBuildProperties" : {
             "buildSettings" : {
 
@@ -674,19 +499,19 @@
             "LINKER_DRIVER" : "swiftc",
             "MACOSX_DEPLOYMENT_TARGET" : "14.0",
             "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ProtocolTests-test-runner",
-            "PRODUCT_MODULE_NAME" : "FT8ProtocolTests_test_runner",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8DSPTests-test-runner",
+            "PRODUCT_MODULE_NAME" : "FT8DSPTests_test_runner",
             "PRODUCT_NAME" : "$(TARGET_NAME)",
             "SDKROOT" : "auto",
             "SDK_VARIANT" : "auto",
             "SKIP_INSTALL" : "NO",
             "SWIFT_VERSION" : "5.0",
-            "TARGET_NAME" : "FT8ProtocolTests-test-runner",
+            "TARGET_NAME" : "FT8DSPTests-test-runner",
             "TVOS_DEPLOYMENT_TARGET" : "17.0",
             "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
             "XROS_DEPLOYMENT_TARGET" : "1.0"
           },
-          "guid" : "PACKAGE-TARGET:FT8ProtocolTests_test_runner::BUILDCONFIG_1",
+          "guid" : "PACKAGE-TARGET:FT8DSPTests_test_runner::BUILDCONFIG_1",
           "impartedBuildProperties" : {
             "buildSettings" : {
 
@@ -700,20 +525,20 @@
           "buildFiles" : [
 
           ],
-          "guid" : "PACKAGE-TARGET:FT8ProtocolTests_test_runner::BUILDPHASE_0",
+          "guid" : "PACKAGE-TARGET:FT8DSPTests_test_runner::BUILDPHASE_0",
           "type" : "com.apple.buildphase.sources"
         },
         {
           "buildFiles" : [
             {
-              "guid" : "PACKAGE-TARGET:FT8ProtocolTests_test_runner::BUILDPHASE_1::0",
+              "guid" : "PACKAGE-TARGET:FT8DSPTests_test_runner::BUILDPHASE_1::0",
               "platformFilters" : [
 
               ],
-              "targetReference" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests"
+              "targetReference" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests"
             }
           ],
-          "guid" : "PACKAGE-TARGET:FT8ProtocolTests_test_runner::BUILDPHASE_1",
+          "guid" : "PACKAGE-TARGET:FT8DSPTests_test_runner::BUILDPHASE_1",
           "type" : "com.apple.buildphase.frameworks"
         }
       ],
@@ -725,318 +550,23 @@
       ],
       "dependencies" : [
         {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests",
           "platformFilters" : [
 
           ]
         }
       ],
-      "guid" : "PACKAGE-TARGET:FT8ProtocolTests_test_runner",
-      "name" : "FT8ProtocolTests-test-runner",
+      "guid" : "PACKAGE-TARGET:FT8DSPTests_test_runner",
+      "name" : "FT8DSPTests-test-runner",
       "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8ProtocolTests_test_runner",
-        "name" : "FT8ProtocolTests-test-runner",
+        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8DSPTests_test_runner",
+        "name" : "FT8DSPTests-test-runner",
         "type" : "file"
       },
       "productTypeIdentifier" : "com.apple.product-type.tool.swiftpm-test-runner",
       "type" : "standard"
     },
-    "signature" : "dc5b8594858a479bbdc50083541b06e1173f1655e320f96ec911b46e1b2f8674",
-    "type" : "target"
-  },
-  {
-    "contents" : {
-      "approvedByUser" : "true",
-      "buildConfigurations" : [
-        {
-          "buildSettings" : {
-            "BUILD_SERVER_PROTOCOL_TARGET_TAGS" : [
-              "$(inherited)",
-              "test"
-            ],
-            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
-            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
-            "GENERATE_EMBED_IN_CODE_ACCESSORS" : "NO",
-            "GENERATE_INFOPLIST_FILE" : "YES",
-            "GENERATE_RESOURCE_ACCESSORS" : "YES",
-            "INDEX_ENABLE_DATA_STORE" : "YES",
-            "IPHONEOS_DEPLOYMENT_TARGET" : "17.0",
-            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "17.0",
-            "LD_RUNPATH_SEARCH_PATHS" : [
-              "$(RPATH_ORIGIN)/Frameworks",
-              "$(RPATH_ORIGIN)/../Frameworks",
-              "$(inherited)"
-            ],
-            "MACOSX_DEPLOYMENT_TARGET" : "14.0",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8EncoderTests",
-            "PRODUCT_MODULE_NAME" : "FT8EncoderTests",
-            "PRODUCT_NAME" : "$(TARGET_NAME)",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "SKIP_INSTALL" : "NO",
-            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
-              "$(inherited)"
-            ],
-            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
-            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
-            "SWIFT_LIBRARIES_ONLY" : "YES",
-            "SWIFT_PACKAGE_NAME" : "ft8kit",
-            "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8EncoderTests.symbolgraphs",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8EncoderTests.symbolgraphs",
-            "TARGET_NAME" : "FT8EncoderTests",
-            "TARGET_TEMP_DIR_SUFFIX" : "-p",
-            "TVOS_DEPLOYMENT_TARGET" : "17.0",
-            "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
-            "XROS_DEPLOYMENT_TARGET" : "1.0"
-          },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests::BUILDCONFIG_0",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Debug"
-        },
-        {
-          "buildSettings" : {
-            "BUILD_SERVER_PROTOCOL_TARGET_TAGS" : [
-              "$(inherited)",
-              "test"
-            ],
-            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
-            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
-            "GENERATE_EMBED_IN_CODE_ACCESSORS" : "NO",
-            "GENERATE_INFOPLIST_FILE" : "YES",
-            "GENERATE_RESOURCE_ACCESSORS" : "YES",
-            "INDEX_ENABLE_DATA_STORE" : "YES",
-            "IPHONEOS_DEPLOYMENT_TARGET" : "17.0",
-            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "17.0",
-            "LD_RUNPATH_SEARCH_PATHS" : [
-              "$(RPATH_ORIGIN)/Frameworks",
-              "$(RPATH_ORIGIN)/../Frameworks",
-              "$(inherited)"
-            ],
-            "MACOSX_DEPLOYMENT_TARGET" : "14.0",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8EncoderTests",
-            "PRODUCT_MODULE_NAME" : "FT8EncoderTests",
-            "PRODUCT_NAME" : "$(TARGET_NAME)",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "SKIP_INSTALL" : "NO",
-            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
-              "$(inherited)"
-            ],
-            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
-            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
-            "SWIFT_LIBRARIES_ONLY" : "YES",
-            "SWIFT_PACKAGE_NAME" : "ft8kit",
-            "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8EncoderTests.symbolgraphs",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8EncoderTests.symbolgraphs",
-            "TARGET_NAME" : "FT8EncoderTests",
-            "TARGET_TEMP_DIR_SUFFIX" : "-p",
-            "TVOS_DEPLOYMENT_TARGET" : "17.0",
-            "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
-            "XROS_DEPLOYMENT_TARGET" : "1.0"
-          },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests::BUILDCONFIG_1",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Release"
-        }
-      ],
-      "buildPhases" : [
-        {
-          "buildFiles" : [
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_3::REF_0",
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests::BUILDPHASE_0::0",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            }
-          ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests::BUILDPHASE_0",
-          "type" : "com.apple.buildphase.sources"
-        },
-        {
-          "buildFiles" : [
-            {
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests::BUILDPHASE_1::0",
-              "platformFilters" : [
-
-              ],
-              "targetReference" : "PACKAGE-TARGET:FT8Protocol"
-            },
-            {
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests::BUILDPHASE_1::1",
-              "platformFilters" : [
-
-              ],
-              "targetReference" : "PACKAGE-TARGET:FT8Encoder"
-            }
-          ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests::BUILDPHASE_1",
-          "type" : "com.apple.buildphase.frameworks"
-        }
-      ],
-      "buildRules" : [
-
-      ],
-      "customTasks" : [
-
-      ],
-      "dependencies" : [
-        {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8Encoder",
-          "platformFilters" : [
-
-          ]
-        }
-      ],
-      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests",
-      "name" : "FT8EncoderTests-product",
-      "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests",
-        "name" : "$(EXECUTABLE_NAME)",
-        "type" : "file"
-      },
-      "productTypeIdentifier" : "com.apple.product-type.bundle.unit-test",
-      "type" : "standard"
-    },
-    "signature" : "50962af0a0e08ca8cbc4174e80f82c67d0bca37fb785923386c1ea4627d998b0",
-    "type" : "target"
-  },
-  {
-    "contents" : {
-      "approvedByUser" : "true",
-      "buildConfigurations" : [
-        {
-          "buildSettings" : {
-            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
-            "IPHONEOS_DEPLOYMENT_TARGET" : "17.0",
-            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "17.0",
-            "LD_RUNPATH_SEARCH_PATHS" : [
-              "$(inherited)",
-              "$(RPATH_ORIGIN)"
-            ],
-            "LINKER_DRIVER" : "swiftc",
-            "MACOSX_DEPLOYMENT_TARGET" : "14.0",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8EncoderTests-test-runner",
-            "PRODUCT_MODULE_NAME" : "FT8EncoderTests_test_runner",
-            "PRODUCT_NAME" : "$(TARGET_NAME)",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "SKIP_INSTALL" : "NO",
-            "SWIFT_VERSION" : "5.0",
-            "TARGET_NAME" : "FT8EncoderTests-test-runner",
-            "TVOS_DEPLOYMENT_TARGET" : "17.0",
-            "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
-            "XROS_DEPLOYMENT_TARGET" : "1.0"
-          },
-          "guid" : "PACKAGE-TARGET:FT8EncoderTests_test_runner::BUILDCONFIG_0",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Debug"
-        },
-        {
-          "buildSettings" : {
-            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
-            "IPHONEOS_DEPLOYMENT_TARGET" : "17.0",
-            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "17.0",
-            "LD_RUNPATH_SEARCH_PATHS" : [
-              "$(inherited)",
-              "$(RPATH_ORIGIN)"
-            ],
-            "LINKER_DRIVER" : "swiftc",
-            "MACOSX_DEPLOYMENT_TARGET" : "14.0",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8EncoderTests-test-runner",
-            "PRODUCT_MODULE_NAME" : "FT8EncoderTests_test_runner",
-            "PRODUCT_NAME" : "$(TARGET_NAME)",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "SKIP_INSTALL" : "NO",
-            "SWIFT_VERSION" : "5.0",
-            "TARGET_NAME" : "FT8EncoderTests-test-runner",
-            "TVOS_DEPLOYMENT_TARGET" : "17.0",
-            "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
-            "XROS_DEPLOYMENT_TARGET" : "1.0"
-          },
-          "guid" : "PACKAGE-TARGET:FT8EncoderTests_test_runner::BUILDCONFIG_1",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Release"
-        }
-      ],
-      "buildPhases" : [
-        {
-          "buildFiles" : [
-
-          ],
-          "guid" : "PACKAGE-TARGET:FT8EncoderTests_test_runner::BUILDPHASE_0",
-          "type" : "com.apple.buildphase.sources"
-        },
-        {
-          "buildFiles" : [
-            {
-              "guid" : "PACKAGE-TARGET:FT8EncoderTests_test_runner::BUILDPHASE_1::0",
-              "platformFilters" : [
-
-              ],
-              "targetReference" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests"
-            }
-          ],
-          "guid" : "PACKAGE-TARGET:FT8EncoderTests_test_runner::BUILDPHASE_1",
-          "type" : "com.apple.buildphase.frameworks"
-        }
-      ],
-      "buildRules" : [
-
-      ],
-      "customTasks" : [
-
-      ],
-      "dependencies" : [
-        {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests",
-          "platformFilters" : [
-
-          ]
-        }
-      ],
-      "guid" : "PACKAGE-TARGET:FT8EncoderTests_test_runner",
-      "name" : "FT8EncoderTests-test-runner",
-      "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8EncoderTests_test_runner",
-        "name" : "FT8EncoderTests-test-runner",
-        "type" : "file"
-      },
-      "productTypeIdentifier" : "com.apple.product-type.tool.swiftpm-test-runner",
-      "type" : "standard"
-    },
-    "signature" : "96c136f9f9b00690666b98199865b8d1ce327080c5c5a06c4333702dcb2c5ae7",
+    "signature" : "f8ed8d662198c01562c0855e67486be162652a7c4f69673970f2e01a59590b1c",
     "type" : "target"
   },
   {
@@ -1047,14 +577,14 @@
           "buildSettings" : {
             "EXECUTABLE_PREFIX" : "lib",
             "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "PRODUCT_NAME" : "FT8Protocol",
+            "PRODUCT_NAME" : "FT8DSP",
             "SDKROOT" : "auto",
             "SDK_VARIANT" : "auto",
-            "TARGET_NAME" : "FT8Protocol-product",
+            "TARGET_NAME" : "FT8DSP-product",
             "TARGET_TEMP_DIR_SUFFIX" : "-p",
             "USES_SWIFTPM_UNSAFE_FLAGS" : "NO"
           },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol::BUILDCONFIG_0",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP::BUILDCONFIG_0",
           "impartedBuildProperties" : {
             "buildSettings" : {
 
@@ -1066,14 +596,14 @@
           "buildSettings" : {
             "EXECUTABLE_PREFIX" : "lib",
             "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "PRODUCT_NAME" : "FT8Protocol",
+            "PRODUCT_NAME" : "FT8DSP",
             "SDKROOT" : "auto",
             "SDK_VARIANT" : "auto",
-            "TARGET_NAME" : "FT8Protocol-product",
+            "TARGET_NAME" : "FT8DSP-product",
             "TARGET_TEMP_DIR_SUFFIX" : "-p",
             "USES_SWIFTPM_UNSAFE_FLAGS" : "NO"
           },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol::BUILDCONFIG_1",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP::BUILDCONFIG_1",
           "impartedBuildProperties" : {
             "buildSettings" : {
 
@@ -1086,21 +616,21 @@
         {
           "buildFiles" : [
             {
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol::BUILDPHASE_0::0",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP::BUILDPHASE_0::0",
               "platformFilters" : [
 
               ],
-              "targetReference" : "PACKAGE-TARGET:FT8Protocol"
+              "targetReference" : "PACKAGE-TARGET:FT8DSP"
             }
           ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol::BUILDPHASE_0",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP::BUILDPHASE_0",
           "type" : "com.apple.buildphase.frameworks"
         },
         {
           "buildFiles" : [
 
           ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol::BUILDPHASE_1",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP::BUILDPHASE_1",
           "type" : "com.apple.buildphase.sources"
         }
       ],
@@ -1112,233 +642,23 @@
       ],
       "dependencies" : [
         {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
+          "guid" : "PACKAGE-TARGET:FT8DSP",
           "platformFilters" : [
 
           ]
         }
       ],
-      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol",
-      "name" : "FT8Protocol-product",
+      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP",
+      "name" : "FT8DSP-product",
       "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol",
+        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP",
         "name" : "$(EXECUTABLE_NAME)",
         "type" : "file"
       },
       "productTypeIdentifier" : "com.apple.product-type.library.static",
       "type" : "standard"
     },
-    "signature" : "57acd3ade09370ced464c8939c872e0c25cfb129356ab7352d057a15bf657981",
-    "type" : "target"
-  },
-  {
-    "contents" : {
-      "approvedByUser" : "true",
-      "buildConfigurations" : [
-        {
-          "buildSettings" : {
-            "EXECUTABLE_PREFIX" : "lib",
-            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "PRODUCT_NAME" : "FT8Encoder",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "TARGET_NAME" : "FT8Encoder-product",
-            "TARGET_TEMP_DIR_SUFFIX" : "-p",
-            "USES_SWIFTPM_UNSAFE_FLAGS" : "NO"
-          },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder::BUILDCONFIG_0",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Debug"
-        },
-        {
-          "buildSettings" : {
-            "EXECUTABLE_PREFIX" : "lib",
-            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "PRODUCT_NAME" : "FT8Encoder",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "TARGET_NAME" : "FT8Encoder-product",
-            "TARGET_TEMP_DIR_SUFFIX" : "-p",
-            "USES_SWIFTPM_UNSAFE_FLAGS" : "NO"
-          },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder::BUILDCONFIG_1",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Release"
-        }
-      ],
-      "buildPhases" : [
-        {
-          "buildFiles" : [
-            {
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder::BUILDPHASE_0::0",
-              "platformFilters" : [
-
-              ],
-              "targetReference" : "PACKAGE-TARGET:FT8Encoder"
-            },
-            {
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder::BUILDPHASE_0::1",
-              "platformFilters" : [
-
-              ],
-              "targetReference" : "PACKAGE-TARGET:FT8Protocol"
-            }
-          ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder::BUILDPHASE_0",
-          "type" : "com.apple.buildphase.frameworks"
-        },
-        {
-          "buildFiles" : [
-
-          ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder::BUILDPHASE_1",
-          "type" : "com.apple.buildphase.sources"
-        }
-      ],
-      "buildRules" : [
-
-      ],
-      "customTasks" : [
-
-      ],
-      "dependencies" : [
-        {
-          "guid" : "PACKAGE-TARGET:FT8Encoder",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
-          "platformFilters" : [
-
-          ]
-        }
-      ],
-      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder",
-      "name" : "FT8Encoder-product",
-      "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder",
-        "name" : "$(EXECUTABLE_NAME)",
-        "type" : "file"
-      },
-      "productTypeIdentifier" : "com.apple.product-type.library.static",
-      "type" : "standard"
-    },
-    "signature" : "c2a20fafc9c058366bad2097cfc56b5367b373be19935293d7b3abd5bb1b2fdb",
-    "type" : "target"
-  },
-  {
-    "contents" : {
-      "approvedByUser" : "true",
-      "buildConfigurations" : [
-        {
-          "buildSettings" : {
-            "EXECUTABLE_PREFIX" : "lib",
-            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "PRODUCT_NAME" : "FT8Kit",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "TARGET_NAME" : "FT8Kit-product",
-            "TARGET_TEMP_DIR_SUFFIX" : "-p",
-            "USES_SWIFTPM_UNSAFE_FLAGS" : "NO"
-          },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit::BUILDCONFIG_0",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Debug"
-        },
-        {
-          "buildSettings" : {
-            "EXECUTABLE_PREFIX" : "lib",
-            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "PRODUCT_NAME" : "FT8Kit",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "TARGET_NAME" : "FT8Kit-product",
-            "TARGET_TEMP_DIR_SUFFIX" : "-p",
-            "USES_SWIFTPM_UNSAFE_FLAGS" : "NO"
-          },
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit::BUILDCONFIG_1",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Release"
-        }
-      ],
-      "buildPhases" : [
-        {
-          "buildFiles" : [
-            {
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit::BUILDPHASE_0::0",
-              "platformFilters" : [
-
-              ],
-              "targetReference" : "PACKAGE-TARGET:FT8Protocol"
-            },
-            {
-              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit::BUILDPHASE_0::1",
-              "platformFilters" : [
-
-              ],
-              "targetReference" : "PACKAGE-TARGET:FT8Encoder"
-            }
-          ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit::BUILDPHASE_0",
-          "type" : "com.apple.buildphase.frameworks"
-        },
-        {
-          "buildFiles" : [
-
-          ],
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit::BUILDPHASE_1",
-          "type" : "com.apple.buildphase.sources"
-        }
-      ],
-      "buildRules" : [
-
-      ],
-      "customTasks" : [
-
-      ],
-      "dependencies" : [
-        {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8Encoder",
-          "platformFilters" : [
-
-          ]
-        }
-      ],
-      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit",
-      "name" : "FT8Kit-product",
-      "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit",
-        "name" : "$(EXECUTABLE_NAME)",
-        "type" : "file"
-      },
-      "productTypeIdentifier" : "com.apple.product-type.library.static",
-      "type" : "standard"
-    },
-    "signature" : "dbea921fbc5f474e526982b5b008817c33c68443b34ede0d46c13d44f84c65e2",
+    "signature" : "362337c15de03232c97662fdd657b71f1faea448e7df710778e212709d4a864f",
     "type" : "target"
   },
   {
@@ -1350,11 +670,11 @@
             "DEFINES_MODULE" : "YES",
             "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
             "GENERATE_PRELINK_OBJECT_FILE" : "NO",
-            "MODULEMAP_FILE_CONTENTS" : "module FT8Protocol {\nheader \"FT8Protocol-Swift.h\"\nexport *\n}",
-            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Protocol.modulemap",
+            "MODULEMAP_FILE_CONTENTS" : "module FT8DSP {\nheader \"FT8DSP-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8DSP.modulemap",
             "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Protocol",
-            "PRODUCT_MODULE_NAME" : "FT8Protocol",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8DSP",
+            "PRODUCT_MODULE_NAME" : "FT8DSP",
             "PRODUCT_NAME" : "$(TARGET_NAME)",
             "SDKROOT" : "auto",
             "SDK_VARIANT" : "auto",
@@ -1368,16 +688,16 @@
             "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
             "SWIFT_LIBRARIES_ONLY" : "YES",
             "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
-            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Protocol-Swift.h",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8DSP-Swift.h",
             "SWIFT_PACKAGE_NAME" : "ft8kit",
             "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Protocol.symbolgraphs",
-            "TAPI_DYLIB_INSTALL_NAME" : "FT8Protocol",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Protocol.symbolgraphs",
-            "TARGET_NAME" : "FT8Protocol",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSP.symbolgraphs",
+            "TAPI_DYLIB_INSTALL_NAME" : "FT8DSP",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSP.symbolgraphs",
+            "TARGET_NAME" : "FT8DSP",
             "TARGET_TEMP_DIR_SUFFIX" : "-t"
           },
-          "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDCONFIG_0",
+          "guid" : "PACKAGE-TARGET:FT8DSP::BUILDCONFIG_0",
           "impartedBuildProperties" : {
             "buildSettings" : {
               "FRAMEWORK_SEARCH_PATHS" : [
@@ -1391,7 +711,7 @@
               ],
               "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
               "OTHER_CFLAGS" : [
-                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Protocol.modulemap",
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8DSP.modulemap",
                 "$(inherited)"
               ]
             }
@@ -1403,11 +723,11 @@
             "DEFINES_MODULE" : "YES",
             "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
             "GENERATE_PRELINK_OBJECT_FILE" : "NO",
-            "MODULEMAP_FILE_CONTENTS" : "module FT8Protocol {\nheader \"FT8Protocol-Swift.h\"\nexport *\n}",
-            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Protocol.modulemap",
+            "MODULEMAP_FILE_CONTENTS" : "module FT8DSP {\nheader \"FT8DSP-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8DSP.modulemap",
             "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Protocol",
-            "PRODUCT_MODULE_NAME" : "FT8Protocol",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8DSP",
+            "PRODUCT_MODULE_NAME" : "FT8DSP",
             "PRODUCT_NAME" : "$(TARGET_NAME)",
             "SDKROOT" : "auto",
             "SDK_VARIANT" : "auto",
@@ -1421,16 +741,16 @@
             "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
             "SWIFT_LIBRARIES_ONLY" : "YES",
             "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
-            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Protocol-Swift.h",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8DSP-Swift.h",
             "SWIFT_PACKAGE_NAME" : "ft8kit",
             "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Protocol.symbolgraphs",
-            "TAPI_DYLIB_INSTALL_NAME" : "FT8Protocol",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Protocol.symbolgraphs",
-            "TARGET_NAME" : "FT8Protocol",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSP.symbolgraphs",
+            "TAPI_DYLIB_INSTALL_NAME" : "FT8DSP",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSP.symbolgraphs",
+            "TARGET_NAME" : "FT8DSP",
             "TARGET_TEMP_DIR_SUFFIX" : "-t"
           },
-          "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDCONFIG_1",
+          "guid" : "PACKAGE-TARGET:FT8DSP::BUILDCONFIG_1",
           "impartedBuildProperties" : {
             "buildSettings" : {
               "FRAMEWORK_SEARCH_PATHS" : [
@@ -1443,7 +763,222 @@
               ],
               "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
               "OTHER_CFLAGS" : [
-                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Protocol.modulemap",
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8DSP.modulemap",
+                "$(inherited)"
+              ]
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_3::REF_0",
+              "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::0",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_3::REF_1",
+              "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::1",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            }
+          ],
+          "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.sources"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+
+      ],
+      "dynamicTargetVariantGuid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic",
+      "guid" : "PACKAGE-TARGET:FT8DSP",
+      "name" : "FT8DSP",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8DSP",
+        "name" : "$(EXECUTABLE_NAME)",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "org.swift.product-type.library.static",
+      "type" : "standard"
+    },
+    "signature" : "73d2d6f4b15ee8e63a876f21c3c862fede10b790dec0206c547689fc3db5e60a",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+
+          },
+          "guid" : "PACKAGE-PRODUCT:ft8kit-FT8DSPPackageTests.FT8DSPPackageTests::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+
+          },
+          "guid" : "PACKAGE-PRODUCT:ft8kit-FT8DSPPackageTests.FT8DSPPackageTests::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+        {
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8DSPTests_test_runner",
+          "platformFilters" : [
+
+          ]
+        }
+      ],
+      "guid" : "PACKAGE-PRODUCT:ft8kit-FT8DSPPackageTests.FT8DSPPackageTests",
+      "name" : "FT8DSPPackageTests-product",
+      "type" : "aggregate"
+    },
+    "signature" : "5541854ca647eb0dd6a03ce4d680cefc8a4384b3160ed170e972be4d1d07696c",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+            "DEFINES_MODULE" : "YES",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "EXECUTABLE_PREFIX" : "lib",
+            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
+            "MODULEMAP_FILE_CONTENTS" : "module FT8DSP {\nheader \"FT8DSP-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8DSP.modulemap",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8DSP",
+            "PRODUCT_MODULE_NAME" : "FT8DSP",
+            "PRODUCT_NAME" : "FT8DSP",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SUPPORTS_TEXT_BASED_API" : "NO",
+            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
+              "$(inherited)",
+              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
+            ],
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "YES",
+            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8DSP-Swift.h",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSP.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSP.symbolgraphs",
+            "TARGET_NAME" : "FT8DSP",
+            "TARGET_TEMP_DIR_SUFFIX" : "-t"
+          },
+          "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+              "FRAMEWORK_SEARCH_PATHS" : [
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_RUNPATH_SEARCH_PATHS" : [
+                "$(RPATH_ORIGIN)",
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
+              "OTHER_CFLAGS" : [
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8DSP.modulemap",
+                "$(inherited)"
+              ]
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "DEFINES_MODULE" : "YES",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "EXECUTABLE_PREFIX" : "lib",
+            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
+            "MODULEMAP_FILE_CONTENTS" : "module FT8DSP {\nheader \"FT8DSP-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8DSP.modulemap",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8DSP",
+            "PRODUCT_MODULE_NAME" : "FT8DSP",
+            "PRODUCT_NAME" : "FT8DSP",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SUPPORTS_TEXT_BASED_API" : "NO",
+            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
+              "$(inherited)",
+              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
+            ],
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "YES",
+            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8DSP-Swift.h",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSP.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8DSP.symbolgraphs",
+            "TARGET_NAME" : "FT8DSP",
+            "TARGET_TEMP_DIR_SUFFIX" : "-t"
+          },
+          "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+              "FRAMEWORK_SEARCH_PATHS" : [
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_RUNPATH_SEARCH_PATHS" : [
+                "$(RPATH_ORIGIN)",
+                "$(inherited)"
+              ],
+              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
+              "OTHER_CFLAGS" : [
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8DSP.modulemap",
                 "$(inherited)"
               ]
             }
@@ -1457,7 +992,7 @@
             {
               "codeSignOnCopy" : "false",
               "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_0",
-              "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::0",
+              "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::0",
               "platformFilters" : [
 
               ],
@@ -1466,50 +1001,14 @@
             {
               "codeSignOnCopy" : "false",
               "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_1",
-              "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::1",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_2",
-              "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::2",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_3",
-              "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::3",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_4",
-              "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::4",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_5",
-              "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::5",
+              "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::1",
               "platformFilters" : [
 
               ],
               "removeHeadersOnCopy" : "false"
             }
           ],
-          "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0",
+          "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0",
           "type" : "com.apple.buildphase.sources"
         }
       ],
@@ -1522,654 +1021,17 @@
       "dependencies" : [
 
       ],
-      "dynamicTargetVariantGuid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic",
-      "guid" : "PACKAGE-TARGET:FT8Protocol",
-      "name" : "FT8Protocol",
+      "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic",
+      "name" : "FT8DSP",
       "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8Protocol",
-        "name" : "$(EXECUTABLE_NAME)",
-        "type" : "file"
-      },
-      "productTypeIdentifier" : "org.swift.product-type.library.static",
-      "type" : "standard"
-    },
-    "signature" : "ea81b1f42ba7d60ea3914cbc62dc38274c4646a08c7d5f2e018776e4a402bd09",
-    "type" : "target"
-  },
-  {
-    "contents" : {
-      "approvedByUser" : "true",
-      "buildConfigurations" : [
-        {
-          "buildSettings" : {
-            "DEFINES_MODULE" : "YES",
-            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
-            "GENERATE_PRELINK_OBJECT_FILE" : "NO",
-            "MODULEMAP_FILE_CONTENTS" : "module FT8Encoder {\nheader \"FT8Encoder-Swift.h\"\nexport *\n}",
-            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Encoder.modulemap",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Encoder",
-            "PRODUCT_MODULE_NAME" : "FT8Encoder",
-            "PRODUCT_NAME" : "$(TARGET_NAME)",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "STRIP_INSTALLED_PRODUCT" : "NO",
-            "SUPPORTS_TEXT_BASED_API" : "NO",
-            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
-              "$(inherited)",
-              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
-            ],
-            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
-            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
-            "SWIFT_LIBRARIES_ONLY" : "YES",
-            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
-            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Encoder-Swift.h",
-            "SWIFT_PACKAGE_NAME" : "ft8kit",
-            "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Encoder.symbolgraphs",
-            "TAPI_DYLIB_INSTALL_NAME" : "FT8Encoder",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Encoder.symbolgraphs",
-            "TARGET_NAME" : "FT8Encoder",
-            "TARGET_TEMP_DIR_SUFFIX" : "-t"
-          },
-          "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDCONFIG_0",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-              "FRAMEWORK_SEARCH_PATHS" : [
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_RUNPATH_SEARCH_PATHS" : [
-                "$(RPATH_ORIGIN)",
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
-              "OTHER_CFLAGS" : [
-                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Encoder.modulemap",
-                "$(inherited)"
-              ]
-            }
-          },
-          "name" : "Debug"
-        },
-        {
-          "buildSettings" : {
-            "DEFINES_MODULE" : "YES",
-            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
-            "GENERATE_PRELINK_OBJECT_FILE" : "NO",
-            "MODULEMAP_FILE_CONTENTS" : "module FT8Encoder {\nheader \"FT8Encoder-Swift.h\"\nexport *\n}",
-            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Encoder.modulemap",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Encoder",
-            "PRODUCT_MODULE_NAME" : "FT8Encoder",
-            "PRODUCT_NAME" : "$(TARGET_NAME)",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "STRIP_INSTALLED_PRODUCT" : "NO",
-            "SUPPORTS_TEXT_BASED_API" : "NO",
-            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
-              "$(inherited)",
-              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
-            ],
-            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
-            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
-            "SWIFT_LIBRARIES_ONLY" : "YES",
-            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
-            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Encoder-Swift.h",
-            "SWIFT_PACKAGE_NAME" : "ft8kit",
-            "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Encoder.symbolgraphs",
-            "TAPI_DYLIB_INSTALL_NAME" : "FT8Encoder",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Encoder.symbolgraphs",
-            "TARGET_NAME" : "FT8Encoder",
-            "TARGET_TEMP_DIR_SUFFIX" : "-t"
-          },
-          "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDCONFIG_1",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-              "FRAMEWORK_SEARCH_PATHS" : [
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_RUNPATH_SEARCH_PATHS" : [
-                "$(RPATH_ORIGIN)",
-                "$(inherited)"
-              ],
-              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
-              "OTHER_CFLAGS" : [
-                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Encoder.modulemap",
-                "$(inherited)"
-              ]
-            }
-          },
-          "name" : "Release"
-        }
-      ],
-      "buildPhases" : [
-        {
-          "buildFiles" : [
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_0",
-              "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0::0",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_1",
-              "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0::1",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_2",
-              "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0::2",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_3",
-              "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0::3",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            }
-          ],
-          "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0",
-          "type" : "com.apple.buildphase.sources"
-        }
-      ],
-      "buildRules" : [
-
-      ],
-      "customTasks" : [
-
-      ],
-      "dependencies" : [
-        {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
-          "platformFilters" : [
-
-          ]
-        }
-      ],
-      "dynamicTargetVariantGuid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic",
-      "guid" : "PACKAGE-TARGET:FT8Encoder",
-      "name" : "FT8Encoder",
-      "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8Encoder",
-        "name" : "$(EXECUTABLE_NAME)",
-        "type" : "file"
-      },
-      "productTypeIdentifier" : "org.swift.product-type.library.static",
-      "type" : "standard"
-    },
-    "signature" : "8c8b400a271ff3964fe3edd0f01bf6079151d83ea56bdd92b75894513f8481b4",
-    "type" : "target"
-  },
-  {
-    "contents" : {
-      "buildConfigurations" : [
-        {
-          "buildSettings" : {
-
-          },
-          "guid" : "PACKAGE-PRODUCT:ft8kit-FT8KitPackageTests.FT8KitPackageTests::BUILDCONFIG_0",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Debug"
-        },
-        {
-          "buildSettings" : {
-
-          },
-          "guid" : "PACKAGE-PRODUCT:ft8kit-FT8KitPackageTests.FT8KitPackageTests::BUILDCONFIG_1",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-
-            }
-          },
-          "name" : "Release"
-        }
-      ],
-      "buildPhases" : [
-
-      ],
-      "buildRules" : [
-
-      ],
-      "customTasks" : [
-
-      ],
-      "dependencies" : [
-        {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8ProtocolTests_test_runner",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8EncoderTests_test_runner",
-          "platformFilters" : [
-
-          ]
-        }
-      ],
-      "guid" : "PACKAGE-PRODUCT:ft8kit-FT8KitPackageTests.FT8KitPackageTests",
-      "name" : "FT8KitPackageTests-product",
-      "type" : "aggregate"
-    },
-    "signature" : "1370c3fe4601b42b3a0639a0e580d0b93b685f67613d1aab47f02f9cbee687b0",
-    "type" : "target"
-  },
-  {
-    "contents" : {
-      "approvedByUser" : "true",
-      "buildConfigurations" : [
-        {
-          "buildSettings" : {
-            "DEFINES_MODULE" : "YES",
-            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
-            "EXECUTABLE_PREFIX" : "lib",
-            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "MODULEMAP_FILE_CONTENTS" : "module FT8Protocol {\nheader \"FT8Protocol-Swift.h\"\nexport *\n}",
-            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Protocol.modulemap",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Protocol",
-            "PRODUCT_MODULE_NAME" : "FT8Protocol",
-            "PRODUCT_NAME" : "FT8Protocol",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "SUPPORTS_TEXT_BASED_API" : "NO",
-            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
-              "$(inherited)",
-              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
-            ],
-            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
-            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
-            "SWIFT_LIBRARIES_ONLY" : "YES",
-            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
-            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Protocol-Swift.h",
-            "SWIFT_PACKAGE_NAME" : "ft8kit",
-            "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Protocol.symbolgraphs",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Protocol.symbolgraphs",
-            "TARGET_NAME" : "FT8Protocol",
-            "TARGET_TEMP_DIR_SUFFIX" : "-t"
-          },
-          "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDCONFIG_0",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-              "FRAMEWORK_SEARCH_PATHS" : [
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_RUNPATH_SEARCH_PATHS" : [
-                "$(RPATH_ORIGIN)",
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
-              "OTHER_CFLAGS" : [
-                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Protocol.modulemap",
-                "$(inherited)"
-              ]
-            }
-          },
-          "name" : "Debug"
-        },
-        {
-          "buildSettings" : {
-            "DEFINES_MODULE" : "YES",
-            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
-            "EXECUTABLE_PREFIX" : "lib",
-            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "MODULEMAP_FILE_CONTENTS" : "module FT8Protocol {\nheader \"FT8Protocol-Swift.h\"\nexport *\n}",
-            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Protocol.modulemap",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Protocol",
-            "PRODUCT_MODULE_NAME" : "FT8Protocol",
-            "PRODUCT_NAME" : "FT8Protocol",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "SUPPORTS_TEXT_BASED_API" : "NO",
-            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
-              "$(inherited)",
-              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
-            ],
-            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
-            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
-            "SWIFT_LIBRARIES_ONLY" : "YES",
-            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
-            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Protocol-Swift.h",
-            "SWIFT_PACKAGE_NAME" : "ft8kit",
-            "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Protocol.symbolgraphs",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Protocol.symbolgraphs",
-            "TARGET_NAME" : "FT8Protocol",
-            "TARGET_TEMP_DIR_SUFFIX" : "-t"
-          },
-          "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDCONFIG_1",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-              "FRAMEWORK_SEARCH_PATHS" : [
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_RUNPATH_SEARCH_PATHS" : [
-                "$(RPATH_ORIGIN)",
-                "$(inherited)"
-              ],
-              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
-              "OTHER_CFLAGS" : [
-                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Protocol.modulemap",
-                "$(inherited)"
-              ]
-            }
-          },
-          "name" : "Release"
-        }
-      ],
-      "buildPhases" : [
-        {
-          "buildFiles" : [
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_0",
-              "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::0",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_1",
-              "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::1",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_2",
-              "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::2",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_3",
-              "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::3",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_4",
-              "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::4",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_5",
-              "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::5",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            }
-          ],
-          "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0",
-          "type" : "com.apple.buildphase.sources"
-        }
-      ],
-      "buildRules" : [
-
-      ],
-      "customTasks" : [
-
-      ],
-      "dependencies" : [
-
-      ],
-      "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic",
-      "name" : "FT8Protocol",
-      "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic",
+        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic",
         "name" : "$(EXECUTABLE_NAME)",
         "type" : "file"
       },
       "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
       "type" : "standard"
     },
-    "signature" : "3f60dd1c2597257a66e69e8075a7ff3b82e6cfdce40ef855969ebcf61a2c4a27",
-    "type" : "target"
-  },
-  {
-    "contents" : {
-      "approvedByUser" : "true",
-      "buildConfigurations" : [
-        {
-          "buildSettings" : {
-            "DEFINES_MODULE" : "YES",
-            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
-            "EXECUTABLE_PREFIX" : "lib",
-            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "MODULEMAP_FILE_CONTENTS" : "module FT8Encoder {\nheader \"FT8Encoder-Swift.h\"\nexport *\n}",
-            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Encoder.modulemap",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Encoder",
-            "PRODUCT_MODULE_NAME" : "FT8Encoder",
-            "PRODUCT_NAME" : "FT8Encoder",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "SUPPORTS_TEXT_BASED_API" : "NO",
-            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
-              "$(inherited)",
-              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
-            ],
-            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
-            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
-            "SWIFT_LIBRARIES_ONLY" : "YES",
-            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
-            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Encoder-Swift.h",
-            "SWIFT_PACKAGE_NAME" : "ft8kit",
-            "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Encoder.symbolgraphs",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Encoder.symbolgraphs",
-            "TARGET_NAME" : "FT8Encoder",
-            "TARGET_TEMP_DIR_SUFFIX" : "-t"
-          },
-          "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDCONFIG_0",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-              "FRAMEWORK_SEARCH_PATHS" : [
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_RUNPATH_SEARCH_PATHS" : [
-                "$(RPATH_ORIGIN)",
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
-              "OTHER_CFLAGS" : [
-                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Encoder.modulemap",
-                "$(inherited)"
-              ]
-            }
-          },
-          "name" : "Debug"
-        },
-        {
-          "buildSettings" : {
-            "DEFINES_MODULE" : "YES",
-            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
-            "EXECUTABLE_PREFIX" : "lib",
-            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
-            "MODULEMAP_FILE_CONTENTS" : "module FT8Encoder {\nheader \"FT8Encoder-Swift.h\"\nexport *\n}",
-            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Encoder.modulemap",
-            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
-            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Encoder",
-            "PRODUCT_MODULE_NAME" : "FT8Encoder",
-            "PRODUCT_NAME" : "FT8Encoder",
-            "SDKROOT" : "auto",
-            "SDK_VARIANT" : "auto",
-            "SUPPORTS_TEXT_BASED_API" : "NO",
-            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
-              "$(inherited)",
-              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
-            ],
-            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
-            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
-            "SWIFT_LIBRARIES_ONLY" : "YES",
-            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
-            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Encoder-Swift.h",
-            "SWIFT_PACKAGE_NAME" : "ft8kit",
-            "SWIFT_VERSION" : "6",
-            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Encoder.symbolgraphs",
-            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Encoder.symbolgraphs",
-            "TARGET_NAME" : "FT8Encoder",
-            "TARGET_TEMP_DIR_SUFFIX" : "-t"
-          },
-          "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDCONFIG_1",
-          "impartedBuildProperties" : {
-            "buildSettings" : {
-              "FRAMEWORK_SEARCH_PATHS" : [
-                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
-                "$(inherited)"
-              ],
-              "LD_RUNPATH_SEARCH_PATHS" : [
-                "$(RPATH_ORIGIN)",
-                "$(inherited)"
-              ],
-              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
-              "OTHER_CFLAGS" : [
-                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Encoder.modulemap",
-                "$(inherited)"
-              ]
-            }
-          },
-          "name" : "Release"
-        }
-      ],
-      "buildPhases" : [
-        {
-          "buildFiles" : [
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_0",
-              "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0::0",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_1",
-              "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0::1",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_2",
-              "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0::2",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            },
-            {
-              "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_3",
-              "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0::3",
-              "platformFilters" : [
-
-              ],
-              "removeHeadersOnCopy" : "false"
-            }
-          ],
-          "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0",
-          "type" : "com.apple.buildphase.sources"
-        },
-        {
-          "buildFiles" : [
-            {
-              "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_1::0",
-              "platformFilters" : [
-
-              ],
-              "targetReference" : "PACKAGE-TARGET:FT8Protocol"
-            }
-          ],
-          "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_1",
-          "type" : "com.apple.buildphase.frameworks"
-        }
-      ],
-      "buildRules" : [
-
-      ],
-      "customTasks" : [
-
-      ],
-      "dependencies" : [
-        {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
-          "platformFilters" : [
-
-          ]
-        }
-      ],
-      "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic",
-      "name" : "FT8Encoder",
-      "productReference" : {
-        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic",
-        "name" : "$(EXECUTABLE_NAME)",
-        "type" : "file"
-      },
-      "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
-      "type" : "standard"
-    },
-    "signature" : "7deca375366e1609298fb4c60a6805bd11dd11dfd8fea323c1a52a7bdcf6f769",
+    "signature" : "7f39f6c53da4a718d090b04adf2e1f3b88b5fe64ef29f2eddb9ca5a7e40ed834",
     "type" : "target"
   },
   {
@@ -2230,11 +1092,11 @@
       "projectIsPackage" : "true",
       "projectName" : "Aggregate",
       "targets" : [
-        "4c8ab7cabe25e273ac719e04722c3a1426eca27d4108422bc759ecda71094e14",
-        "fab7edab5960f0182b4390fa2f78a8405ab26bc9c4d193ba9e7f26be595ee1e0"
+        "b40d4b08e1b592dcce6f345d94740efbb0a70ebca518e10b7becf7e8dfdf6c23",
+        "40b3e202bee44098dddcbed2799384d08121f265614f409f64a33d172c10c5e0"
       ]
     },
-    "signature" : "820bdb8928d51ae79cba5804ec0daf7a2265acbac69140d0a3108e0b6510c8be",
+    "signature" : "4358c0447043bcdc76efaf2b47231dd4bbc20ed8f2b03fb91e71e1724367d2ea",
     "type" : "project"
   },
   {
@@ -2276,55 +1138,25 @@
       ],
       "dependencies" : [
         {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests",
           "platformFilters" : [
 
           ]
         },
         {
-          "guid" : "PACKAGE-TARGET:FT8ProtocolTests_test_runner",
+          "guid" : "PACKAGE-TARGET:FT8DSPTests_test_runner",
           "platformFilters" : [
 
           ]
         },
         {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP",
           "platformFilters" : [
 
           ]
         },
         {
-          "guid" : "PACKAGE-TARGET:FT8EncoderTests_test_runner",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8Encoder",
+          "guid" : "PACKAGE-TARGET:FT8DSP",
           "platformFilters" : [
 
           ]
@@ -2334,7 +1166,7 @@
       "name" : "AllIncludingTests",
       "type" : "aggregate"
     },
-    "signature" : "4c8ab7cabe25e273ac719e04722c3a1426eca27d4108422bc759ecda71094e14",
+    "signature" : "b40d4b08e1b592dcce6f345d94740efbb0a70ebca518e10b7becf7e8dfdf6c23",
     "type" : "target"
   },
   {
@@ -2376,31 +1208,13 @@
       ],
       "dependencies" : [
         {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol",
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSP.FT8DSP",
           "platformFilters" : [
 
           ]
         },
         {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Encoder.FT8Encoder",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Kit.FT8Kit",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8Protocol",
-          "platformFilters" : [
-
-          ]
-        },
-        {
-          "guid" : "PACKAGE-TARGET:FT8Encoder",
+          "guid" : "PACKAGE-TARGET:FT8DSP",
           "platformFilters" : [
 
           ]
@@ -2410,7 +1224,7 @@
       "name" : "AllExcludingTests",
       "type" : "aggregate"
     },
-    "signature" : "fab7edab5960f0182b4390fa2f78a8405ab26bc9c4d193ba9e7f26be595ee1e0",
+    "signature" : "40b3e202bee44098dddcbed2799384d08121f265614f409f64a33d172c10c5e0",
     "type" : "target"
   }
 ]

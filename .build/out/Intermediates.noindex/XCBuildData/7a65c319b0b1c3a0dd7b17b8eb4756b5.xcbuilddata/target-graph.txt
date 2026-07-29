@@ -1,0 +1,7 @@
+Target dependency graph (3 targets)
+Target 'AllExcludingTests' in project 'Aggregate'
+➜ Explicit dependency on target 'FT8DSP-product' in project 'FT8DSP'
+➜ Explicit dependency on target 'FT8DSP' in project 'FT8DSP'
+Target 'FT8DSP-product' in project 'FT8DSP'
+➜ Explicit dependency on target 'FT8DSP' in project 'FT8DSP'
+Target 'FT8DSP' in project 'FT8DSP' (no dependencies)

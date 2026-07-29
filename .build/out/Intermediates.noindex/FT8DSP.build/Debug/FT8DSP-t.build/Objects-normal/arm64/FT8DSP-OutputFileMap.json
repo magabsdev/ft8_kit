@@ -1,0 +1,29 @@
+{
+  "" : {
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary.dia",
+    "emit-module-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary-emit-module.dia",
+    "pch" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFT.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FFT.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FFT.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FFT.dia",
+    "index-unit-output-path" : "/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FFT.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FFT.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FFT.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FFT.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/FFT~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Spectrum.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/Spectrum.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/Spectrum.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/Spectrum.dia",
+    "index-unit-output-path" : "/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/Spectrum.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/Spectrum.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/Spectrum.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/Spectrum.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8DSP.build/Debug/FT8DSP-t.build/Objects-normal/arm64/Spectrum~partial.swiftmodule"
+  }
+}
