@@ -1,0 +1,7 @@
+Target dependency graph (3 targets)
+Target 'AllExcludingTests' in project 'Aggregate'
+➜ Explicit dependency on target 'FT8Protocol-product' in project 'FT8Kit'
+➜ Explicit dependency on target 'FT8Protocol' in project 'FT8Kit'
+Target 'FT8Protocol-product' in project 'FT8Kit'
+➜ Explicit dependency on target 'FT8Protocol' in project 'FT8Kit'
+Target 'FT8Protocol' in project 'FT8Kit' (no dependencies)

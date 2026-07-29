@@ -1,0 +1,47 @@
+{
+  "": {
+    "swift-dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/master.swiftdeps"
+  },
+  "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8BitBuffer.swift": {
+    "dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.d",
+    "object": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swift.o",
+    "swiftmodule": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer~partial.swiftmodule",
+    "swift-dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swiftdeps",
+    "diagnostics": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.dia"
+  },
+  "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8CRC.swift": {
+    "dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.d",
+    "object": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swift.o",
+    "swiftmodule": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC~partial.swiftmodule",
+    "swift-dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swiftdeps",
+    "diagnostics": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.dia"
+  },
+  "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Constants.swift": {
+    "dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.d",
+    "object": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swift.o",
+    "swiftmodule": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants~partial.swiftmodule",
+    "swift-dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swiftdeps",
+    "diagnostics": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.dia"
+  },
+  "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8GrayCode.swift": {
+    "dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.d",
+    "object": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swift.o",
+    "swiftmodule": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode~partial.swiftmodule",
+    "swift-dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swiftdeps",
+    "diagnostics": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.dia"
+  },
+  "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Message.swift": {
+    "dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.d",
+    "object": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swift.o",
+    "swiftmodule": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message~partial.swiftmodule",
+    "swift-dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swiftdeps",
+    "diagnostics": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.dia"
+  },
+  "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8MessageCodec.swift": {
+    "dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.d",
+    "object": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swift.o",
+    "swiftmodule": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec~partial.swiftmodule",
+    "swift-dependencies": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swiftdeps",
+    "diagnostics": "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.dia"
+  }
+}

@@ -1,0 +1,3 @@
+module FT8KitPackageTests {
+    header "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/include/FT8KitPackageTests-Swift.h"
+}

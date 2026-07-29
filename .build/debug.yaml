@@ -1,0 +1,164 @@
+client:
+  name: basic
+  file-system: device-agnostic
+tools: {}
+targets:
+  "FT8KitPackageDiscoveredTests-x86_64-unknown-linux-gnu-debug.module": ["<FT8KitPackageDiscoveredTests-x86_64-unknown-linux-gnu-debug.module>"]
+  "FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.module": ["<FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.module>"]
+  "FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.test": ["<FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.test>"]
+  "FT8Protocol-x86_64-unknown-linux-gnu-debug.module": ["<FT8Protocol-x86_64-unknown-linux-gnu-debug.module>"]
+  "FT8ProtocolTests-x86_64-unknown-linux-gnu-debug.module": ["<FT8ProtocolTests-x86_64-unknown-linux-gnu-debug.module>"]
+  "PackageStructure": ["<PackageStructure>"]
+  "main": ["<FT8Protocol-x86_64-unknown-linux-gnu-debug.module>"]
+  "test": ["<FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.test>","<FT8Protocol-x86_64-unknown-linux-gnu-debug.module>","<FT8ProtocolTests-x86_64-unknown-linux-gnu-debug.module>"]
+default: "main"
+nodes:
+  "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/mnt/data/FT8Kit-Phase1/Tests/FT8ProtocolTests/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+commands:
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8KitPackageDiscoveredTests.swiftmodule.o":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8KitPackageDiscoveredTests.swiftmodule.o"]
+    description: "Wrapping AST for FT8KitPackageDiscoveredTests for debugging"
+    args: ["/usr/local/swift/usr/bin/swiftc","-modulewrap","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule","-o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8KitPackageDiscoveredTests.swiftmodule.o","-target","x86_64-unknown-linux-gnu"]
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/FT8ProtocolTests.swift","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources"]
+    description: "Write auxiliary file /mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources"
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift":
+    tool: test-discovery-tool
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/FT8ProtocolTests.swift","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift"]
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/FT8KitPackageTests.swiftmodule.o":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageTests.swiftmodule"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/FT8KitPackageTests.swiftmodule.o"]
+    description: "Wrapping AST for FT8KitPackageTests for debugging"
+    args: ["/usr/local/swift/usr/bin/swiftc","-modulewrap","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageTests.swiftmodule","-o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/FT8KitPackageTests.swiftmodule.o","-target","x86_64-unknown-linux-gnu"]
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources"]
+    description: "Write auxiliary file /mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources"
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift":
+    tool: test-entry-point-tool
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift"]
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.product/Objects.LinkFileList":
+    tool: write-auxiliary-file
+    inputs: ["<link-file-list>","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8KitPackageDiscoveredTests.swiftmodule.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8ProtocolTests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/all-discovered-tests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/FT8KitPackageTests.swiftmodule.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/runner.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Protocol.swiftmodule.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swiftmodule.o"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.product/Objects.LinkFileList"]
+    description: "Write auxiliary file /mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.product/Objects.LinkFileList"
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Protocol.swiftmodule.o":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Protocol.swiftmodule.o"]
+    description: "Wrapping AST for FT8Protocol for debugging"
+    args: ["/usr/local/swift/usr/bin/swiftc","-modulewrap","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule","-o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Protocol.swiftmodule.o","-target","x86_64-unknown-linux-gnu"]
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8BitBuffer.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8CRC.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Constants.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8GrayCode.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Message.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8MessageCodec.swift"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources"]
+    description: "Write auxiliary file /mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources"
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swiftmodule.o":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swiftmodule.o"]
+    description: "Wrapping AST for FT8ProtocolTests for debugging"
+    args: ["/usr/local/swift/usr/bin/swiftc","-modulewrap","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule","-o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swiftmodule.o","-target","x86_64-unknown-linux-gnu"]
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources":
+    tool: write-auxiliary-file
+    inputs: ["<sources-file-list>","/mnt/data/FT8Kit-Phase1/Tests/FT8ProtocolTests/FT8ProtocolTests.swift"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources"]
+    description: "Write auxiliary file /mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources"
+
+  "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt":
+    tool: write-auxiliary-file
+    inputs: ["<swift-get-version>","/usr/local/swift/usr/bin/swiftc"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt"]
+    always-out-of-date: "true"
+    description: "Write auxiliary file /mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt"
+
+  "<FT8KitPackageDiscoveredTests-x86_64-unknown-linux-gnu-debug.module>":
+    tool: phony
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8ProtocolTests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/all-discovered-tests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule"]
+    outputs: ["<FT8KitPackageDiscoveredTests-x86_64-unknown-linux-gnu-debug.module>"]
+
+  "<FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.module>":
+    tool: phony
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/runner.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageTests.swiftmodule"]
+    outputs: ["<FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.module>"]
+
+  "<FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.test>":
+    tool: phony
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.xctest"]
+    outputs: ["<FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.test>"]
+
+  "<FT8Protocol-x86_64-unknown-linux-gnu-debug.module>":
+    tool: phony
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule"]
+    outputs: ["<FT8Protocol-x86_64-unknown-linux-gnu-debug.module>"]
+
+  "<FT8ProtocolTests-x86_64-unknown-linux-gnu-debug.module>":
+    tool: phony
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule"]
+    outputs: ["<FT8ProtocolTests-x86_64-unknown-linux-gnu-debug.module>"]
+
+  "C.FT8KitPackageDiscoveredTests-x86_64-unknown-linux-gnu-debug.module":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/FT8ProtocolTests.swift","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8ProtocolTests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/all-discovered-tests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule"]
+    description: "Compiling Swift Module 'FT8KitPackageDiscoveredTests' (2 sources)"
+    args: ["/usr/local/swift/usr/bin/swiftc","-module-name","FT8KitPackageDiscoveredTests","-emit-dependencies","-emit-module","-emit-module-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule","-output-file-map","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/output-file-map.json","-parse-as-library","-incremental","-c","@/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources","-I","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules","-target","x86_64-unknown-linux-gnu","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store","-Onone","-enable-testing","-Xfrontend","-enable-cross-import-overlays","-j5","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/include/FT8KitPackageDiscoveredTests-Swift.h","-g","-Xcc","-fPIC","-Xcc","-g","-package-name","ft8kit_phase1","-Xcc","-fno-omit-frame-pointer"]
+
+  "C.FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.module":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/runner.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageTests.swiftmodule"]
+    description: "Compiling Swift Module 'FT8KitPackageTests' (1 sources)"
+    args: ["/usr/local/swift/usr/bin/swiftc","-module-name","FT8KitPackageTests","-emit-dependencies","-emit-module","-emit-module-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageTests.swiftmodule","-output-file-map","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/output-file-map.json","-parse-as-library","-incremental","-c","@/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources","-I","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules","-target","x86_64-unknown-linux-gnu","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store","-Onone","-enable-testing","-Xfrontend","-enable-cross-import-overlays","-j5","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/include/FT8KitPackageTests-Swift.h","-g","-Xcc","-fPIC","-Xcc","-g","-package-name","ft8kit_phase1","-Xcc","-fno-omit-frame-pointer"]
+
+  "C.FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.test":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8KitPackageDiscoveredTests.swiftmodule.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8ProtocolTests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/all-discovered-tests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/FT8KitPackageTests.swiftmodule.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/runner.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Protocol.swiftmodule.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swiftmodule.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.product/Objects.LinkFileList"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.xctest"]
+    description: "Linking ./.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.xctest"
+    args: ["/usr/local/swift/usr/bin/swiftc","-L","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug","-o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.xctest","-module-name","FT8KitPackageTests","-emit-executable","-Xlinker","-rpath=$ORIGIN","@/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.product/Objects.LinkFileList","-target","x86_64-unknown-linux-gnu","-g"]
+
+  "C.FT8Protocol-x86_64-unknown-linux-gnu-debug.module":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8BitBuffer.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8CRC.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Constants.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8GrayCode.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Message.swift","/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8MessageCodec.swift","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule"]
+    description: "Compiling Swift Module 'FT8Protocol' (6 sources)"
+    args: ["/usr/local/swift/usr/bin/swiftc","-module-name","FT8Protocol","-emit-dependencies","-emit-module","-emit-module-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule","-output-file-map","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/output-file-map.json","-parse-as-library","-incremental","-c","@/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources","-I","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules","-target","x86_64-unknown-linux-gnu","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store","-Onone","-enable-testing","-j5","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache","-parseable-output","-parse-as-library","-emit-objc-header","-emit-objc-header-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/include/FT8Protocol-Swift.h","-swift-version","6","-g","-Xcc","-fPIC","-Xcc","-g","-package-name","ft8kit_phase1","-Xcc","-fno-omit-frame-pointer"]
+
+  "C.FT8ProtocolTests-x86_64-unknown-linux-gnu-debug.module":
+    tool: shell
+    inputs: ["/mnt/data/FT8Kit-Phase1/Tests/FT8ProtocolTests/FT8ProtocolTests.swift","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources"]
+    outputs: ["/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule"]
+    description: "Compiling Swift Module 'FT8ProtocolTests' (1 sources)"
+    args: ["/usr/local/swift/usr/bin/swiftc","-module-name","FT8ProtocolTests","-emit-dependencies","-emit-module","-emit-module-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule","-output-file-map","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/output-file-map.json","-parse-as-library","-incremental","-c","@/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources","-I","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules","-target","x86_64-unknown-linux-gnu","-incremental","-enable-batch-mode","-serialize-diagnostics","-index-store-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store","-Onone","-enable-testing","-Xfrontend","-enable-cross-import-overlays","-j5","-DSWIFT_PACKAGE","-DDEBUG","-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE","-module-cache-path","/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache","-parseable-output","-parse-as-library","-swift-version","6","-g","-Xcc","-fPIC","-Xcc","-g","-package-name","ft8kit_phase1","-Xcc","-fno-omit-frame-pointer"]
+
+  "PackageStructure":
+    tool: package-structure-tool
+    inputs: ["/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/","/mnt/data/FT8Kit-Phase1/Tests/FT8ProtocolTests/","/mnt/data/FT8Kit-Phase1/Package.swift","/mnt/data/FT8Kit-Phase1/Package.resolved"]
+    outputs: ["<PackageStructure>"]
+    description: "Planning build"
+    allow-missing-inputs: true
+

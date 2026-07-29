@@ -1,0 +1,4 @@
+module FT8Protocol {
+header "FT8Protocol-Swift.h"
+export *
+}

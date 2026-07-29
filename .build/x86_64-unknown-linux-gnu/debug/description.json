@@ -1,0 +1,806 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.xctest",
+      "packagePath" : "/mnt/data/FT8Kit-Phase1",
+      "productName" : "FT8KitPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+    "FT8KitPackageDiscoveredTests"
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.FT8KitPackageDiscoveredTests-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/usr/local/swift/usr/bin/swiftc",
+      "fileList" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources",
+      "importPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/FT8ProtocolTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8KitPackageDiscoveredTests",
+      "moduleOutputPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule",
+      "objects" : [
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8ProtocolTests.swift.o",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/all-discovered-tests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j5",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/include/FT8KitPackageDiscoveredTests-Swift.h",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit_phase1",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8ProtocolTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/all-discovered-tests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/FT8ProtocolTests.swift",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift"
+      ],
+      "tempsPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8KitPackageTests-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/usr/local/swift/usr/bin/swiftc",
+      "fileList" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources",
+      "importPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8KitPackageTests",
+      "moduleOutputPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageTests.swiftmodule",
+      "objects" : [
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j5",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/include/FT8KitPackageTests-Swift.h",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit_phase1",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8Protocol-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/usr/local/swift/usr/bin/swiftc",
+      "fileList" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources",
+      "importPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8BitBuffer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8CRC.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Constants.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8GrayCode.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Message.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8MessageCodec.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8Protocol",
+      "moduleOutputPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule",
+      "objects" : [
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swift.o",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swift.o",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swift.o",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swift.o",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swift.o",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j5",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/include/FT8Protocol-Swift.h",
+        "-swift-version",
+        "6",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit_phase1",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8BitBuffer.swift",
+        "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8CRC.swift",
+        "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Constants.swift",
+        "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8GrayCode.swift",
+        "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Message.swift",
+        "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8MessageCodec.swift"
+      ],
+      "tempsPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8ProtocolTests-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/usr/local/swift/usr/bin/swiftc",
+      "fileList" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources",
+      "importPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Tests/FT8ProtocolTests/FT8ProtocolTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8Protocol.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8ProtocolTests",
+      "moduleOutputPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule",
+      "objects" : [
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j5",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit_phase1",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8ProtocolTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/mnt/data/FT8Kit-Phase1/Tests/FT8ProtocolTests/FT8ProtocolTests.swift"
+      ],
+      "tempsPath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "FT8KitPackageDiscoveredTests" : [
+      "/usr/local/swift/usr/bin/swiftc",
+      "-module-name",
+      "FT8KitPackageDiscoveredTests",
+      "-package-name",
+      "ft8kit_phase1",
+      "-c",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/FT8ProtocolTests.swift",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift",
+      "-I",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j5",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/include/FT8KitPackageDiscoveredTests-Swift.h",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit_phase1",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/usr/local/swift/usr/bin/swiftc"
+    ],
+    "FT8KitPackageTests" : [
+      "/usr/local/swift/usr/bin/swiftc",
+      "-module-name",
+      "FT8KitPackageTests",
+      "-package-name",
+      "ft8kit_phase1",
+      "-c",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift",
+      "-I",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j5",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/include/FT8KitPackageTests-Swift.h",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit_phase1",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/usr/local/swift/usr/bin/swiftc"
+    ],
+    "FT8Protocol" : [
+      "/usr/local/swift/usr/bin/swiftc",
+      "-module-name",
+      "FT8Protocol",
+      "-package-name",
+      "ft8kit_phase1",
+      "-c",
+      "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8BitBuffer.swift",
+      "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8CRC.swift",
+      "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Constants.swift",
+      "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8GrayCode.swift",
+      "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Message.swift",
+      "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8MessageCodec.swift",
+      "-I",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j5",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/include/FT8Protocol-Swift.h",
+      "-swift-version",
+      "6",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit_phase1",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/usr/local/swift/usr/bin/swiftc"
+    ],
+    "FT8ProtocolTests" : [
+      "/usr/local/swift/usr/bin/swiftc",
+      "-module-name",
+      "FT8ProtocolTests",
+      "-package-name",
+      "ft8kit_phase1",
+      "-c",
+      "/mnt/data/FT8Kit-Phase1/Tests/FT8ProtocolTests/FT8ProtocolTests.swift",
+      "-I",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j5",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit_phase1",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/usr/local/swift/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "FT8KitPackageDiscoveredTests" : [
+      "FT8ProtocolTests",
+      "FT8Protocol"
+    ],
+    "FT8KitPackageTests" : [
+      "FT8KitPackageDiscoveredTests",
+      "FT8ProtocolTests",
+      "FT8Protocol"
+    ],
+    "FT8Protocol" : [
+
+    ],
+    "FT8ProtocolTests" : [
+      "FT8Protocol"
+    ]
+  },
+  "testDiscoveryCommands" : {
+    "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/FT8ProtocolTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift"
+        }
+      ]
+    }
+  },
+  "testEntryPointCommands" : {
+    "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/Modules/FT8KitPackageDiscoveredTests.swiftmodule"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/FT8ProtocolTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.derived/all-discovered-tests.swift"
+        }
+      ],
+      "outputFilePath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/sources"
+    },
+    "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/sources"
+    },
+    "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8KitPackageDiscoveredTests.swiftmodule.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/FT8ProtocolTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageDiscoveredTests.build/all-discovered-tests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/FT8KitPackageTests.swiftmodule.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8BitBuffer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8CRC.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Constants.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8GrayCode.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Message.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8MessageCodec.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/FT8Protocol.swiftmodule.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/FT8ProtocolTests.swiftmodule.o"
+        }
+      ],
+      "outputFilePath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8KitPackageTests.product/Objects.LinkFileList"
+    },
+    "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8BitBuffer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8CRC.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Constants.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8GrayCode.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8Message.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Sources/FT8Protocol/FT8MessageCodec.swift"
+        }
+      ],
+      "outputFilePath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8Protocol.build/sources"
+    },
+    "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/mnt/data/FT8Kit-Phase1/Tests/FT8ProtocolTests/FT8ProtocolTests.swift"
+        }
+      ],
+      "outputFilePath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/FT8ProtocolTests.build/sources"
+    },
+    "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/usr/local/swift/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/mnt/data/FT8Kit-Phase1/.build/x86_64-unknown-linux-gnu/debug/swift-version--1BA0962812E73E12.txt"
+    }
+  }
+}
