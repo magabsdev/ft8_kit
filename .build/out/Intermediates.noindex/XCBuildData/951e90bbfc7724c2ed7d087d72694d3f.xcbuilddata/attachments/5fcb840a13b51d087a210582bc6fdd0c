@@ -1,0 +1,4 @@
+module ft8_validate {
+header "ft8-validate-Swift.h"
+export *
+}

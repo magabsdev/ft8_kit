@@ -5,11 +5,11 @@
       "name" : "FT8Kit",
       "path" : "/Users/mag/Developer/FT8Kit",
       "projects" : [
-        "bac97cb8e0535c0be56b8df709727ec6065211e63217e67c834aadfb5ffc990e",
-        "22623f942796a34c5ee86fa1013261d9f52219b756c1cf66741eeffc17dcb2c7"
+        "e12a4169f0214b241d8bc5a73f70ebcfcb972b4c6139d3efe8f3cfcdaae9f1b1",
+        "50f4143d5ce5004d5ed6b1f16c9e5fdc82e15afa07c28c8509d02ef4572e1131"
       ]
     },
-    "signature" : "aa5caff6be029eea07c09387c5d2ac24a3884b9e14dff179fcb4616da27a3580",
+    "signature" : "6e7c9a3ac8ca00462fc42f78c04cc84ae045ab447e8845c941f551cd30df5c3e",
     "type" : "workspace"
   },
   {
@@ -207,13 +207,46 @@
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_2::REF_0",
+                "name" : "FT8ValidationTests.swift",
+                "path" : "FT8ValidationTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              }
+            ],
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_2",
+            "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests",
+            "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests",
+            "sourceTree" : "<absolute>",
+            "type" : "group"
+          },
+          {
+            "fileType" : "file",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_3",
+            "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests/Fixtures",
+            "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests/Fixtures",
+            "sourceTree" : "<absolute>",
+            "type" : "file"
+          },
+          {
+            "fileType" : "file",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4",
+            "name" : "$(CONFIGURATION_BUILD_DIR)/FT8Kit_FT8ValidationTests.bundle",
+            "path" : "$(CONFIGURATION_BUILD_DIR)/FT8Kit_FT8ValidationTests.bundle",
+            "sourceTree" : "<group>",
+            "type" : "file"
+          },
+          {
+            "children" : [
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_0",
                 "name" : "FT8ProtocolTests.swift",
                 "path" : "FT8ProtocolTests.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_2",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5",
             "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests",
             "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests",
             "sourceTree" : "<absolute>",
@@ -223,14 +256,14 @@
             "children" : [
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_3::REF_0",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_0",
                 "name" : "FT8EncoderTests.swift",
                 "path" : "FT8EncoderTests.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_3",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6",
             "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests",
             "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests",
             "sourceTree" : "<absolute>",
@@ -240,7 +273,7 @@
             "children" : [
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_0",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_0",
                 "name" : "CostasCorrelatorTests.swift",
                 "path" : "CostasCorrelatorTests.swift",
                 "sourceTree" : "<group>",
@@ -248,7 +281,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_1",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_1",
                 "name" : "CostasSequenceTests.swift",
                 "path" : "CostasSequenceTests.swift",
                 "sourceTree" : "<group>",
@@ -256,7 +289,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_2",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_2",
+                "name" : "FT8EndToEndBitPipelineTests.swift",
+                "path" : "FT8EndToEndBitPipelineTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_3",
                 "name" : "FT8LDPCDecoderTests.swift",
                 "path" : "FT8LDPCDecoderTests.swift",
                 "sourceTree" : "<group>",
@@ -264,7 +305,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_3",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_4",
                 "name" : "FT8LDPCMatrixTests.swift",
                 "path" : "FT8LDPCMatrixTests.swift",
                 "sourceTree" : "<group>",
@@ -272,7 +313,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_4",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_5",
                 "name" : "FT8LDPCSoftSymbolIntegrationTests.swift",
                 "path" : "FT8LDPCSoftSymbolIntegrationTests.swift",
                 "sourceTree" : "<group>",
@@ -280,7 +321,87 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_5",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_6",
+                "name" : "FT8LiveDecoderTests.swift",
+                "path" : "FT8LiveDecoderTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_7",
+                "name" : "FT8MessageDecoderTests.swift",
+                "path" : "FT8MessageDecoderTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_8",
+                "name" : "FT8MultiPassDecoderTests.swift",
+                "path" : "FT8MultiPassDecoderTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_9",
+                "name" : "FT8OptimizedDecoderTests.swift",
+                "path" : "FT8OptimizedDecoderTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_10",
+                "name" : "FT8ParallelDecoderTests.swift",
+                "path" : "FT8ParallelDecoderTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_11",
+                "name" : "FT8SignalCancellerTests.swift",
+                "path" : "FT8SignalCancellerTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_12",
+                "name" : "FT8SignalSynthesizerTests.swift",
+                "path" : "FT8SignalSynthesizerTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_13",
+                "name" : "FT8SlotDecoderIntegrationTests.swift",
+                "path" : "FT8SlotDecoderIntegrationTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_14",
+                "name" : "PCMFloatRingBufferTests.swift",
+                "path" : "PCMFloatRingBufferTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_15",
+                "name" : "SIMDDecodeEquivalenceTests.swift",
+                "path" : "SIMDDecodeEquivalenceTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_16",
                 "name" : "SoftSymbolExtractorTests.swift",
                 "path" : "SoftSymbolExtractorTests.swift",
                 "sourceTree" : "<group>",
@@ -288,7 +409,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_6",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_17",
                 "name" : "SynchronizerTests.swift",
                 "path" : "SynchronizerTests.swift",
                 "sourceTree" : "<group>",
@@ -296,7 +417,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_7",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_18",
                 "name" : "SyntheticSpectrogram.swift",
                 "path" : "SyntheticSpectrogram.swift",
                 "sourceTree" : "<group>",
@@ -304,14 +425,14 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_8",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_19",
                 "name" : "WaveformIntegrationTests.swift",
                 "path" : "WaveformIntegrationTests.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_4",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7",
             "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests",
             "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests",
             "sourceTree" : "<absolute>",
@@ -321,7 +442,7 @@
             "children" : [
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_0",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_0",
                 "name" : "FFTTests.swift",
                 "path" : "FFTTests.swift",
                 "sourceTree" : "<group>",
@@ -329,7 +450,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_1",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_1",
                 "name" : "NoiseAndPeakTests.swift",
                 "path" : "NoiseAndPeakTests.swift",
                 "sourceTree" : "<group>",
@@ -337,7 +458,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_2",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_2",
                 "name" : "SpectrumTests.swift",
                 "path" : "SpectrumTests.swift",
                 "sourceTree" : "<group>",
@@ -345,7 +466,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_3",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_3",
+                "name" : "VectorMathTests.swift",
+                "path" : "VectorMathTests.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_4",
                 "name" : "WaterfallPhase32Tests.swift",
                 "path" : "WaterfallPhase32Tests.swift",
                 "sourceTree" : "<group>",
@@ -353,14 +482,14 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_4",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_5",
                 "name" : "WindowFunctionTests.swift",
                 "path" : "WindowFunctionTests.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_5",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8",
             "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests",
             "path" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests",
             "sourceTree" : "<absolute>",
@@ -370,195 +499,16 @@
             "children" : [
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_0",
-                "name" : "FT8BitBuffer.swift",
-                "path" : "FT8BitBuffer.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_1",
-                "name" : "FT8CRC.swift",
-                "path" : "FT8CRC.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_2",
-                "name" : "FT8Constants.swift",
-                "path" : "FT8Constants.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_3",
-                "name" : "FT8GrayCode.swift",
-                "path" : "FT8GrayCode.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_4",
-                "name" : "FT8Message.swift",
-                "path" : "FT8Message.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_5",
-                "name" : "FT8MessageCodec.swift",
-                "path" : "FT8MessageCodec.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              }
-            ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_6",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
-            "sourceTree" : "<absolute>",
-            "type" : "group"
-          },
-          {
-            "children" : [
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_0",
-                "name" : "FT8BitBuffer.swift",
-                "path" : "FT8BitBuffer.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_1",
-                "name" : "FT8CRC.swift",
-                "path" : "FT8CRC.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_2",
-                "name" : "FT8Constants.swift",
-                "path" : "FT8Constants.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_3",
-                "name" : "FT8GrayCode.swift",
-                "path" : "FT8GrayCode.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_4",
-                "name" : "FT8Message.swift",
-                "path" : "FT8Message.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_5",
-                "name" : "FT8MessageCodec.swift",
-                "path" : "FT8MessageCodec.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              }
-            ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_7",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
-            "sourceTree" : "<absolute>",
-            "type" : "group"
-          },
-          {
-            "children" : [
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_0",
-                "name" : "FT8Encoder.swift",
-                "path" : "FT8Encoder.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_1",
-                "name" : "FT8LDPCGenerator.swift",
-                "path" : "FT8LDPCGenerator.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_2",
-                "name" : "FT8WAVEncoder.swift",
-                "path" : "FT8WAVEncoder.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_3",
-                "name" : "FT8Waveform.swift",
-                "path" : "FT8Waveform.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              }
-            ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_8",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
-            "sourceTree" : "<absolute>",
-            "type" : "group"
-          },
-          {
-            "children" : [
-              {
-                "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_0",
-                "name" : "FT8Encoder.swift",
-                "path" : "FT8Encoder.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_1",
-                "name" : "FT8LDPCGenerator.swift",
-                "path" : "FT8LDPCGenerator.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_2",
-                "name" : "FT8WAVEncoder.swift",
-                "path" : "FT8WAVEncoder.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_3",
-                "name" : "FT8Waveform.swift",
-                "path" : "FT8Waveform.swift",
+                "name" : "main.swift",
+                "path" : "main.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
             "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_9",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/ft8-validate",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/ft8-validate",
             "sourceTree" : "<absolute>",
             "type" : "group"
           },
@@ -567,71 +517,55 @@
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_0",
-                "name" : "FFT.swift",
-                "path" : "FFT.swift",
+                "name" : "FT8BitBuffer.swift",
+                "path" : "FT8BitBuffer.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               },
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_1",
-                "name" : "FFTError.swift",
-                "path" : "FFTError.swift",
+                "name" : "FT8CRC.swift",
+                "path" : "FT8CRC.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               },
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_2",
-                "name" : "FFTResult.swift",
-                "path" : "FFTResult.swift",
+                "name" : "FT8Constants.swift",
+                "path" : "FT8Constants.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               },
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_3",
-                "name" : "NoiseFloorEstimator.swift",
-                "path" : "NoiseFloorEstimator.swift",
+                "name" : "FT8GrayCode.swift",
+                "path" : "FT8GrayCode.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               },
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_4",
-                "name" : "PeakDetector.swift",
-                "path" : "PeakDetector.swift",
+                "name" : "FT8Message.swift",
+                "path" : "FT8Message.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               },
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_5",
-                "name" : "Spectrum.swift",
-                "path" : "Spectrum.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_6",
-                "name" : "Waterfall.swift",
-                "path" : "Waterfall.swift",
-                "sourceTree" : "<group>",
-                "type" : "file"
-              },
-              {
-                "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_7",
-                "name" : "WindowFunction.swift",
-                "path" : "WindowFunction.swift",
+                "name" : "FT8MessageCodec.swift",
+                "path" : "FT8MessageCodec.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
             "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_10",
-            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
-            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
             "sourceTree" : "<absolute>",
             "type" : "group"
           },
@@ -640,6 +574,145 @@
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_0",
+                "name" : "FT8BitBuffer.swift",
+                "path" : "FT8BitBuffer.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_1",
+                "name" : "FT8CRC.swift",
+                "path" : "FT8CRC.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_2",
+                "name" : "FT8Constants.swift",
+                "path" : "FT8Constants.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_3",
+                "name" : "FT8GrayCode.swift",
+                "path" : "FT8GrayCode.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_4",
+                "name" : "FT8Message.swift",
+                "path" : "FT8Message.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_5",
+                "name" : "FT8MessageCodec.swift",
+                "path" : "FT8MessageCodec.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              }
+            ],
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol",
+            "sourceTree" : "<absolute>",
+            "type" : "group"
+          },
+          {
+            "children" : [
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_0",
+                "name" : "FT8Encoder.swift",
+                "path" : "FT8Encoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_1",
+                "name" : "FT8LDPCGenerator.swift",
+                "path" : "FT8LDPCGenerator.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_2",
+                "name" : "FT8WAVEncoder.swift",
+                "path" : "FT8WAVEncoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_3",
+                "name" : "FT8Waveform.swift",
+                "path" : "FT8Waveform.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              }
+            ],
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
+            "sourceTree" : "<absolute>",
+            "type" : "group"
+          },
+          {
+            "children" : [
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_0",
+                "name" : "FT8Encoder.swift",
+                "path" : "FT8Encoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_1",
+                "name" : "FT8LDPCGenerator.swift",
+                "path" : "FT8LDPCGenerator.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_2",
+                "name" : "FT8WAVEncoder.swift",
+                "path" : "FT8WAVEncoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_3",
+                "name" : "FT8Waveform.swift",
+                "path" : "FT8Waveform.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              }
+            ],
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder",
+            "sourceTree" : "<absolute>",
+            "type" : "group"
+          },
+          {
+            "children" : [
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_0",
                 "name" : "FFT.swift",
                 "path" : "FFT.swift",
                 "sourceTree" : "<group>",
@@ -647,7 +720,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_1",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_1",
                 "name" : "FFTError.swift",
                 "path" : "FFTError.swift",
                 "sourceTree" : "<group>",
@@ -655,7 +728,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_2",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_2",
                 "name" : "FFTResult.swift",
                 "path" : "FFTResult.swift",
                 "sourceTree" : "<group>",
@@ -663,7 +736,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_3",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_3",
                 "name" : "NoiseFloorEstimator.swift",
                 "path" : "NoiseFloorEstimator.swift",
                 "sourceTree" : "<group>",
@@ -671,7 +744,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_4",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_4",
                 "name" : "PeakDetector.swift",
                 "path" : "PeakDetector.swift",
                 "sourceTree" : "<group>",
@@ -679,7 +752,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_5",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_5",
                 "name" : "Spectrum.swift",
                 "path" : "Spectrum.swift",
                 "sourceTree" : "<group>",
@@ -687,7 +760,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_6",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_6",
+                "name" : "VectorMath.swift",
+                "path" : "VectorMath.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_7",
                 "name" : "Waterfall.swift",
                 "path" : "Waterfall.swift",
                 "sourceTree" : "<group>",
@@ -695,14 +776,14 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_7",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_8",
                 "name" : "WindowFunction.swift",
                 "path" : "WindowFunction.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_11",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_14",
             "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
             "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
             "sourceTree" : "<absolute>",
@@ -712,7 +793,88 @@
             "children" : [
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_0",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_0",
+                "name" : "FFT.swift",
+                "path" : "FFT.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_1",
+                "name" : "FFTError.swift",
+                "path" : "FFTError.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_2",
+                "name" : "FFTResult.swift",
+                "path" : "FFTResult.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_3",
+                "name" : "NoiseFloorEstimator.swift",
+                "path" : "NoiseFloorEstimator.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_4",
+                "name" : "PeakDetector.swift",
+                "path" : "PeakDetector.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_5",
+                "name" : "Spectrum.swift",
+                "path" : "Spectrum.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_6",
+                "name" : "VectorMath.swift",
+                "path" : "VectorMath.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_7",
+                "name" : "Waterfall.swift",
+                "path" : "Waterfall.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_8",
+                "name" : "WindowFunction.swift",
+                "path" : "WindowFunction.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              }
+            ],
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_15",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP",
+            "sourceTree" : "<absolute>",
+            "type" : "group"
+          },
+          {
+            "children" : [
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_0",
                 "name" : "CostasCorrelator.swift",
                 "path" : "CostasCorrelator.swift",
                 "sourceTree" : "<group>",
@@ -720,7 +882,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_1",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_1",
                 "name" : "CostasSequence.swift",
                 "path" : "CostasSequence.swift",
                 "sourceTree" : "<group>",
@@ -728,7 +890,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_2",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_2",
                 "name" : "FT8Candidate.swift",
                 "path" : "FT8Candidate.swift",
                 "sourceTree" : "<group>",
@@ -736,7 +898,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_3",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_3",
                 "name" : "FT8CandidateAnalysis.swift",
                 "path" : "FT8CandidateAnalysis.swift",
                 "sourceTree" : "<group>",
@@ -744,7 +906,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_4",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_4",
+                "name" : "FT8CompleteDecodePipeline.swift",
+                "path" : "FT8CompleteDecodePipeline.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_5",
                 "name" : "FT8LDPCDecoder.swift",
                 "path" : "FT8LDPCDecoder.swift",
                 "sourceTree" : "<group>",
@@ -752,7 +922,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_5",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_6",
                 "name" : "FT8LDPCMatrix.swift",
                 "path" : "FT8LDPCMatrix.swift",
                 "sourceTree" : "<group>",
@@ -760,7 +930,39 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_6",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_7",
+                "name" : "FT8LiveDecoder.swift",
+                "path" : "FT8LiveDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_8",
+                "name" : "FT8MessageDecoder.swift",
+                "path" : "FT8MessageDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_9",
+                "name" : "FT8MultiPassDecoder.swift",
+                "path" : "FT8MultiPassDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_10",
+                "name" : "FT8MultiPassSlotDecoder.swift",
+                "path" : "FT8MultiPassSlotDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_11",
                 "name" : "FT8NativeDecodePipeline.swift",
                 "path" : "FT8NativeDecodePipeline.swift",
                 "sourceTree" : "<group>",
@@ -768,7 +970,55 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_7",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_12",
+                "name" : "FT8OptimizedDecoder.swift",
+                "path" : "FT8OptimizedDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_13",
+                "name" : "FT8ParallelDecoder.swift",
+                "path" : "FT8ParallelDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_14",
+                "name" : "FT8ParallelSlotDecoder.swift",
+                "path" : "FT8ParallelSlotDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_15",
+                "name" : "FT8SignalCanceller.swift",
+                "path" : "FT8SignalCanceller.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_16",
+                "name" : "FT8SignalSynthesizer.swift",
+                "path" : "FT8SignalSynthesizer.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_17",
+                "name" : "FT8SlotDecoder.swift",
+                "path" : "FT8SlotDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_18",
                 "name" : "FT8SoftSymbols.swift",
                 "path" : "FT8SoftSymbols.swift",
                 "sourceTree" : "<group>",
@@ -776,7 +1026,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_8",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_19",
                 "name" : "FT8Synchronizer.swift",
                 "path" : "FT8Synchronizer.swift",
                 "sourceTree" : "<group>",
@@ -784,7 +1034,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_9",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_20",
                 "name" : "FT8ToneMapping.swift",
                 "path" : "FT8ToneMapping.swift",
                 "sourceTree" : "<group>",
@@ -792,7 +1042,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_10",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_21",
+                "name" : "PCMFloatRingBuffer.swift",
+                "path" : "PCMFloatRingBuffer.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_22",
                 "name" : "SoftSymbolExtractor.swift",
                 "path" : "SoftSymbolExtractor.swift",
                 "sourceTree" : "<group>",
@@ -800,14 +1058,14 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_11",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_23",
                 "name" : "SynchronizerConfiguration.swift",
                 "path" : "SynchronizerConfiguration.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_12",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_16",
             "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder",
             "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder",
             "sourceTree" : "<absolute>",
@@ -817,7 +1075,7 @@
             "children" : [
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_0",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_0",
                 "name" : "CostasCorrelator.swift",
                 "path" : "CostasCorrelator.swift",
                 "sourceTree" : "<group>",
@@ -825,7 +1083,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_1",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_1",
                 "name" : "CostasSequence.swift",
                 "path" : "CostasSequence.swift",
                 "sourceTree" : "<group>",
@@ -833,7 +1091,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_2",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_2",
                 "name" : "FT8Candidate.swift",
                 "path" : "FT8Candidate.swift",
                 "sourceTree" : "<group>",
@@ -841,7 +1099,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_3",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_3",
                 "name" : "FT8CandidateAnalysis.swift",
                 "path" : "FT8CandidateAnalysis.swift",
                 "sourceTree" : "<group>",
@@ -849,7 +1107,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_4",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_4",
+                "name" : "FT8CompleteDecodePipeline.swift",
+                "path" : "FT8CompleteDecodePipeline.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_5",
                 "name" : "FT8LDPCDecoder.swift",
                 "path" : "FT8LDPCDecoder.swift",
                 "sourceTree" : "<group>",
@@ -857,7 +1123,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_5",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_6",
                 "name" : "FT8LDPCMatrix.swift",
                 "path" : "FT8LDPCMatrix.swift",
                 "sourceTree" : "<group>",
@@ -865,7 +1131,39 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_6",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_7",
+                "name" : "FT8LiveDecoder.swift",
+                "path" : "FT8LiveDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_8",
+                "name" : "FT8MessageDecoder.swift",
+                "path" : "FT8MessageDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_9",
+                "name" : "FT8MultiPassDecoder.swift",
+                "path" : "FT8MultiPassDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_10",
+                "name" : "FT8MultiPassSlotDecoder.swift",
+                "path" : "FT8MultiPassSlotDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_11",
                 "name" : "FT8NativeDecodePipeline.swift",
                 "path" : "FT8NativeDecodePipeline.swift",
                 "sourceTree" : "<group>",
@@ -873,7 +1171,55 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_7",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_12",
+                "name" : "FT8OptimizedDecoder.swift",
+                "path" : "FT8OptimizedDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_13",
+                "name" : "FT8ParallelDecoder.swift",
+                "path" : "FT8ParallelDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_14",
+                "name" : "FT8ParallelSlotDecoder.swift",
+                "path" : "FT8ParallelSlotDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_15",
+                "name" : "FT8SignalCanceller.swift",
+                "path" : "FT8SignalCanceller.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_16",
+                "name" : "FT8SignalSynthesizer.swift",
+                "path" : "FT8SignalSynthesizer.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_17",
+                "name" : "FT8SlotDecoder.swift",
+                "path" : "FT8SlotDecoder.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_18",
                 "name" : "FT8SoftSymbols.swift",
                 "path" : "FT8SoftSymbols.swift",
                 "sourceTree" : "<group>",
@@ -881,7 +1227,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_8",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_19",
                 "name" : "FT8Synchronizer.swift",
                 "path" : "FT8Synchronizer.swift",
                 "sourceTree" : "<group>",
@@ -889,7 +1235,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_9",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_20",
                 "name" : "FT8ToneMapping.swift",
                 "path" : "FT8ToneMapping.swift",
                 "sourceTree" : "<group>",
@@ -897,7 +1243,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_10",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_21",
+                "name" : "PCMFloatRingBuffer.swift",
+                "path" : "PCMFloatRingBuffer.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_22",
                 "name" : "SoftSymbolExtractor.swift",
                 "path" : "SoftSymbolExtractor.swift",
                 "sourceTree" : "<group>",
@@ -905,16 +1259,99 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_11",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_23",
                 "name" : "SynchronizerConfiguration.swift",
                 "path" : "SynchronizerConfiguration.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
             ],
-            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_13",
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_17",
             "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder",
             "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder",
+            "sourceTree" : "<absolute>",
+            "type" : "group"
+          },
+          {
+            "children" : [
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_18::REF_0",
+                "name" : "ReferenceCorpus.swift",
+                "path" : "ReferenceCorpus.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_18::REF_1",
+                "name" : "WAVFile.swift",
+                "path" : "WAVFile.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_18::REF_2",
+                "name" : "WSJTXReference.swift",
+                "path" : "WSJTXReference.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              }
+            ],
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_18",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation",
+            "sourceTree" : "<absolute>",
+            "type" : "group"
+          },
+          {
+            "children" : [
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_19::REF_0",
+                "name" : "ReferenceCorpus.swift",
+                "path" : "ReferenceCorpus.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_19::REF_1",
+                "name" : "WAVFile.swift",
+                "path" : "WAVFile.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_19::REF_2",
+                "name" : "WSJTXReference.swift",
+                "path" : "WSJTXReference.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              }
+            ],
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_19",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation",
+            "sourceTree" : "<absolute>",
+            "type" : "group"
+          },
+          {
+            "children" : [
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_20::REF_0",
+                "name" : "main.swift",
+                "path" : "main.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              }
+            ],
+            "guid" : "PACKAGE:ft8kit::MAINGROUP::REF_20",
+            "name" : "/Users/mag/Developer/FT8Kit/Sources/ft8-validate",
+            "path" : "/Users/mag/Developer/FT8Kit/Sources/ft8-validate",
             "sourceTree" : "<absolute>",
             "type" : "group"
           }
@@ -931,31 +1368,439 @@
       "projectIsPackage" : "true",
       "projectName" : "FT8Kit",
       "targets" : [
-        "c65b5335705e4ca7e2c982f0cf5145973df9b3ecbbea17cb69a4fe85bf308ca2",
+        "e4992432bc447a50d5e17d09719da9532d4157e7c9fe6e534093959c550dcdd6",
+        "fcd839fcb7dbdb765f35fc074fef774433b810aa6f261dcacd63767288b754e7",
+        "2c4abf9798b5fef0251a7c23b8e8554a954fc99f1df08cb3bfbe074ef4981d45",
+        "cabd2811679fac9c5b2cc209aad710305c7ee8249bc0194ec1b1a356ce3ad4be",
         "dc5b8594858a479bbdc50083541b06e1173f1655e320f96ec911b46e1b2f8674",
-        "50962af0a0e08ca8cbc4174e80f82c67d0bca37fb785923386c1ea4627d998b0",
+        "c2a035dbe2acedef2d3afb95eba3207bce0f7436b5420165663311a86458611f",
         "96c136f9f9b00690666b98199865b8d1ce327080c5c5a06c4333702dcb2c5ae7",
-        "731493c5321f0245ad0e341c69c9e7f41abeb24a47b18b806c56107785694fe7",
+        "b5dbc0f776e55fff161f19ffd49d70a2d71a7ad75cf45bc99ec22e807f20fa95",
         "b1fd680f53da951246398cf2832e4eca9073f6be1bfc67f904a785f885ead8ac",
-        "31117d93a83a49518b36f115fee17a4d2e9f7cf683144700333b40c8d86da810",
+        "c1a2177df8f881f974d52a15b4ed1a1ea9a21911da22f8cc69fb7f91a0d150ff",
         "f8ed8d662198c01562c0855e67486be162652a7c4f69673970f2e01a59590b1c",
         "57acd3ade09370ced464c8939c872e0c25cfb129356ab7352d057a15bf657981",
         "c2a20fafc9c058366bad2097cfc56b5367b373be19935293d7b3abd5bb1b2fdb",
         "362337c15de03232c97662fdd657b71f1faea448e7df710778e212709d4a864f",
         "aeb2e8383a3e80eafe857e6a9b01b528bf91ff6e7a171a95e7670691e78392f0",
-        "8153709fb1dfd9634822c00cc22c077fa776f18225f37af0e947b0c98a938267",
-        "8b775d3b4ab8efc7109fcf1ec2e7b898862998bf84ebf335a2bcfb541ecd9c0c",
-        "cb663843d7efa094620645339db6b6024ca893bcfed205475be76a6d0b60611d",
-        "87fb15fb4b3323158d1dacccccf4f235897c9649628c80ed57231add62fc6357",
-        "033625b0ac05135397bc139705bf6be217dd4f1383325231bc2418ac65db3302",
-        "43819657bbd01f4553d1bd1f17940a568af54f6c7a70c344844159d96aed4380",
-        "8f4b5591fe7304bb7aa81b6a1ef64abc2c8c785a3c3e5cdaf39d29d47be007c7",
-        "361a028edb5c2399dcac4337a39b14c54c10f2554e229fef4f6211edb1d9911b",
-        "b2f76cf75def7897b1cb20436f4e926e55eeb8953b41eac4d9cea186e411cd15"
+        "b725ef6635287bd74b75ede308064c89913a1b6251fa0b06ae22fb5dde1d363f",
+        "d156c8b614f8c6eaa96eaec6114f6810272ad92e10de2a96a45fbbda2cc71db2",
+        "c12cefe8eea3916b338f26d608ac3e738dbb0a8e1adc0114fe9c11566e1a91c6",
+        "52bbc0beb4882c4fcf235876efb6fb41551b55abb402fb2706dc22b4689ccb03",
+        "141b6a6f830c9de94a1439162bb91b8104b311f8f6fd909297563deddae7ef0f",
+        "b05f475ce1d1854dffa34a10fb938d19c5b72c144b62b95bdeb5d13c658efc6c",
+        "5e83e1e9932edf27f8592bfb936c01773b874563e662b4b63b905079752518bf",
+        "99d623f694774b0633cb9ed71cb62c269c2ef11ec87473298bbffefa10580eda",
+        "7503cf313c6e14c15ad59072451d59ff36786e92d476dd549f926fd68edff0c2",
+        "be9a9e85cb66a705c6876b3e08ad478b9e1de0b74a6ca7c5a14f444684b0b0a1",
+        "300e146c25a62e4680a27c2ca00ed953fb16b729377f8553cec5ebda08db43d5",
+        "2fabd42250734e35bd1c477b1fe1bf1f109dd442fe86851ce7ef430da5e97c34",
+        "36453c649f5e48d3db866efd803c67f890dc17884ef5fbb0c999f4ec842fbf47",
+        "43c2db8cd8677dead88c80272870bdf57a3a6847a72a1567a0f644a69e149957"
       ]
     },
-    "signature" : "bac97cb8e0535c0be56b8df709727ec6065211e63217e67c834aadfb5ffc990e",
+    "signature" : "e12a4169f0214b241d8bc5a73f70ebcfcb972b4c6139d3efe8f3cfcdaae9f1b1",
     "type" : "project"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+            "BUILD_SERVER_PROTOCOL_TARGET_TAGS" : [
+              "$(inherited)",
+              "test"
+            ],
+            "COREML_CODEGEN_LANGUAGE" : "Swift",
+            "COREML_COMPILER_CONTAINER" : "swift-package",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
+            "GENERATE_INFOPLIST_FILE" : "YES",
+            "GENERATE_RESOURCE_ACCESSORS" : "YES",
+            "INDEX_ENABLE_DATA_STORE" : "YES",
+            "IPHONEOS_DEPLOYMENT_TARGET" : "17.0",
+            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "17.0",
+            "LD_RUNPATH_SEARCH_PATHS" : [
+              "$(RPATH_ORIGIN)/Frameworks",
+              "$(RPATH_ORIGIN)/../Frameworks",
+              "$(inherited)"
+            ],
+            "MACOSX_DEPLOYMENT_TARGET" : "14.0",
+            "PACKAGE_RESOURCE_BUNDLE_NAME" : "FT8Kit_FT8ValidationTests",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ValidationTests",
+            "PRODUCT_MODULE_NAME" : "FT8ValidationTests",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SKIP_INSTALL" : "NO",
+            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
+              "$(inherited)",
+              "SWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE"
+            ],
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "YES",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8ValidationTests.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8ValidationTests.symbolgraphs",
+            "TARGET_NAME" : "FT8ValidationTests",
+            "TARGET_TEMP_DIR_SUFFIX" : "-p",
+            "TVOS_DEPLOYMENT_TARGET" : "17.0",
+            "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
+            "XROS_DEPLOYMENT_TARGET" : "1.0"
+          },
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "BUILD_SERVER_PROTOCOL_TARGET_TAGS" : [
+              "$(inherited)",
+              "test"
+            ],
+            "COREML_CODEGEN_LANGUAGE" : "Swift",
+            "COREML_COMPILER_CONTAINER" : "swift-package",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
+            "GENERATE_INFOPLIST_FILE" : "YES",
+            "GENERATE_RESOURCE_ACCESSORS" : "YES",
+            "INDEX_ENABLE_DATA_STORE" : "YES",
+            "IPHONEOS_DEPLOYMENT_TARGET" : "17.0",
+            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "17.0",
+            "LD_RUNPATH_SEARCH_PATHS" : [
+              "$(RPATH_ORIGIN)/Frameworks",
+              "$(RPATH_ORIGIN)/../Frameworks",
+              "$(inherited)"
+            ],
+            "MACOSX_DEPLOYMENT_TARGET" : "14.0",
+            "PACKAGE_RESOURCE_BUNDLE_NAME" : "FT8Kit_FT8ValidationTests",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ValidationTests",
+            "PRODUCT_MODULE_NAME" : "FT8ValidationTests",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SKIP_INSTALL" : "NO",
+            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
+              "$(inherited)",
+              "SWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE"
+            ],
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "YES",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8ValidationTests.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8ValidationTests.symbolgraphs",
+            "TARGET_NAME" : "FT8ValidationTests",
+            "TARGET_TEMP_DIR_SUFFIX" : "-p",
+            "TVOS_DEPLOYMENT_TARGET" : "17.0",
+            "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
+            "XROS_DEPLOYMENT_TARGET" : "1.0"
+          },
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_2::REF_0",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests::BUILDPHASE_0::0",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            }
+          ],
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.sources"
+        },
+        {
+          "buildFiles" : [
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests::BUILDPHASE_1::0",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            }
+          ],
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests::BUILDPHASE_1",
+          "type" : "com.apple.buildphase.resources"
+        },
+        {
+          "buildFiles" : [
+            {
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests::BUILDPHASE_2::0",
+              "platformFilters" : [
+
+              ],
+              "targetReference" : "PACKAGE-TARGET:FT8Validation"
+            }
+          ],
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests::BUILDPHASE_2",
+          "type" : "com.apple.buildphase.frameworks"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+        {
+          "guid" : "PACKAGE-RESOURCE:FT8ValidationTests",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8Validation",
+          "platformFilters" : [
+
+          ]
+        }
+      ],
+      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests",
+      "name" : "FT8ValidationTests-product",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests",
+        "name" : "$(EXECUTABLE_NAME)",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "com.apple.product-type.bundle.unit-test",
+      "type" : "standard"
+    },
+    "signature" : "e4992432bc447a50d5e17d09719da9532d4157e7c9fe6e534093959c550dcdd6",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+            "COREML_CODEGEN_LANGUAGE" : "None",
+            "COREML_COMPILER_CONTAINER" : "swift-package",
+            "EXECUTABLE_NAME" : "",
+            "GENERATE_INFOPLIST_FILE" : "YES",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "resource",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ValidationTests.resources",
+            "PRODUCT_MODULE_NAME" : "FT8Kit_FT8ValidationTests",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "TARGET_NAME" : "FT8Kit_FT8ValidationTests",
+            "TARGET_TEMP_DIR_SUFFIX" : "-b"
+          },
+          "guid" : "PACKAGE-RESOURCE:FT8ValidationTests::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "COREML_CODEGEN_LANGUAGE" : "None",
+            "COREML_COMPILER_CONTAINER" : "swift-package",
+            "EXECUTABLE_NAME" : "",
+            "GENERATE_INFOPLIST_FILE" : "YES",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "resource",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ValidationTests.resources",
+            "PRODUCT_MODULE_NAME" : "FT8Kit_FT8ValidationTests",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "TARGET_NAME" : "FT8Kit_FT8ValidationTests",
+            "TARGET_TEMP_DIR_SUFFIX" : "-b"
+          },
+          "guid" : "PACKAGE-RESOURCE:FT8ValidationTests::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_3",
+              "guid" : "PACKAGE-RESOURCE:FT8ValidationTests::BUILDPHASE_0::0",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false",
+              "resourceRule" : "copy"
+            }
+          ],
+          "guid" : "PACKAGE-RESOURCE:FT8ValidationTests::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.resources"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+
+      ],
+      "guid" : "PACKAGE-RESOURCE:FT8ValidationTests",
+      "name" : "FT8Kit_FT8ValidationTests",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-RESOURCE:FT8ValidationTests",
+        "name" : "FT8Kit_FT8ValidationTests",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "com.apple.product-type.bundle",
+      "type" : "standard"
+    },
+    "signature" : "fcd839fcb7dbdb765f35fc074fef774433b810aa6f261dcacd63767288b754e7",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
+            "IPHONEOS_DEPLOYMENT_TARGET" : "17.0",
+            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "17.0",
+            "LD_RUNPATH_SEARCH_PATHS" : [
+              "$(inherited)",
+              "$(RPATH_ORIGIN)"
+            ],
+            "LINKER_DRIVER" : "swiftc",
+            "MACOSX_DEPLOYMENT_TARGET" : "14.0",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ValidationTests-test-runner",
+            "PRODUCT_MODULE_NAME" : "FT8ValidationTests_test_runner",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SKIP_INSTALL" : "NO",
+            "SWIFT_VERSION" : "5.0",
+            "TARGET_NAME" : "FT8ValidationTests-test-runner",
+            "TVOS_DEPLOYMENT_TARGET" : "17.0",
+            "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
+            "XROS_DEPLOYMENT_TARGET" : "1.0"
+          },
+          "guid" : "PACKAGE-TARGET:FT8ValidationTests_test_runner::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
+            "IPHONEOS_DEPLOYMENT_TARGET" : "17.0",
+            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "17.0",
+            "LD_RUNPATH_SEARCH_PATHS" : [
+              "$(inherited)",
+              "$(RPATH_ORIGIN)"
+            ],
+            "LINKER_DRIVER" : "swiftc",
+            "MACOSX_DEPLOYMENT_TARGET" : "14.0",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8ValidationTests-test-runner",
+            "PRODUCT_MODULE_NAME" : "FT8ValidationTests_test_runner",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SKIP_INSTALL" : "NO",
+            "SWIFT_VERSION" : "5.0",
+            "TARGET_NAME" : "FT8ValidationTests-test-runner",
+            "TVOS_DEPLOYMENT_TARGET" : "17.0",
+            "WATCHOS_DEPLOYMENT_TARGET" : "26.0",
+            "XROS_DEPLOYMENT_TARGET" : "1.0"
+          },
+          "guid" : "PACKAGE-TARGET:FT8ValidationTests_test_runner::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+
+          ],
+          "guid" : "PACKAGE-TARGET:FT8ValidationTests_test_runner::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.sources"
+        },
+        {
+          "buildFiles" : [
+            {
+              "guid" : "PACKAGE-TARGET:FT8ValidationTests_test_runner::BUILDPHASE_1::0",
+              "platformFilters" : [
+
+              ],
+              "targetReference" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests"
+            }
+          ],
+          "guid" : "PACKAGE-TARGET:FT8ValidationTests_test_runner::BUILDPHASE_1",
+          "type" : "com.apple.buildphase.frameworks"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+        {
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests",
+          "platformFilters" : [
+
+          ]
+        }
+      ],
+      "guid" : "PACKAGE-TARGET:FT8ValidationTests_test_runner",
+      "name" : "FT8ValidationTests-test-runner",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8ValidationTests_test_runner",
+        "name" : "FT8ValidationTests-test-runner",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "com.apple.product-type.tool.swiftpm-test-runner",
+      "type" : "standard"
+    },
+    "signature" : "2c4abf9798b5fef0251a7c23b8e8554a954fc99f1df08cb3bfbe074ef4981d45",
+    "type" : "target"
   },
   {
     "contents" : {
@@ -1069,7 +1914,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_2::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_0",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -1118,7 +1963,7 @@
       "productTypeIdentifier" : "com.apple.product-type.bundle.unit-test",
       "type" : "standard"
     },
-    "signature" : "c65b5335705e4ca7e2c982f0cf5145973df9b3ecbbea17cb69a4fe85bf308ca2",
+    "signature" : "cabd2811679fac9c5b2cc209aad710305c7ee8249bc0194ec1b1a356ce3ad4be",
     "type" : "target"
   },
   {
@@ -1351,7 +2196,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_3::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_0",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8EncoderTests.FT8EncoderTests::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -1413,7 +2258,7 @@
       "productTypeIdentifier" : "com.apple.product-type.bundle.unit-test",
       "type" : "standard"
     },
-    "signature" : "50962af0a0e08ca8cbc4174e80f82c67d0bca37fb785923386c1ea4627d998b0",
+    "signature" : "c2a035dbe2acedef2d3afb95eba3207bce0f7436b5420165663311a86458611f",
     "type" : "target"
   },
   {
@@ -1646,7 +2491,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_0",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -1655,7 +2500,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_1",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -1664,7 +2509,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_2",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -1673,7 +2518,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_3",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -1682,7 +2527,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_4",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_4",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::4",
               "platformFilters" : [
 
@@ -1691,7 +2536,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_5",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_5",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::5",
               "platformFilters" : [
 
@@ -1700,7 +2545,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_6",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_6",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::6",
               "platformFilters" : [
 
@@ -1709,7 +2554,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_7",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_7",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::7",
               "platformFilters" : [
 
@@ -1718,8 +2563,107 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_4::REF_8",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_8",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::8",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_9",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::9",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_10",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::10",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_11",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::11",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_12",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::12",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_13",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::13",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_14",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::14",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_15",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::15",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_16",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::16",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_17",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::17",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_18",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::18",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_19",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DecoderTests.FT8DecoderTests::BUILDPHASE_0::19",
               "platformFilters" : [
 
               ],
@@ -1806,7 +2750,7 @@
       "productTypeIdentifier" : "com.apple.product-type.bundle.unit-test",
       "type" : "standard"
     },
-    "signature" : "731493c5321f0245ad0e341c69c9e7f41abeb24a47b18b806c56107785694fe7",
+    "signature" : "b5dbc0f776e55fff161f19ffd49d70a2d71a7ad75cf45bc99ec22e807f20fa95",
     "type" : "target"
   },
   {
@@ -2039,7 +2983,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_0",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -2048,7 +2992,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_1",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -2057,7 +3001,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_2",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -2066,7 +3010,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_3",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -2075,8 +3019,17 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_5::REF_4",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_4",
               "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_0::4",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_5",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8DSPTests.FT8DSPTests::BUILDPHASE_0::5",
               "platformFilters" : [
 
               ],
@@ -2124,7 +3077,7 @@
       "productTypeIdentifier" : "com.apple.product-type.bundle.unit-test",
       "type" : "standard"
     },
-    "signature" : "31117d93a83a49518b36f115fee17a4d2e9f7cf683144700333b40c8d86da810",
+    "signature" : "c1a2177df8f881f974d52a15b4ed1a1ea9a21911da22f8cc69fb7f91a0d150ff",
     "type" : "target"
   },
   {
@@ -2658,6 +3611,293 @@
       "buildConfigurations" : [
         {
           "buildSettings" : {
+            "EXECUTABLE_PREFIX" : "lib",
+            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
+            "PRODUCT_NAME" : "FT8Validation",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "TARGET_NAME" : "FT8Validation-product",
+            "TARGET_TEMP_DIR_SUFFIX" : "-p",
+            "USES_SWIFTPM_UNSAFE_FLAGS" : "NO"
+          },
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "EXECUTABLE_PREFIX" : "lib",
+            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
+            "PRODUCT_NAME" : "FT8Validation",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "TARGET_NAME" : "FT8Validation-product",
+            "TARGET_TEMP_DIR_SUFFIX" : "-p",
+            "USES_SWIFTPM_UNSAFE_FLAGS" : "NO"
+          },
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+            {
+              "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation::BUILDPHASE_0::0",
+              "platformFilters" : [
+
+              ],
+              "targetReference" : "PACKAGE-TARGET:FT8Validation"
+            }
+          ],
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.frameworks"
+        },
+        {
+          "buildFiles" : [
+
+          ],
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation::BUILDPHASE_1",
+          "type" : "com.apple.buildphase.sources"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+        {
+          "guid" : "PACKAGE-TARGET:FT8Validation",
+          "platformFilters" : [
+
+          ]
+        }
+      ],
+      "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation",
+      "name" : "FT8Validation-product",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation",
+        "name" : "$(EXECUTABLE_NAME)",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "com.apple.product-type.library.static",
+      "type" : "standard"
+    },
+    "signature" : "b725ef6635287bd74b75ede308064c89913a1b6251fa0b06ae22fb5dde1d363f",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
+            "GENERATE_EMBED_IN_CODE_ACCESSORS" : "NO",
+            "GENERATE_RESOURCE_ACCESSORS" : "YES",
+            "IPHONEOS_DEPLOYMENT_TARGET" : "16.0",
+            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "16.0",
+            "MACOSX_DEPLOYMENT_TARGET" : "13.0",
+            "OTHER_SWIFT_FLAGS" : [
+              "$(inherited)",
+              "$(OTHER_SWIFT_FLAGS_ENABLE_LIBFUZZER_$(ENABLE_LIBFUZZER))"
+            ],
+            "OTHER_SWIFT_FLAGS_ENABLE_LIBFUZZER_YES" : [
+              "-Xfrontend",
+              "-entry-point-function-name",
+              "-Xfrontend",
+              "ft8_validate_main"
+            ],
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.ft8-validate",
+            "PRODUCT_MODULE_NAME" : "ft8_validate",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "YES",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_INSTALL_MODULE" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "NO",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/ft8-validate.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/ft8-validate.symbolgraphs",
+            "TARGET_NAME" : "ft8-validate",
+            "TARGET_TEMP_DIR_SUFFIX" : "-p",
+            "TVOS_DEPLOYMENT_TARGET" : "15.0",
+            "WATCHOS_DEPLOYMENT_TARGET" : "9.0",
+            "XROS_DEPLOYMENT_TARGET" : "1.0"
+          },
+          "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "DRIVERKIT_DEPLOYMENT_TARGET" : "21.0",
+            "GENERATE_EMBED_IN_CODE_ACCESSORS" : "NO",
+            "GENERATE_RESOURCE_ACCESSORS" : "YES",
+            "IPHONEOS_DEPLOYMENT_TARGET" : "16.0",
+            "IPHONEOS_DEPLOYMENT_TARGET[__platform_filter=ios-maccatalyst]" : "16.0",
+            "MACOSX_DEPLOYMENT_TARGET" : "13.0",
+            "OTHER_SWIFT_FLAGS" : [
+              "$(inherited)",
+              "$(OTHER_SWIFT_FLAGS_ENABLE_LIBFUZZER_$(ENABLE_LIBFUZZER))"
+            ],
+            "OTHER_SWIFT_FLAGS_ENABLE_LIBFUZZER_YES" : [
+              "-Xfrontend",
+              "-entry-point-function-name",
+              "-Xfrontend",
+              "ft8_validate_main"
+            ],
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.ft8-validate",
+            "PRODUCT_MODULE_NAME" : "ft8_validate",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "YES",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_INSTALL_MODULE" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "NO",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/ft8-validate.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/ft8-validate.symbolgraphs",
+            "TARGET_NAME" : "ft8-validate",
+            "TARGET_TEMP_DIR_SUFFIX" : "-p",
+            "TVOS_DEPLOYMENT_TARGET" : "15.0",
+            "WATCHOS_DEPLOYMENT_TARGET" : "9.0",
+            "XROS_DEPLOYMENT_TARGET" : "1.0"
+          },
+          "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_0",
+              "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDPHASE_0::0",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            }
+          ],
+          "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.sources"
+        },
+        {
+          "buildFiles" : [
+            {
+              "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDPHASE_1::0",
+              "platformFilters" : [
+
+              ],
+              "targetReference" : "PACKAGE-TARGET:FT8Protocol"
+            },
+            {
+              "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDPHASE_1::1",
+              "platformFilters" : [
+
+              ],
+              "targetReference" : "PACKAGE-TARGET:FT8DSP"
+            },
+            {
+              "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDPHASE_1::2",
+              "platformFilters" : [
+
+              ],
+              "targetReference" : "PACKAGE-TARGET:FT8Decoder"
+            },
+            {
+              "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDPHASE_1::3",
+              "platformFilters" : [
+
+              ],
+              "targetReference" : "PACKAGE-TARGET:FT8Validation"
+            }
+          ],
+          "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate::BUILDPHASE_1",
+          "type" : "com.apple.buildphase.frameworks"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+        {
+          "guid" : "PACKAGE-TARGET:FT8Protocol",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8DSP",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8Decoder",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8Validation",
+          "platformFilters" : [
+
+          ]
+        }
+      ],
+      "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate",
+      "name" : "ft8-validate-product",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate",
+        "name" : "$(EXECUTABLE_NAME)",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "com.apple.product-type.tool",
+      "type" : "standard"
+    },
+    "signature" : "d156c8b614f8c6eaa96eaec6114f6810272ad92e10de2a96a45fbbda2cc71db2",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
             "DEFINES_MODULE" : "YES",
             "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
             "GENERATE_PRELINK_OBJECT_FILE" : "NO",
@@ -2767,7 +4007,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_0",
               "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -2776,7 +4016,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_1",
               "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -2785,7 +4025,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_2",
               "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -2794,7 +4034,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_3",
               "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -2803,7 +4043,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_4",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_4",
               "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::4",
               "platformFilters" : [
 
@@ -2812,7 +4052,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_6::REF_5",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_5",
               "guid" : "PACKAGE-TARGET:FT8Protocol::BUILDPHASE_0::5",
               "platformFilters" : [
 
@@ -2844,7 +4084,7 @@
       "productTypeIdentifier" : "org.swift.product-type.library.static",
       "type" : "standard"
     },
-    "signature" : "8153709fb1dfd9634822c00cc22c077fa776f18225f37af0e947b0c98a938267",
+    "signature" : "c12cefe8eea3916b338f26d608ac3e738dbb0a8e1adc0114fe9c11566e1a91c6",
     "type" : "target"
   },
   {
@@ -2962,7 +4202,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_0",
               "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -2971,7 +4211,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_1",
               "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -2980,7 +4220,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_2",
               "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -2989,7 +4229,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_8::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_3",
               "guid" : "PACKAGE-TARGET:FT8Encoder::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -3026,7 +4266,7 @@
       "productTypeIdentifier" : "org.swift.product-type.library.static",
       "type" : "standard"
     },
-    "signature" : "cb663843d7efa094620645339db6b6024ca893bcfed205475be76a6d0b60611d",
+    "signature" : "141b6a6f830c9de94a1439162bb91b8104b311f8f6fd909297563deddae7ef0f",
     "type" : "target"
   },
   {
@@ -3144,7 +4384,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_0",
               "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -3153,7 +4393,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_1",
               "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -3162,7 +4402,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_2",
               "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -3171,7 +4411,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_3",
               "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -3180,7 +4420,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_4",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_4",
               "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::4",
               "platformFilters" : [
 
@@ -3189,7 +4429,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_5",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_5",
               "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::5",
               "platformFilters" : [
 
@@ -3198,7 +4438,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_6",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_6",
               "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::6",
               "platformFilters" : [
 
@@ -3207,8 +4447,17 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_10::REF_7",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_7",
               "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::7",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_14::REF_8",
+              "guid" : "PACKAGE-TARGET:FT8DSP::BUILDPHASE_0::8",
               "platformFilters" : [
 
               ],
@@ -3239,7 +4488,7 @@
       "productTypeIdentifier" : "org.swift.product-type.library.static",
       "type" : "standard"
     },
-    "signature" : "033625b0ac05135397bc139705bf6be217dd4f1383325231bc2418ac65db3302",
+    "signature" : "5e83e1e9932edf27f8592bfb936c01773b874563e662b4b63b905079752518bf",
     "type" : "target"
   },
   {
@@ -3357,7 +4606,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_0",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -3366,7 +4615,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_1",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -3375,7 +4624,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_2",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -3384,7 +4633,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_3",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -3393,7 +4642,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_4",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_4",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::4",
               "platformFilters" : [
 
@@ -3402,7 +4651,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_5",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_5",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::5",
               "platformFilters" : [
 
@@ -3411,7 +4660,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_6",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_6",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::6",
               "platformFilters" : [
 
@@ -3420,7 +4669,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_7",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_7",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::7",
               "platformFilters" : [
 
@@ -3429,7 +4678,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_8",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_8",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::8",
               "platformFilters" : [
 
@@ -3438,7 +4687,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_9",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_9",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::9",
               "platformFilters" : [
 
@@ -3447,7 +4696,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_10",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_10",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::10",
               "platformFilters" : [
 
@@ -3456,8 +4705,116 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_12::REF_11",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_11",
               "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::11",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_12",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::12",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_13",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::13",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_14",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::14",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_15",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::15",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_16",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::16",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_17",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::17",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_18",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::18",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_19",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::19",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_20",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::20",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_21",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::21",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_22",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::22",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_16::REF_23",
+              "guid" : "PACKAGE-TARGET:FT8Decoder::BUILDPHASE_0::23",
               "platformFilters" : [
 
               ],
@@ -3499,7 +4856,367 @@
       "productTypeIdentifier" : "org.swift.product-type.library.static",
       "type" : "standard"
     },
-    "signature" : "8f4b5591fe7304bb7aa81b6a1ef64abc2c8c785a3c3e5cdaf39d29d47be007c7",
+    "signature" : "7503cf313c6e14c15ad59072451d59ff36786e92d476dd549f926fd68edff0c2",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+            "DEFINES_MODULE" : "YES",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "GENERATE_PRELINK_OBJECT_FILE" : "NO",
+            "MODULEMAP_FILE_CONTENTS" : "module FT8Validation {\nheader \"FT8Validation-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Validation.modulemap",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Validation",
+            "PRODUCT_MODULE_NAME" : "FT8Validation",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "STRIP_INSTALLED_PRODUCT" : "NO",
+            "SUPPORTS_TEXT_BASED_API" : "NO",
+            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
+              "$(inherited)",
+              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
+            ],
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "YES",
+            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Validation-Swift.h",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Validation.symbolgraphs",
+            "TAPI_DYLIB_INSTALL_NAME" : "FT8Validation",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Validation.symbolgraphs",
+            "TARGET_NAME" : "FT8Validation",
+            "TARGET_TEMP_DIR_SUFFIX" : "-t"
+          },
+          "guid" : "PACKAGE-TARGET:FT8Validation::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+              "FRAMEWORK_SEARCH_PATHS" : [
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_RUNPATH_SEARCH_PATHS" : [
+                "$(RPATH_ORIGIN)",
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
+              "OTHER_CFLAGS" : [
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Validation.modulemap",
+                "$(inherited)"
+              ]
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "DEFINES_MODULE" : "YES",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "GENERATE_PRELINK_OBJECT_FILE" : "NO",
+            "MODULEMAP_FILE_CONTENTS" : "module FT8Validation {\nheader \"FT8Validation-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Validation.modulemap",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Validation",
+            "PRODUCT_MODULE_NAME" : "FT8Validation",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "STRIP_INSTALLED_PRODUCT" : "NO",
+            "SUPPORTS_TEXT_BASED_API" : "NO",
+            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
+              "$(inherited)",
+              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
+            ],
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "YES",
+            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Validation-Swift.h",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Validation.symbolgraphs",
+            "TAPI_DYLIB_INSTALL_NAME" : "FT8Validation",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Validation.symbolgraphs",
+            "TARGET_NAME" : "FT8Validation",
+            "TARGET_TEMP_DIR_SUFFIX" : "-t"
+          },
+          "guid" : "PACKAGE-TARGET:FT8Validation::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+              "FRAMEWORK_SEARCH_PATHS" : [
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_RUNPATH_SEARCH_PATHS" : [
+                "$(RPATH_ORIGIN)",
+                "$(inherited)"
+              ],
+              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
+              "OTHER_CFLAGS" : [
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Validation.modulemap",
+                "$(inherited)"
+              ]
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_18::REF_0",
+              "guid" : "PACKAGE-TARGET:FT8Validation::BUILDPHASE_0::0",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_18::REF_1",
+              "guid" : "PACKAGE-TARGET:FT8Validation::BUILDPHASE_0::1",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_18::REF_2",
+              "guid" : "PACKAGE-TARGET:FT8Validation::BUILDPHASE_0::2",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            }
+          ],
+          "guid" : "PACKAGE-TARGET:FT8Validation::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.sources"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+
+      ],
+      "dynamicTargetVariantGuid" : "PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic",
+      "guid" : "PACKAGE-TARGET:FT8Validation",
+      "name" : "FT8Validation",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8Validation",
+        "name" : "$(EXECUTABLE_NAME)",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "org.swift.product-type.library.static",
+      "type" : "standard"
+    },
+    "signature" : "300e146c25a62e4680a27c2ca00ed953fb16b729377f8553cec5ebda08db43d5",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+            "DEFINES_MODULE" : "YES",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "GENERATE_EMBED_IN_CODE_ACCESSORS" : "YES",
+            "GENERATE_PRELINK_OBJECT_FILE" : "NO",
+            "GENERATE_RESOURCE_ACCESSORS" : "YES",
+            "MODULEMAP_FILE_CONTENTS" : "module ft8_validate {\nheader \"ft8-validate-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/ft8-validate.modulemap",
+            "OTHER_SWIFT_FLAGS" : [
+              "$(inherited)",
+              "-Xfrontend",
+              "-entry-point-function-name",
+              "-Xfrontend",
+              "ft8_validate_main"
+            ],
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.ft8-validate",
+            "PRODUCT_MODULE_NAME" : "ft8_validate",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "STRIP_INSTALLED_PRODUCT" : "NO",
+            "SUPPORTS_TEXT_BASED_API" : "NO",
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "YES",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "NO",
+            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "ft8-validate-Swift.h",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/ft8-validate.symbolgraphs",
+            "TAPI_DYLIB_INSTALL_NAME" : "ft8-validate",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/ft8-validate.symbolgraphs",
+            "TARGET_BUILD_DIR" : "$(TARGET_BUILD_DIR)/ExecutableModules",
+            "TARGET_NAME" : "ft8-validate--32383AA6EA142F6B-testable",
+            "TARGET_TEMP_DIR_SUFFIX" : "-t"
+          },
+          "guid" : "PACKAGE-TARGET:ft8-validate--32383AA6EA142F6B-testable::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+              "FRAMEWORK_SEARCH_PATHS" : [
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_RUNPATH_SEARCH_PATHS" : [
+                "$(RPATH_ORIGIN)",
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
+              "LIBRARY_SEARCH_PATHS[__platform_filter=windows-msvc]" : [
+                "$(inherited)",
+                "$(TARGET_BUILD_DIR)/ExecutableModules"
+              ],
+              "OTHER_CFLAGS" : [
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/ft8-validate.modulemap",
+                "$(inherited)"
+              ]
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "DEFINES_MODULE" : "YES",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "GENERATE_EMBED_IN_CODE_ACCESSORS" : "YES",
+            "GENERATE_PRELINK_OBJECT_FILE" : "NO",
+            "GENERATE_RESOURCE_ACCESSORS" : "YES",
+            "MODULEMAP_FILE_CONTENTS" : "module ft8_validate {\nheader \"ft8-validate-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/ft8-validate.modulemap",
+            "OTHER_SWIFT_FLAGS" : [
+              "$(inherited)",
+              "-Xfrontend",
+              "-entry-point-function-name",
+              "-Xfrontend",
+              "ft8_validate_main"
+            ],
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.ft8-validate",
+            "PRODUCT_MODULE_NAME" : "ft8_validate",
+            "PRODUCT_NAME" : "$(TARGET_NAME)",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "STRIP_INSTALLED_PRODUCT" : "NO",
+            "SUPPORTS_TEXT_BASED_API" : "NO",
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "YES",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "NO",
+            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "ft8-validate-Swift.h",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/ft8-validate.symbolgraphs",
+            "TAPI_DYLIB_INSTALL_NAME" : "ft8-validate",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/ft8-validate.symbolgraphs",
+            "TARGET_BUILD_DIR" : "$(TARGET_BUILD_DIR)/ExecutableModules",
+            "TARGET_NAME" : "ft8-validate--32383AA6EA142F6B-testable",
+            "TARGET_TEMP_DIR_SUFFIX" : "-t"
+          },
+          "guid" : "PACKAGE-TARGET:ft8-validate--32383AA6EA142F6B-testable::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+              "FRAMEWORK_SEARCH_PATHS" : [
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_RUNPATH_SEARCH_PATHS" : [
+                "$(RPATH_ORIGIN)",
+                "$(inherited)"
+              ],
+              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
+              "LIBRARY_SEARCH_PATHS[__platform_filter=windows-msvc]" : [
+                "$(inherited)",
+                "$(TARGET_BUILD_DIR)/ExecutableModules"
+              ],
+              "OTHER_CFLAGS" : [
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/ft8-validate.modulemap",
+                "$(inherited)"
+              ]
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_20::REF_0",
+              "guid" : "PACKAGE-TARGET:ft8-validate--32383AA6EA142F6B-testable::BUILDPHASE_0::0",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            }
+          ],
+          "guid" : "PACKAGE-TARGET:ft8-validate--32383AA6EA142F6B-testable::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.sources"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+        {
+          "guid" : "PACKAGE-TARGET:FT8Protocol",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8DSP",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8Decoder",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8Validation",
+          "platformFilters" : [
+
+          ]
+        }
+      ],
+      "guid" : "PACKAGE-TARGET:ft8-validate--32383AA6EA142F6B-testable",
+      "name" : "ft8-validate",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-TARGET:ft8-validate--32383AA6EA142F6B-testable",
+        "name" : "$(EXECUTABLE_NAME)",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "org.swift.product-type.common.object",
+      "type" : "standard"
+    },
+    "signature" : "36453c649f5e48d3db866efd803c67f890dc17884ef5fbb0c999f4ec842fbf47",
     "type" : "target"
   },
   {
@@ -3540,6 +5257,18 @@
 
       ],
       "dependencies" : [
+        {
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8ValidationTests_test_runner",
+          "platformFilters" : [
+
+          ]
+        },
         {
           "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests",
           "platformFilters" : [
@@ -3593,7 +5322,7 @@
       "name" : "FT8KitPackageTests-product",
       "type" : "aggregate"
     },
-    "signature" : "b2f76cf75def7897b1cb20436f4e926e55eeb8953b41eac4d9cea186e411cd15",
+    "signature" : "43c2db8cd8677dead88c80272870bdf57a3a6847a72a1567a0f644a69e149957",
     "type" : "target"
   },
   {
@@ -3709,7 +5438,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_0",
               "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -3718,7 +5447,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_1",
               "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -3727,7 +5456,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_2",
               "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -3736,7 +5465,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_3",
               "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -3745,7 +5474,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_4",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_4",
               "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::4",
               "platformFilters" : [
 
@@ -3754,7 +5483,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_7::REF_5",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_5",
               "guid" : "PACKAGE-TARGET:FT8Protocol-29F07186ACDBBE2F-dynamic::BUILDPHASE_0::5",
               "platformFilters" : [
 
@@ -3785,7 +5514,7 @@
       "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
       "type" : "standard"
     },
-    "signature" : "8b775d3b4ab8efc7109fcf1ec2e7b898862998bf84ebf335a2bcfb541ecd9c0c",
+    "signature" : "52bbc0beb4882c4fcf235876efb6fb41551b55abb402fb2706dc22b4689ccb03",
     "type" : "target"
   },
   {
@@ -3901,7 +5630,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_0",
               "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -3910,7 +5639,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_1",
               "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -3919,7 +5648,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_2",
               "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -3928,7 +5657,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_9::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_3",
               "guid" : "PACKAGE-TARGET:FT8Encoder-24B910F5AC093F9C-dynamic::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -3977,7 +5706,7 @@
       "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
       "type" : "standard"
     },
-    "signature" : "87fb15fb4b3323158d1dacccccf4f235897c9649628c80ed57231add62fc6357",
+    "signature" : "b05f475ce1d1854dffa34a10fb938d19c5b72c144b62b95bdeb5d13c658efc6c",
     "type" : "target"
   },
   {
@@ -4093,7 +5822,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_0",
               "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -4102,7 +5831,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_1",
               "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -4111,7 +5840,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_2",
               "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -4120,7 +5849,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_3",
               "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -4129,7 +5858,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_4",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_4",
               "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::4",
               "platformFilters" : [
 
@@ -4138,7 +5867,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_5",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_5",
               "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::5",
               "platformFilters" : [
 
@@ -4147,7 +5876,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_6",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_6",
               "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::6",
               "platformFilters" : [
 
@@ -4156,8 +5885,17 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_11::REF_7",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_7",
               "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::7",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_15::REF_8",
+              "guid" : "PACKAGE-TARGET:FT8DSP-1862BB4194067F-dynamic::BUILDPHASE_0::8",
               "platformFilters" : [
 
               ],
@@ -4187,7 +5925,7 @@
       "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
       "type" : "standard"
     },
-    "signature" : "43819657bbd01f4553d1bd1f17940a568af54f6c7a70c344844159d96aed4380",
+    "signature" : "99d623f694774b0633cb9ed71cb62c269c2ef11ec87473298bbffefa10580eda",
     "type" : "target"
   },
   {
@@ -4303,7 +6041,7 @@
           "buildFiles" : [
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_0",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_0",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::0",
               "platformFilters" : [
 
@@ -4312,7 +6050,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_1",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_1",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::1",
               "platformFilters" : [
 
@@ -4321,7 +6059,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_2",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_2",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::2",
               "platformFilters" : [
 
@@ -4330,7 +6068,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_3",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_3",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::3",
               "platformFilters" : [
 
@@ -4339,7 +6077,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_4",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_4",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::4",
               "platformFilters" : [
 
@@ -4348,7 +6086,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_5",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_5",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::5",
               "platformFilters" : [
 
@@ -4357,7 +6095,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_6",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_6",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::6",
               "platformFilters" : [
 
@@ -4366,7 +6104,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_7",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_7",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::7",
               "platformFilters" : [
 
@@ -4375,7 +6113,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_8",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_8",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::8",
               "platformFilters" : [
 
@@ -4384,7 +6122,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_9",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_9",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::9",
               "platformFilters" : [
 
@@ -4393,7 +6131,7 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_10",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_10",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::10",
               "platformFilters" : [
 
@@ -4402,8 +6140,116 @@
             },
             {
               "codeSignOnCopy" : "false",
-              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_13::REF_11",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_11",
               "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::11",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_12",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::12",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_13",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::13",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_14",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::14",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_15",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::15",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_16",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::16",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_17",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::17",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_18",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::18",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_19",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::19",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_20",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::20",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_21",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::21",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_22",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::22",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_17::REF_23",
+              "guid" : "PACKAGE-TARGET:FT8Decoder-2484160098D3E492-dynamic::BUILDPHASE_0::23",
               "platformFilters" : [
 
               ],
@@ -4464,7 +6310,172 @@
       "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
       "type" : "standard"
     },
-    "signature" : "361a028edb5c2399dcac4337a39b14c54c10f2554e229fef4f6211edb1d9911b",
+    "signature" : "be9a9e85cb66a705c6876b3e08ad478b9e1de0b74a6ca7c5a14f444684b0b0a1",
+    "type" : "target"
+  },
+  {
+    "contents" : {
+      "approvedByUser" : "true",
+      "buildConfigurations" : [
+        {
+          "buildSettings" : {
+            "DEFINES_MODULE" : "YES",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "EXECUTABLE_PREFIX" : "lib",
+            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
+            "MODULEMAP_FILE_CONTENTS" : "module FT8Validation {\nheader \"FT8Validation-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Validation.modulemap",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Validation",
+            "PRODUCT_MODULE_NAME" : "FT8Validation",
+            "PRODUCT_NAME" : "FT8Validation",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SUPPORTS_TEXT_BASED_API" : "NO",
+            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
+              "$(inherited)",
+              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
+            ],
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "YES",
+            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Validation-Swift.h",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Validation.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Validation.symbolgraphs",
+            "TARGET_NAME" : "FT8Validation",
+            "TARGET_TEMP_DIR_SUFFIX" : "-t"
+          },
+          "guid" : "PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic::BUILDCONFIG_0",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+              "FRAMEWORK_SEARCH_PATHS" : [
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_RUNPATH_SEARCH_PATHS" : [
+                "$(RPATH_ORIGIN)",
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
+              "OTHER_CFLAGS" : [
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Validation.modulemap",
+                "$(inherited)"
+              ]
+            }
+          },
+          "name" : "Debug"
+        },
+        {
+          "buildSettings" : {
+            "DEFINES_MODULE" : "YES",
+            "DOCC_EXTRACT_PROJECT_HEADERS_DOCUMENTATION" : "YES",
+            "EXECUTABLE_PREFIX" : "lib",
+            "EXECUTABLE_PREFIX[__platform_filter=windows-msvc]" : "",
+            "MODULEMAP_FILE_CONTENTS" : "module FT8Validation {\nheader \"FT8Validation-Swift.h\"\nexport *\n}",
+            "MODULEMAP_PATH" : "$(GENERATED_MODULEMAP_DIR)/FT8Validation.modulemap",
+            "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
+            "PRODUCT_BUNDLE_IDENTIFIER" : "ft8kit.FT8Validation",
+            "PRODUCT_MODULE_NAME" : "FT8Validation",
+            "PRODUCT_NAME" : "FT8Validation",
+            "SDKROOT" : "auto",
+            "SDK_VARIANT" : "auto",
+            "SUPPORTS_TEXT_BASED_API" : "NO",
+            "SWIFT_ACTIVE_COMPILATION_CONDITIONS" : [
+              "$(inherited)",
+              "SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE"
+            ],
+            "SWIFT_DISABLE_PARSE_AS_LIBRARY" : "NO",
+            "SWIFT_ENABLE_BARE_SLASH_REGEX" : "NO",
+            "SWIFT_LIBRARIES_ONLY" : "YES",
+            "SWIFT_OBJC_INTERFACE_HEADER_DIR" : "$(GENERATED_MODULEMAP_DIR)",
+            "SWIFT_OBJC_INTERFACE_HEADER_NAME" : "FT8Validation-Swift.h",
+            "SWIFT_PACKAGE_NAME" : "ft8kit",
+            "SWIFT_VERSION" : "6",
+            "SYMBOL_GRAPH_EXTRACTOR_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Validation.symbolgraphs",
+            "TAPI_EXTRACT_API_OUTPUT_DIR" : "$(TARGET_BUILD_DIR)/$(CURRENT_ARCH)/FT8Validation.symbolgraphs",
+            "TARGET_NAME" : "FT8Validation",
+            "TARGET_TEMP_DIR_SUFFIX" : "-t"
+          },
+          "guid" : "PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic::BUILDCONFIG_1",
+          "impartedBuildProperties" : {
+            "buildSettings" : {
+              "FRAMEWORK_SEARCH_PATHS" : [
+                "$(BUILT_PRODUCTS_DIR)/PackageFrameworks",
+                "$(inherited)"
+              ],
+              "LD_RUNPATH_SEARCH_PATHS" : [
+                "$(RPATH_ORIGIN)",
+                "$(inherited)"
+              ],
+              "LD_WARN_DUPLICATE_LIBRARIES" : "NO",
+              "OTHER_CFLAGS" : [
+                "-fmodule-map-file=$(GENERATED_MODULEMAP_DIR)/FT8Validation.modulemap",
+                "$(inherited)"
+              ]
+            }
+          },
+          "name" : "Release"
+        }
+      ],
+      "buildPhases" : [
+        {
+          "buildFiles" : [
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_19::REF_0",
+              "guid" : "PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic::BUILDPHASE_0::0",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_19::REF_1",
+              "guid" : "PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic::BUILDPHASE_0::1",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:ft8kit::MAINGROUP::REF_19::REF_2",
+              "guid" : "PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic::BUILDPHASE_0::2",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            }
+          ],
+          "guid" : "PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic::BUILDPHASE_0",
+          "type" : "com.apple.buildphase.sources"
+        }
+      ],
+      "buildRules" : [
+
+      ],
+      "customTasks" : [
+
+      ],
+      "dependencies" : [
+
+      ],
+      "guid" : "PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic",
+      "name" : "FT8Validation",
+      "productReference" : {
+        "guid" : "PRODUCTREF-PACKAGE-TARGET:FT8Validation--BCE55F6DC777116-dynamic",
+        "name" : "$(EXECUTABLE_NAME)",
+        "type" : "file"
+      },
+      "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
+      "type" : "standard"
+    },
+    "signature" : "2fabd42250734e35bd1c477b1fe1bf1f109dd442fe86851ce7ef430da5e97c34",
     "type" : "target"
   },
   {
@@ -4525,11 +6536,11 @@
       "projectIsPackage" : "true",
       "projectName" : "Aggregate",
       "targets" : [
-        "8c86f53c21725f8c7a9c233019da01ba26bbb4fa04d50c1e6a96a1e61a87ecbc",
-        "28373e82e46c639df14dba25043f2b46ff23503813e556ee7a999255c14bf0f2"
+        "dbf0e21ac8e2992463cc57f6049cef5c0265a5880aa8e96bae28ee57b52ac106",
+        "577bef7acd5572be789a82ed9575f78b576127765f161f4476070f357ea8de59"
       ]
     },
-    "signature" : "22623f942796a34c5ee86fa1013261d9f52219b756c1cf66741eeffc17dcb2c7",
+    "signature" : "50f4143d5ce5004d5ed6b1f16c9e5fdc82e15afa07c28c8509d02ef4572e1131",
     "type" : "project"
   },
   {
@@ -4570,6 +6581,24 @@
 
       ],
       "dependencies" : [
+        {
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ValidationTests.FT8ValidationTests",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-RESOURCE:FT8ValidationTests",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8ValidationTests_test_runner",
+          "platformFilters" : [
+
+          ]
+        },
         {
           "guid" : "PACKAGE-PRODUCT:ft8kit_FT8ProtocolTests.FT8ProtocolTests",
           "platformFilters" : [
@@ -4643,6 +6672,18 @@
           ]
         },
         {
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate",
+          "platformFilters" : [
+
+          ]
+        },
+        {
           "guid" : "PACKAGE-TARGET:FT8Protocol",
           "platformFilters" : [
 
@@ -4665,13 +6706,25 @@
           "platformFilters" : [
 
           ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8Validation",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:ft8-validate--32383AA6EA142F6B-testable",
+          "platformFilters" : [
+
+          ]
         }
       ],
       "guid" : "ALL-INCLUDING-TESTS",
       "name" : "AllIncludingTests",
       "type" : "aggregate"
     },
-    "signature" : "8c86f53c21725f8c7a9c233019da01ba26bbb4fa04d50c1e6a96a1e61a87ecbc",
+    "signature" : "dbf0e21ac8e2992463cc57f6049cef5c0265a5880aa8e96bae28ee57b52ac106",
     "type" : "target"
   },
   {
@@ -4713,6 +6766,12 @@
       ],
       "dependencies" : [
         {
+          "guid" : "PACKAGE-RESOURCE:FT8ValidationTests",
+          "platformFilters" : [
+
+          ]
+        },
+        {
           "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Protocol.FT8Protocol",
           "platformFilters" : [
 
@@ -4732,6 +6791,18 @@
         },
         {
           "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Decoder.FT8Decoder",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-PRODUCT:ft8kit_FT8Validation.FT8Validation",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-PRODUCT:ft8kit_ft8-validate.ft8-validate",
           "platformFilters" : [
 
           ]
@@ -4759,13 +6830,25 @@
           "platformFilters" : [
 
           ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:FT8Validation",
+          "platformFilters" : [
+
+          ]
+        },
+        {
+          "guid" : "PACKAGE-TARGET:ft8-validate--32383AA6EA142F6B-testable",
+          "platformFilters" : [
+
+          ]
         }
       ],
       "guid" : "ALL-EXCLUDING-TESTS",
       "name" : "AllExcludingTests",
       "type" : "aggregate"
     },
-    "signature" : "28373e82e46c639df14dba25043f2b46ff23503813e556ee7a999255c14bf0f2",
+    "signature" : "577bef7acd5572be789a82ed9575f78b576127765f161f4476070f357ea8de59",
     "type" : "target"
   }
 ]

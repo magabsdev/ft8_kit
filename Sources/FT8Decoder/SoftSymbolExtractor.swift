@@ -126,8 +126,12 @@ public struct SoftSymbolExtractor: Sendable {
         var linear = Array(repeating: Float.zero, count: 8)
 
         for tone in 0..<8 {
-            var total: Float = 0
-            var count = 0
+            var decibelSamples: [Float] = []
+            decibelSamples.reserveCapacity(
+                frames.count *
+                (configuration.integrationRadius * 2 + 1)
+            )
+
             for frame in frames {
                 let centre = frame.time + frameDuration / 2
                 let elapsed = Float(centre - candidate.startTime)
@@ -138,14 +142,21 @@ public struct SoftSymbolExtractor: Sendable {
                     ((frequency - frame.minimumFrequency) / frame.binWidth).rounded()
                 )
 
-                for offset in -configuration.integrationRadius...configuration.integrationRadius {
+                let lowerOffset = -configuration.integrationRadius
+                let upperOffset = configuration.integrationRadius
+                for offset in lowerOffset...upperOffset {
                     let bin = centreBin + offset
-                    guard frame.decibels.indices.contains(bin) else { continue }
-                    total += powf(10, frame.decibels[bin] / 10)
-                    count += 1
+                    guard frame.decibels.indices.contains(bin) else {
+                        continue
+                    }
+                    decibelSamples.append(frame.decibels[bin])
                 }
             }
-            linear[tone] = count == 0 ? 0 : total / Float(count)
+
+            let powers = VectorMath.linearPower(
+                fromDecibels: decibelSamples
+            )
+            linear[tone] = powers.isEmpty ? 0 : VectorMath.mean(powers)
         }
 
         let floor = max(linear.min() ?? 0, Float.leastNonzeroMagnitude)

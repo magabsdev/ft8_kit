@@ -45,19 +45,30 @@ public enum CostasCorrelator {
                 let expectedBin = nearestBin(in: frame, frequency: centre)
                 guard expectedBin >= 0 && expectedBin < frame.count else { continue }
 
-                let matched = linearPower(fromDecibels: frame.decibels[expectedBin])
-                var competitors: Float = 0
-                var count = 0
-                for tone in 0..<8 where tone != Int(CostasSequence.tones[localIndex]) {
+                var toneDB: [Float] = []
+                var matchedIndex: Int?
+                toneDB.reserveCapacity(8)
+
+                for tone in 0..<8 {
                     let frequency = baseFrequency
                         + Float(tone) * toneSpacing
                         + driftHzPerSecond * elapsed
                     let bin = nearestBin(in: frame, frequency: frequency)
                     if bin >= 0 && bin < frame.count {
-                        competitors += linearPower(fromDecibels: frame.decibels[bin])
-                        count += 1
+                        if tone == Int(CostasSequence.tones[localIndex]) {
+                            matchedIndex = toneDB.count
+                        }
+                        toneDB.append(frame.decibels[bin])
                     }
                 }
+
+                let powers = VectorMath.linearPower(fromDecibels: toneDB)
+                guard let matchedIndex, matchedIndex < powers.count else {
+                    continue
+                }
+                let matched = powers[matchedIndex]
+                let competitors = VectorMath.sum(powers) - matched
+                let count = powers.count - 1
 
                 matchedLinear += matched
                 if count > 0 {
@@ -95,7 +106,4 @@ public enum CostasCorrelator {
         Int(((frequency - frame.minimumFrequency) / frame.binWidth).rounded())
     }
 
-    private static func linearPower(fromDecibels value: Float) -> Float {
-        powf(10, value / 10)
-    }
 }

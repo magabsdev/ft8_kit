@@ -1,0 +1,4 @@
+module FT8Validation {
+header "FT8Validation-Swift.h"
+export *
+}

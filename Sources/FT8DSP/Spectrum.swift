@@ -19,11 +19,11 @@ public struct Spectrum: Equatable, Sendable {
     }
 
     public func decibels(reference: Float = 1, floor: Float = -160) -> [Float] {
-        let safeReference = max(reference, Float.leastNonzeroMagnitude)
-        return magnitudes.map { magnitude in
-            let safeMagnitude = max(magnitude, Float.leastNonzeroMagnitude)
-            return max(20 * log10f(safeMagnitude / safeReference), floor)
-        }
+        VectorMath.decibels(
+            magnitudes: magnitudes,
+            reference: reference,
+            floor: floor
+        )
     }
 
     public static func analyse(
@@ -40,36 +40,32 @@ public struct Spectrum: Equatable, Sendable {
 
         var prepared = samples
         if removeMean && !prepared.isEmpty {
-            let mean = prepared.reduce(0, +) / Float(prepared.count)
-            for i in prepared.indices { prepared[i] -= mean }
+            let mean = VectorMath.mean(prepared)
+            VectorMath.subtract(scalar: mean, from: &prepared)
         }
         if prepared.count < size {
             prepared += Array(repeating: 0, count: size - prepared.count)
         }
 
         let coefficients = window.coefficients(count: size)
-        var windowed = Array(repeating: Float.zero, count: size)
-        for i in 0..<size {
-            windowed[i] = prepared[i] * coefficients[i]
-        }
+        let windowed = VectorMath.multiply(prepared, coefficients)
 
         let transformed = try FFT(size: size).forward(windowed)
         let oneSidedCount = size / 2 + 1
         let coherentGain = max(coefficients.reduce(0, +), Float.leastNonzeroMagnitude)
+        let rawMagnitudes = VectorMath.magnitudes(
+            real: Array(transformed.real.prefix(oneSidedCount)),
+            imaginary: Array(transformed.imaginary.prefix(oneSidedCount))
+        )
         var magnitudes = Array(repeating: Float.zero, count: oneSidedCount)
-        var powers = Array(repeating: Float.zero, count: oneSidedCount)
 
         for i in 0..<oneSidedCount {
-            let raw = sqrtf(
-                transformed.real[i] * transformed.real[i] +
-                transformed.imaginary[i] * transformed.imaginary[i]
-            )
             let edge = i == 0 || i == oneSidedCount - 1
             let scale: Float = edge ? 1 : 2
-            let magnitude = scale * raw / coherentGain
-            magnitudes[i] = magnitude
-            powers[i] = magnitude * magnitude
+            magnitudes[i] = scale * rawMagnitudes[i] / coherentGain
         }
+
+        let powers = VectorMath.multiply(magnitudes, magnitudes)
 
         return Spectrum(
             sampleRate: sampleRate,

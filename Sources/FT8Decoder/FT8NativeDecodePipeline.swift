@@ -5,6 +5,10 @@ public struct FT8NativeDecode: Equatable, Sendable {
     public let softSymbols: FT8SoftSymbols
     public let ldpc: FT8LDPCResult
 
+    public var decodedMessage: FT8DecodedMessage? {
+        try? FT8MessageDecoder().decode(ldpc, softSymbols: softSymbols)
+    }
+
     public init(
         candidate: FT8Candidate,
         softSymbols: FT8SoftSymbols,

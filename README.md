@@ -54,3 +54,70 @@ measurement and hard-decision verification against the native encoder.
 `FT8Decoder` now includes a native Swift LDPC(174,91) decoder with
 normalised min-sum and sum-product algorithms, syndrome-based early exit,
 91-bit information extraction and CRC validation.
+
+
+## Phase 6
+
+The package now includes a complete native decoding path from a synchronised
+candidate through soft symbols, LDPC correction, CRC validation and
+`FT8Message` unpacking. `FT8CompleteDecoder` returns only validated messages.
+
+
+## Phase 7
+
+`FT8OptimizedDecoder` adds confidence-ranked candidate scheduling, bounded
+per-slot LDPC work, early rejection, deterministic duplicate suppression and
+decode metrics. `FT8SlotDecoder` accepts PCM samples and returns validated
+messages plus performance counters.
+
+
+## Phase 8.1
+
+`FT8LiveDecoder` now accepts arbitrary PCM chunks, stores them in a fixed-size
+ring buffer and emits slot decode events at a configurable stride. Streaming
+state is actor-isolated for safe use from audio capture callbacks and UI tasks.
+
+
+## Phase 8.2
+
+`FT8ParallelDecoder` performs bounded candidate decoding with Swift structured
+concurrency. Results remain deterministic and retain the same candidate
+ranking and duplicate suppression rules as the sequential decoder.
+
+
+## Phase 8.3
+
+DSP hot paths now use Accelerate on Apple platforms and a portable
+`SIMD8<Float>` fallback elsewhere. Spectrum analysis, Costas correlation and
+soft-symbol extraction use the vector layer without changing the public API.
+
+
+## Phase 8.3.1
+
+Corrected the Apple Accelerate `vvpowf` argument order. The previous Phase 8.3
+archive passed on the portable fallback but produced incorrect linear powers
+on macOS.
+
+
+## Phase 9.1
+
+FT8Kit now supports iterative multi-pass decoding. Successfully decoded
+signals are reconstructed from their LDPC codewords and conservatively
+cancelled from the spectrogram before subsequent passes. The decoder exposes
+per-pass candidate, message, cancellation and residual-energy metrics.
+
+## Phase 10 — Standard WAV validation
+
+The package now includes the standard WSJT-X WAV corpus, a portable PCM WAV loader,
+6.4 kHz to 12 kHz resampling, WSJT-X reference-output parsing, tolerance-aware
+matching and the `ft8-validate` command-line regression runner.
+
+Run the complete real-recording comparison with:
+
+```bash
+swift run -c release ft8-validate Tests/FT8ValidationTests/Fixtures
+```
+
+The normal `swift test` suite validates all 31 WAV fixtures and 22 supplied reference files, reference pairing, WAV
+loading, resampling, parsing and matching without making the slow full-corpus decode
+a mandatory unit-test step.
