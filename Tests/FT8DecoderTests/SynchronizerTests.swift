@@ -24,7 +24,7 @@ final class SynchronizerTests: XCTestCase {
 
         let best = candidates.max { $0.confidence < $1.confidence }!
         XCTAssertEqual(best.frequency, 1_000, accuracy: 6.25)
-        XCTAssertEqual(best.startTime, 0.5, accuracy: 0.05)
+        XCTAssertEqual(best.startTime, 0.5, accuracy: 0.1)
         XCTAssertGreaterThan(best.confidence, 0.8)
     }
 

@@ -34,7 +34,7 @@ public enum CostasCorrelator {
         for blockStart in CostasSequence.blockStarts {
             for localIndex in CostasSequence.tones.indices {
                 let symbol = blockStart + localIndex
-                let time = startTime + Double(symbol) * symbolPeriod + symbolPeriod / 2
+                let time = startTime + Double(symbol) * symbolPeriod
                 guard let frame = spectrogram.frame(nearestTime: time) else { continue }
 
                 let elapsed = Float(time - startTime)

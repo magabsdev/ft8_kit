@@ -26,20 +26,18 @@ enum SyntheticSpectrogram {
             let time = Double(frameIndex) * frameStep
             var decibels = Array(repeating: noiseDB, count: columnCount)
 
-            let relative = time - startTime
-            if relative >= 0 {
-                let symbol = Int(floor(relative / 0.160))
+            let frameCenter = time + Double(fftSize) / 2 / Double(sampleRate)
+            let relativeToSignal = frameCenter - startTime
+            if relativeToSignal >= 0 {
+                let symbol = Int(floor(relativeToSignal / 0.160))
                 if symbol >= 0 && symbol < 79,
                    let tone = syncTone(symbol: symbol) {
-                    let centreTime = startTime + (Double(symbol) + 0.5) * 0.160
-                    if abs(time - centreTime) <= frameStep * 0.75 {
-                        let frequency = baseFrequency
-                            + Float(tone) * 6.25
-                            + driftHzPerSecond * Float(centreTime - startTime)
-                        let bin = Int((frequency / binWidth).rounded())
-                        if decibels.indices.contains(bin) {
-                            decibels[bin] = signalDB
-                        }
+                    let frequency = baseFrequency
+                        + Float(tone) * 6.25
+                        + driftHzPerSecond * Float(relativeToSignal)
+                    let bin = Int((frequency / binWidth).rounded())
+                    if decibels.indices.contains(bin) {
+                        decibels[bin] = signalDB
                     }
                 }
             }

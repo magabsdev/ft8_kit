@@ -52,13 +52,6 @@ public enum FT8Waveform {
             }
         }
 
-        let firstScale = peakIncrement * Double(tones[0])
-        let lastScale = peakIncrement * Double(tones[tones.count - 1])
-        for index in 0..<(2 * samplesPerSymbol) {
-            phaseIncrement[index] += firstScale * pulse[index + samplesPerSymbol]
-            phaseIncrement[tones.count * samplesPerSymbol + index] += lastScale * pulse[index]
-        }
-
         var signal = [Float](repeating: 0, count: waveformCount)
         var phase = 0.0
         for index in 0..<waveformCount {
