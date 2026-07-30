@@ -1,0 +1,12 @@
+{
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/ReferenceCorpus.swift" : {
+    "abi-baseline-json" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Validation-t.build/Objects-normal/arm64/FT8Validation.abi.json",
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-primary.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-primary.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-primary.dia",
+    "objc-header" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-Swift.h",
+    "swiftdoc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Validation-t.build/Objects-normal/arm64/FT8Validation.swiftdoc",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Validation-t.build/Objects-normal/arm64/FT8Validation.swiftmodule",
+    "swiftsourceinfo" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Validation-t.build/Objects-normal/arm64/FT8Validation.swiftsourceinfo"
+  }
+}

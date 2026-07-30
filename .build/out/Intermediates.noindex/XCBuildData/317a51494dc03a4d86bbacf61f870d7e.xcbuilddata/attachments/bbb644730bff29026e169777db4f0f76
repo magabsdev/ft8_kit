@@ -1,0 +1,16 @@
+{
+  "" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/ft8-validate-primary.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/ft8-validate-primary.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/ft8-validate-primary.dia",
+    "emit-module-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/ft8-validate-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/ft8-validate-primary-emit-module.dia",
+    "pch" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/ft8-validate-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/ft8-validate-primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/ft8-validate/main.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/main.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/main.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/ft8-validate-p.build/Objects-normal/arm64/main.o"
+  }
+}

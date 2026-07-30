@@ -121,3 +121,12 @@ swift run -c release ft8-validate Tests/FT8ValidationTests/Fixtures
 The normal `swift test` suite validates all 31 WAV fixtures and 22 supplied reference files, reference pairing, WAV
 loading, resampling, parsing and matching without making the slow full-corpus decode
 a mandatory unit-test step.
+
+
+## Phase 11
+
+FT8Kit now includes a UTC-aligned real-time slot engine. Timestamped PCM
+chunks are assembled into exact FT8 slots, small audio gaps are repaired,
+overlaps are removed, discontinuities are tracked, and complete slots are
+decoded through the multi-pass engine. The API remains independent of
+AVFoundation so it can be used on macOS, iOS and Linux.

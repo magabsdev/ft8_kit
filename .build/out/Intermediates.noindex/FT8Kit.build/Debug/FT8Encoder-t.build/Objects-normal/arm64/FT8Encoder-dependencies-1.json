@@ -96,238 +96,238 @@
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/CFNetwork.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/CFNetwork-C9SSI95FVC7TNWSP9D7DX3E30.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/CFNetwork-GBLRS70QSWOYLG4UFYFA6SYI.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "CFNetwork"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/CoreFoundation.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/CoreFoundation-9CWT3XNY716YS5PNO2OKPSB37.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/CoreFoundation-B16O5I9K25XQHYWBJ17N1CFOG.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "CoreFoundation"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/CoreServices.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/CoreServices-7KWUODOFYEA3DQ41MOFG1VHPE.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/CoreServices-2RT6XE04ZY9M9U4OLODJ0P7CE.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "CoreServices"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/Darwin.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/Darwin-2G6XC5SOYSY81887R0AZCXXP9.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/Darwin-52BKIC5BDFGLEAXOMPNDYSALD.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Darwin"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/DiskArbitration.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/DiskArbitration-39C2OUV0SSRVML4FS3AOOH6GX.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/DiskArbitration-GJ0YC4JCO6R9WZXSU2VLW57Z.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "DiskArbitration"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/dispatch.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/Dispatch-30Y0AXFXE8N524IDGQDMAGO55.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/Dispatch-4SWVD2QYTQZDXTXSYUBBTKPGT.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Dispatch"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/Foundation.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/Foundation-27E9F151VYNC2GXJ9EYQHJRNO.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/Foundation-82MSR09CBP9HBZEQS10DL9CQ.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Foundation"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/IOKit.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/IOKit-9EG0OCRU4FX0BQLKOF4UO57RB.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/IOKit-929Z6NQBASUNKSYAAY4JOQBJB.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "IOKit"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/DarwinBasic.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/MachO-3UCIDJZIT5T98KB20QWTJ4Z3X.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/MachO-CN8TBSILBXN4ZSJGDCUOSX3ZB.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "MachO"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/ObjectiveC.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/ObjectiveC-9NH664P5JK6IVL0CWXS5PN5OR.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/ObjectiveC-AB1HQWE74PS6UBLXA1B3FZLXW.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "ObjectiveC"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/System\/Library\/Frameworks\/Security.framework\/Modules\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/Security-CGHUQ11KP2JGI1OPWJFRUDM5O.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/Security-12RRPFKGVXGVZ89PAH6QLRESQ.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "Security"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/lib\/swift\/shims\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/SwiftShims-D1SS2UM6JEPBMZO48UR3ALDSU.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/SwiftShims-WSJOM6G0YAUKUQL0IUIJ9PJG.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "SwiftShims"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/xpc.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/XPC-712QJDZ6J77UHBG0I9KZ3VQBR.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/XPC-EJSOKIOGH7OY6DFGGDCWTWDL2.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "XPC"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/DarwinFoundation1.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_AvailabilityInternal-3LOX74WEZS71QEE4GTCS0XUIJ.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_AvailabilityInternal-O59UHFND1LPLUGY2JP9ARRHH.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_AvailabilityInternal"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_float-DEBGYPOMW08PQOVGVEAFPLPLY.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_float-BJYQHSTQLCDNU8BZ60NW1H9O1.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_float"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_inttypes-HPJP0PB6ICNRQRCDBYMUFP9Y.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_inttypes-AV43RU4KJ7DT1M63HT68THUSU.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_inttypes"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_limits-E2NVXJ508F5B5TR4KA8DJYL2N.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_limits-9PDH9EG6915KQALHZNF8F3GN0.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_limits"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdarg-47EC0M4UEELF722IH4JQMCJ2Y.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdarg-DG9UXKRUDL8SFEHWCBDHBHWVD.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stdarg"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdbool-9F031MMJDZT1A8ZZBKRNW5ARG.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdbool-BM39KOT7ZTFVCY4HCU3I8M4HX.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stdbool"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stddef-22RK6A5QA6A1PKO9TFREWV1V0.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stddef-4KQTJ4LRXULI689XQC92TYMBQ.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stddef"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdint-97YBXVTE7OHVRY0M035SRS12N.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdint-4IBY4V97WWWOK2UV3SNJRM5F5.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_Builtin_stdint"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/DarwinFoundation1.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation1-EAHR7NBMDEJR5PWCY5HB2W1SG.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation1-8YT15G6ZNPO60MIY9J63LU1CS.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_DarwinFoundation1"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/DarwinFoundation2.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation2-A826CTXI9M736A55AM8STAKR4.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation2-6I1WJ480ZKG6KS7X12CH5TA8L.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_DarwinFoundation2"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/DarwinFoundation3.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation3-7YRE2XEQ7U8SZKFN8DGRS45T3.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation3-9G4C64FL23FLTU9TNBVYZ5G4I.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_DarwinFoundation3"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/lib\/swift\/shims\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_SwiftConcurrencyShims-BLAG7Q85PV7TVK5O2KSSMU1M0.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/_SwiftConcurrencyShims-46LI5TXK4OO7RWBHL58CJC342.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "_SwiftConcurrencyShims"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/launch.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/launch-8SXF1VP8FDCEUVJB8Q0WX1XSV.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/launch-1S0QAYF6ZDTM9JKT4XR0RWMJX.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "launch"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/libDER\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/libDER-6JUK4A7NIQA72I2EZDU7JX9V6.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/libDER-B39IHAV62YUVUY4UFYEHXFHT5.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "libDER"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/libkern.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/libkern-2A3VIKIGK2KTULG5WT6FOM1CV.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/libkern-3TULBOZXF4T9W4G17BYP5TXC0.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "libkern"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/os.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/os_object-5DRICRH7J2J2HBY26FIXEPENI.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/os_object-6OO4VP0UHFH08XN0PLZFH4Y69.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "os_object"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/os.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/os_workgroup-EHXWZP0FVPJ55YKT52NRQ6F1D.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/os_workgroup-3RH9EW2X7FXBFO9EZQMB6FT3M.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "os_workgroup"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/ptrauth-PMN5HAIWB3PMX3WZJT7MALI9.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/ptrauth-3VKRPVZTZRCXXEF6A2A2TUTLF.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "ptrauth"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Toolchains\/XcodeDefault.xctoolchain\/usr\/lib\/clang\/21\/include\/module.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/ptrcheck-CL3Y4BNHX7OD9N5B5NX01F2F1.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/ptrcheck-3MRAJPF2R20ZA1OMKYS3UC7CZ.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "ptrcheck"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/c_standard_library.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/string_h-7LFI4UTVV9XC9OR1VUM1HP71G.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/string_h-F55Z73KK2VSPDO2CLDZASR9VO.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "string_h"
   },
   {
     "clangModuleMapPath" : "\/Applications\/Xcode.app\/Contents\/Developer\/Platforms\/MacOSX.platform\/Developer\/SDKs\/MacOSX.sdk\/usr\/include\/DarwinFoundation2.modulemap",
-    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/sys_types-70YX22BXCARKDQRPKMD4CCL4F.pcm",
+    "clangModulePath" : "\/Users\/mag\/Developer\/FT8Kit\/.build\/out\/SDKExplicitPrecompiledModules\/sys_types-4YNMDJQCBNC6K2YZZR68R523J.pcm",
     "isBridgingHeaderDependency" : false,
     "isFramework" : false,
     "moduleName" : "sys_types"

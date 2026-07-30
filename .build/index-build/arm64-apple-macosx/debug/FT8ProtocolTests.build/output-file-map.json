@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests/FT8ProtocolTests.swift": {
+    "dependencies": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/FT8ProtocolTests.d",
+    "object": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o",
+    "swiftmodule": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/FT8ProtocolTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/FT8ProtocolTests.swiftdeps",
+    "diagnostics": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/FT8ProtocolTests.dia"  }
+}

@@ -1,0 +1,141 @@
+{
+  "" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary.dia",
+    "emit-module-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary-emit-module.dia",
+    "pch" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasCorrelator.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/CostasCorrelator.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/CostasCorrelator.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/CostasCorrelator.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasSequence.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/CostasSequence.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/CostasSequence.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/CostasSequence.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Candidate.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Candidate.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Candidate.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Candidate.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CandidateAnalysis.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8CandidateAnalysis.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8CandidateAnalysis.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8CandidateAnalysis.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CompleteDecodePipeline.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8CompleteDecodePipeline.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8CompleteDecodePipeline.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8CompleteDecodePipeline.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LDPCDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LDPCDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LDPCDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCMatrix.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LDPCMatrix.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LDPCMatrix.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LDPCMatrix.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LiveDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LiveDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LiveDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8LiveDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MessageDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MessageDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MessageDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MessageDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassSlotDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassSlotDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassSlotDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassSlotDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8NativeDecodePipeline.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8NativeDecodePipeline.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8NativeDecodePipeline.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8NativeDecodePipeline.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8OptimizedDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8OptimizedDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8OptimizedDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8OptimizedDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ParallelDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ParallelDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ParallelDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelSlotDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ParallelSlotDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ParallelSlotDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ParallelSlotDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8RealtimeDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8RealtimeDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8RealtimeDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8RealtimeDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalCanceller.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SignalCanceller.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SignalCanceller.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SignalCanceller.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalSynthesizer.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SignalSynthesizer.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SignalSynthesizer.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SignalSynthesizer.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotClock.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SlotClock.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SlotClock.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SlotClock.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotDecoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SlotDecoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SlotDecoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SlotDecoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SoftSymbols.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SoftSymbols.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SoftSymbols.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8SoftSymbols.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Synchronizer.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Synchronizer.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Synchronizer.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Synchronizer.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ToneMapping.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ToneMapping.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ToneMapping.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8ToneMapping.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/PCMFloatRingBuffer.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/PCMFloatRingBuffer.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/PCMFloatRingBuffer.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/PCMFloatRingBuffer.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SoftSymbolExtractor.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/SoftSymbolExtractor.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/SoftSymbolExtractor.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/SoftSymbolExtractor.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SynchronizerConfiguration.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/SynchronizerConfiguration.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/SynchronizerConfiguration.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/SynchronizerConfiguration.o"
+  }
+}

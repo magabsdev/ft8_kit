@@ -1,0 +1,3 @@
+module FT8Decoder {
+    header "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/include/FT8Decoder-Swift.h"
+}

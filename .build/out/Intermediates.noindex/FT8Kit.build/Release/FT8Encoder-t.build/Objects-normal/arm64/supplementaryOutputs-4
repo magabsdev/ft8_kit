@@ -1,0 +1,12 @@
+{
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Encoder.swift" : {
+    "abi-baseline-json" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder.abi.json",
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary.dia",
+    "objc-header" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-Swift.h",
+    "swiftdoc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder.swiftdoc",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder.swiftmodule",
+    "swiftsourceinfo" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder.swiftsourceinfo"
+  }
+}

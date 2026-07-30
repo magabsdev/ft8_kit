@@ -1,0 +1,39 @@
+{
+  "" : {
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-primary.dia",
+    "emit-module-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-primary-emit-module.dia",
+    "pch" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/FT8Validation-primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/ReferenceCorpus.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/ReferenceCorpus.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/ReferenceCorpus.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/ReferenceCorpus.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/ReferenceCorpus.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/ReferenceCorpus.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/ReferenceCorpus.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/ReferenceCorpus.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/ReferenceCorpus~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WAVFile.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WAVFile.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WAVFile.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WAVFile.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WAVFile.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WAVFile.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WAVFile.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WAVFile.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WAVFile~partial.swiftmodule"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WSJTXReference.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WSJTXReference.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WSJTXReference.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WSJTXReference.dia",
+    "index-unit-output-path" : "/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WSJTXReference.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WSJTXReference.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WSJTXReference.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WSJTXReference.swiftdeps",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Validation-t.build/Objects-normal/arm64/WSJTXReference~partial.swiftmodule"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassDecoder.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassDecoder.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassDecoder.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassDecoder.dia",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassDecoder.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassDecoder.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassSlotDecoder.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassSlotDecoder.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassSlotDecoder.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassSlotDecoder.dia",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassSlotDecoder.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8MultiPassSlotDecoder.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8NativeDecodePipeline.swift" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8NativeDecodePipeline.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8NativeDecodePipeline.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8NativeDecodePipeline.dia",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8NativeDecodePipeline.o",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Debug/FT8Decoder-t.build/Objects-normal/arm64/FT8NativeDecodePipeline.swiftdeps"
+  }
+}

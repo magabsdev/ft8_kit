@@ -1,0 +1,3 @@
+module FT8Validation {
+    header "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/include/FT8Validation-Swift.h"
+}

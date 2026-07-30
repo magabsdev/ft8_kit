@@ -1,0 +1,56 @@
+{
+  "" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary.dia",
+    "emit-module-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary-emit-module.dia",
+    "pch" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FT8DSP-primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFT.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFT.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFT.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFT.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTError.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFTError.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFTError.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFTError.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTResult.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFTResult.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFTResult.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/FFTResult.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/NoiseFloorEstimator.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/NoiseFloorEstimator.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/NoiseFloorEstimator.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/NoiseFloorEstimator.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/PeakDetector.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/PeakDetector.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/PeakDetector.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/PeakDetector.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Spectrum.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/Spectrum.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/Spectrum.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/Spectrum.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/VectorMath.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/VectorMath.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/VectorMath.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/VectorMath.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Waterfall.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/Waterfall.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/Waterfall.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/Waterfall.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/WindowFunction.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/WindowFunction.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/WindowFunction.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8DSP-t.build/Objects-normal/arm64/WindowFunction.o"
+  }
+}

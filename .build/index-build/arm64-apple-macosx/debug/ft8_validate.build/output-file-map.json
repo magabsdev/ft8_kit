@@ -1,0 +1,11 @@
+{
+  "": {
+    "swift-dependencies": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/ft8-validate/main.swift": {
+    "dependencies": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/main.d",
+    "object": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/main.swift.o",
+    "swiftmodule": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/main.swiftdeps",
+    "diagnostics": "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/main.dia"  }
+}

@@ -1,0 +1,3 @@
+module FT8Protocol {
+    header "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/include/FT8Protocol-Swift.h"
+}

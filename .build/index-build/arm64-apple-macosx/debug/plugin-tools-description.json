@@ -1,0 +1,3044 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.xctest/Contents/MacOS/FT8KitPackageTests",
+      "coverageBinaryPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.xctest/Contents/MacOS/FT8KitPackageTests",
+      "packagePath" : "/Users/mag/Developer/FT8Kit",
+      "productName" : "FT8KitPackageTests"
+    }
+  ],
+  "copyCommands" : {
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Kit_FT8ValidationTests.bundle/Fixtures" : {
+      "inputs" : [
+        {
+          "kind" : "directory",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests/Fixtures"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "directory",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Kit_FT8ValidationTests.bundle/Fixtures"
+        }
+      ]
+    }
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.FT8DSP-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFT.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTError.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTResult.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/NoiseFloorEstimator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/PeakDetector.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Spectrum.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/VectorMath.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Waterfall.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/WindowFunction.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8DSP",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DSP.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/FFT.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/FFTError.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/FFTResult.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/NoiseFloorEstimator.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/PeakDetector.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/Spectrum.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/VectorMath.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/Waterfall.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/WindowFunction.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/include/FT8DSP-Swift.h",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DSP.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFT.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTError.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTResult.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/NoiseFloorEstimator.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/PeakDetector.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Spectrum.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/VectorMath.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Waterfall.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/WindowFunction.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8DSPTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/FFTTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/NoiseAndPeakTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/SpectrumTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/VectorMathTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/WaterfallPhase32Tests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/WindowFunctionTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DSP.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8DSPTests",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DSPTests.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/FFTTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/NoiseAndPeakTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/SpectrumTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/VectorMathTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/WaterfallPhase32Tests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/WindowFunctionTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DSPTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/FFTTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/NoiseAndPeakTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/SpectrumTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/VectorMathTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/WaterfallPhase32Tests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/WindowFunctionTests.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8Decoder-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasCorrelator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasSequence.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Candidate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CandidateAnalysis.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CompleteDecodePipeline.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCMatrix.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LiveDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MessageDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassSlotDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8NativeDecodePipeline.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8OptimizedDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelSlotDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8RealtimeDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalCanceller.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalSynthesizer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotClock.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SoftSymbols.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Synchronizer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ToneMapping.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/PCMFloatRingBuffer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SoftSymbolExtractor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SynchronizerConfiguration.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Protocol.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DSP.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8Decoder",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Decoder.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/CostasCorrelator.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/CostasSequence.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8Candidate.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8CandidateAnalysis.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8CompleteDecodePipeline.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8LDPCDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8LDPCMatrix.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8LiveDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8MessageDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8MultiPassDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8MultiPassSlotDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8NativeDecodePipeline.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8OptimizedDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8ParallelDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8ParallelSlotDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8RealtimeDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8SignalCanceller.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8SignalSynthesizer.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8SlotClock.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8SlotDecoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8SoftSymbols.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8Synchronizer.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/FT8ToneMapping.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/PCMFloatRingBuffer.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/SoftSymbolExtractor.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/SynchronizerConfiguration.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/include/FT8Decoder-Swift.h",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Decoder.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasCorrelator.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasSequence.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Candidate.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CandidateAnalysis.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CompleteDecodePipeline.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCMatrix.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LiveDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MessageDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassSlotDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8NativeDecodePipeline.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8OptimizedDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelSlotDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8RealtimeDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalCanceller.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalSynthesizer.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotClock.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotDecoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SoftSymbols.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Synchronizer.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ToneMapping.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/PCMFloatRingBuffer.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SoftSymbolExtractor.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SynchronizerConfiguration.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8DecoderTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/CostasCorrelatorTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/CostasSequenceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8EndToEndBitPipelineTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCMatrixTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCSoftSymbolIntegrationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LiveDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8MessageDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8MultiPassDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8OptimizedDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8ParallelDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8RealtimeDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SignalCancellerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SignalSynthesizerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SlotClockTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SlotDecoderIntegrationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/PCMFloatRingBufferTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SIMDDecodeEquivalenceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SoftSymbolExtractorTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SynchronizerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SyntheticSpectrogram.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/WaveformIntegrationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Decoder.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Encoder.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DSP.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Protocol.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8DecoderTests",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DecoderTests.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/CostasCorrelatorTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/CostasSequenceTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8EndToEndBitPipelineTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8LDPCDecoderTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8LDPCMatrixTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8LDPCSoftSymbolIntegrationTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8LiveDecoderTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8MessageDecoderTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8MultiPassDecoderTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8OptimizedDecoderTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8ParallelDecoderTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8RealtimeDecoderTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8SignalCancellerTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8SignalSynthesizerTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8SlotClockTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/FT8SlotDecoderIntegrationTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/PCMFloatRingBufferTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/SIMDDecodeEquivalenceTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/SoftSymbolExtractorTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/SynchronizerTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/SyntheticSpectrogram.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/WaveformIntegrationTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DecoderTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/CostasCorrelatorTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/CostasSequenceTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8EndToEndBitPipelineTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCDecoderTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCMatrixTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCSoftSymbolIntegrationTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LiveDecoderTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8MessageDecoderTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8MultiPassDecoderTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8OptimizedDecoderTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8ParallelDecoderTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8RealtimeDecoderTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SignalCancellerTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SignalSynthesizerTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SlotClockTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SlotDecoderIntegrationTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/PCMFloatRingBufferTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SIMDDecodeEquivalenceTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SoftSymbolExtractorTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SynchronizerTests.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SyntheticSpectrogram.swift",
+        "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/WaveformIntegrationTests.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8Encoder-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Encoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8LDPCGenerator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8WAVEncoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Waveform.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Protocol.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8Encoder",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Encoder.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/FT8Encoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/FT8LDPCGenerator.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/FT8WAVEncoder.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/FT8Waveform.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/include/FT8Encoder-Swift.h",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Encoder.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Encoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8LDPCGenerator.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8WAVEncoder.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Waveform.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8EncoderTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8EncoderTests.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests/FT8EncoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Encoder.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Protocol.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8EncoderTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8EncoderTests",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8EncoderTests.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8EncoderTests.build/FT8EncoderTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8EncoderTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8EncoderTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests/FT8EncoderTests.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8EncoderTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8KitPackageTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8ValidationTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8ProtocolTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8EncoderTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DecoderTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8DSPTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8KitPackageTests",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8KitPackageTests.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build/include/FT8KitPackageTests-Swift.h",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8KitPackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8Protocol-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8BitBuffer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8CRC.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Constants.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8GrayCode.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Message.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8MessageCodec.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8Protocol",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Protocol.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/FT8BitBuffer.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/FT8CRC.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/FT8Constants.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/FT8GrayCode.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/FT8Message.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/FT8MessageCodec.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/include/FT8Protocol-Swift.h",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Protocol.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8BitBuffer.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8CRC.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Constants.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8GrayCode.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Message.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8MessageCodec.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8ProtocolTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests/FT8ProtocolTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Protocol.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8ProtocolTests",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8ProtocolTests.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/FT8ProtocolTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8ProtocolTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests/FT8ProtocolTests.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8Validation-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/ReferenceCorpus.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WAVFile.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WSJTXReference.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8Validation",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Validation.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/ReferenceCorpus.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/WAVFile.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/WSJTXReference.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/include/FT8Validation-Swift.h",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Validation.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/ReferenceCorpus.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WAVFile.swift",
+        "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WSJTXReference.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.FT8ValidationTests-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests/FT8ValidationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/DerivedSources/resource_bundle_accessor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<FT8ValidationTests-arm64-apple-macosx-debug.module-resources>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Validation.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "FT8ValidationTests",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8ValidationTests.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/FT8ValidationTests.swift.o",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/resource_bundle_accessor.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8ValidationTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests/FT8ValidationTests.swift",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/DerivedSources/resource_bundle_accessor.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.ft8-validate-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/sources",
+      "importPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/ft8-validate/main.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Decoder.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/FT8Validation.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "ft8_validate",
+      "moduleOutputPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/ft8_validate.swiftmodule",
+      "objects" : [
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/main.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "ft8_validate_main",
+        "-swift-version",
+        "6",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ft8kit"
+      ],
+      "outputFileMapPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules/ft8_validate.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/mag/Developer/FT8Kit/Sources/ft8-validate/main.swift"
+      ],
+      "tempsPath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "FT8DSP" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8DSP",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFT.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTError.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTResult.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/NoiseFloorEstimator.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/PeakDetector.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Spectrum.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/VectorMath.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Waterfall.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/WindowFunction.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/include/FT8DSP-Swift.h",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8DSPTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8DSPTests",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/FFTTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/NoiseAndPeakTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/SpectrumTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/VectorMathTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/WaterfallPhase32Tests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/WindowFunctionTests.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8Decoder" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8Decoder",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasCorrelator.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasSequence.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Candidate.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CandidateAnalysis.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CompleteDecodePipeline.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCMatrix.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LiveDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MessageDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassSlotDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8NativeDecodePipeline.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8OptimizedDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelSlotDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8RealtimeDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalCanceller.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalSynthesizer.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotClock.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotDecoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SoftSymbols.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Synchronizer.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ToneMapping.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/PCMFloatRingBuffer.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SoftSymbolExtractor.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SynchronizerConfiguration.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/include/FT8Decoder-Swift.h",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8DecoderTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8DecoderTests",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/CostasCorrelatorTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/CostasSequenceTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8EndToEndBitPipelineTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCDecoderTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCMatrixTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCSoftSymbolIntegrationTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LiveDecoderTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8MessageDecoderTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8MultiPassDecoderTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8OptimizedDecoderTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8ParallelDecoderTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8RealtimeDecoderTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SignalCancellerTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SignalSynthesizerTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SlotClockTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SlotDecoderIntegrationTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/PCMFloatRingBufferTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SIMDDecodeEquivalenceTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SoftSymbolExtractorTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SynchronizerTests.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SyntheticSpectrogram.swift",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/WaveformIntegrationTests.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8Encoder" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8Encoder",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Encoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8LDPCGenerator.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8WAVEncoder.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Waveform.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/include/FT8Encoder-Swift.h",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8EncoderTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8EncoderTests",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests/FT8EncoderTests.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8KitPackageTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8KitPackageTests",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.derived/runner.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build/include/FT8KitPackageTests-Swift.h",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8Protocol" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8Protocol",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8BitBuffer.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8CRC.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Constants.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8GrayCode.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Message.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8MessageCodec.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/include/FT8Protocol-Swift.h",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8ProtocolTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8ProtocolTests",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests/FT8ProtocolTests.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8Validation" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8Validation",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/ReferenceCorpus.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WAVFile.swift",
+      "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WSJTXReference.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/include/FT8Validation-Swift.h",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "FT8ValidationTests" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "FT8ValidationTests",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests/FT8ValidationTests.swift",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/DerivedSources/resource_bundle_accessor.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_AVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ],
+    "ft8_validate" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "ft8_validate",
+      "-package-name",
+      "ft8kit",
+      "-c",
+      "/Users/mag/Developer/FT8Kit/Sources/ft8-validate/main.swift",
+      "-I",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "ft8_validate_main",
+      "-swift-version",
+      "6",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX27.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ft8kit",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "FT8DSP" : [
+
+    ],
+    "FT8DSPTests" : [
+      "FT8DSP"
+    ],
+    "FT8Decoder" : [
+      "FT8DSP",
+      "FT8Protocol"
+    ],
+    "FT8DecoderTests" : [
+      "FT8Encoder",
+      "FT8Decoder",
+      "FT8DSP",
+      "FT8Protocol"
+    ],
+    "FT8Encoder" : [
+      "FT8Protocol"
+    ],
+    "FT8EncoderTests" : [
+      "FT8Encoder",
+      "FT8Protocol"
+    ],
+    "FT8KitPackageTests" : [
+      "FT8DSPTests",
+      "FT8DecoderTests",
+      "FT8Decoder",
+      "FT8DSP",
+      "FT8EncoderTests",
+      "FT8Encoder",
+      "FT8ProtocolTests",
+      "FT8Protocol",
+      "FT8ValidationTests",
+      "FT8Validation"
+    ],
+    "FT8Protocol" : [
+
+    ],
+    "FT8ProtocolTests" : [
+      "FT8Protocol"
+    ],
+    "FT8Validation" : [
+
+    ],
+    "FT8ValidationTests" : [
+      "FT8Validation"
+    ],
+    "ft8_validate" : [
+      "FT8Validation",
+      "FT8Decoder",
+      "FT8DSP",
+      "FT8Protocol"
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : [
+      {
+
+      }
+    ]
+  },
+  "writeCommands" : {
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFT.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTError.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/FFTResult.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/NoiseFloorEstimator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/PeakDetector.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Spectrum.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/VectorMath.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/Waterfall.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8DSP/WindowFunction.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/FFTTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/NoiseAndPeakTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/SpectrumTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/VectorMathTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/WaterfallPhase32Tests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DSPTests/WindowFunctionTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSPTests.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasCorrelator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasSequence.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Candidate.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CandidateAnalysis.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8CompleteDecodePipeline.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LDPCMatrix.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8LiveDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MessageDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8MultiPassSlotDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8NativeDecodePipeline.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8OptimizedDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ParallelSlotDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8RealtimeDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalCanceller.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SignalSynthesizer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotClock.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SlotDecoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8SoftSymbols.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8Synchronizer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/FT8ToneMapping.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/PCMFloatRingBuffer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SoftSymbolExtractor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/SynchronizerConfiguration.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Decoder.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/CostasCorrelatorTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/CostasSequenceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8EndToEndBitPipelineTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCMatrixTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LDPCSoftSymbolIntegrationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8LiveDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8MessageDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8MultiPassDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8OptimizedDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8ParallelDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8RealtimeDecoderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SignalCancellerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SignalSynthesizerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SlotClockTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/FT8SlotDecoderIntegrationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/PCMFloatRingBufferTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SIMDDecodeEquivalenceTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SoftSymbolExtractorTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SynchronizerTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/SyntheticSpectrogram.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8DecoderTests/WaveformIntegrationTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DecoderTests.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Encoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8LDPCGenerator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8WAVEncoder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Waveform.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Encoder.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8EncoderTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8EncoderTests/FT8EncoderTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8EncoderTests.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8KitPackageTests.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8BitBuffer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8CRC.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Constants.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8GrayCode.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8Message.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Protocol/FT8MessageCodec.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Protocol.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ProtocolTests/FT8ProtocolTests.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ProtocolTests.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/ReferenceCorpus.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WAVFile.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/FT8Validation/WSJTXReference.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8Validation.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Tests/FT8ValidationTests/FT8ValidationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/DerivedSources/resource_bundle_accessor.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8ValidationTests.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/mag/Developer/FT8Kit/Sources/ft8-validate/main.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/ft8_validate.build/sources"
+    },
+    "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

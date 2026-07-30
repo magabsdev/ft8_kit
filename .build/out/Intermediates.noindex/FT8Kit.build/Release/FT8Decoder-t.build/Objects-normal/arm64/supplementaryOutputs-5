@@ -1,0 +1,12 @@
+{
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Decoder/CostasCorrelator.swift" : {
+    "abi-baseline-json" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder.abi.json",
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-primary.dia",
+    "objc-header" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder-Swift.h",
+    "swiftdoc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder.swiftdoc",
+    "swiftmodule" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder.swiftmodule",
+    "swiftsourceinfo" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Decoder-t.build/Objects-normal/arm64/FT8Decoder.swiftsourceinfo"
+  }
+}

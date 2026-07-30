@@ -1,0 +1,31 @@
+{
+  "" : {
+    "const-values" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary.swiftconstvalues",
+    "dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary.d",
+    "diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary.dia",
+    "emit-module-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary-emit-module.dia",
+    "pch" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder-primary.swiftdeps"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Encoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Encoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8LDPCGenerator.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8LDPCGenerator.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8LDPCGenerator.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8LDPCGenerator.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8WAVEncoder.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8WAVEncoder.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8WAVEncoder.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8WAVEncoder.o"
+  },
+  "/Users/mag/Developer/FT8Kit/Sources/FT8Encoder/FT8Waveform.swift" : {
+    "index-unit-output-path" : "/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Waveform.o",
+    "llvm-bc" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Waveform.bc",
+    "object" : "/Users/mag/Developer/FT8Kit/.build/out/Intermediates.noindex/FT8Kit.build/Release/FT8Encoder-t.build/Objects-normal/arm64/FT8Waveform.o"
+  }
+}

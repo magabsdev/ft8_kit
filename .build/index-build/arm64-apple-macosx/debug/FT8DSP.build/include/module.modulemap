@@ -1,0 +1,3 @@
+module FT8DSP {
+    header "/Users/mag/Developer/FT8Kit/.build/index-build/arm64-apple-macosx/debug/FT8DSP.build/include/FT8DSP-Swift.h"
+}
