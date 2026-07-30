@@ -4,8 +4,8 @@ import FT8Encoder
 
 final class FT8SlotDecoderIntegrationTests: XCTestCase {
     func testDecodesGeneratedWaveformToText() throws {
-        let text = "CQ G0ABC IO91"
-        let tones = try FT8Encoder.encode(text: text)
+        let expectedText = "CQ G0ABC IO91"
+        let tones = try FT8Encoder.encode(text: expectedText)
         let waveform = FT8Waveform.generate(
             tones: tones,
             configuration: .init(
@@ -48,22 +48,82 @@ final class FT8SlotDecoderIntegrationTests: XCTestCase {
         )
 
         let result = try slotDecoder.decode(samples: waveform)
+        let decodedTexts = result.messages.map(\.decoded.text)
+        let diagnostics = makeDiagnostics(
+            expectedText: expectedText,
+            result: result
+        )
 
-        XCTAssertGreaterThan(result.metrics.candidatesFound, 0)
-        XCTAssertGreaterThan(result.metrics.candidatesScheduled, 0)
-        XCTAssertGreaterThan(result.metrics.softSymbolsExtracted, 0)
+        XCTAssertGreaterThan(
+            result.metrics.candidatesFound,
+            0,
+            diagnostics
+        )
+        XCTAssertGreaterThan(
+            result.metrics.candidatesScheduled,
+            0,
+            diagnostics
+        )
+        XCTAssertGreaterThan(
+            result.metrics.softSymbolsExtracted,
+            0,
+            diagnostics
+        )
         XCTAssertLessThanOrEqual(
             result.metrics.candidatesScheduled,
-            12
+            12,
+            diagnostics
         )
         XCTAssertLessThanOrEqual(
             result.metrics.ldpcAttempts,
-            result.metrics.softSymbolsExtracted
+            result.metrics.softSymbolsExtracted,
+            diagnostics
         )
         XCTAssertEqual(
             result.metrics.messagesReturned,
-            result.messages.count
+            result.messages.count,
+            diagnostics
         )
-        XCTAssertGreaterThanOrEqual(result.metrics.elapsedSeconds, 0)
+        XCTAssertGreaterThanOrEqual(
+            result.metrics.elapsedSeconds,
+            0,
+            diagnostics
+        )
+
+        // This is the assertion the previous test was missing: the generated
+        // waveform must decode back to the exact transmitted message.
+        XCTAssertTrue(
+            decodedTexts.contains(expectedText),
+            "Expected '\(expectedText)' but decoded \(decodedTexts).\n\(diagnostics)"
+        )
+    }
+
+    private func makeDiagnostics(
+        expectedText: String,
+        result: FT8DecodeBatch
+    ) -> String {
+        let messageDetails = result.messages.enumerated().map { index, decode in
+            """
+            [\(index)]
+              candidate frequency: \(decode.candidate.frequency) Hz
+              candidate start time: \(decode.candidate.startTime) s
+              candidate drift: \(decode.candidate.driftHzPerSecond) Hz/s
+              sync score: \(decode.candidate.syncScore)
+              SNR: \(decode.candidate.snrDB) dB
+              candidate confidence: \(decode.candidate.confidence)
+              parity passed: \(decode.ldpc.parityPassed)
+              CRC passed: \(decode.ldpc.crcPassed)
+              syndrome weight: \(decode.ldpc.syndromeWeight)
+              \(decode.decoded.diagnosticSummary.replacingOccurrences(of: "\n", with: "\n  "))
+            """
+        }.joined(separator: "\n")
+
+        return """
+        Slot decoder integration diagnostics
+        expected: '\(expectedText)'
+        metrics: \(String(reflecting: result.metrics))
+        decoded details:
+        \(messageDetails.isEmpty ? "<none>" : messageDetails)
+        """
     }
 }

@@ -1,3 +1,4 @@
+import Foundation
 import FT8Protocol
 
 public enum FT8MessageDecodeError: Error, Equatable, Sendable {
@@ -31,6 +32,23 @@ public struct FT8DecodedMessage: Equatable, Sendable {
         self.codeword = codeword
         self.iterations = iterations
         self.confidence = min(max(confidence, 0), 1)
+    }
+
+    /// Compact decoder state intended for tests and temporary diagnostics.
+    public var diagnosticSummary: String {
+        let bits = payload.bits.map(String.init).joined()
+        let bytes = payload.packedBytes().map {
+            String(format: "%02X", $0)
+        }.joined(separator: " ")
+
+        return """
+        message: \(String(reflecting: message))
+        text: '\(text)'
+        payload bits: \(bits)
+        payload bytes: \(bytes)
+        iterations: \(iterations)
+        confidence: \(confidence)
+        """
     }
 }
 
@@ -66,7 +84,7 @@ public struct FT8MessageDecoder: Sendable {
             throw FT8MessageDecodeError.unpackFailed(error)
         }
 
-        return FT8DecodedMessage(
+        let decoded = FT8DecodedMessage(
             message: message,
             payload: payload,
             messageWithCRC: result.informationBits,
@@ -77,6 +95,15 @@ public struct FT8MessageDecoder: Sendable {
                 softSymbols: softSymbols
             )
         )
+
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["FT8KIT_DECODE_DIAGNOSTICS"] == "1" {
+            print("\n[FT8Kit] CRC-valid decoded message")
+            print(decoded.diagnosticSummary)
+        }
+        #endif
+
+        return decoded
     }
 
     private func confidence(
