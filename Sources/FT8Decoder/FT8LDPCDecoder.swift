@@ -86,14 +86,15 @@ public struct FT8LDPCDecoder: Sendable {
             throw FT8LDPCError.invalidLLRCount(channel.count)
         }
 
+        let normalizedChannel = normalizeLogLikelihoodRatios(channel)
         let checks = FT8LDPCMatrix.checkToVariables
         var variableToCheck = checks.map { variables in
-            variables.map { channel[$0] }
+            variables.map { normalizedChannel[$0] }
         }
         var checkToVariable = checks.map {
             Array(repeating: Float.zero, count: $0.count)
         }
-        var posterior = channel
+        var posterior = normalizedChannel
         var hard = hardDecision(posterior)
 
         if FT8LDPCMatrix.isValid(hard) {
@@ -119,7 +120,7 @@ public struct FT8LDPCDecoder: Sendable {
                 }
             }
 
-            posterior = channel
+            posterior = normalizedChannel
             for checkIndex in checks.indices {
                 for edge in checks[checkIndex].indices {
                     posterior[checks[checkIndex][edge]] += checkToVariable[checkIndex][edge]
@@ -144,6 +145,35 @@ public struct FT8LDPCDecoder: Sendable {
             codeword: hard,
             iterations: configuration.maximumIterations
         )
+    }
+
+    /// Matches ft8_lib's `ftx_normalize_logl` step by scaling the complete
+    /// 174-value LLR vector to a variance of 24 before belief propagation.
+    private func normalizeLogLikelihoodRatios(_ values: [Float]) -> [Float] {
+        guard !values.isEmpty else { return values }
+
+        var sum: Float = 0
+        var sumOfSquares: Float = 0
+
+        for value in values {
+            guard value.isFinite else { return values }
+            sum += value
+            sumOfSquares += value * value
+        }
+
+        let count = Float(values.count)
+        let mean = sum / count
+        let variance = (sumOfSquares / count) - (mean * mean)
+
+        guard variance.isFinite,
+              variance > Float.leastNonzeroMagnitude else {
+            return values
+        }
+
+        let normalizationFactor = sqrtf(24 / variance)
+        guard normalizationFactor.isFinite else { return values }
+
+        return values.map { $0 * normalizationFactor }
     }
 
     private func minSumMessages(_ incoming: [Float]) -> [Float] {

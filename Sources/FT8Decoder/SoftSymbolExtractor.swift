@@ -76,7 +76,8 @@ public struct SoftSymbolExtractor: Sendable {
                 candidate: candidate
             )
             let ordered = metrics.sorted(by: >)
-            confidences.append(min(max((ordered[0] - ordered[1]) / 12, 0), 1))
+            let confidence = max(0, ordered[0] - ordered[1])
+            confidences.append(min(confidence / 6, 1))
 
             for bitIndex in 0..<3 {
                 var zero = -Float.infinity
@@ -144,14 +145,9 @@ public struct SoftSymbolExtractor: Sendable {
             linear[tone] = powers.isEmpty ? 0 : VectorMath.mean(powers)
         }
 
-        let floor = max(
-            linear.min() ?? 0,
-            Float.leastNonzeroMagnitude
-        )
-
-        return linear.map {
+        return linear.map { power in
             10 * log10f(
-                max($0, Float.leastNonzeroMagnitude) / floor
+                max(power, Float.leastNonzeroMagnitude)
             )
         }
     }
