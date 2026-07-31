@@ -124,21 +124,60 @@ public struct FT8Synchronizer: Sendable {
     }
 
     private func deduplicate(_ candidates: [FT8Candidate]) -> [FT8Candidate] {
-        var accepted: [FT8Candidate] = []
-
-        for candidate in candidates.sorted(by: { $0.confidence > $1.confidence }) {
-            let duplicate = accepted.contains {
-                abs($0.frequency - candidate.frequency) <= configuration.deduplicationFrequency &&
-                abs($0.startTime - candidate.startTime) <= configuration.deduplicationTime
+        let ordered = candidates.sorted {
+            if $0.confidence != $1.confidence {
+                return $0.confidence > $1.confidence
             }
-            if !duplicate {
-                accepted.append(candidate)
-                if accepted.count == configuration.maximumCandidates { break }
+            if $0.syncScore != $1.syncScore {
+                return $0.syncScore > $1.syncScore
+            }
+            if $0.snrDB != $1.snrDB {
+                return $0.snrDB > $1.snrDB
+            }
+            if $0.startTime != $1.startTime {
+                return $0.startTime < $1.startTime
+            }
+            return $0.frequency < $1.frequency
+        }
+
+        // Suppress neighbouring points from the same Costas peak. The old
+        // radii were small enough that a single broad signal ridge could
+        // consume a large fraction of maximumCandidates.
+        let timeRadius = max(
+            configuration.deduplicationTime,
+            configuration.symbolPeriod * 1.5
+        )
+        let frequencyRadius = max(
+            configuration.deduplicationFrequency,
+            configuration.toneSpacing * 3
+        )
+
+        var accepted: [FT8Candidate] = []
+        accepted.reserveCapacity(
+            min(configuration.maximumCandidates, ordered.count)
+        )
+
+        for candidate in ordered {
+            let duplicate = accepted.contains {
+                abs($0.frequency - candidate.frequency) <= frequencyRadius &&
+                abs($0.startTime - candidate.startTime) <= timeRadius
+            }
+
+            guard !duplicate else {
+                continue
+            }
+
+            accepted.append(candidate)
+
+            if accepted.count >= configuration.maximumCandidates {
+                break
             }
         }
 
         return accepted.sorted {
-            if $0.startTime == $1.startTime { return $0.frequency < $1.frequency }
+            if $0.startTime == $1.startTime {
+                return $0.frequency < $1.frequency
+            }
             return $0.startTime < $1.startTime
         }
     }
