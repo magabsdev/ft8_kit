@@ -90,7 +90,7 @@ public struct SoftSymbolExtractor: Sendable {
                         one = max(one, metrics[tone])
                     }
                 }
-                let value = (zero - one) * configuration.llrScale
+                let value = (one - zero) * configuration.llrScale
                 llrs.append(min(max(value, -configuration.llrLimit), configuration.llrLimit))
             }
         }
