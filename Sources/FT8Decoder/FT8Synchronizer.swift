@@ -21,7 +21,7 @@ public struct FT8Synchronizer: Sendable {
 
         let signalDuration = Double(CostasSequence.symbolCount) * configuration.symbolPeriod
         let latestStart = max(0, spectrogram.duration - signalDuration)
-        let frequencyStep = configuration.frequencyStep ?? configuration.toneSpacing / 4
+        let frequencyStep = configuration.frequencyStep ?? max(firstFrame.binWidth, configuration.toneSpacing / 2)
 
         let lowFrequency = max(configuration.minimumFrequency, spectrogram.minimumFrequency)
         let highFrequency = min(
