@@ -1,5 +1,6 @@
 import Foundation
 import FT8Decoder
+import FT8DSP
 import FT8Validation
 
 private struct JSONDecode: Codable {
@@ -9,16 +10,16 @@ private struct JSONDecode: Codable {
     let snrDB: Double
 }
 
-private struct JSONWAV: Codable {
+private struct WAVDiagnostics: Codable {
     let path: String
     let sampleRate: Int
     let sampleCount: Int
     let durationSeconds: Double
-    let peak: Double
-    let rms: Double
+    let peakAmplitude: Double
+    let rmsAmplitude: Double
 }
 
-private struct JSONSpectrogram: Codable {
+private struct SpectrogramDiagnostics: Codable {
     let frames: Int
     let bins: Int
     let fftSize: Int
@@ -28,17 +29,7 @@ private struct JSONSpectrogram: Codable {
     let durationSeconds: Double
 }
 
-private struct JSONCandidate: Codable {
-    let startTimeSeconds: Double
-    let frequencyHz: Double
-    let driftHzPerSecond: Double
-    let symbolOffsetSeconds: Double
-    let syncScore: Double
-    let snrDB: Double
-    let confidence: Double
-}
-
-private struct JSONPassMetrics: Codable {
+private struct PassDiagnostics: Codable {
     let pass: Int
     let candidatesFound: Int
     let candidatesScheduled: Int
@@ -54,28 +45,15 @@ private struct JSONPassMetrics: Codable {
     let elapsedSeconds: Double
 }
 
-private struct JSONMultiPassMetrics: Codable {
+private struct DecodeDiagnostics: Codable {
+    let wav: WAVDiagnostics
+    let spectrogram: SpectrogramDiagnostics
     let passesCompleted: Int
     let uniqueMessages: Int
     let totalSignalsCancelled: Int
     let totalAffectedBins: Int
     let elapsedSeconds: Double
-    let passes: [JSONPassMetrics]
-}
-
-private struct JSONTimings: Codable {
-    let waterfallSeconds: Double
-    let candidateSearchSeconds: Double
-    let decodeSeconds: Double
-    let totalSeconds: Double
-}
-
-private struct JSONDiagnosticReport: Codable {
-    let wav: JSONWAV
-    let spectrogram: JSONSpectrogram
-    let candidates: [JSONCandidate]
-    let metrics: JSONMultiPassMetrics
-    let timings: JSONTimings
+    let passes: [PassDiagnostics]
     let messages: [JSONDecode]
 }
 
@@ -90,7 +68,6 @@ private enum CLIError: Error, CustomStringConvertible {
     case usage
     case missingPath(String)
     case missingValue(String)
-    case unexpectedArgument(String)
 
     var description: String {
         switch self {
@@ -105,108 +82,82 @@ private enum CLIError: Error, CustomStringConvertible {
             return "Path does not exist: \(path)"
         case .missingValue(let option):
             return "Missing value for \(option)"
-        case .unexpectedArgument(let argument):
-            return "Unexpected argument: \(argument)\n\n\(CLIError.usage)"
         }
     }
 }
 
-private struct DecodeRun {
-    let recording: WAVRecording
-    let diagnostic: FT8SlotDiagnosticBatch
-
-    var observed: [ObservedDecode] {
-        diagnostic.decodeBatch.messages.map {
-            ObservedDecode(
-                message: $0.decoded.text,
-                frequencyHz: Double($0.candidate.frequency),
-                timeOffset: $0.candidate.startTime,
-                snrDB: Double($0.candidate.snrDB)
-            )
-        }
-    }
-}
-
-private func parseDecodeOptions(_ arguments: [String]) throws -> DecodeOptions {
-    var options = DecodeOptions()
-    var index = 0
-
-    while index < arguments.count {
-        let argument = arguments[index]
-        switch argument {
-        case "--json":
-            options.json = true
-        case "--diagnostics":
-            options.diagnostics = true
-        case "--dump-debug":
-            index += 1
-            guard index < arguments.count else {
-                throw CLIError.missingValue("--dump-debug")
-            }
-            options.dumpDirectory = arguments[index]
-            options.diagnostics = true
-        default:
-            if argument.hasPrefix("-") {
-                throw CLIError.unexpectedArgument(argument)
-            }
-            guard options.wavPath == nil else {
-                throw CLIError.unexpectedArgument(argument)
-            }
-            options.wavPath = argument
-        }
-        index += 1
-    }
-
-    guard options.wavPath != nil else { throw CLIError.usage }
-    return options
-}
-
-private func decodeWAV(at url: URL) throws -> DecodeRun {
+private func analyseWAV(at url: URL) throws -> (WAVRecording, Spectrogram, FT8MultiPassDecodeBatch) {
     guard FileManager.default.fileExists(atPath: url.path) else {
         throw CLIError.missingPath(url.path)
     }
-
     let recording = try WAVFile.load(url: url)
-    var decoder = FT8MultiPassSlotDecoder()
-    decoder.waterfallConfiguration.sampleRate = Float(recording.sampleRate)
-    let diagnostic = try decoder.decodeWithDiagnostics(samples: recording.samples)
-    return DecodeRun(recording: recording, diagnostic: diagnostic)
+    let slotDecoder = FT8MultiPassSlotDecoder()
+    let spectrogram = try Waterfall.analyse(
+        samples: recording.samples,
+        configuration: slotDecoder.waterfallConfiguration
+    )
+    let result = try slotDecoder.decoder.decode(spectrogram: spectrogram)
+    return (recording, spectrogram, result)
 }
 
-private func jsonMessages(from run: DecodeRun) -> [JSONDecode] {
-    run.observed.map {
+private func observed(from result: FT8MultiPassDecodeBatch) -> [ObservedDecode] {
+    result.messages.map {
+        ObservedDecode(
+            message: $0.decoded.text,
+            frequencyHz: Double($0.candidate.frequency),
+            timeOffset: $0.candidate.startTime,
+            snrDB: Double($0.candidate.snrDB)
+        )
+    }
+}
+
+private func jsonMessages(from result: FT8MultiPassDecodeBatch) -> [JSONDecode] {
+    result.messages.map {
         JSONDecode(
-            message: $0.message,
-            frequencyHz: $0.frequencyHz,
-            timeSeconds: $0.timeOffset,
-            snrDB: $0.snrDB ?? 0
+            message: $0.decoded.text,
+            frequencyHz: Double($0.candidate.frequency),
+            timeSeconds: $0.candidate.startTime,
+            snrDB: Double($0.candidate.snrDB)
         )
     }
 }
 
-private func candidatePayloads(_ candidates: [FT8Candidate]) -> [JSONCandidate] {
-    candidates.map {
-        JSONCandidate(
-            startTimeSeconds: $0.startTime,
-            frequencyHz: Double($0.frequency),
-            driftHzPerSecond: Double($0.driftHzPerSecond),
-            symbolOffsetSeconds: $0.symbolOffset,
-            syncScore: Double($0.syncScore),
-            snrDB: Double($0.snrDB),
-            confidence: Double($0.confidence)
-        )
-    }
-}
-
-private func metricsPayload(_ metrics: FT8MultiPassMetrics) -> JSONMultiPassMetrics {
-    JSONMultiPassMetrics(
-        passesCompleted: metrics.passesCompleted,
-        uniqueMessages: metrics.uniqueMessages,
-        totalSignalsCancelled: metrics.totalSignalsCancelled,
-        totalAffectedBins: metrics.totalAffectedBins,
-        elapsedSeconds: metrics.elapsedSeconds,
-        passes: metrics.passes.map {
-            JSONPassMetrics(
+private func diagnostics(
+    wavURL: URL,
+    recording: WAVRecording,
+    spectrogram: Spectrogram,
+    result: FT8MultiPassDecodeBatch
+) -> DecodeDiagnostics {
+    let peak = recording.samples.map { abs(Double($0)) }.max() ?? 0
+    let rms = recording.samples.isEmpty ? 0 : sqrt(
+        recording.samples.reduce(0.0) { $0 + Double($1) * Double($1) }
+            / Double(recording.samples.count)
+    )
+    return DecodeDiagnostics(
+        wav: WAVDiagnostics(
+            path: wavURL.path,
+            sampleRate: recording.sampleRate,
+            sampleCount: recording.samples.count,
+            durationSeconds: Double(recording.samples.count) / Double(recording.sampleRate),
+            peakAmplitude: peak,
+            rmsAmplitude: rms
+        ),
+        spectrogram: SpectrogramDiagnostics(
+            frames: spectrogram.rowCount,
+            bins: spectrogram.columnCount,
+            fftSize: spectrogram.fftSize,
+            hopSize: spectrogram.hopSize,
+            minimumFrequencyHz: Double(spectrogram.minimumFrequency),
+            maximumFrequencyHz: Double(spectrogram.maximumFrequency),
+            durationSeconds: spectrogram.duration
+        ),
+        passesCompleted: result.metrics.passesCompleted,
+        uniqueMessages: result.metrics.uniqueMessages,
+        totalSignalsCancelled: result.metrics.totalSignalsCancelled,
+        totalAffectedBins: result.metrics.totalAffectedBins,
+        elapsedSeconds: result.metrics.elapsedSeconds,
+        passes: result.metrics.passes.map {
+            PassDiagnostics(
                 pass: $0.pass,
                 candidatesFound: $0.candidatesFound,
                 candidatesScheduled: $0.candidatesScheduled,
@@ -221,69 +172,55 @@ private func metricsPayload(_ metrics: FT8MultiPassMetrics) -> JSONMultiPassMetr
                 energyReductionFraction: $0.energyReductionFraction,
                 elapsedSeconds: $0.elapsedSeconds
             )
-        }
+        },
+        messages: jsonMessages(from: result)
     )
 }
 
-private func makeReport(path: String, run: DecodeRun) -> JSONDiagnosticReport {
-    let samples = run.recording.samples
-    let peak = samples.map { abs(Double($0)) }.max() ?? 0
-    let meanSquare = samples.isEmpty
-        ? 0
-        : samples.reduce(0.0) { $0 + Double($1) * Double($1) } / Double(samples.count)
-    let spectrogram = run.diagnostic.spectrogram
-    let timings = run.diagnostic.timings
-
-    return JSONDiagnosticReport(
-        wav: JSONWAV(
-            path: URL(fileURLWithPath: path).standardizedFileURL.path,
-            sampleRate: run.recording.sampleRate,
-            sampleCount: samples.count,
-            durationSeconds: Double(samples.count) / Double(run.recording.sampleRate),
-            peak: peak,
-            rms: sqrt(meanSquare)
-        ),
-        spectrogram: JSONSpectrogram(
-            frames: spectrogram.rowCount,
-            bins: spectrogram.columnCount,
-            fftSize: spectrogram.fftSize,
-            hopSize: spectrogram.hopSize,
-            minimumFrequencyHz: Double(spectrogram.minimumFrequency),
-            maximumFrequencyHz: Double(spectrogram.maximumFrequency),
-            durationSeconds: spectrogram.duration
-        ),
-        candidates: candidatePayloads(run.diagnostic.candidates),
-        metrics: metricsPayload(run.diagnostic.decodeBatch.metrics),
-        timings: JSONTimings(
-            waterfallSeconds: timings.waterfallSeconds,
-            candidateSearchSeconds: timings.candidateSearchSeconds,
-            decodeSeconds: timings.decodeSeconds,
-            totalSeconds: timings.totalSeconds
-        ),
-        messages: jsonMessages(from: run)
-    )
-}
-
-private func encodeJSON<T: Encodable>(_ value: T, pretty: Bool = false) throws -> Data {
+private func writeJSON<T: Encodable>(_ value: T, to url: URL) throws {
     let encoder = JSONEncoder()
-    encoder.outputFormatting = pretty ? [.prettyPrinted, .sortedKeys] : [.sortedKeys]
-    return try encoder.encode(value)
+    encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+    try encoder.encode(value).write(to: url, options: .atomic)
 }
 
-private func printHumanReport(_ report: JSONDiagnosticReport) {
+private func dumpDebug(
+    directoryPath: String,
+    recording: WAVRecording,
+    spectrogram: Spectrogram,
+    report: DecodeDiagnostics
+) throws {
+    let directory = URL(fileURLWithPath: directoryPath, isDirectory: true)
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    try writeJSON(report, to: directory.appendingPathComponent("metrics.json"))
+    try writeJSON(report.messages, to: directory.appendingPathComponent("messages.json"))
+
+    var waveform = "sample,time_seconds,amplitude\n"
+    waveform.reserveCapacity(recording.samples.count * 24)
+    for (index, sample) in recording.samples.enumerated() {
+        waveform += "\(index),\(Double(index) / Double(recording.sampleRate)),\(sample)\n"
+    }
+    try waveform.write(to: directory.appendingPathComponent("waveform.csv"), atomically: true, encoding: .utf8)
+
+    var waterfall = "frame,time_seconds,bin,frequency_hz,decibels,intensity,noise_floor_db\n"
+    for frame in spectrogram.frames {
+        for bin in frame.decibels.indices {
+            waterfall += "\(frame.index),\(frame.time),\(bin),\(frame.frequency(at: bin)),\(frame.decibels[bin]),\(frame.intensities[bin]),\(frame.noiseFloorDB)\n"
+        }
+    }
+    try waterfall.write(to: directory.appendingPathComponent("spectrogram.csv"), atomically: true, encoding: .utf8)
+}
+
+private func printHumanDiagnostics(_ report: DecodeDiagnostics) {
     print("Input")
-    print("  Sample rate:           \(report.wav.sampleRate) Hz")
+    print("  Sample rate:           \(report.wav.sampleRate)")
     print("  Samples:               \(report.wav.sampleCount)")
     print(String(format: "  Duration:              %.3f s", report.wav.durationSeconds))
-    print(String(format: "  Peak:                  %.6f", report.wav.peak))
-    print(String(format: "  RMS:                   %.6f", report.wav.rms))
+    print(String(format: "  Peak:                  %.6f", report.wav.peakAmplitude))
+    print(String(format: "  RMS:                   %.6f", report.wav.rmsAmplitude))
     print("Spectrogram")
     print("  Frames:                \(report.spectrogram.frames)")
     print("  Bins:                  \(report.spectrogram.bins)")
-    print("Detection")
-    print("  Candidates found:      \(report.candidates.count)")
-
-    for pass in report.metrics.passes {
+    for pass in report.passes {
         print("Pass \(pass.pass)")
         print("  Candidates found:      \(pass.candidatesFound)")
         print("  Candidates scheduled:  \(pass.candidatesScheduled)")
@@ -292,162 +229,92 @@ private func printHumanReport(_ report: JSONDiagnosticReport) {
         print("  Parity passed:         \(pass.parityPassed)")
         print("  CRC passed:            \(pass.crcPassed)")
         print("  Messages decoded:      \(pass.messagesDecoded)")
-        print("  New messages:          \(pass.newMessages)")
     }
-
-    print("Result")
-    print("  Passes completed:      \(report.metrics.passesCompleted)")
-    print("  Messages returned:     \(report.metrics.uniqueMessages)")
-    print("Timing")
-    print(String(format: "  Waterfall:             %.6f s", report.timings.waterfallSeconds))
-    print(String(format: "  Candidate inspection:  %.6f s", report.timings.candidateSearchSeconds))
-    print(String(format: "  Decode:                %.6f s", report.timings.decodeSeconds))
-    print(String(format: "  Total diagnostics:     %.6f s", report.timings.totalSeconds))
+    print("Messages returned:       \(report.uniqueMessages)")
+    print(String(format: "Elapsed:                 %.3f s", report.elapsedSeconds))
 }
 
-private func csvEscape(_ value: String) -> String {
-    if value.contains(",") || value.contains("\"") || value.contains("\n") {
-        return "\"\(value.replacingOccurrences(of: "\"", with: "\"\""))\""
-    }
-    return value
-}
-
-private func writeDebugDump(
-    directoryPath: String,
-    report: JSONDiagnosticReport,
-    run: DecodeRun
-) throws {
-    let manager = FileManager.default
-    let directory = URL(fileURLWithPath: directoryPath, isDirectory: true)
-    try manager.createDirectory(at: directory, withIntermediateDirectories: true)
-
-    try encodeJSON(report, pretty: true).write(to: directory.appendingPathComponent("metrics.json"))
-    try encodeJSON(report.candidates, pretty: true).write(to: directory.appendingPathComponent("candidates.json"))
-    try encodeJSON(report.messages, pretty: true).write(to: directory.appendingPathComponent("messages.json"))
-
-    var waveform = "sampleIndex,timeSeconds,amplitude\n"
-    waveform.reserveCapacity(run.recording.samples.count * 28)
-    for (index, sample) in run.recording.samples.enumerated() {
-        let time = Double(index) / Double(run.recording.sampleRate)
-        waveform += "\(index),\(time),\(sample)\n"
-    }
-    try Data(waveform.utf8).write(to: directory.appendingPathComponent("waveform.csv"))
-
-    var spectrogramCSV = "frameIndex,timeSeconds,frequencyHz,decibels,intensity,noiseFloorDB\n"
-    for frame in run.diagnostic.spectrogram.frames {
-        for index in frame.decibels.indices {
-            spectrogramCSV += "\(frame.index),\(frame.time),\(frame.frequency(at: index)),\(frame.decibels[index]),\(frame.intensities[index]),\(frame.noiseFloorDB)\n"
+private func parseDecodeOptions(_ arguments: [String]) throws -> DecodeOptions {
+    var options = DecodeOptions()
+    var index = 0
+    while index < arguments.count {
+        let argument = arguments[index]
+        switch argument {
+        case "--json": options.json = true
+        case "--diagnostics": options.diagnostics = true
+        case "--dump-debug":
+            index += 1
+            guard index < arguments.count else { throw CLIError.missingValue(argument) }
+            options.dumpDirectory = arguments[index]
+        default:
+            guard !argument.hasPrefix("-"), options.wavPath == nil else { throw CLIError.usage }
+            options.wavPath = argument
         }
+        index += 1
     }
-    try Data(spectrogramCSV.utf8).write(to: directory.appendingPathComponent("spectrogram.csv"))
-
-    var decodedCSV = "message,timeSeconds,frequencyHz,snrDB\n"
-    for message in report.messages {
-        decodedCSV += "\(csvEscape(message.message)),\(message.timeSeconds),\(message.frequencyHz),\(message.snrDB)\n"
-    }
-    try Data(decodedCSV.utf8).write(to: directory.appendingPathComponent("decoded.csv"))
+    guard options.wavPath != nil else { throw CLIError.usage }
+    return options
 }
 
-private func runDecode(options: DecodeOptions) throws {
-    guard let wavPath = options.wavPath else { throw CLIError.usage }
-    let run = try decodeWAV(at: URL(fileURLWithPath: wavPath))
+private func runDecode(arguments: [String]) throws {
+    let options = try parseDecodeOptions(arguments)
+    let wavURL = URL(fileURLWithPath: options.wavPath!)
+    let (recording, spectrogram, result) = try analyseWAV(at: wavURL)
+    let report = diagnostics(wavURL: wavURL, recording: recording, spectrogram: spectrogram, result: result)
+
+    if let directory = options.dumpDirectory {
+        try dumpDebug(directoryPath: directory, recording: recording, spectrogram: spectrogram, report: report)
+    }
 
     if options.diagnostics {
-        let report = makeReport(path: wavPath, run: run)
         if options.json {
-            print(String(decoding: try encodeJSON(report, pretty: true), as: UTF8.self))
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+            print(String(decoding: try encoder.encode(report), as: UTF8.self))
         } else {
-            printHumanReport(report)
-            for message in report.messages {
-                print(String(
-                    format: "  %.3f s  %8.1f Hz  %6.1f dB  %@",
-                    message.timeSeconds,
-                    message.frequencyHz,
-                    message.snrDB,
-                    message.message
-                ))
-            }
+            printHumanDiagnostics(report)
         }
-
-        if let dumpDirectory = options.dumpDirectory {
-            try writeDebugDump(directoryPath: dumpDirectory, report: report, run: run)
-            if !options.json {
-                print("Debug dump: \(URL(fileURLWithPath: dumpDirectory).standardizedFileURL.path)")
-            }
-        }
-        return
-    }
-
-    let messages = jsonMessages(from: run)
-    if options.json {
-        for item in messages {
-            print(String(decoding: try encodeJSON(item), as: UTF8.self))
+    } else if options.json {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        for item in report.messages {
+            print(String(decoding: try encoder.encode(item), as: UTF8.self))
         }
     } else {
-        for item in messages {
-            print(String(
-                format: "%.3f s  %8.1f Hz  %6.1f dB  %@",
-                item.timeSeconds,
-                item.frequencyHz,
-                item.snrDB,
-                item.message
-            ))
-        }
+        for item in report.messages { print(item.message) }
     }
 }
 
 private func runCorpus(directory: URL) throws {
-    guard FileManager.default.fileExists(atPath: directory.path) else {
-        throw CLIError.missingPath(directory.path)
-    }
-
+    guard FileManager.default.fileExists(atPath: directory.path) else { throw CLIError.missingPath(directory.path) }
     let cases = try ReferenceCorpus.discover(in: directory)
     print("Reference recordings: \(cases.count)")
-
-    var expectedTotal = 0
-    var decodedTotal = 0
-    var matchedTotal = 0
-    var missedTotal = 0
-    var unexpectedTotal = 0
-
+    var expectedTotal = 0, decodedTotal = 0, matchedTotal = 0, missedTotal = 0, unexpectedTotal = 0
     for item in cases {
         let expected = try item.expectedURL.map(WSJTXReferenceParser.parse(url:)) ?? []
         expectedTotal += expected.count
-
-        let observed = try decodeWAV(at: item.wavURL).observed
-        decodedTotal += observed.count
-
-        let comparison = ReferenceMatcher.compare(expected: expected, observed: observed)
+        let (_, _, result) = try analyseWAV(at: item.wavURL)
+        let decoded = observed(from: result)
+        decodedTotal += decoded.count
+        let comparison = ReferenceMatcher.compare(expected: expected, observed: decoded)
         matchedTotal += comparison.matched
         missedTotal += comparison.missed.count
         unexpectedTotal += comparison.unexpected.count
-
-        print("\(item.name): expected \(expected.count), decoded \(observed.count), matched \(comparison.matched)")
+        print("\(item.name): expected \(expected.count), decoded \(decoded.count), matched \(comparison.matched)")
     }
-
     let rate = expectedTotal == 0 ? 100 : Double(matchedTotal) / Double(expectedTotal) * 100
-    print(String(
-        format: "Expected: %d  Decoded: %d  Matched: %d  Missed: %d  Unexpected: %d  Detection: %.2f%%",
-        expectedTotal,
-        decodedTotal,
-        matchedTotal,
-        missedTotal,
-        unexpectedTotal,
-        rate
-    ))
+    print(String(format: "Expected: %d  Decoded: %d  Matched: %d  Missed: %d  Unexpected: %d  Detection: %.2f%%", expectedTotal, decodedTotal, matchedTotal, missedTotal, unexpectedTotal, rate))
 }
 
 do {
     let arguments = Array(CommandLine.arguments.dropFirst())
-
     if arguments.first == "decode" {
-        try runDecode(options: parseDecodeOptions(Array(arguments.dropFirst())))
+        try runDecode(arguments: Array(arguments.dropFirst()))
     } else if arguments.first == "corpus" {
         guard arguments.count == 2 else { throw CLIError.usage }
         try runCorpus(directory: URL(fileURLWithPath: arguments[1]))
     } else if arguments.count <= 1 {
-        let path = arguments.first ?? "Tests/FT8ValidationTests/Fixtures"
-        try runCorpus(directory: URL(fileURLWithPath: path))
+        try runCorpus(directory: URL(fileURLWithPath: arguments.first ?? "Tests/FT8ValidationTests/Fixtures"))
     } else {
         throw CLIError.usage
     }
