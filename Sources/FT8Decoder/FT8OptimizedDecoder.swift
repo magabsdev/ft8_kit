@@ -9,8 +9,8 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
     public var deduplicationTime: Double
     public var deduplicationFrequency: Float
 
-    public init(maximumCandidatesToDecode: Int = 24,
-    minimumCandidateConfidence: Float = 0.25,
+    public init(maximumCandidatesToDecode: Int = 50,
+    minimumCandidateConfidence: Float = 0.10,
     minimumSoftSymbolConfidence: Float = 0.08,
     decodeUnsupportedMessages: Bool = true,
     deduplicationTime: Double = 0.160,
@@ -218,9 +218,8 @@ public struct FT8OptimizedDecoder: Sendable {
     }
 
     public func schedule(_ candidates: [FT8Candidate]) -> [FT8Candidate] {
-        candidates.filter {
-            $0.confidence >= configuration.minimumCandidateConfidence
-        }.sorted {
+        candidates
+        .sorted {
             if $0.confidence != $1.confidence {
                 return $0.confidence > $1.confidence
             }
@@ -234,9 +233,9 @@ public struct FT8OptimizedDecoder: Sendable {
                 return $0.startTime < $1.startTime
             }
             return $0.frequency < $1.frequency
-        }.prefix(configuration.maximumCandidatesToDecode).map {
-            $0
         }
+        .prefix(configuration.maximumCandidatesToDecode)
+        .map { $0 }
     }
 
     private func deduplicate(_ decodes: [FT8CompleteDecode]) -> [FT8CompleteDecode] {
