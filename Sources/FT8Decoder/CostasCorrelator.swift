@@ -20,7 +20,8 @@ public enum CostasCorrelator {
     ) -> CostasCorrelation {
         guard !spectrogram.frames.isEmpty else {
             return CostasCorrelation(
-                score: 0, snrDB: -.infinity,
+                score: 0,
+                snrDB: -.infinity,
                 matchedEnergyDB: -.infinity,
                 competingEnergyDB: -.infinity,
                 observations: 0
@@ -34,16 +35,30 @@ public enum CostasCorrelator {
         for blockStart in CostasSequence.blockStarts {
             for localIndex in CostasSequence.tones.indices {
                 let symbol = blockStart + localIndex
-                let time = startTime + Double(symbol) * symbolPeriod + symbolPeriod / 2
-                guard let frame = spectrogram.frame(nearestTime: time) else { continue }
+
+                // startTime is the absolute beginning of the first FT8 symbol.
+                // Do not add symbolPeriod / 2 here: doing so biases the
+                // synchronizer by half a symbol (0.080 seconds), while the
+                // extractor interprets the candidate time as the symbol start.
+                let time = startTime + Double(symbol) * symbolPeriod
+
+                guard let frame = spectrogram.frame(nearestTime: time) else {
+                    continue
+                }
 
                 let elapsed = Float(time - startTime)
-                let centre = baseFrequency
-                    + Float(CostasSequence.tones[localIndex]) * toneSpacing
+                let expectedTone = Int(CostasSequence.tones[localIndex])
+                let expectedFrequency = baseFrequency
+                    + Float(expectedTone) * toneSpacing
                     + driftHzPerSecond * elapsed
 
-                let expectedBin = nearestBin(in: frame, frequency: centre)
-                guard expectedBin >= 0 && expectedBin < frame.count else { continue }
+                let expectedBin = nearestBin(
+                    in: frame,
+                    frequency: expectedFrequency
+                )
+                guard frame.decibels.indices.contains(expectedBin) else {
+                    continue
+                }
 
                 var toneDB: [Float] = []
                 var matchedIndex: Int?
@@ -54,25 +69,30 @@ public enum CostasCorrelator {
                         + Float(tone) * toneSpacing
                         + driftHzPerSecond * elapsed
                     let bin = nearestBin(in: frame, frequency: frequency)
-                    if bin >= 0 && bin < frame.count {
-                        if tone == Int(CostasSequence.tones[localIndex]) {
-                            matchedIndex = toneDB.count
-                        }
-                        toneDB.append(frame.decibels[bin])
+
+                    guard frame.decibels.indices.contains(bin) else {
+                        continue
                     }
+
+                    if tone == expectedTone {
+                        matchedIndex = toneDB.count
+                    }
+                    toneDB.append(frame.decibels[bin])
                 }
 
                 let powers = VectorMath.linearPower(fromDecibels: toneDB)
-                guard let matchedIndex, matchedIndex < powers.count else {
+                guard let matchedIndex,
+                      powers.indices.contains(matchedIndex) else {
                     continue
                 }
+
                 let matched = powers[matchedIndex]
                 let competitors = VectorMath.sum(powers) - matched
-                let count = powers.count - 1
+                let competitorCount = powers.count - 1
 
                 matchedLinear += matched
-                if count > 0 {
-                    competingLinear += competitors / Float(count)
+                if competitorCount > 0 {
+                    competingLinear += competitors / Float(competitorCount)
                 }
                 observations += 1
             }
@@ -80,7 +100,8 @@ public enum CostasCorrelator {
 
         guard observations > 0 else {
             return CostasCorrelation(
-                score: 0, snrDB: -.infinity,
+                score: 0,
+                snrDB: -.infinity,
                 matchedEnergyDB: -.infinity,
                 competingEnergyDB: -.infinity,
                 observations: 0
@@ -88,7 +109,10 @@ public enum CostasCorrelator {
         }
 
         let matchedMean = matchedLinear / Float(observations)
-        let competingMean = max(competingLinear / Float(observations), Float.leastNonzeroMagnitude)
+        let competingMean = max(
+            competingLinear / Float(observations),
+            Float.leastNonzeroMagnitude
+        )
         let ratio = matchedMean / competingMean
         let score = ratio / (1 + ratio)
         let snrDB = 10 * log10f(max(ratio, Float.leastNonzeroMagnitude))
@@ -96,14 +120,20 @@ public enum CostasCorrelator {
         return CostasCorrelation(
             score: score,
             snrDB: snrDB,
-            matchedEnergyDB: 10 * log10f(max(matchedMean, Float.leastNonzeroMagnitude)),
+            matchedEnergyDB: 10 * log10f(
+                max(matchedMean, Float.leastNonzeroMagnitude)
+            ),
             competingEnergyDB: 10 * log10f(competingMean),
             observations: observations
         )
     }
 
-    private static func nearestBin(in frame: WaterfallFrame, frequency: Float) -> Int {
-        Int(((frequency - frame.minimumFrequency) / frame.binWidth).rounded())
+    private static func nearestBin(
+        in frame: WaterfallFrame,
+        frequency: Float
+    ) -> Int {
+        Int(
+            ((frequency - frame.minimumFrequency) / frame.binWidth).rounded()
+        )
     }
-
 }
