@@ -4,3 +4,4 @@
 .swiftpm
 /.junie/
 /.swiftpm/
+/.build-diagnostics/

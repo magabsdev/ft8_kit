@@ -53,6 +53,11 @@ public struct FT8DecodePassMetrics:
 {
     public let pass: Int
     public let candidatesFound: Int
+    public let candidatesScheduled: Int
+    public let softSymbolsExtracted: Int
+    public let ldpcAttempts: Int
+    public let parityPassed: Int
+    public let crcPassed: Int
     public let messagesDecoded: Int
     public let newMessages: Int
     public let signalsCancelled: Int
@@ -63,6 +68,11 @@ public struct FT8DecodePassMetrics:
     public init(
         pass: Int,
         candidatesFound: Int,
+        candidatesScheduled: Int,
+        softSymbolsExtracted: Int,
+        ldpcAttempts: Int,
+        parityPassed: Int,
+        crcPassed: Int,
         messagesDecoded: Int,
         newMessages: Int,
         signalsCancelled: Int,
@@ -72,6 +82,11 @@ public struct FT8DecodePassMetrics:
     ) {
         self.pass = pass
         self.candidatesFound = candidatesFound
+        self.candidatesScheduled = candidatesScheduled
+        self.softSymbolsExtracted = softSymbolsExtracted
+        self.ldpcAttempts = ldpcAttempts
+        self.parityPassed = parityPassed
+        self.crcPassed = crcPassed
         self.messagesDecoded = messagesDecoded
         self.newMessages = newMessages
         self.signalsCancelled = signalsCancelled
@@ -207,6 +222,16 @@ public struct FT8MultiPassDecoder: Sendable {
                     pass: passIndex,
                     candidatesFound:
                         batch.metrics.candidatesFound,
+                    candidatesScheduled:
+                        batch.metrics.candidatesScheduled,
+                    softSymbolsExtracted:
+                        batch.metrics.softSymbolsExtracted,
+                    ldpcAttempts:
+                        batch.metrics.ldpcAttempts,
+                    parityPassed:
+                        batch.metrics.parityPassed,
+                    crcPassed:
+                        batch.metrics.crcPassed,
                     messagesDecoded:
                         batch.messages.count,
                     newMessages: newMessages.count,
