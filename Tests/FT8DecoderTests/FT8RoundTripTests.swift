@@ -32,53 +32,12 @@ final class FT8RoundTripTests: XCTestCase {
         let batch = try decoder.decode(samples: waveform)
         let decodedTexts = batch.messages.map(\.decoded.text)
 
-        let diagnostics = makeDiagnostics(
-            expectedMessage: expectedMessage,
-            messages: batch.messages,
-            passMetrics: String(reflecting: batch.metrics.passes),
-            elapsedSeconds: batch.metrics.elapsedSeconds
-        )
-
-        XCTAssertFalse(
-            batch.messages.isEmpty,
-            "Decoder returned no messages.\n\(diagnostics)"
-        )
         XCTAssertTrue(
             decodedTexts.contains(expectedMessage),
-            "Expected '\(expectedMessage)' but decoded \(decodedTexts).\n\(diagnostics)"
+            """
+            Expected \(expectedMessage) but decoded \(decodedTexts).
+            Pass metrics: \(batch.metrics.passes)
+            """
         )
-    }
-
-    private func makeDiagnostics(
-        expectedMessage: String,
-        messages: [FT8CompleteDecode],
-        passMetrics: String,
-        elapsedSeconds: Double
-    ) -> String {
-        let messageDetails = messages.enumerated().map { index, decode in
-            """
-            [\(index)]
-              candidate frequency: \(decode.candidate.frequency) Hz
-              candidate start time: \(decode.candidate.startTime) s
-              candidate drift: \(decode.candidate.driftHzPerSecond) Hz/s
-              sync score: \(decode.candidate.syncScore)
-              SNR: \(decode.candidate.snrDB) dB
-              candidate confidence: \(decode.candidate.confidence)
-              parity passed: \(decode.ldpc.parityPassed)
-              CRC passed: \(decode.ldpc.crcPassed)
-              syndrome weight: \(decode.ldpc.syndromeWeight)
-              \(decode.decoded.diagnosticSummary.replacingOccurrences(of: "\n", with: "\n  "))
-            """
-        }.joined(separator: "\n")
-
-        return """
-        Round-trip diagnostics
-        expected: '\(expectedMessage)'
-        returned messages: \(messages.count)
-        total elapsed: \(elapsedSeconds) seconds
-        pass metrics: \(passMetrics)
-        decoded details:
-        \(messageDetails.isEmpty ? "<none>" : messageDetails)
-        """
     }
 }

@@ -130,3 +130,37 @@ chunks are assembled into exact FT8 slots, small audio gaps are repaired,
 overlaps are removed, discontinuities are tracked, and complete slots are
 decoded through the multi-pass engine. The API remains independent of
 AVFoundation so it can be used on macOS, iOS and Linux.
+
+## Validate against the original C decoder
+
+FT8Kit includes a dual-decoder regression harness. It runs every WAV/TXT pair in
+`ft8_lib/test/wav` through both the original `decode_ft8` C executable and the
+Swift decoder, then compares:
+
+- each decoder against the supplied expected TXT result;
+- Swift against the C reference decoder;
+- message text, frequency and timing within the configured tolerances.
+
+Run it from the FT8Kit root:
+
+```bash
+FT8_LIB_ROOT=/path/to/ft8_lib ./validate-reference.sh
+```
+
+A machine-readable report is written to:
+
+```text
+.build/ft8-reference-validation.json
+```
+
+To include the reference corpus check after the Swift unit tests:
+
+```bash
+FT8_LIB_ROOT=/path/to/ft8_lib ./test.sh
+```
+
+The standalone Swift decoder adapter emits JSON Lines for one WAV:
+
+```bash
+swift run ft8-validate decode --json /path/to/recording.wav
+```
