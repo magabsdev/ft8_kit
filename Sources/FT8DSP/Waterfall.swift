@@ -37,7 +37,6 @@ public struct WaterfallConfiguration: Equatable, Sendable {
     func validate() throws {
         guard sampleRate > 0,
               fftSize >= 2,
-              (fftSize & (fftSize - 1)) == 0,
               hopSize > 0,
               hopSize <= fftSize,
               minimumFrequency >= 0,
@@ -46,6 +45,12 @@ public struct WaterfallConfiguration: Equatable, Sendable {
               dynamicRange > 0 else {
             throw WaterfallError.invalidConfiguration
         }
+
+        #if !canImport(Accelerate)
+        guard (fftSize & (fftSize - 1)) == 0 else {
+            throw WaterfallError.invalidConfiguration
+        }
+        #endif
     }
 }
 

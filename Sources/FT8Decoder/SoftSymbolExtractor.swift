@@ -102,66 +102,57 @@ public struct SoftSymbolExtractor: Sendable {
     }
 
     public func toneMetrics(
-        symbolIndex: Int,
-        spectrogram: Spectrogram,
-        candidate: FT8Candidate
+    symbolIndex: Int,
+    spectrogram: Spectrogram,
+    candidate: FT8Candidate
     ) throws -> [Float] {
         try configuration.validate()
 
-        let start = candidate.startTime
-            + Double(symbolIndex) * configuration.symbolPeriod
-        let end = start + configuration.symbolPeriod
-        let frameDuration = Double(spectrogram.fftSize)
-            / Double(spectrogram.sampleRate)
+        let symbolStart = candidate.startTime
+        + Double(symbolIndex) * configuration.symbolPeriod
 
-        let frames = spectrogram.frames.filter {
-            let centre = $0.time + frameDuration / 2
-            return centre >= start && centre < end
-        }
-
-        guard frames.count >= configuration.minimumObservationsPerSymbol else {
+        guard let frame = spectrogram.frame(nearestTime: symbolStart) else {
             throw SoftSymbolError.insufficientObservations(symbol: symbolIndex)
         }
 
         var linear = Array(repeating: Float.zero, count: 8)
 
         for tone in 0..<8 {
+            let elapsed = Float(frame.time - candidate.startTime)
+            let frequency = candidate.frequency
+            + Float(tone) * configuration.toneSpacing
+            + candidate.driftHzPerSecond * elapsed
+
+            let centreBin = Int(
+                ((frequency - frame.minimumFrequency) / frame.binWidth).rounded()
+            )
+
             var decibelSamples: [Float] = []
             decibelSamples.reserveCapacity(
-                frames.count *
-                (configuration.integrationRadius * 2 + 1)
+                configuration.integrationRadius * 2 + 1
             )
 
-            for frame in frames {
-                let centre = frame.time + frameDuration / 2
-                let elapsed = Float(centre - candidate.startTime)
-                let frequency = candidate.frequency
-                    + Float(tone) * configuration.toneSpacing
-                    + candidate.driftHzPerSecond * elapsed
-                let centreBin = Int(
-                    ((frequency - frame.minimumFrequency) / frame.binWidth).rounded()
-                )
-
-                let lowerOffset = -configuration.integrationRadius
-                let upperOffset = configuration.integrationRadius
-                for offset in lowerOffset...upperOffset {
-                    let bin = centreBin + offset
-                    guard frame.decibels.indices.contains(bin) else {
-                        continue
-                    }
-                    decibelSamples.append(frame.decibels[bin])
+            for offset in -configuration.integrationRadius...configuration.integrationRadius {
+                let bin = centreBin + offset
+                guard frame.decibels.indices.contains(bin) else {
+                    continue
                 }
+                decibelSamples.append(frame.decibels[bin])
             }
 
-            let powers = VectorMath.linearPower(
-                fromDecibels: decibelSamples
-            )
+            let powers = VectorMath.linearPower(fromDecibels: decibelSamples)
             linear[tone] = powers.isEmpty ? 0 : VectorMath.mean(powers)
         }
 
-        let floor = max(linear.min() ?? 0, Float.leastNonzeroMagnitude)
+        let floor = max(
+            linear.min() ?? 0,
+            Float.leastNonzeroMagnitude
+        )
+
         return linear.map {
-            10 * log10f(max($0, Float.leastNonzeroMagnitude) / floor)
+            10 * log10f(
+                max($0, Float.leastNonzeroMagnitude) / floor
+            )
         }
     }
 }

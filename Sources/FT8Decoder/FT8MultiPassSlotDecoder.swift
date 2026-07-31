@@ -9,7 +9,7 @@ public struct FT8MultiPassSlotDecoder: Sendable {
         waterfallConfiguration:
             WaterfallConfiguration = .init(
                 sampleRate: 12_000,
-                fftSize: 2_048,
+                fftSize: 1_920,
                 hopSize: 480,
                 minimumFrequency: 100,
                 maximumFrequency: 3_000,

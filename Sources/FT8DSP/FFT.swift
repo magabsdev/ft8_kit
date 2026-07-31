@@ -13,9 +13,13 @@ public final class FFT: @unchecked Sendable {
 
     public init(size: Int) throws {
         guard size >= 2 else { throw FFTError.sizeMustBeAtLeastTwo(size) }
-        guard size > 0 && (size & (size - 1)) == 0 else {
+
+        #if !canImport(Accelerate)
+        guard (size & (size - 1)) == 0 else {
             throw FFTError.sizeMustBePowerOfTwo(size)
         }
+        #endif
+
         self.size = size
 
         #if canImport(Accelerate)
