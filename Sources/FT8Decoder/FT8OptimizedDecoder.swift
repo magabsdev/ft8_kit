@@ -9,14 +9,12 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
     public var deduplicationTime: Double
     public var deduplicationFrequency: Float
 
-    public init(
-        maximumCandidatesToDecode: Int = 24,
-        minimumCandidateConfidence: Float = 0.25,
-        minimumSoftSymbolConfidence: Float = 0.08,
-        decodeUnsupportedMessages: Bool = true,
-        deduplicationTime: Double = 0.160,
-        deduplicationFrequency: Float = 12.5
-    ) {
+    public init(maximumCandidatesToDecode: Int = 24,
+    minimumCandidateConfidence: Float = 0.25,
+    minimumSoftSymbolConfidence: Float = 0.08,
+    decodeUnsupportedMessages: Bool = true,
+    deduplicationTime: Double = 0.160,
+    deduplicationFrequency: Float = 12.5) {
         self.maximumCandidatesToDecode = maximumCandidatesToDecode
         self.minimumCandidateConfidence = minimumCandidateConfidence
         self.minimumSoftSymbolConfidence = minimumSoftSymbolConfidence
@@ -27,10 +25,10 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
 
     func validate() throws {
         guard maximumCandidatesToDecode > 0,
-              (0...1).contains(minimumCandidateConfidence),
-              (0...1).contains(minimumSoftSymbolConfidence),
-              deduplicationTime >= 0,
-              deduplicationFrequency >= 0 else {
+        (0 ... 1).contains(minimumCandidateConfidence),
+        (0 ... 1).contains(minimumSoftSymbolConfidence),
+        deduplicationTime >= 0,
+        deduplicationFrequency >= 0 else {
             throw FT8OptimizedDecoderError.invalidConfiguration
         }
     }
@@ -50,16 +48,14 @@ public struct FT8DecodeMetrics: Equatable, Sendable {
     public let messagesReturned: Int
     public let elapsedSeconds: Double
 
-    public init(
-        candidatesFound: Int,
-        candidatesScheduled: Int,
-        softSymbolsExtracted: Int,
-        ldpcAttempts: Int,
-        parityPassed: Int,
-        crcPassed: Int,
-        messagesReturned: Int,
-        elapsedSeconds: Double
-    ) {
+    public init(candidatesFound: Int,
+    candidatesScheduled: Int,
+    softSymbolsExtracted: Int,
+    ldpcAttempts: Int,
+    parityPassed: Int,
+    crcPassed: Int,
+    messagesReturned: Int,
+    elapsedSeconds: Double) {
         self.candidatesFound = candidatesFound
         self.candidatesScheduled = candidatesScheduled
         self.softSymbolsExtracted = softSymbolsExtracted
@@ -75,10 +71,8 @@ public struct FT8DecodeBatch: Equatable, Sendable {
     public let messages: [FT8CompleteDecode]
     public let metrics: FT8DecodeMetrics
 
-    public init(
-        messages: [FT8CompleteDecode],
-        metrics: FT8DecodeMetrics
-    ) {
+    public init(messages: [FT8CompleteDecode],
+    metrics: FT8DecodeMetrics) {
         self.messages = messages
         self.metrics = metrics
     }
@@ -91,13 +85,11 @@ public struct FT8OptimizedDecoder: Sendable {
     public var ldpcDecoder: FT8LDPCDecoder
     public var messageDecoder: FT8MessageDecoder
 
-    public init(
-        configuration: FT8OptimizedDecoderConfiguration = .init(),
-        synchronizer: FT8Synchronizer = .init(),
-        extractor: SoftSymbolExtractor = .init(),
-        ldpcDecoder: FT8LDPCDecoder = .init(),
-        messageDecoder: FT8MessageDecoder = .init()
-    ) {
+    public init(configuration: FT8OptimizedDecoderConfiguration = .init(),
+    synchronizer: FT8Synchronizer = .init(),
+    extractor: SoftSymbolExtractor = .init(),
+    ldpcDecoder: FT8LDPCDecoder = .init(),
+    messageDecoder: FT8MessageDecoder = .init()) {
         self.configuration = configuration
         self.synchronizer = synchronizer
         self.extractor = extractor
@@ -105,14 +97,21 @@ public struct FT8OptimizedDecoder: Sendable {
         self.messageDecoder = messageDecoder
     }
 
-    public func decode(
-        spectrogram: Spectrogram
-    ) throws -> FT8DecodeBatch {
+    public func decode(spectrogram: Spectrogram) throws -> FT8DecodeBatch {
         try configuration.validate()
         let started = ContinuousClock.now
 
-        let found = try synchronizer.search(in: spectrogram)
+        trace("[Optimized] Starting synchronizer search")
+
+        let found = try synchronizer.search(
+            in: spectrogram
+        )
+
+        trace("[Optimized] Synchronizer returned \(found.count) candidates")
+
         let scheduled = schedule(found)
+
+        trace("[Optimized] Scheduled \(scheduled.count) candidates")
 
         var softCount = 0
         var ldpcAttempts = 0
@@ -120,33 +119,65 @@ public struct FT8OptimizedDecoder: Sendable {
         var crcPassed = 0
         var decoded: [FT8CompleteDecode] = []
 
-        for candidate in scheduled {
+        for (index, candidate) in scheduled.enumerated() {
+            trace(
+                "[Optimized] Candidate \(index + 1)/\(scheduled.count) " + "time=\(candidate.startTime) " + "frequency=\(candidate.frequency) " + "confidence=\(candidate.confidence)"
+            )
+
+            trace("[Optimized] Extracting soft symbols")
+
             guard let soft = try? extractor.extract(
                 from: spectrogram,
                 candidate: candidate
             ) else {
+                trace("[Optimized] Soft-symbol extraction failed")
                 continue
             }
+
             softCount += 1
 
+            trace(
+                "[Optimized] Soft symbols extracted, " + "average confidence=\(soft.averageConfidence)"
+            )
+
             guard soft.averageConfidence >= configuration.minimumSoftSymbolConfidence else {
+                trace("[Optimized] Soft-symbol confidence below threshold")
                 continue
             }
 
             ldpcAttempts += 1
+
+            trace("[Optimized] Starting LDPC decode")
+
             let ldpc = try ldpcDecoder.decode(soft)
-            if ldpc.parityPassed { parityPassed += 1 }
-            if ldpc.crcPassed { crcPassed += 1 }
+
+            trace(
+                "[Optimized] LDPC decode returned, " + "parity=\(ldpc.parityPassed), " + "crc=\(ldpc.crcPassed)"
+            )
+
+            if ldpc.parityPassed {
+                parityPassed += 1
+            }
+
+            if ldpc.crcPassed {
+                crcPassed += 1
+            }
+
+            trace("[Optimized] Starting message decode")
 
             guard let message = try? messageDecoder.decode(
                 ldpc,
                 softSymbols: soft
             ) else {
+                trace("[Optimized] Message decode failed")
                 continue
             }
 
+            trace("[Optimized] Message decode returned: \(message.text)")
+
             if !configuration.decodeUnsupportedMessages,
-               case .unsupported = message.message {
+            case .unsupported = message.message {
+                trace("[Optimized] Unsupported message skipped")
                 continue
             }
 
@@ -160,11 +191,16 @@ public struct FT8OptimizedDecoder: Sendable {
             )
         }
 
+        trace("[Optimized] Deduplicating \(decoded.count) decoded messages")
+
         let messages = deduplicate(decoded)
         let duration = ContinuousClock.now - started
         let components = duration.components
-        let elapsed = Double(components.seconds)
-            + Double(components.attoseconds) / 1_000_000_000_000_000_000
+        let elapsed = Double(components.seconds) + Double(components.attoseconds) / 1_000_000_000_000_000_000
+
+        trace(
+            "[Optimized] Complete: \(messages.count) messages " + "in \(elapsed) seconds"
+        )
 
         return FT8DecodeBatch(
             messages: messages,
@@ -181,46 +217,36 @@ public struct FT8OptimizedDecoder: Sendable {
         )
     }
 
-    public func schedule(
-        _ candidates: [FT8Candidate]
-    ) -> [FT8Candidate] {
-        candidates
-            .filter {
-                $0.confidence >= configuration.minimumCandidateConfidence
+    public func schedule(_ candidates: [FT8Candidate]) -> [FT8Candidate] {
+        candidates.filter {
+            $0.confidence >= configuration.minimumCandidateConfidence
+        }.sorted {
+            if $0.confidence != $1.confidence {
+                return $0.confidence > $1.confidence
             }
-            .sorted {
-                if $0.confidence != $1.confidence {
-                    return $0.confidence > $1.confidence
-                }
-                if $0.syncScore != $1.syncScore {
-                    return $0.syncScore > $1.syncScore
-                }
-                if $0.snrDB != $1.snrDB {
-                    return $0.snrDB > $1.snrDB
-                }
-                if $0.startTime != $1.startTime {
-                    return $0.startTime < $1.startTime
-                }
-                return $0.frequency < $1.frequency
+            if $0.syncScore != $1.syncScore {
+                return $0.syncScore > $1.syncScore
             }
-            .prefix(configuration.maximumCandidatesToDecode)
-            .map { $0 }
+            if $0.snrDB != $1.snrDB {
+                return $0.snrDB > $1.snrDB
+            }
+            if $0.startTime != $1.startTime {
+                return $0.startTime < $1.startTime
+            }
+            return $0.frequency < $1.frequency
+        }.prefix(configuration.maximumCandidatesToDecode).map {
+            $0
+        }
     }
 
-    private func deduplicate(
-        _ decodes: [FT8CompleteDecode]
-    ) -> [FT8CompleteDecode] {
+    private func deduplicate(_ decodes: [FT8CompleteDecode]) -> [FT8CompleteDecode] {
         var accepted: [FT8CompleteDecode] = []
 
         for decode in decodes.sorted(by: {
             $0.decoded.confidence > $1.decoded.confidence
         }) {
             let isDuplicate = accepted.contains {
-                $0.decoded.payload == decode.decoded.payload &&
-                abs($0.candidate.startTime - decode.candidate.startTime)
-                    <= configuration.deduplicationTime &&
-                abs($0.candidate.frequency - decode.candidate.frequency)
-                    <= configuration.deduplicationFrequency
+                $0.decoded.payload == decode.decoded.payload && abs($0.candidate.startTime - decode.candidate.startTime) <= configuration.deduplicationTime && abs($0.candidate.frequency - decode.candidate.frequency) <= configuration.deduplicationFrequency
             }
 
             if !isDuplicate {
@@ -235,4 +261,11 @@ public struct FT8OptimizedDecoder: Sendable {
             return $0.candidate.startTime < $1.candidate.startTime
         }
     }
+
+    private func trace(_ message: String) {
+        FileHandle.standardError.write(
+            Data("\(message)\n".utf8)
+        )
+    }
+
 }
