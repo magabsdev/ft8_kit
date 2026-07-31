@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 cd .. && clear && swift build --product ft8-validate && perl -e '
     alarm 60;
     exec @ARGV
