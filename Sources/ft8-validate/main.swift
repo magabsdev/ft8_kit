@@ -87,16 +87,54 @@ private enum CLIError: Error, CustomStringConvertible {
 }
 
 private func analyseWAV(at url: URL) throws -> (WAVRecording, Spectrogram, FT8MultiPassDecodeBatch) {
+    func trace(_ message: String) {
+        FileHandle.standardError.write(Data("[ft8-validate] \(message)\n".utf8))
+    }
+
     guard FileManager.default.fileExists(atPath: url.path) else {
         throw CLIError.missingPath(url.path)
     }
+
+    trace("Loading WAV: \(url.path)")
     let recording = try WAVFile.load(url: url)
+    trace(
+        "WAV loaded: \(recording.samples.count) samples at " + "\(recording.sampleRate) Hz"
+    )
+
     let slotDecoder = FT8MultiPassSlotDecoder()
+
+    trace("Starting waterfall analysis")
+    let waterfallStart = Date()
+
     let spectrogram = try Waterfall.analyse(
         samples: recording.samples,
         configuration: slotDecoder.waterfallConfiguration
     )
-    let result = try slotDecoder.decoder.decode(spectrogram: spectrogram)
+
+    trace(
+        String(
+            format: "Waterfall complete in %.3f s: %d rows × %d columns",
+            Date().timeIntervalSince(waterfallStart),
+            spectrogram.rowCount,
+            spectrogram.columnCount
+        )
+    )
+
+    trace("Starting FT8 decode")
+    let decodeStart = Date()
+
+    let result = try slotDecoder.decoder.decode(
+        spectrogram: spectrogram
+    )
+
+    trace(
+        String(
+            format: "Decode complete in %.3f s: %d messages",
+            Date().timeIntervalSince(decodeStart),
+            result.messages.count
+        )
+    )
+
     return (recording, spectrogram, result)
 }
 
