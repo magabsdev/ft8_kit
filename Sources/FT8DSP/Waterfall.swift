@@ -127,7 +127,15 @@ public struct Spectrogram: Equatable, Sendable {
     }
 
     public func frame(nearestTime time: Double) -> WaterfallFrame? {
-        frames.min { abs($0.time - time) < abs($1.time - time) }
+        guard !frames.isEmpty else {
+            return nil
+        }
+        let frameStep = Double(hopSize) / Double(sampleRate)
+        let index = Int((time / frameStep).rounded())
+        if index < 0 || index >= frames.count {
+            return nil
+        }
+        return frames[index]
     }
 }
 
