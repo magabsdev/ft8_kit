@@ -73,11 +73,11 @@ private enum CLIError: Error, CustomStringConvertible {
         switch self {
         case .usage:
             return """
-            Usage:
-              ft8-validate [corpus-directory]
-              ft8-validate corpus <directory>
-              ft8-validate decode [--json] [--diagnostics] [--dump-debug <directory>] <wav-file>
-            """
+                   Usage:
+                     ft8-validate [corpus-directory]
+                     ft8-validate corpus <directory>
+                     ft8-validate decode [--json] [--diagnostics] [--dump-debug <directory>] <wav-file>
+                   """
         case .missingPath(let path):
             return "Path does not exist: \(path)"
         case .missingValue(let option):
@@ -122,16 +122,17 @@ private func jsonMessages(from result: FT8MultiPassDecodeBatch) -> [JSONDecode] 
     }
 }
 
-private func diagnostics(
-    wavURL: URL,
-    recording: WAVRecording,
-    spectrogram: Spectrogram,
-    result: FT8MultiPassDecodeBatch
-) -> DecodeDiagnostics {
-    let peak = recording.samples.map { abs(Double($0)) }.max() ?? 0
-    let rms = recording.samples.isEmpty ? 0 : sqrt(
-        recording.samples.reduce(0.0) { $0 + Double($1) * Double($1) }
-            / Double(recording.samples.count)
+private func diagnostics(wavURL: URL,
+                         recording: WAVRecording,
+                         spectrogram: Spectrogram,
+                         result: FT8MultiPassDecodeBatch) -> DecodeDiagnostics {
+    let peak = recording.samples.map {
+        abs(Double($0))
+    }.max() ?? 0
+    let rms = recording.samples.isEmpty ? 0: sqrt(
+        recording.samples.reduce(0.0) {
+            $0 + Double($1) * Double($1)
+        } / Double(recording.samples.count)
     )
     return DecodeDiagnostics(
         wav: WAVDiagnostics(
@@ -183,12 +184,10 @@ private func writeJSON<T: Encodable>(_ value: T, to url: URL) throws {
     try encoder.encode(value).write(to: url, options: .atomic)
 }
 
-private func dumpDebug(
-    directoryPath: String,
-    recording: WAVRecording,
-    spectrogram: Spectrogram,
-    report: DecodeDiagnostics
-) throws {
+private func dumpDebug(directoryPath: String,
+                       recording: WAVRecording,
+                       spectrogram: Spectrogram,
+                       report: DecodeDiagnostics) throws {
     let directory = URL(fileURLWithPath: directoryPath, isDirectory: true)
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
     try writeJSON(report, to: directory.appendingPathComponent("metrics.json"))
@@ -240,25 +239,37 @@ private func parseDecodeOptions(_ arguments: [String]) throws -> DecodeOptions {
     while index < arguments.count {
         let argument = arguments[index]
         switch argument {
-        case "--json": options.json = true
-        case "--diagnostics": options.diagnostics = true
+        case "--json":
+            options.json = true
+        case "--diagnostics":
+            options.diagnostics = true
         case "--dump-debug":
             index += 1
-            guard index < arguments.count else { throw CLIError.missingValue(argument) }
+            guard index < arguments.count else {
+                throw CLIError.missingValue(argument)
+            }
             options.dumpDirectory = arguments[index]
         default:
-            guard !argument.hasPrefix("-"), options.wavPath == nil else { throw CLIError.usage }
+            guard !argument.hasPrefix("-"), options.wavPath == nil else {
+                throw CLIError.usage
+            }
             options.wavPath = argument
         }
         index += 1
     }
-    guard options.wavPath != nil else { throw CLIError.usage }
+    guard options.wavPath != nil else {
+        throw CLIError.usage
+    }
     return options
 }
 
 private func runDecode(arguments: [String]) throws {
     let options = try parseDecodeOptions(arguments)
-    let wavURL = URL(fileURLWithPath: options.wavPath!)
+    guard let wavPath = options.wavPath else {
+        throw CLIError.usage
+    }
+
+    let wavURL = URL(fileURLWithPath: wavPath)
     let (recording, spectrogram, result) = try analyseWAV(at: wavURL)
     let report = diagnostics(wavURL: wavURL, recording: recording, spectrogram: spectrogram, result: result)
 
@@ -281,17 +292,21 @@ private func runDecode(arguments: [String]) throws {
             print(String(decoding: try encoder.encode(item), as: UTF8.self))
         }
     } else {
-        for item in report.messages { print(item.message) }
+        for item in report.messages {
+            print(item.message)
+        }
     }
 }
 
 private func runCorpus(directory: URL) throws {
-    guard FileManager.default.fileExists(atPath: directory.path) else { throw CLIError.missingPath(directory.path) }
+    guard FileManager.default.fileExists(atPath: directory.path) else {
+        throw CLIError.missingPath(directory.path)
+    }
     let cases = try ReferenceCorpus.discover(in: directory)
     print("Reference recordings: \(cases.count)")
     var expectedTotal = 0, decodedTotal = 0, matchedTotal = 0, missedTotal = 0, unexpectedTotal = 0
     for item in cases {
-        let expected = try item.expectedURL.map(WSJTXReferenceParser.parse(url:)) ?? []
+        let expected = try item.expectedURL.map(WSJTXReferenceParser.parse (url:)) ?? []
         expectedTotal += expected.count
         let (_, _, result) = try analyseWAV(at: item.wavURL)
         let decoded = observed(from: result)
@@ -302,16 +317,19 @@ private func runCorpus(directory: URL) throws {
         unexpectedTotal += comparison.unexpected.count
         print("\(item.name): expected \(expected.count), decoded \(decoded.count), matched \(comparison.matched)")
     }
-    let rate = expectedTotal == 0 ? 100 : Double(matchedTotal) / Double(expectedTotal) * 100
+    let rate = expectedTotal == 0 ? 100: Double(matchedTotal) / Double(expectedTotal) * 100
     print(String(format: "Expected: %d  Decoded: %d  Matched: %d  Missed: %d  Unexpected: %d  Detection: %.2f%%", expectedTotal, decodedTotal, matchedTotal, missedTotal, unexpectedTotal, rate))
 }
 
 do {
+    print("FT8Kit diagnostics build 2026-07-31")
     let arguments = Array(CommandLine.arguments.dropFirst())
     if arguments.first == "decode" {
         try runDecode(arguments: Array(arguments.dropFirst()))
     } else if arguments.first == "corpus" {
-        guard arguments.count == 2 else { throw CLIError.usage }
+        guard arguments.count == 2 else {
+            throw CLIError.usage
+        }
         try runCorpus(directory: URL(fileURLWithPath: arguments[1]))
     } else if arguments.count <= 1 {
         try runCorpus(directory: URL(fileURLWithPath: arguments.first ?? "Tests/FT8ValidationTests/Fixtures"))
