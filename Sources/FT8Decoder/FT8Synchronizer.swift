@@ -143,14 +143,8 @@ public struct FT8Synchronizer: Sendable {
         // Suppress neighbouring points from the same Costas peak. The old
         // radii were small enough that a single broad signal ridge could
         // consume a large fraction of maximumCandidates.
-        let timeRadius = max(
-            configuration.deduplicationTime,
-            configuration.symbolPeriod * 1.5
-        )
-        let frequencyRadius = max(
-            configuration.deduplicationFrequency,
-            configuration.toneSpacing * 3
-        )
+        let timeRadius = configuration.deduplicationTime
+        let frequencyRadius = configuration.deduplicationFrequency
 
         var accepted: [FT8Candidate] = []
         accepted.reserveCapacity(

@@ -10,7 +10,7 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
     public var deduplicationFrequency: Float
     public var captureCandidateTraces: Bool
 
-    public init(maximumCandidatesToDecode: Int = 50,
+    public init(maximumCandidatesToDecode: Int = 140,
     minimumCandidateConfidence: Float = 0.10,
     minimumSoftSymbolConfidence: Float = 0.08,
     decodeUnsupportedMessages: Bool = true,
@@ -310,56 +310,27 @@ public struct FT8OptimizedDecoder: Sendable {
     }
 
     public func schedule(_ candidates: [FT8Candidate]) -> [FT8Candidate] {
-        let ordered = candidates
-            .filter {
-                $0.confidence >= configuration.minimumCandidateConfidence
-            }
-            .sorted {
-                if $0.confidence != $1.confidence {
-                    return $0.confidence > $1.confidence
-                }
-                if $0.syncScore != $1.syncScore {
-                    return $0.syncScore > $1.syncScore
-                }
-                if $0.snrDB != $1.snrDB {
-                    return $0.snrDB > $1.snrDB
-                }
-                if $0.startTime != $1.startTime {
-                    return $0.startTime < $1.startTime
-                }
-                return $0.frequency < $1.frequency
-            }
-
-        // Avoid spending most LDPC attempts on adjacent representations of
-        // the same Costas peak. The synchronizer already performs a first
-        // non-maximum-suppression pass, but cancellation and coarse grid
-        // searches can still return dense local clusters.
-        let timeRadius = max(configuration.deduplicationTime, 0.240)
-        let frequencyRadius = max(configuration.deduplicationFrequency, 18.75)
-
-        var scheduled: [FT8Candidate] = []
-        scheduled.reserveCapacity(
-            min(configuration.maximumCandidatesToDecode, ordered.count)
-        )
-
-        for candidate in ordered {
-            let overlapsExistingPeak = scheduled.contains {
-                abs($0.startTime - candidate.startTime) <= timeRadius &&
-                abs($0.frequency - candidate.frequency) <= frequencyRadius
-            }
-
-            guard !overlapsExistingPeak else {
-                continue
-            }
-
-            scheduled.append(candidate)
-
-            if scheduled.count >= configuration.maximumCandidatesToDecode {
-                break
-            }
+        candidates
+        .filter {
+            $0.confidence >= configuration.minimumCandidateConfidence
         }
-
-        return scheduled
+        .sorted {
+            if $0.confidence != $1.confidence {
+                return $0.confidence > $1.confidence
+            }
+            if $0.syncScore != $1.syncScore {
+                return $0.syncScore > $1.syncScore
+            }
+            if $0.snrDB != $1.snrDB {
+                return $0.snrDB > $1.snrDB
+            }
+            if $0.startTime != $1.startTime {
+                return $0.startTime < $1.startTime
+            }
+            return $0.frequency < $1.frequency
+        }
+        .prefix(configuration.maximumCandidatesToDecode)
+        .map { $0 }
     }
 
     private func deduplicate(_ decodes: [FT8CompleteDecode]) -> [FT8CompleteDecode] {

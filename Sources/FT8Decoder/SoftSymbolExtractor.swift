@@ -113,10 +113,12 @@ public struct SoftSymbolExtractor: Sendable {
 
                 // FT8LDPCDecoder uses negative LLR values for hard bit 1, so
                 // retain the decoder's established log(p(0) / p(1)) sign.
+                // Match ft8_lib: preserve the raw max-log likelihood ratio here.
+                // FT8LDPCDecoder performs the reference whole-vector variance
+                // normalisation immediately before belief propagation. Clipping
+                // individual values at this stage changes their relative weights.
                 let value = (zero - one) * configuration.llrScale
-                llrs.append(
-                    min(max(value, -configuration.llrLimit), configuration.llrLimit)
-                )
+                llrs.append(value)
             }
         }
 
