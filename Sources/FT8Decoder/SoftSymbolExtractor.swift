@@ -55,6 +55,16 @@ public struct SoftSymbolExtractor: Sendable {
         from spectrogram: Spectrogram,
         candidate: FT8Candidate
     ) throws -> FT8SoftSymbols {
+        try extractWithTrace(
+            from: spectrogram,
+            candidate: candidate
+        ).softSymbols
+    }
+
+    public func extractWithTrace(
+        from spectrogram: Spectrogram,
+        candidate: FT8Candidate
+    ) throws -> FT8SoftSymbolExtraction {
         try configuration.validate()
         guard !spectrogram.frames.isEmpty else {
             throw SoftSymbolError.emptySpectrogram
@@ -66,8 +76,10 @@ public struct SoftSymbolExtractor: Sendable {
 
         var llrs: [Float] = []
         var confidences: [Float] = []
+        var traces: [FT8SymbolTrace] = []
         llrs.reserveCapacity(174)
         confidences.reserveCapacity(58)
+        traces.reserveCapacity(58)
 
         for symbolIndex in FT8ToneMapping.dataSymbolIndices {
             let metrics = try toneMetrics(
@@ -76,8 +88,15 @@ public struct SoftSymbolExtractor: Sendable {
                 candidate: candidate
             )
             let ordered = metrics.sorted(by: >)
-            let confidence = max(0, ordered[0] - ordered[1])
-            confidences.append(min(confidence / 6, 1))
+            let confidence = min(max((ordered[0] - ordered[1]) / 6, 0), 1)
+            confidences.append(confidence)
+            traces.append(
+                FT8SymbolTrace(
+                    symbolIndex: symbolIndex,
+                    toneMetrics: metrics,
+                    confidence: confidence
+                )
+            )
 
             for bitIndex in 0..<3 {
                 var zero = -Float.infinity
@@ -91,14 +110,23 @@ public struct SoftSymbolExtractor: Sendable {
                         one = max(one, metrics[tone])
                     }
                 }
+
+                // FT8LDPCDecoder uses negative LLR values for hard bit 1, so
+                // retain the decoder's established log(p(0) / p(1)) sign.
                 let value = (zero - one) * configuration.llrScale
-                llrs.append(min(max(value, -configuration.llrLimit), configuration.llrLimit))
+                llrs.append(
+                    min(max(value, -configuration.llrLimit), configuration.llrLimit)
+                )
             }
         }
 
-        return FT8SoftSymbols(
+        let softSymbols = FT8SoftSymbols(
             logLikelihoodRatios: llrs,
             symbolConfidences: confidences
+        )
+        return FT8SoftSymbolExtraction(
+            softSymbols: softSymbols,
+            symbols: traces
         )
     }
 

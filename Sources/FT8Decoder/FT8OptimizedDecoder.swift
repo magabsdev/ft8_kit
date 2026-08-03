@@ -8,19 +8,22 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
     public var decodeUnsupportedMessages: Bool
     public var deduplicationTime: Double
     public var deduplicationFrequency: Float
+    public var captureCandidateTraces: Bool
 
     public init(maximumCandidatesToDecode: Int = 50,
     minimumCandidateConfidence: Float = 0.10,
     minimumSoftSymbolConfidence: Float = 0.08,
     decodeUnsupportedMessages: Bool = true,
     deduplicationTime: Double = 0.160,
-    deduplicationFrequency: Float = 12.5) {
+    deduplicationFrequency: Float = 12.5,
+    captureCandidateTraces: Bool = false) {
         self.maximumCandidatesToDecode = maximumCandidatesToDecode
         self.minimumCandidateConfidence = minimumCandidateConfidence
         self.minimumSoftSymbolConfidence = minimumSoftSymbolConfidence
         self.decodeUnsupportedMessages = decodeUnsupportedMessages
         self.deduplicationTime = deduplicationTime
         self.deduplicationFrequency = deduplicationFrequency
+        self.captureCandidateTraces = captureCandidateTraces
     }
 
     func validate() throws {
@@ -70,11 +73,16 @@ public struct FT8DecodeMetrics: Equatable, Sendable {
 public struct FT8DecodeBatch: Equatable, Sendable {
     public let messages: [FT8CompleteDecode]
     public let metrics: FT8DecodeMetrics
+    public let candidateTraces: [FT8CandidateTrace]
 
-    public init(messages: [FT8CompleteDecode],
-    metrics: FT8DecodeMetrics) {
+    public init(
+        messages: [FT8CompleteDecode],
+        metrics: FT8DecodeMetrics,
+        candidateTraces: [FT8CandidateTrace] = []
+    ) {
         self.messages = messages
         self.metrics = metrics
+        self.candidateTraces = candidateTraces
     }
 }
 
@@ -118,6 +126,7 @@ public struct FT8OptimizedDecoder: Sendable {
         var parityPassed = 0
         var crcPassed = 0
         var decoded: [FT8CompleteDecode] = []
+        var candidateTraces: [FT8CandidateTrace] = []
 
         for (index, candidate) in scheduled.enumerated() {
             trace(
@@ -126,14 +135,30 @@ public struct FT8OptimizedDecoder: Sendable {
 
             trace("[Optimized] Extracting soft symbols")
 
-            guard let soft = try? extractor.extract(
-                from: spectrogram,
-                candidate: candidate
-            ) else {
-                trace("[Optimized] Soft-symbol extraction failed")
+            let extraction: FT8SoftSymbolExtraction
+            do {
+                extraction = try extractor.extractWithTrace(
+                    from: spectrogram,
+                    candidate: candidate
+                )
+            } catch {
+                trace("[Optimized] Soft-symbol extraction failed: \(error)")
+                if configuration.captureCandidateTraces {
+                    candidateTraces.append(
+                        makeTrace(
+                            candidate: candidate,
+                            candidateIndex: index,
+                            extraction: nil,
+                            ldpc: nil,
+                            decodedText: nil,
+                            failure: "softSymbolExtraction: \(error)"
+                        )
+                    )
+                }
                 continue
             }
 
+            let soft = extraction.softSymbols
             softCount += 1
 
             trace(
@@ -142,6 +167,18 @@ public struct FT8OptimizedDecoder: Sendable {
 
             guard soft.averageConfidence >= configuration.minimumSoftSymbolConfidence else {
                 trace("[Optimized] Soft-symbol confidence below threshold")
+                if configuration.captureCandidateTraces {
+                    candidateTraces.append(
+                        makeTrace(
+                            candidate: candidate,
+                            candidateIndex: index,
+                            extraction: extraction,
+                            ldpc: nil,
+                            decodedText: nil,
+                            failure: "softSymbolConfidenceBelowThreshold"
+                        )
+                    )
+                }
                 continue
             }
 
@@ -170,6 +207,18 @@ public struct FT8OptimizedDecoder: Sendable {
                 softSymbols: soft
             ) else {
                 trace("[Optimized] Message decode failed")
+                if configuration.captureCandidateTraces {
+                    candidateTraces.append(
+                        makeTrace(
+                            candidate: candidate,
+                            candidateIndex: index,
+                            extraction: extraction,
+                            ldpc: ldpc,
+                            decodedText: nil,
+                            failure: "messageDecodeFailed"
+                        )
+                    )
+                }
                 continue
             }
 
@@ -189,6 +238,19 @@ public struct FT8OptimizedDecoder: Sendable {
                     decoded: message
                 )
             )
+
+            if configuration.captureCandidateTraces {
+                candidateTraces.append(
+                    makeTrace(
+                        candidate: candidate,
+                        candidateIndex: index,
+                        extraction: extraction,
+                        ldpc: ldpc,
+                        decodedText: message.text,
+                        failure: nil
+                    )
+                )
+            }
         }
 
         trace("[Optimized] Deduplicating \(decoded.count) decoded messages")
@@ -213,7 +275,37 @@ public struct FT8OptimizedDecoder: Sendable {
                 crcPassed: crcPassed,
                 messagesReturned: messages.count,
                 elapsedSeconds: elapsed
-            )
+            ),
+            candidateTraces: candidateTraces
+        )
+    }
+
+    private func makeTrace(
+        candidate: FT8Candidate,
+        candidateIndex: Int,
+        extraction: FT8SoftSymbolExtraction?,
+        ldpc: FT8LDPCResult?,
+        decodedText: String?,
+        failure: String?
+    ) -> FT8CandidateTrace {
+        FT8CandidateTrace(
+            pass: 0,
+            candidateIndex: candidateIndex,
+            startTime: candidate.startTime,
+            frequency: candidate.frequency,
+            driftHzPerSecond: candidate.driftHzPerSecond,
+            syncScore: candidate.syncScore,
+            snrDB: candidate.snrDB,
+            candidateConfidence: candidate.confidence,
+            averageSoftSymbolConfidence: extraction?.softSymbols.averageConfidence,
+            symbols: extraction?.symbols ?? [],
+            logLikelihoodRatios: extraction?.softSymbols.logLikelihoodRatios ?? [],
+            ldpcIterations: ldpc?.iterations,
+            syndromeWeight: ldpc?.syndromeWeight,
+            parityPassed: ldpc?.parityPassed,
+            crcPassed: ldpc?.crcPassed,
+            decodedText: decodedText,
+            failure: failure
         )
     }
 

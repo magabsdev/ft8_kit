@@ -86,7 +86,10 @@ private enum CLIError: Error, CustomStringConvertible {
     }
 }
 
-private func analyseWAV(at url: URL) throws -> (WAVRecording, Spectrogram, FT8MultiPassDecodeBatch) {
+private func analyseWAV(
+    at url: URL,
+    captureCandidateTraces: Bool = false
+) throws -> (WAVRecording, Spectrogram, FT8MultiPassDecodeBatch) {
     func trace(_ message: String) {
         FileHandle.standardError.write(Data("[ft8-validate] \(message)\n".utf8))
     }
@@ -101,7 +104,9 @@ private func analyseWAV(at url: URL) throws -> (WAVRecording, Spectrogram, FT8Mu
         "WAV loaded: \(recording.samples.count) samples at " + "\(recording.sampleRate) Hz"
     )
 
-    let slotDecoder = FT8MultiPassSlotDecoder()
+    var slotDecoder = FT8MultiPassSlotDecoder()
+    slotDecoder.decoder.decoder.configuration.captureCandidateTraces =
+        captureCandidateTraces
 
     trace("Starting waterfall analysis")
     let waterfallStart = Date()
@@ -222,14 +227,21 @@ private func writeJSON<T: Encodable>(_ value: T, to url: URL) throws {
     try encoder.encode(value).write(to: url, options: .atomic)
 }
 
-private func dumpDebug(directoryPath: String,
-                       recording: WAVRecording,
-                       spectrogram: Spectrogram,
-                       report: DecodeDiagnostics) throws {
+private func dumpDebug(
+    directoryPath: String,
+    recording: WAVRecording,
+    spectrogram: Spectrogram,
+    report: DecodeDiagnostics,
+    candidateTraces: [FT8CandidateTrace]
+) throws {
     let directory = URL(fileURLWithPath: directoryPath, isDirectory: true)
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
     try writeJSON(report, to: directory.appendingPathComponent("metrics.json"))
     try writeJSON(report.messages, to: directory.appendingPathComponent("messages.json"))
+    try writeJSON(
+        candidateTraces,
+        to: directory.appendingPathComponent("candidate-traces.json")
+    )
 
     var waveform = "sample,time_seconds,amplitude\n"
     waveform.reserveCapacity(recording.samples.count * 24)
@@ -308,11 +320,20 @@ private func runDecode(arguments: [String]) throws {
     }
 
     let wavURL = URL(fileURLWithPath: wavPath)
-    let (recording, spectrogram, result) = try analyseWAV(at: wavURL)
+    let (recording, spectrogram, result) = try analyseWAV(
+        at: wavURL,
+        captureCandidateTraces: options.dumpDirectory != nil
+    )
     let report = diagnostics(wavURL: wavURL, recording: recording, spectrogram: spectrogram, result: result)
 
     if let directory = options.dumpDirectory {
-        try dumpDebug(directoryPath: directory, recording: recording, spectrogram: spectrogram, report: report)
+        try dumpDebug(
+            directoryPath: directory,
+            recording: recording,
+            spectrogram: spectrogram,
+            report: report,
+            candidateTraces: result.candidateTraces
+        )
     }
 
     if options.diagnostics {

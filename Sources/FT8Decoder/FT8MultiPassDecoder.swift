@@ -133,16 +133,18 @@ public struct FT8MultiPassDecodeBatch:
     public let messages: [FT8CompleteDecode]
     public let residualSpectrogram: Spectrogram
     public let metrics: FT8MultiPassMetrics
+    public let candidateTraces: [FT8CandidateTrace]
 
     public init(
         messages: [FT8CompleteDecode],
         residualSpectrogram: Spectrogram,
-        metrics: FT8MultiPassMetrics
+        metrics: FT8MultiPassMetrics,
+        candidateTraces: [FT8CandidateTrace] = []
     ) {
         self.messages = messages
-        self.residualSpectrogram =
-            residualSpectrogram
+        self.residualSpectrogram = residualSpectrogram
         self.metrics = metrics
+        self.candidateTraces = candidateTraces
     }
 }
 
@@ -174,12 +176,35 @@ public struct FT8MultiPassDecoder: Sendable {
         var passMetrics: [FT8DecodePassMetrics] = []
         var totalCancelled = 0
         var totalAffectedBins = 0
+        var candidateTraces: [FT8CandidateTrace] = []
 
         for passIndex in 1...configuration.maximumPasses {
             let passStarted = ContinuousClock.now
             let batch = try decoder.decode(
                 spectrogram: residual
             )
+            candidateTraces.append(contentsOf: batch.candidateTraces.map {
+                FT8CandidateTrace(
+                    pass: passIndex,
+                    candidateIndex: $0.candidateIndex,
+                    startTime: $0.startTime,
+                    frequency: $0.frequency,
+                    driftHzPerSecond: $0.driftHzPerSecond,
+                    syncScore: $0.syncScore,
+                    snrDB: $0.snrDB,
+                    candidateConfidence: $0.candidateConfidence,
+                    averageSoftSymbolConfidence: $0.averageSoftSymbolConfidence,
+                    symbols: $0.symbols,
+                    logLikelihoodRatios: $0.logLikelihoodRatios,
+                    ldpcIterations: $0.ldpcIterations,
+                    syndromeWeight: $0.syndromeWeight,
+                    parityPassed: $0.parityPassed,
+                    crcPassed: $0.crcPassed,
+                    decodedText: $0.decodedText,
+                    failure: $0.failure
+                )
+            })
+
             let newMessages = batch.messages.filter {
                 candidate in
                 !accepted.contains {
@@ -275,7 +300,8 @@ public struct FT8MultiPassDecoder: Sendable {
                 totalAffectedBins: totalAffectedBins,
                 elapsedSeconds: elapsed,
                 passes: passMetrics
-            )
+            ),
+            candidateTraces: candidateTraces
         )
     }
 
