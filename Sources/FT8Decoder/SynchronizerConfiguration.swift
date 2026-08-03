@@ -28,7 +28,7 @@ public struct SynchronizerConfiguration: Equatable, Sendable {
         frequencyStep: Float? = nil,
         minimumSyncScore: Float = 0.42,
         minimumSNRDB: Float = 1.5,
-        maximumCandidates: Int = 50,
+        maximumCandidates: Int = 140,
         deduplicationFrequency: Float = 6.25,
         deduplicationTime: Double = 0.080,
         estimateDrift: Bool = true,
