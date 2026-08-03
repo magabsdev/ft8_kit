@@ -86,10 +86,7 @@ private enum CLIError: Error, CustomStringConvertible {
     }
 }
 
-private func analyseWAV(
-    at url: URL,
-    captureCandidateTraces: Bool = false
-) throws -> (WAVRecording, Spectrogram, FT8MultiPassDecodeBatch) {
+private func analyseWAV(at url: URL) throws -> (WAVRecording, Spectrogram, FT8MultiPassDecodeBatch) {
     func trace(_ message: String) {
         FileHandle.standardError.write(Data("[ft8-validate] \(message)\n".utf8))
     }
@@ -104,9 +101,7 @@ private func analyseWAV(
         "WAV loaded: \(recording.samples.count) samples at " + "\(recording.sampleRate) Hz"
     )
 
-    var slotDecoder = FT8MultiPassSlotDecoder()
-    slotDecoder.decoder.decoder.configuration.captureCandidateTraces =
-        captureCandidateTraces
+    let slotDecoder = FT8MultiPassSlotDecoder()
 
     trace("Starting waterfall analysis")
     let waterfallStart = Date()
@@ -122,6 +117,37 @@ private func analyseWAV(
             Date().timeIntervalSince(waterfallStart),
             spectrogram.rowCount,
             spectrogram.columnCount
+        )
+    )
+
+    // Checkpoint 1: build the ft8_lib-style oversampled waterfall in
+    // parallel. It is diagnostic-only at this stage; the existing decoder
+    // continues to consume the established Spectrogram path.
+    trace("Starting FT8 oversampled waterfall analysis")
+    let oversampledStart = Date()
+    let oversampled = try FT8OversampledWaterfallBuilder.build(
+        samples: recording.samples,
+        configuration: FT8OversampledWaterfallConfiguration(
+            sampleRate: Float(recording.sampleRate),
+            symbolSamples: 1_920,
+            timeOversampling: 4,
+            frequencyOversampling: 2,
+            minimumFrequency: 100,
+            maximumFrequency: 3_000
+        )
+    )
+    trace(
+        String(
+            format: "Oversampled waterfall complete in %.3f s: blocks=%d frames=%d timeOSR=%d freqOSR=%d baseBins=%d storage=%d floats baseBin=%.3f Hz oversampledBin=%.3f Hz",
+            Date().timeIntervalSince(oversampledStart),
+            oversampled.blockCount,
+            oversampled.frameCount,
+            oversampled.timeOversampling,
+            oversampled.frequencyOversampling,
+            oversampled.baseBinCount,
+            oversampled.magnitudes.count,
+            oversampled.baseBinWidth,
+            oversampled.oversampledBinWidth
         )
     )
 
@@ -227,21 +253,14 @@ private func writeJSON<T: Encodable>(_ value: T, to url: URL) throws {
     try encoder.encode(value).write(to: url, options: .atomic)
 }
 
-private func dumpDebug(
-    directoryPath: String,
-    recording: WAVRecording,
-    spectrogram: Spectrogram,
-    report: DecodeDiagnostics,
-    candidateTraces: [FT8CandidateTrace]
-) throws {
+private func dumpDebug(directoryPath: String,
+                       recording: WAVRecording,
+                       spectrogram: Spectrogram,
+                       report: DecodeDiagnostics) throws {
     let directory = URL(fileURLWithPath: directoryPath, isDirectory: true)
     try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
     try writeJSON(report, to: directory.appendingPathComponent("metrics.json"))
     try writeJSON(report.messages, to: directory.appendingPathComponent("messages.json"))
-    try writeJSON(
-        candidateTraces,
-        to: directory.appendingPathComponent("candidate-traces.json")
-    )
 
     var waveform = "sample,time_seconds,amplitude\n"
     waveform.reserveCapacity(recording.samples.count * 24)
@@ -320,20 +339,11 @@ private func runDecode(arguments: [String]) throws {
     }
 
     let wavURL = URL(fileURLWithPath: wavPath)
-    let (recording, spectrogram, result) = try analyseWAV(
-        at: wavURL,
-        captureCandidateTraces: options.dumpDirectory != nil
-    )
+    let (recording, spectrogram, result) = try analyseWAV(at: wavURL)
     let report = diagnostics(wavURL: wavURL, recording: recording, spectrogram: spectrogram, result: result)
 
     if let directory = options.dumpDirectory {
-        try dumpDebug(
-            directoryPath: directory,
-            recording: recording,
-            spectrogram: spectrogram,
-            report: report,
-            candidateTraces: result.candidateTraces
-        )
+        try dumpDebug(directoryPath: directory, recording: recording, spectrogram: spectrogram, report: report)
     }
 
     if options.diagnostics {
