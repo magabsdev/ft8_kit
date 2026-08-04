@@ -130,7 +130,9 @@ public struct FT8OptimizedDecoder: Sendable {
         var retryCandidates: [
             (
                 candidate: FT8Candidate,
-                softConfidence: Float
+                softConfidence: Float,
+                parityPassed: Bool,
+                syndromeWeight: Int
             )
         ] = []
 
@@ -235,17 +237,19 @@ public struct FT8OptimizedDecoder: Sendable {
                     )
                 )
             } else {
-                if index < 12,
-                   candidate.confidence >= 0.85,
+                if candidate.confidence >= 0.68,
                    soft.averageConfidence >= 0.12,
-                   soft.averageConfidence <= 0.55,
-                   !ldpc.parityPassed,
+                   soft.averageConfidence <= 0.65,
                    !ldpc.crcPassed {
                     retryCandidates.append(
                         (
                             candidate: candidate,
                             softConfidence:
-                                soft.averageConfidence
+                                soft.averageConfidence,
+                            parityPassed:
+                                ldpc.parityPassed,
+                            syndromeWeight:
+                                ldpc.syndromeWeight
                         )
                     )
                 }
@@ -290,6 +294,15 @@ public struct FT8OptimizedDecoder: Sendable {
         if decoded.isEmpty,
            !retryCandidates.isEmpty {
             let orderedRetries = retryCandidates.sorted {
+                if $0.parityPassed != $1.parityPassed {
+                    return $0.parityPassed
+                }
+
+                if $0.syndromeWeight != $1.syndromeWeight {
+                    return $0.syndromeWeight
+                        < $1.syndromeWeight
+                }
+
                 let lhsDistance = abs(
                     $0.softConfidence - 0.35
                 )
@@ -305,7 +318,25 @@ public struct FT8OptimizedDecoder: Sendable {
                     > $1.candidate.confidence
             }
 
-            for entry in orderedRetries.prefix(2) {
+            var retriedFrequencies: [Float] = []
+            var retryCount = 0
+
+            for entry in orderedRetries {
+                let overlapsEarlierRetry =
+                    retriedFrequencies.contains {
+                        abs(
+                            $0 - entry.candidate.frequency
+                        ) < 18.75
+                    }
+
+                if overlapsEarlierRetry {
+                    continue
+                }
+
+                retriedFrequencies.append(
+                    entry.candidate.frequency
+                )
+                retryCount += 1
                 trace(
                     "[Optimized] Retrying bounded nearby "
                     + "hypotheses for time="
@@ -323,6 +354,13 @@ public struct FT8OptimizedDecoder: Sendable {
                         + retry.decode.decoded.text
                     )
                     decoded.append(retry.decode)
+
+                    if decoded.count >= 2 {
+                        break
+                    }
+                }
+
+                if retryCount >= 6 {
                     break
                 }
             }
