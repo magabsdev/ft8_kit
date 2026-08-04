@@ -1,40 +1,20 @@
 import Foundation
 
 public enum FT8OversampledWaterfallBuilder {
-    public static func build(
-        samples: [Float],
-        configuration: FT8OversampledWaterfallConfiguration
-    ) throws -> FT8OversampledWaterfall {
+    public static func build(samples: [Float], configuration: FT8OversampledWaterfallConfiguration) throws -> FT8OversampledWaterfall {
         try configuration.validate()
-
         guard samples.count >= configuration.symbolSamples else {
-            throw FT8OversampledWaterfallError.insufficientSamples(
-                required: configuration.symbolSamples,
-                actual: samples.count
-            )
+            throw FT8OversampledWaterfallError.insufficientSamples(required: configuration.symbolSamples, actual: samples.count)
         }
 
-        let firstBaseBin = max(
-            0,
-            Int(floor(configuration.minimumFrequency / configuration.baseBinWidth))
-        )
-        let lastBaseBin = min(
-            configuration.symbolSamples / 2,
-            Int(floor(configuration.maximumFrequency / configuration.baseBinWidth))
-        )
-        let baseBinCount = max(0, lastBaseBin - firstBaseBin + 1)
-        guard baseBinCount > 0 else {
-            throw FT8OversampledWaterfallError.invalidConfiguration
-        }
+        let firstBaseBin = max(0, Int(floor(configuration.minimumFrequency / configuration.baseBinWidth)))
+        let lastBaseBin = min(configuration.symbolSamples / 2, Int(floor(configuration.maximumFrequency / configuration.baseBinWidth)))
+        let baseBinCount = lastBaseBin - firstBaseBin + 1
+        guard baseBinCount > 0 else { throw FT8OversampledWaterfallError.invalidConfiguration }
 
-        let frameCount = 1
-            + (samples.count - configuration.symbolSamples) / configuration.hopSamples
-        let blockCount = (frameCount + configuration.timeOversampling - 1)
-            / configuration.timeOversampling
-        let storageCount = blockCount
-            * configuration.timeOversampling
-            * configuration.frequencyOversampling
-            * baseBinCount
+        let frameCount = 1 + (samples.count - configuration.symbolSamples) / configuration.hopSamples
+        let blockCount = (frameCount + configuration.timeOversampling - 1) / configuration.timeOversampling
+        let storageCount = blockCount * configuration.timeOversampling * configuration.frequencyOversampling * baseBinCount
 
         let fft = try FFT(size: configuration.fftSize)
         let window = configuration.window.coefficients(count: configuration.symbolSamples)
@@ -43,14 +23,11 @@ public enum FT8OversampledWaterfallBuilder {
 
         for frame in 0..<frameCount {
             let sampleOffset = frame * configuration.hopSamples
-
             for index in 0..<configuration.symbolSamples {
                 fftInput[index] = samples[sampleOffset + index] * window[index]
             }
             if configuration.fftSize > configuration.symbolSamples {
-                for index in configuration.symbolSamples..<configuration.fftSize {
-                    fftInput[index] = 0
-                }
+                for index in configuration.symbolSamples..<configuration.fftSize { fftInput[index] = 0 }
             }
 
             let spectrum = try fft.forward(fftInput)
@@ -58,26 +35,14 @@ public enum FT8OversampledWaterfallBuilder {
             let timeSubdivision = frame % configuration.timeOversampling
 
             for frequencySubdivision in 0..<configuration.frequencyOversampling {
-                let destinationBase = block
-                    * configuration.timeOversampling
-                    * configuration.frequencyOversampling
-                    * baseBinCount
-                    + timeSubdivision
-                    * configuration.frequencyOversampling
-                    * baseBinCount
-                    + frequencySubdivision
-                    * baseBinCount
+                let destinationBase = block * configuration.timeOversampling * configuration.frequencyOversampling * baseBinCount
+                    + timeSubdivision * configuration.frequencyOversampling * baseBinCount
+                    + frequencySubdivision * baseBinCount
 
                 for localBaseBin in 0..<baseBinCount {
-                    let absoluteBaseBin = firstBaseBin + localBaseBin
-                    let oversampledFFTBin = absoluteBaseBin
-                        * configuration.frequencyOversampling
-                        + frequencySubdivision
-                    let real = spectrum.real[oversampledFFTBin]
-                    let imaginary = spectrum.imaginary[oversampledFFTBin]
-                    storage[destinationBase + localBaseBin] = sqrtf(
-                        real * real + imaginary * imaginary
-                    )
+                    let fftBin = (firstBaseBin + localBaseBin) * configuration.frequencyOversampling + frequencySubdivision
+                    guard fftBin < spectrum.real.count, fftBin < spectrum.imaginary.count else { continue }
+                    storage[destinationBase + localBaseBin] = hypotf(spectrum.real[fftBin], spectrum.imaginary[fftBin])
                 }
             }
         }
@@ -92,9 +57,7 @@ public enum FT8OversampledWaterfallBuilder {
             baseBinCount: baseBinCount,
             firstBaseBin: firstBaseBin,
             minimumFrequency: Float(firstBaseBin) * configuration.baseBinWidth,
-            maximumFrequency: Float(lastBaseBin) * configuration.baseBinWidth
-                + Float(configuration.frequencyOversampling - 1)
-                * configuration.oversampledBinWidth,
+            maximumFrequency: Float(lastBaseBin) * configuration.baseBinWidth + Float(configuration.frequencyOversampling - 1) * configuration.oversampledBinWidth,
             baseBinWidth: configuration.baseBinWidth,
             oversampledBinWidth: configuration.oversampledBinWidth,
             magnitudes: storage
