@@ -127,6 +127,12 @@ public struct FT8OptimizedDecoder: Sendable {
         var crcPassed = 0
         var decoded: [FT8CompleteDecode] = []
         var candidateTraces: [FT8CandidateTrace] = []
+        var retryCandidates: [
+            (
+                candidate: FT8Candidate,
+                softConfidence: Float
+            )
+        ] = []
 
         for (index, candidate) in scheduled.enumerated() {
             trace(
@@ -228,18 +234,21 @@ public struct FT8OptimizedDecoder: Sendable {
                         decoded: message
                     )
                 )
-            } else if index < 12,
-                      candidate.confidence >= 0.70,
-                      let retry = retryStrongCandidate(
-                        in: spectrogram,
-                        candidate: candidate
-                      ) {
-                trace(
-                    "[Optimized] Nearby hypothesis decoded: "
-                    + retry.decode.decoded.text
-                )
-                decoded.append(retry.decode)
             } else {
+                if index < 12,
+                   candidate.confidence >= 0.85,
+                   soft.averageConfidence >= 0.12,
+                   soft.averageConfidence <= 0.55,
+                   !ldpc.parityPassed,
+                   !ldpc.crcPassed {
+                    retryCandidates.append(
+                        (
+                            candidate: candidate,
+                            softConfidence:
+                                soft.averageConfidence
+                        )
+                    )
+                }
                 if primaryMessage != nil {
                     trace("[Optimized] Empty decoded message rejected")
                 } else {
@@ -275,6 +284,47 @@ public struct FT8OptimizedDecoder: Sendable {
                         failure: nil
                     )
                 )
+            }
+        }
+
+        if decoded.isEmpty,
+           !retryCandidates.isEmpty {
+            let orderedRetries = retryCandidates.sorted {
+                let lhsDistance = abs(
+                    $0.softConfidence - 0.35
+                )
+                let rhsDistance = abs(
+                    $1.softConfidence - 0.35
+                )
+
+                if lhsDistance != rhsDistance {
+                    return lhsDistance < rhsDistance
+                }
+
+                return $0.candidate.confidence
+                    > $1.candidate.confidence
+            }
+
+            for entry in orderedRetries.prefix(2) {
+                trace(
+                    "[Optimized] Retrying bounded nearby "
+                    + "hypotheses for time="
+                    + "\(entry.candidate.startTime) "
+                    + "frequency="
+                    + "\(entry.candidate.frequency)"
+                )
+
+                if let retry = retryStrongCandidate(
+                    in: spectrogram,
+                    candidate: entry.candidate
+                ) {
+                    trace(
+                        "[Optimized] Nearby hypothesis decoded: "
+                        + retry.decode.decoded.text
+                    )
+                    decoded.append(retry.decode)
+                    break
+                }
             }
         }
 
