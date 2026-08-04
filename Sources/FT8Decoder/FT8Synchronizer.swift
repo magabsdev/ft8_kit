@@ -75,23 +75,46 @@ public struct FT8Synchronizer: Sendable {
             coarse.sorted(by: isPreferred).prefix(seedLimit)
         )
 
-        guard configuration.enableFineSearch else {
-            return clusterer.cluster(seeds)
+        let refined: [FT8Candidate]
+        if configuration.enableFineSearch {
+            refined = seeds.map {
+                refine(
+                    $0,
+                    in: spectrogram,
+                    latestStart: latestStart,
+                    lowFrequency: lowFrequency,
+                    highFrequency: highFrequency,
+                    frameStep: frameStep,
+                    coarseFrequencyStep: coarseFrequencyStep
+                )
+            }
+        } else {
+            refined = seeds
         }
 
-        let refined = seeds.map {
-            refine(
-                $0,
-                in: spectrogram,
-                latestStart: latestStart,
-                lowFrequency: lowFrequency,
-                highFrequency: highFrequency,
-                frameStep: frameStep,
-                coarseFrequencyStep: coarseFrequencyStep
-            )
+        let clustered = clusterer.cluster(refined)
+
+        guard configuration.enableAdaptivePruning else {
+            return clustered
         }
 
-        return clusterer.cluster(refined)
+        let pruner = FT8CandidatePruner(
+            minimumRelativeConfidence:
+                configuration.minimumRelativeConfidence,
+            minimumPeakIsolation:
+                configuration.minimumPeakIsolation,
+            timeRadius: configuration.pruningTimeRadius,
+            frequencyRadius: configuration.pruningFrequencyRadius,
+            minimumCandidates:
+                configuration.minimumCandidatesAfterPruning,
+            maximumCandidates:
+                min(
+                    configuration.maximumCandidatesAfterPruning,
+                    configuration.maximumCandidates
+                )
+        )
+
+        return pruner.prune(clustered)
     }
 
     private func refine(
@@ -241,9 +264,9 @@ public struct FT8Synchronizer: Sendable {
 
         return min(
             max(
-                0.65 * score
-                    + 0.25 * snrComponent
-                    + 0.10 * observationComponent,
+                0.65 * score +
+                0.25 * snrComponent +
+                0.10 * observationComponent,
                 0
             ),
             1
