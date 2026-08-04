@@ -16,12 +16,18 @@ public final class FFT: @unchecked Sendable {
             throw FFTError.sizeMustBeAtLeastTwo(size)
         }
 
-        // Keep the same public contract on every platform. Accelerate's DFT
-        // initializer may simply return nil for unsupported sizes, which
-        // previously leaked as FFTError.unavailable on macOS.
-        guard (size & (size - 1)) == 0 else {
+        let isPowerOfTwo = (size & (size - 1)) == 0
+
+        #if canImport(Accelerate)
+        let isFT8TransformSize = size.isMultiple(of: 1_920)
+        guard isPowerOfTwo || isFT8TransformSize else {
             throw FFTError.sizeMustBePowerOfTwo(size)
         }
+        #else
+        guard isPowerOfTwo else {
+            throw FFTError.sizeMustBePowerOfTwo(size)
+        }
+        #endif
 
         self.size = size
 
@@ -59,14 +65,8 @@ public final class FFT: @unchecked Sendable {
         try validate(real, imaginary)
 
         #if canImport(Accelerate)
-        var outputReal = Array(
-            repeating: Float.zero,
-            count: size
-        )
-        var outputImaginary = Array(
-            repeating: Float.zero,
-            count: size
-        )
+        var outputReal = Array(repeating: Float.zero, count: size)
+        var outputImaginary = Array(repeating: Float.zero, count: size)
 
         forwardTransform.transform(
             inputReal: real,
@@ -75,10 +75,7 @@ public final class FFT: @unchecked Sendable {
             outputImaginary: &outputImaginary
         )
 
-        return FFTResult(
-            real: outputReal,
-            imaginary: outputImaginary
-        )
+        return FFTResult(real: outputReal, imaginary: outputImaginary)
         #else
         return Self.radix2(
             real: real,
@@ -92,20 +89,12 @@ public final class FFT: @unchecked Sendable {
         try inverseComplex(spectrum).real
     }
 
-    public func inverseComplex(
-        _ spectrum: FFTResult
-    ) throws -> FFTResult {
+    public func inverseComplex(_ spectrum: FFTResult) throws -> FFTResult {
         try validate(spectrum.real, spectrum.imaginary)
 
         #if canImport(Accelerate)
-        var outputReal = Array(
-            repeating: Float.zero,
-            count: size
-        )
-        var outputImaginary = Array(
-            repeating: Float.zero,
-            count: size
-        )
+        var outputReal = Array(repeating: Float.zero, count: size)
+        var outputImaginary = Array(repeating: Float.zero, count: size)
 
         inverseTransform.transform(
             inputReal: spectrum.real,
@@ -115,16 +104,12 @@ public final class FFT: @unchecked Sendable {
         )
 
         let scale = Float(size)
-
         for index in outputReal.indices {
             outputReal[index] /= scale
             outputImaginary[index] /= scale
         }
 
-        return FFTResult(
-            real: outputReal,
-            imaginary: outputImaginary
-        )
+        return FFTResult(real: outputReal, imaginary: outputImaginary)
         #else
         return Self.radix2(
             real: spectrum.real,
@@ -134,10 +119,7 @@ public final class FFT: @unchecked Sendable {
         #endif
     }
 
-    private func validate(
-        _ real: [Float],
-        _ imaginary: [Float]
-    ) throws {
+    private func validate(_ real: [Float], _ imaginary: [Float]) throws {
         guard real.count == size else {
             throw FFTError.incorrectInputCount(
                 expected: size,
@@ -167,12 +149,10 @@ public final class FFT: @unchecked Sendable {
         if n > 2 {
             for index in 1..<(n - 1) {
                 var bit = n >> 1
-
                 while (j & bit) != 0 {
                     j ^= bit
                     bit >>= 1
                 }
-
                 j ^= bit
 
                 if index < j {
@@ -183,7 +163,6 @@ public final class FFT: @unchecked Sendable {
         }
 
         var length = 2
-
         while length <= n {
             let angle = (inverse ? 2.0 : -2.0)
                 * Double.pi / Double(length)
@@ -207,11 +186,9 @@ public final class FFT: @unchecked Sendable {
                     let evenImaginary = imaginary[even]
 
                     real[even] = evenReal + oddReal
-                    imaginary[even] =
-                        evenImaginary + oddImaginary
+                    imaginary[even] = evenImaginary + oddImaginary
                     real[odd] = evenReal - oddReal
-                    imaginary[odd] =
-                        evenImaginary - oddImaginary
+                    imaginary[odd] = evenImaginary - oddImaginary
 
                     let nextWeightReal =
                         weightReal * stepReal
@@ -230,17 +207,13 @@ public final class FFT: @unchecked Sendable {
 
         if inverse {
             let scale = Float(n)
-
             for index in real.indices {
                 real[index] /= scale
                 imaginary[index] /= scale
             }
         }
 
-        return FFTResult(
-            real: real,
-            imaginary: imaginary
-        )
+        return FFTResult(real: real, imaginary: imaginary)
     }
     #endif
 }
