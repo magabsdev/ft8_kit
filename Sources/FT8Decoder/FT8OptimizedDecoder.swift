@@ -202,11 +202,50 @@ public struct FT8OptimizedDecoder: Sendable {
 
             trace("[Optimized] Starting message decode")
 
-            guard let message = try? messageDecoder.decode(
+            let primaryMessage = try? messageDecoder.decode(
                 ldpc,
                 softSymbols: soft
-            ) else {
-                trace("[Optimized] Message decode failed")
+            )
+            let primaryText = primaryMessage?.text
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                ?? ""
+
+            if let message = primaryMessage,
+               !primaryText.isEmpty {
+                trace("[Optimized] Message decode returned: \(message.text)")
+
+                if !configuration.decodeUnsupportedMessages,
+                   case .unsupported = message.message {
+                    trace("[Optimized] Unsupported message skipped")
+                    continue
+                }
+
+                decoded.append(
+                    FT8CompleteDecode(
+                        candidate: candidate,
+                        softSymbols: soft,
+                        ldpc: ldpc,
+                        decoded: message
+                    )
+                )
+            } else if index < 12,
+                      candidate.confidence >= 0.70,
+                      let retry = retryStrongCandidate(
+                        in: spectrogram,
+                        candidate: candidate
+                      ) {
+                trace(
+                    "[Optimized] Nearby hypothesis decoded: "
+                    + retry.decode.decoded.text
+                )
+                decoded.append(retry.decode)
+            } else {
+                if primaryMessage != nil {
+                    trace("[Optimized] Empty decoded message rejected")
+                } else {
+                    trace("[Optimized] Message decode failed")
+                }
+
                 if configuration.captureCandidateTraces {
                     candidateTraces.append(
                         makeTrace(
@@ -215,38 +254,24 @@ public struct FT8OptimizedDecoder: Sendable {
                             extraction: extraction,
                             ldpc: ldpc,
                             decodedText: nil,
-                            failure: "messageDecodeFailed"
+                            failure: primaryMessage == nil
+                                ? "messageDecodeFailed"
+                                : "emptyMessageRejected"
                         )
                     )
                 }
                 continue
             }
 
-            trace("[Optimized] Message decode returned: \(message.text)")
-
-            if !configuration.decodeUnsupportedMessages,
-            case .unsupported = message.message {
-                trace("[Optimized] Unsupported message skipped")
-                continue
-            }
-
-            decoded.append(
-                FT8CompleteDecode(
-                    candidate: candidate,
-                    softSymbols: soft,
-                    ldpc: ldpc,
-                    decoded: message
-                )
-            )
-
-            if configuration.captureCandidateTraces {
+            if configuration.captureCandidateTraces,
+               let accepted = decoded.last {
                 candidateTraces.append(
                     makeTrace(
-                        candidate: candidate,
+                        candidate: accepted.candidate,
                         candidateIndex: index,
                         extraction: extraction,
-                        ldpc: ldpc,
-                        decodedText: message.text,
+                        ldpc: accepted.ldpc,
+                        decodedText: accepted.decoded.text,
                         failure: nil
                     )
                 )
