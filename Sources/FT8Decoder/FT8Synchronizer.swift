@@ -14,71 +14,183 @@ public struct FT8Synchronizer: Sendable {
             throw SynchronizerError.emptySpectrogram
         }
 
-        let frameStep = Double(spectrogram.hopSize) / Double(spectrogram.sampleRate)
-        guard frameStep > 0, frameStep <= configuration.symbolPeriod else {
+        let frameStep = Double(spectrogram.hopSize)
+            / Double(spectrogram.sampleRate)
+        guard frameStep > 0,
+              frameStep <= configuration.symbolPeriod else {
             throw SynchronizerError.incompatibleFrameSpacing
         }
 
-        let signalDuration = Double(CostasSequence.symbolCount) * configuration.symbolPeriod
+        let signalDuration = Double(CostasSequence.symbolCount)
+            * configuration.symbolPeriod
         let latestStart = max(0, spectrogram.duration - signalDuration)
-        let frequencyStep = configuration.frequencyStep ?? max(firstFrame.binWidth, configuration.toneSpacing / 2)
+        let coarseFrequencyStep = configuration.frequencyStep
+            ?? max(firstFrame.binWidth, configuration.toneSpacing / 2)
 
-        let lowFrequency = max(configuration.minimumFrequency, spectrogram.minimumFrequency)
+        let lowFrequency = max(
+            configuration.minimumFrequency,
+            spectrogram.minimumFrequency
+        )
         let highFrequency = min(
             configuration.maximumFrequency,
             spectrogram.maximumFrequency - 7 * configuration.toneSpacing
         )
         guard highFrequency > lowFrequency else { return [] }
 
-        var raw: [FT8Candidate] = []
-        var start = max(0, firstFrame.time - configuration.symbolPeriod)
+        var coarse: [FT8Candidate] = []
+        var start = max(
+            0,
+            firstFrame.time - configuration.symbolPeriod
+        )
 
         while start <= latestStart + frameStep / 2 {
             var frequency = lowFrequency
-            while frequency <= highFrequency {
-                let drift = configuration.estimateDrift
-                    ? estimateDrift(
-                        spectrogram: spectrogram,
-                        startTime: start,
-                        baseFrequency: frequency
-                    )
-                    : 0
 
-                let correlation = CostasCorrelator.correlate(
+            while frequency <= highFrequency {
+                if let candidate = evaluate(
                     spectrogram: spectrogram,
                     startTime: start,
-                    baseFrequency: frequency,
-                    driftHzPerSecond: drift,
-                    symbolPeriod: configuration.symbolPeriod,
-                    toneSpacing: configuration.toneSpacing
-                )
+                    frequency: frequency
+                ) {
+                    coarse.append(candidate)
+                }
 
-                if correlation.score >= configuration.minimumSyncScore,
-                   correlation.snrDB >= configuration.minimumSNRDB {
-                    let confidence = confidence(
-                        score: correlation.score,
-                        snrDB: correlation.snrDB,
-                        observations: correlation.observations
-                    )
-                    raw.append(
-                        FT8Candidate(
-                            startTime: start,
-                            frequency: frequency,
-                            driftHzPerSecond: drift,
-                            symbolOffset: start / configuration.symbolPeriod,
-                            syncScore: correlation.score,
-                            snrDB: correlation.snrDB,
-                            confidence: confidence
-                        )
-                    )
+                frequency += coarseFrequencyStep
+            }
+
+            start += frameStep
+        }
+
+        let clusterer = FT8CandidateClusterer(
+            timeRadius: configuration.deduplicationTime,
+            frequencyRadius: configuration.deduplicationFrequency,
+            maximumCandidates: configuration.maximumCandidates
+        )
+
+        let seedLimit = min(
+            max(configuration.maximumCandidates * 3, 32),
+            coarse.count
+        )
+        let seeds = Array(
+            coarse.sorted(by: isPreferred).prefix(seedLimit)
+        )
+
+        guard configuration.enableFineSearch else {
+            return clusterer.cluster(seeds)
+        }
+
+        let refined = seeds.map {
+            refine(
+                $0,
+                in: spectrogram,
+                latestStart: latestStart,
+                lowFrequency: lowFrequency,
+                highFrequency: highFrequency,
+                frameStep: frameStep,
+                coarseFrequencyStep: coarseFrequencyStep
+            )
+        }
+
+        return clusterer.cluster(refined)
+    }
+
+    private func refine(
+        _ seed: FT8Candidate,
+        in spectrogram: Spectrogram,
+        latestStart: Double,
+        lowFrequency: Float,
+        highFrequency: Float,
+        frameStep: Double,
+        coarseFrequencyStep: Float
+    ) -> FT8Candidate {
+        let timeStep = min(frameStep, configuration.symbolPeriod)
+            / Double(configuration.fineTimeSubdivisions)
+        let frequencyStep = min(
+            coarseFrequencyStep,
+            configuration.toneSpacing
+        ) / Float(configuration.fineFrequencySubdivisions)
+
+        let minimumTime = max(
+            0,
+            seed.startTime - configuration.fineTimeRadius
+        )
+        let maximumTime = min(
+            latestStart,
+            seed.startTime + configuration.fineTimeRadius
+        )
+        let minimumFrequency = max(
+            lowFrequency,
+            seed.frequency - configuration.fineFrequencyRadius
+        )
+        let maximumFrequency = min(
+            highFrequency,
+            seed.frequency + configuration.fineFrequencyRadius
+        )
+
+        var best = seed
+        var time = minimumTime
+
+        while time <= maximumTime + timeStep / 2 {
+            var frequency = minimumFrequency
+
+            while frequency <= maximumFrequency + frequencyStep / 2 {
+                if let candidate = evaluate(
+                    spectrogram: spectrogram,
+                    startTime: time,
+                    frequency: frequency
+                ), isPreferred(candidate, best) {
+                    best = candidate
                 }
 
                 frequency += frequencyStep
             }
-            start += frameStep
+
+            time += timeStep
         }
 
-        return deduplicate(raw)
+        return best
+    }
+
+    private func evaluate(
+        spectrogram: Spectrogram,
+        startTime: Double,
+        frequency: Float
+    ) -> FT8Candidate? {
+        let drift = configuration.estimateDrift
+            ? estimateDrift(
+                spectrogram: spectrogram,
+                startTime: startTime,
+                baseFrequency: frequency
+            )
+            : 0
+
+        let correlation = CostasCorrelator.correlate(
+            spectrogram: spectrogram,
+            startTime: startTime,
+            baseFrequency: frequency,
+            driftHzPerSecond: drift,
+            symbolPeriod: configuration.symbolPeriod,
+            toneSpacing: configuration.toneSpacing
+        )
+
+        guard correlation.score >= configuration.minimumSyncScore,
+              correlation.snrDB >= configuration.minimumSNRDB else {
+            return nil
+        }
+
+        return FT8Candidate(
+            startTime: startTime,
+            frequency: frequency,
+            driftHzPerSecond: drift,
+            symbolOffset: startTime / configuration.symbolPeriod,
+            syncScore: correlation.score,
+            snrDB: correlation.snrDB,
+            confidence: confidence(
+                score: correlation.score,
+                snrDB: correlation.snrDB,
+                observations: correlation.observations
+            )
+        )
     }
 
     private func estimateDrift(
@@ -88,91 +200,76 @@ public struct FT8Synchronizer: Sendable {
     ) -> Float {
         guard configuration.maximumAbsoluteDrift > 0 else { return 0 }
 
-        let candidates: [Float] = [
-            -configuration.maximumAbsoluteDrift,
-            -configuration.maximumAbsoluteDrift / 2,
+        let maximum = configuration.maximumAbsoluteDrift
+        let driftCandidates: [Float] = [
+            -maximum,
+            -maximum / 2,
             0,
-            configuration.maximumAbsoluteDrift / 2,
-            configuration.maximumAbsoluteDrift
+            maximum / 2,
+            maximum
         ]
 
-        return candidates.max { lhs, rhs in
-            CostasCorrelator.correlate(
+        var bestDrift: Float = 0
+        var bestScore: Float = -.greatestFiniteMagnitude
+
+        for drift in driftCandidates {
+            let score = CostasCorrelator.correlate(
                 spectrogram: spectrogram,
                 startTime: startTime,
                 baseFrequency: baseFrequency,
-                driftHzPerSecond: lhs,
+                driftHzPerSecond: drift,
                 symbolPeriod: configuration.symbolPeriod,
                 toneSpacing: configuration.toneSpacing
             ).score
-            <
-            CostasCorrelator.correlate(
-                spectrogram: spectrogram,
-                startTime: startTime,
-                baseFrequency: baseFrequency,
-                driftHzPerSecond: rhs,
-                symbolPeriod: configuration.symbolPeriod,
-                toneSpacing: configuration.toneSpacing
-            ).score
-        } ?? 0
+
+            if score > bestScore {
+                bestScore = score
+                bestDrift = drift
+            }
+        }
+
+        return bestDrift
     }
 
-    private func confidence(score: Float, snrDB: Float, observations: Int) -> Float {
+    private func confidence(
+        score: Float,
+        snrDB: Float,
+        observations: Int
+    ) -> Float {
         let snrComponent = min(max((snrDB + 3) / 18, 0), 1)
         let observationComponent = min(Float(observations) / 21, 1)
-        return min(max(0.65 * score + 0.25 * snrComponent + 0.10 * observationComponent, 0), 1)
+
+        return min(
+            max(
+                0.65 * score
+                    + 0.25 * snrComponent
+                    + 0.10 * observationComponent,
+                0
+            ),
+            1
+        )
     }
 
-    private func deduplicate(_ candidates: [FT8Candidate]) -> [FT8Candidate] {
-        let ordered = candidates.sorted {
-            if $0.confidence != $1.confidence {
-                return $0.confidence > $1.confidence
-            }
-            if $0.syncScore != $1.syncScore {
-                return $0.syncScore > $1.syncScore
-            }
-            if $0.snrDB != $1.snrDB {
-                return $0.snrDB > $1.snrDB
-            }
-            if $0.startTime != $1.startTime {
-                return $0.startTime < $1.startTime
-            }
-            return $0.frequency < $1.frequency
+    private func isPreferred(
+        _ lhs: FT8Candidate,
+        _ rhs: FT8Candidate
+    ) -> Bool {
+        if lhs.confidence != rhs.confidence {
+            return lhs.confidence > rhs.confidence
         }
-
-        // Suppress neighbouring points from the same Costas peak. The old
-        // radii were small enough that a single broad signal ridge could
-        // consume a large fraction of maximumCandidates.
-        let timeRadius = configuration.deduplicationTime
-        let frequencyRadius = configuration.deduplicationFrequency
-
-        var accepted: [FT8Candidate] = []
-        accepted.reserveCapacity(
-            min(configuration.maximumCandidates, ordered.count)
-        )
-
-        for candidate in ordered {
-            let duplicate = accepted.contains {
-                abs($0.frequency - candidate.frequency) <= frequencyRadius &&
-                abs($0.startTime - candidate.startTime) <= timeRadius
-            }
-
-            guard !duplicate else {
-                continue
-            }
-
-            accepted.append(candidate)
-
-            if accepted.count >= configuration.maximumCandidates {
-                break
-            }
+        if lhs.syncScore != rhs.syncScore {
+            return lhs.syncScore > rhs.syncScore
         }
-
-        return accepted.sorted {
-            if $0.startTime == $1.startTime {
-                return $0.frequency < $1.frequency
-            }
-            return $0.startTime < $1.startTime
+        if lhs.snrDB != rhs.snrDB {
+            return lhs.snrDB > rhs.snrDB
         }
+        if abs(lhs.driftHzPerSecond) != abs(rhs.driftHzPerSecond) {
+            return abs(lhs.driftHzPerSecond)
+                < abs(rhs.driftHzPerSecond)
+        }
+        if lhs.startTime != rhs.startTime {
+            return lhs.startTime < rhs.startTime
+        }
+        return lhs.frequency < rhs.frequency
     }
 }

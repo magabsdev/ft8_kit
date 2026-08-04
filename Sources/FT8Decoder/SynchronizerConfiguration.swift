@@ -19,6 +19,11 @@ public struct SynchronizerConfiguration: Equatable, Sendable {
     public var deduplicationTime: Double
     public var estimateDrift: Bool
     public var maximumAbsoluteDrift: Float
+    public var enableFineSearch: Bool
+    public var fineFrequencySubdivisions: Int
+    public var fineTimeSubdivisions: Int
+    public var fineFrequencyRadius: Float
+    public var fineTimeRadius: Double
 
     public init(
         symbolPeriod: Double = 0.160,
@@ -32,7 +37,12 @@ public struct SynchronizerConfiguration: Equatable, Sendable {
         deduplicationFrequency: Float = 6.25,
         deduplicationTime: Double = 0.080,
         estimateDrift: Bool = true,
-        maximumAbsoluteDrift: Float = 3
+        maximumAbsoluteDrift: Float = 3,
+        enableFineSearch: Bool = true,
+        fineFrequencySubdivisions: Int = 4,
+        fineTimeSubdivisions: Int = 4,
+        fineFrequencyRadius: Float = 6.25,
+        fineTimeRadius: Double = 0.080
     ) {
         self.symbolPeriod = symbolPeriod
         self.toneSpacing = toneSpacing
@@ -46,6 +56,11 @@ public struct SynchronizerConfiguration: Equatable, Sendable {
         self.deduplicationTime = deduplicationTime
         self.estimateDrift = estimateDrift
         self.maximumAbsoluteDrift = maximumAbsoluteDrift
+        self.enableFineSearch = enableFineSearch
+        self.fineFrequencySubdivisions = fineFrequencySubdivisions
+        self.fineTimeSubdivisions = fineTimeSubdivisions
+        self.fineFrequencyRadius = fineFrequencyRadius
+        self.fineTimeRadius = fineTimeRadius
     }
 
     func validate() throws {
@@ -56,7 +71,11 @@ public struct SynchronizerConfiguration: Equatable, Sendable {
               maximumCandidates > 0,
               deduplicationFrequency >= 0,
               deduplicationTime >= 0,
-              maximumAbsoluteDrift >= 0 else {
+              maximumAbsoluteDrift >= 0,
+              fineFrequencySubdivisions > 0,
+              fineTimeSubdivisions > 0,
+              fineFrequencyRadius >= 0,
+              fineTimeRadius >= 0 else {
             throw SynchronizerError.invalidConfiguration
         }
     }
