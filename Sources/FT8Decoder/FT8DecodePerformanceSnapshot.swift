@@ -18,11 +18,21 @@ public struct FT8DecodePerformanceSnapshot: Codable, Equatable, Sendable {
     public let crcPassRate: Double
     public let messageYieldRate: Double
 
+    public let stageTimings: FT8DecodeStageTimings?
+    public let measuredStageSeconds: Double
+    public let unmeasuredSeconds: Double
+    public let timingCoverageRate: Double
+    public let slowestStage: FT8DecodeStage?
+    public let slowestStageSeconds: Double
+
     public init(
         batch: FT8DecodeBatch,
         generatedAt: Date = Date()
     ) {
         let metrics = batch.metrics
+        let timings = batch.stageTimings
+        let measuredSeconds = timings?.measuredSeconds ?? 0
+        let elapsedSeconds = max(0, metrics.elapsedSeconds)
 
         self.generatedAt = generatedAt
         candidatesFound = metrics.candidatesFound
@@ -32,19 +42,19 @@ public struct FT8DecodePerformanceSnapshot: Codable, Equatable, Sendable {
         parityPassed = metrics.parityPassed
         crcPassed = metrics.crcPassed
         messagesReturned = metrics.messagesReturned
-        elapsedSeconds = metrics.elapsedSeconds
+        self.elapsedSeconds = elapsedSeconds
 
         candidatesPerSecond = Self.rate(
             numerator: metrics.candidatesFound,
-            denominator: metrics.elapsedSeconds
+            denominator: elapsedSeconds
         )
         scheduledCandidatesPerSecond = Self.rate(
             numerator: metrics.candidatesScheduled,
-            denominator: metrics.elapsedSeconds
+            denominator: elapsedSeconds
         )
         averageSecondsPerScheduledCandidate =
             metrics.candidatesScheduled > 0
-            ? metrics.elapsedSeconds / Double(metrics.candidatesScheduled)
+            ? elapsedSeconds / Double(metrics.candidatesScheduled)
             : 0
         softExtractionRate = Self.ratio(
             numerator: metrics.softSymbolsExtracted,
@@ -62,6 +72,22 @@ public struct FT8DecodePerformanceSnapshot: Codable, Equatable, Sendable {
             numerator: metrics.messagesReturned,
             denominator: metrics.candidatesScheduled
         )
+
+        stageTimings = timings
+        measuredStageSeconds = measuredSeconds
+        unmeasuredSeconds = max(0, elapsedSeconds - measuredSeconds)
+        timingCoverageRate = Self.boundedRatio(
+            numerator: measuredSeconds,
+            denominator: elapsedSeconds
+        )
+        slowestStage = timings?.slowestStage
+        slowestStageSeconds = timings
+            .flatMap { timings in
+                timings.slowestStage.map {
+                    timings.seconds(for: $0)
+                }
+            }
+            ?? 0
     }
 
     private static func ratio(
@@ -78,6 +104,20 @@ public struct FT8DecodePerformanceSnapshot: Codable, Equatable, Sendable {
     ) -> Double {
         guard denominator > 0 else { return 0 }
         return Double(numerator) / denominator
+    }
+
+    private static func boundedRatio(
+        numerator: Double,
+        denominator: Double
+    ) -> Double {
+        guard numerator.isFinite,
+              denominator.isFinite,
+              numerator >= 0,
+              denominator > 0 else {
+            return 0
+        }
+
+        return min(1, numerator / denominator)
     }
 }
 
@@ -145,7 +185,12 @@ public struct FT8DecodePerformanceWriter: Sendable {
             "soft_extraction_rate",
             "parity_pass_rate",
             "crc_pass_rate",
-            "message_yield_rate"
+            "message_yield_rate",
+            "measured_stage_seconds",
+            "unmeasured_seconds",
+            "timing_coverage_rate",
+            "slowest_stage",
+            "slowest_stage_seconds"
         ].joined(separator: ",")
 
         let row = [
@@ -163,7 +208,12 @@ public struct FT8DecodePerformanceWriter: Sendable {
             String(snapshot.softExtractionRate),
             String(snapshot.parityPassRate),
             String(snapshot.crcPassRate),
-            String(snapshot.messageYieldRate)
+            String(snapshot.messageYieldRate),
+            String(snapshot.measuredStageSeconds),
+            String(snapshot.unmeasuredSeconds),
+            String(snapshot.timingCoverageRate),
+            snapshot.slowestStage?.rawValue ?? "",
+            String(snapshot.slowestStageSeconds)
         ].joined(separator: ",")
 
         return header + "\n" + row + "\n"
