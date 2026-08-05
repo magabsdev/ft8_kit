@@ -107,7 +107,9 @@ final class FT8OptimizedStageTimingIntegrationTests: XCTestCase {
             frames: [],
             sampleRate: 12_000,
             fftSize: 4_096,
-            hopSize: 120
+            hopSize: 120,
+            minimumFrequency: 0,
+            maximumFrequency: 6_000
         )
 
         let decoder = FT8OptimizedDecoder(
