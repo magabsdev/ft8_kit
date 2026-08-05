@@ -11,6 +11,7 @@ public struct FT8AuditSummary: Codable, Equatable, Sendable {
     public let messagesReturned: Int
     public let elapsedSeconds: Double
     public let traceCount: Int
+    public let pipelineRecordCount: Int
 
     public init(batch: FT8DecodeBatch, generatedAt: Date = Date()) {
         self.generatedAt = generatedAt
@@ -23,6 +24,7 @@ public struct FT8AuditSummary: Codable, Equatable, Sendable {
         messagesReturned = batch.metrics.messagesReturned
         elapsedSeconds = batch.metrics.elapsedSeconds
         traceCount = batch.candidateTraces.count
+        pipelineRecordCount = batch.pipelineRecords.count
     }
 }
 
@@ -43,6 +45,10 @@ public struct FT8AuditWriter: Sendable {
             batch.candidateTraces,
             to: directory.appendingPathComponent("candidate-traces.json")
         )
+        try writeJSON(
+            batch.pipelineRecords,
+            to: directory.appendingPathComponent("pipeline-records.json")
+        )
         try candidatesCSV(batch.candidateTraces).write(
             to: directory.appendingPathComponent("candidates.csv"),
             atomically: true,
@@ -60,6 +66,11 @@ public struct FT8AuditWriter: Sendable {
         )
         try ldpcCSV(batch.candidateTraces).write(
             to: directory.appendingPathComponent("ldpc.csv"),
+            atomically: true,
+            encoding: .utf8
+        )
+        try pipelineCSV(batch.pipelineRecords).write(
+            to: directory.appendingPathComponent("pipeline-records.csv"),
             atomically: true,
             encoding: .utf8
         )
@@ -171,6 +182,38 @@ public struct FT8AuditWriter: Sendable {
                 optional(trace.crcPassed),
                 quoted(trace.decodedText ?? ""),
                 quoted(trace.failure ?? "")
+            ].joined(separator: ","))
+        }
+
+        return rows.joined(separator: "\n") + "\n"
+    }
+
+    public func pipelineCSV(_ records: [FT8PipelineRecord]) -> String {
+        var rows = [
+            "candidate_index,start_time_seconds,frequency_hz,synchronizer_score,received_tone_count,data_tone_count,gray_bit_count,interleaved_bit_count,llr_count,decoded_codeword_count,information_bit_count,ldpc_iterations,syndrome_weight,parity_passed,crc_passed,message_confidence,decoded_text,failure_reason,structurally_valid"
+        ]
+
+        for record in records {
+            rows.append([
+                String(record.candidateIndex),
+                String(record.startTime),
+                String(record.frequency),
+                String(record.synchronizerScore),
+                String(record.receivedTones.count),
+                String(record.dataTones.count),
+                String(record.grayMappedBits.count),
+                String(record.interleavedBits.count),
+                String(record.logLikelihoodRatios.count),
+                String(record.decodedCodeword.count),
+                String(record.informationBits.count),
+                optional(record.ldpcIterations),
+                optional(record.syndromeWeight),
+                optional(record.parityPassed),
+                optional(record.crcPassed),
+                optional(record.messageConfidence),
+                quoted(record.decodedText ?? ""),
+                quoted(record.failureReason ?? ""),
+                String(record.isStructurallyValid)
             ].joined(separator: ","))
         }
 
