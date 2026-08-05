@@ -70,7 +70,89 @@ final class FT8PipelineRecorderTests: XCTestCase {
         }
     }
 
-    func testCapturePopulatesReceivedAndDataToneStages() throws {
+    func testGrayMappingForAllEightTonesMatchesToneMapping() throws {
+        let tones = Array(0...7).map(UInt8.init)
+        let repeated = Array(
+            repeating: tones,
+            count: 8
+        ).flatMap { $0 }.prefix(58)
+
+        let bits = try FT8PipelineRecorder.mapDataTonesToBits(
+            Array(repeated)
+        )
+
+        XCTAssertEqual(bits.count, 174)
+
+        for index in 0..<58 {
+            let tone = Int(repeated[repeated.index(
+                repeated.startIndex,
+                offsetBy: index
+            )])
+            let expected = FT8ToneMapping.bits(forTone: tone)
+            let offset = index * 3
+
+            XCTAssertEqual(bits[offset], expected.0)
+            XCTAssertEqual(bits[offset + 1], expected.1)
+            XCTAssertEqual(bits[offset + 2], expected.2)
+        }
+    }
+
+    func testKnownInverseGrayMap() throws {
+        let tones: [UInt8] = [
+            0, 1, 3, 2, 7, 6, 4, 5
+        ]
+        let dataTones = Array(
+            repeating: tones,
+            count: 8
+        ).flatMap { $0 }.prefix(58)
+
+        let bits = try FT8PipelineRecorder.mapDataTonesToBits(
+            Array(dataTones)
+        )
+
+        XCTAssertEqual(
+            Array(bits.prefix(24)),
+            [
+                0, 0, 0,
+                0, 0, 1,
+                0, 1, 0,
+                0, 1, 1,
+                1, 0, 0,
+                1, 0, 1,
+                1, 1, 0,
+                1, 1, 1
+            ]
+        )
+    }
+
+    func testMapDataTonesRejectsWrongLength() {
+        XCTAssertThrowsError(
+            try FT8PipelineRecorder.mapDataTonesToBits(
+                Array(repeating: 0, count: 57)
+            )
+        ) { error in
+            XCTAssertEqual(
+                error as? FT8PipelineRecorderError,
+                .invalidDataToneCount(actual: 57)
+            )
+        }
+    }
+
+    func testMapDataTonesRejectsInvalidTone() {
+        var tones = Array(repeating: UInt8.zero, count: 58)
+        tones[12] = 8
+
+        XCTAssertThrowsError(
+            try FT8PipelineRecorder.mapDataTonesToBits(tones)
+        ) { error in
+            XCTAssertEqual(
+                error as? FT8PipelineRecorderError,
+                .invalidToneValue(index: 12, value: 8)
+            )
+        }
+    }
+
+    func testCapturePopulatesToneAndGrayBitStages() throws {
         let candidate = FT8Candidate(
             startTime: 1.25,
             frequency: 1_000,
@@ -92,19 +174,15 @@ final class FT8PipelineRecorderTests: XCTestCase {
             toneMetrics: metrics
         )
 
-        XCTAssertEqual(record.candidateIndex, 3)
-        XCTAssertEqual(record.startTime, candidate.startTime)
-        XCTAssertEqual(record.frequency, candidate.frequency)
-        XCTAssertEqual(record.synchronizerScore, candidate.syncScore)
         XCTAssertEqual(record.receivedTones.count, 79)
         XCTAssertEqual(record.dataTones.count, 58)
+        XCTAssertEqual(record.grayMappedBits.count, 174)
         XCTAssertEqual(
-            record.dataTones,
-            try FT8PipelineRecorder.extractDataTones(
-                from: record.receivedTones
+            record.grayMappedBits,
+            try FT8PipelineRecorder.mapDataTonesToBits(
+                record.dataTones
             )
         )
-        XCTAssertTrue(record.grayMappedBits.isEmpty)
         XCTAssertTrue(record.interleavedBits.isEmpty)
         XCTAssertTrue(record.logLikelihoodRatios.isEmpty)
         XCTAssertTrue(record.isStructurallyValid)

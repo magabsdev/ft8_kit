@@ -3,17 +3,20 @@ import FT8DSP
 
 public enum FT8PipelineRecorderError: Error, Equatable, Sendable {
     case invalidReceivedToneCount(actual: Int)
+    case invalidDataToneCount(actual: Int)
+    case invalidToneValue(index: Int, value: UInt8)
     case invalidMetricCount(symbolIndex: Int, actual: Int)
     case emptyToneMetrics(symbolIndex: Int)
 }
 
-/// Captures the detected FT8 tone pipeline for one candidate.
+/// Captures the detected FT8 tone and hard-bit pipeline for one candidate.
 ///
-/// Checkpoint 7.3.1C records:
+/// Checkpoint 7.3.1D records:
 /// - all 79 received tones;
-/// - the 58 data tones after removing the three Costas blocks.
+/// - the 58 data tones after removing the three Costas blocks;
+/// - the 174 hard channel bits obtained through the FT8 inverse Gray map.
 ///
-/// Later checkpoints populate the bit and LLR stages.
+/// Later checkpoints populate the interleaved-bit and LLR stages.
 public struct FT8PipelineRecorder: Sendable {
     public var extractor: SoftSymbolExtractor
 
@@ -49,7 +52,7 @@ public struct FT8PipelineRecorder: Sendable {
     /// Builds a pipeline record from already-calculated tone metrics.
     ///
     /// This overload avoids recalculating metrics when a caller already owns
-    /// them and keeps tone-selection and Costas-removal independently testable.
+    /// them and keeps each deterministic transformation independently testable.
     public func captureReceivedTones(
         candidateIndex: Int,
         candidate: FT8Candidate,
@@ -61,6 +64,9 @@ public struct FT8PipelineRecorder: Sendable {
         let dataTones = try Self.extractDataTones(
             from: receivedTones
         )
+        let grayMappedBits = try Self.mapDataTonesToBits(
+            dataTones
+        )
 
         return FT8PipelineRecord(
             candidateIndex: candidateIndex,
@@ -68,7 +74,8 @@ public struct FT8PipelineRecorder: Sendable {
             frequency: candidate.frequency,
             synchronizerScore: candidate.syncScore,
             receivedTones: receivedTones,
-            dataTones: dataTones
+            dataTones: dataTones,
+            grayMappedBits: grayMappedBits
         )
     }
 
@@ -137,6 +144,40 @@ public struct FT8PipelineRecorder: Sendable {
         )
 
         return dataTones
+    }
+
+    /// Converts each of the 58 detected data tones into its three channel bits
+    /// using the same inverse Gray mapping as `SoftSymbolExtractor`.
+    ///
+    /// Bit order is most-significant to least-significant for each tone.
+    public static func mapDataTonesToBits(
+        _ dataTones: [UInt8]
+    ) throws -> [UInt8] {
+        guard dataTones.count == FT8PipelineRecord.dataToneCount else {
+            throw FT8PipelineRecorderError.invalidDataToneCount(
+                actual: dataTones.count
+            )
+        }
+
+        var bits: [UInt8] = []
+        bits.reserveCapacity(FT8PipelineRecord.channelBitCount)
+
+        for (index, tone) in dataTones.enumerated() {
+            guard tone <= 7 else {
+                throw FT8PipelineRecorderError.invalidToneValue(
+                    index: index,
+                    value: tone
+                )
+            }
+
+            let mapped = FT8ToneMapping.bits(forTone: Int(tone))
+            bits.append(mapped.0)
+            bits.append(mapped.1)
+            bits.append(mapped.2)
+        }
+
+        precondition(bits.count == FT8PipelineRecord.channelBitCount)
+        return bits
     }
 
     private static let costasToneIndices: Set<Int> =
