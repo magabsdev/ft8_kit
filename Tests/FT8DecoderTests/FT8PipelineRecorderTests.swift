@@ -152,44 +152,96 @@ final class FT8PipelineRecorderTests: XCTestCase {
         }
     }
 
-    func testCaptureWithoutLLRsLeavesSoftStageEmpty() throws {
-        let candidate = makeCandidate()
+    func testCaptureWithoutLLRsLeavesSoftAndLDPCStagesEmpty() throws {
         let record = try FT8PipelineRecorder().captureReceivedTones(
             candidateIndex: 3,
-            candidate: candidate,
+            candidate: makeCandidate(),
             toneMetrics: makeToneMetrics()
         )
 
         XCTAssertEqual(record.receivedTones.count, 79)
         XCTAssertEqual(record.dataTones.count, 58)
         XCTAssertEqual(record.grayMappedBits.count, 174)
+        XCTAssertTrue(record.interleavedBits.isEmpty)
         XCTAssertTrue(record.logLikelihoodRatios.isEmpty)
         XCTAssertTrue(record.isStructurallyValid)
     }
 
-    func testCaptureStoresExactLLRVector() throws {
-        let candidate = makeCandidate()
-        let llrs = (0..<174).map { Float($0) - 87 }
+    func testCaptureStoresExactLLRVectorAndHardDecisions() throws {
+        let llrs = (0..<174).map { index in
+            index.isMultiple(of: 2) ? Float(index + 1) : -Float(index + 1)
+        }
 
         let record = try FT8PipelineRecorder().captureReceivedTones(
             candidateIndex: 3,
-            candidate: candidate,
+            candidate: makeCandidate(),
             toneMetrics: makeToneMetrics(),
             logLikelihoodRatios: llrs
         )
 
         XCTAssertEqual(record.logLikelihoodRatios, llrs)
-        XCTAssertEqual(record.logLikelihoodRatios.count, 174)
+        XCTAssertEqual(record.interleavedBits.count, 174)
+        XCTAssertEqual(
+            record.interleavedBits,
+            llrs.map { UInt8($0 < 0 ? 1 : 0) }
+        )
         XCTAssertTrue(record.isStructurallyValid)
     }
 
+    func testHardDecisionsUseEstablishedLLRSignConvention() throws {
+        let llrs = Array(
+            repeating: [Float(12), Float.zero, Float(-12)],
+            count: 58
+        ).flatMap { $0 }
+
+        let bits = try FT8PipelineRecorder.hardDecisions(from: llrs)
+
+        XCTAssertEqual(
+            bits,
+            Array(repeating: [UInt8(0), 0, 1], count: 58).flatMap { $0 }
+        )
+    }
+
+    func testHardDecisionsAcceptEmptyIncrementalStage() throws {
+        XCTAssertEqual(
+            try FT8PipelineRecorder.hardDecisions(from: []),
+            []
+        )
+    }
+
+    func testHardDecisionsRejectWrongLLRCount() {
+        XCTAssertThrowsError(
+            try FT8PipelineRecorder.hardDecisions(
+                from: Array(repeating: 1, count: 173)
+            )
+        ) { error in
+            XCTAssertEqual(
+                error as? FT8PipelineRecorderError,
+                .invalidLLRCount(actual: 173)
+            )
+        }
+    }
+
+    func testHardDecisionsRejectNonFiniteLLR() {
+        var llrs = Array(repeating: Float(1), count: 174)
+        llrs[42] = .infinity
+
+        XCTAssertThrowsError(
+            try FT8PipelineRecorder.hardDecisions(from: llrs)
+        ) { error in
+            XCTAssertEqual(
+                error as? FT8PipelineRecorderError,
+                .nonFiniteLLR(index: 42)
+            )
+        }
+    }
+
     func testLLRHardDecisionsMatchGrayBitsForStrongSyntheticValues() throws {
-        let candidate = makeCandidate()
         let metrics = makeToneMetrics()
 
         let preliminary = try FT8PipelineRecorder().captureReceivedTones(
             candidateIndex: 0,
-            candidate: candidate,
+            candidate: makeCandidate(),
             toneMetrics: metrics
         )
         let llrs = preliminary.grayMappedBits.map {
@@ -198,15 +250,12 @@ final class FT8PipelineRecorderTests: XCTestCase {
 
         let record = try FT8PipelineRecorder().captureReceivedTones(
             candidateIndex: 0,
-            candidate: candidate,
+            candidate: makeCandidate(),
             toneMetrics: metrics,
             logLikelihoodRatios: llrs
         )
-        let hardBits = record.logLikelihoodRatios.map {
-            UInt8($0 < 0 ? 1 : 0)
-        }
 
-        XCTAssertEqual(hardBits, record.grayMappedBits)
+        XCTAssertEqual(record.interleavedBits, record.grayMappedBits)
     }
 
     private func makeCandidate() -> FT8Candidate {

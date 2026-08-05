@@ -7,19 +7,23 @@ public enum FT8PipelineRecorderError: Error, Equatable, Sendable {
     case invalidToneValue(index: Int, value: UInt8)
     case invalidMetricCount(symbolIndex: Int, actual: Int)
     case emptyToneMetrics(symbolIndex: Int)
+    case invalidLLRCount(actual: Int)
+    case nonFiniteLLR(index: Int)
 }
 
 /// Captures the detected FT8 tone, hard-bit and soft-bit pipeline for one
 /// candidate.
 ///
-/// Checkpoint 7.3.1E records:
+/// Checkpoint 7.3.1F records:
 /// - all 79 received tones;
 /// - the 58 data tones after removing the three Costas blocks;
 /// - the 174 hard channel bits obtained through the FT8 inverse Gray map;
-/// - the exact 174 LLR values produced by `SoftSymbolExtractor`.
+/// - the exact 174 LLR values produced by `SoftSymbolExtractor`;
+/// - the 174 hard decisions presented to the LDPC decoder.
 ///
-/// `interleavedBits` remains empty because the current decoder contains no
-/// separate hard-bit permutation between tone mapping and LDPC input.
+/// The current decoder applies no separate channel-bit permutation, so
+/// `interleavedBits` records the identity-ordered hard decisions derived from
+/// the LLR sign: non-negative is bit zero and negative is bit one.
 public struct FT8PipelineRecorder: Sendable {
     public var extractor: SoftSymbolExtractor
 
@@ -62,7 +66,7 @@ public struct FT8PipelineRecorder: Sendable {
     /// Builds a record from precomputed tone metrics.
     ///
     /// This overload is retained for deterministic tone and Gray-map tests. It
-    /// does not fabricate LLRs, so `logLikelihoodRatios` remains empty.
+    /// does not fabricate LLRs, so the soft and LDPC-input stages remain empty.
     public func captureReceivedTones(
         candidateIndex: Int,
         candidate: FT8Candidate,
@@ -76,7 +80,7 @@ public struct FT8PipelineRecorder: Sendable {
         )
     }
 
-    /// Builds a complete Checkpoint 7.3.1E record from precomputed stages.
+    /// Builds a complete Checkpoint 7.3.1F record from precomputed stages.
     public func captureReceivedTones(
         candidateIndex: Int,
         candidate: FT8Candidate,
@@ -92,6 +96,9 @@ public struct FT8PipelineRecorder: Sendable {
         let grayMappedBits = try Self.mapDataTonesToBits(
             dataTones
         )
+        let interleavedBits = try Self.hardDecisions(
+            from: logLikelihoodRatios
+        )
 
         return FT8PipelineRecord(
             candidateIndex: candidateIndex,
@@ -101,6 +108,7 @@ public struct FT8PipelineRecorder: Sendable {
             receivedTones: receivedTones,
             dataTones: dataTones,
             grayMappedBits: grayMappedBits,
+            interleavedBits: interleavedBits,
             logLikelihoodRatios: logLikelihoodRatios
         )
     }
@@ -196,6 +204,30 @@ public struct FT8PipelineRecorder: Sendable {
 
         precondition(bits.count == FT8PipelineRecord.channelBitCount)
         return bits
+    }
+
+    /// Converts the decoder's log(p(0) / p(1)) values into the exact hard-bit
+    /// ordering supplied to the LDPC decoder. Empty input is accepted for
+    /// incremental diagnostic records.
+    public static func hardDecisions(
+        from logLikelihoodRatios: [Float]
+    ) throws -> [UInt8] {
+        guard !logLikelihoodRatios.isEmpty else {
+            return []
+        }
+
+        guard logLikelihoodRatios.count == FT8PipelineRecord.llrCount else {
+            throw FT8PipelineRecorderError.invalidLLRCount(
+                actual: logLikelihoodRatios.count
+            )
+        }
+
+        return try logLikelihoodRatios.enumerated().map { index, value in
+            guard value.isFinite else {
+                throw FT8PipelineRecorderError.nonFiniteLLR(index: index)
+            }
+            return value < 0 ? 1 : 0
+        }
     }
 
     private static let costasToneIndices: Set<Int> =
