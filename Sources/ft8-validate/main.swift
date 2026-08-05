@@ -61,6 +61,7 @@ private struct DecodeOptions {
     var json = false
     var diagnostics = false
     var dumpDirectory: String?
+    var auditDirectory: String?
     var wavPath: String?
 }
 
@@ -335,6 +336,12 @@ private func parseDecodeOptions(_ arguments: [String]) throws -> DecodeOptions {
                 throw CLIError.missingValue(argument)
             }
             options.dumpDirectory = arguments[index]
+        case "--audit-dir":
+            index += 1
+            guard index < arguments.count else {
+                throw CLIError.missingValue(argument)
+            }
+            options.auditDirectory = arguments[index]
         default:
             guard !argument.hasPrefix("-"), options.wavPath == nil else {
                 throw CLIError.usage
@@ -361,6 +368,24 @@ private func runDecode(arguments: [String]) async throws {
 
     if let directory = options.dumpDirectory {
         try dumpDebug(directoryPath: directory, recording: recording, spectrogram: spectrogram, report: report)
+    }
+
+    if let directory = options.auditDirectory {
+        var configuration = FT8OptimizedDecoderConfiguration()
+        configuration.captureCandidateTraces = true
+
+        let auditBatch = try FT8OptimizedDecoder(
+            configuration: configuration
+        ).decode(spectrogram: spectrogram)
+
+        try FT8AuditWriter().write(
+            batch: auditBatch,
+            to: URL(fileURLWithPath: directory, isDirectory: true)
+        )
+
+        FileHandle.standardError.write(
+            Data("[ft8-validate] Audit written to \(directory)\n".utf8)
+        )
     }
 
     if options.diagnostics {
