@@ -109,3 +109,13 @@ final class FT8OptimizedStageTimingIntegrationTests: XCTestCase {
             fftSize: 4_096,
             hopSize: 120
         )
+
+        let decoder = FT8OptimizedDecoder(
+            configuration: .init(captureStageTimings: false)
+        )
+
+        let batch = try decoder.decode(spectrogram: spectrogram)
+
+        XCTAssertNil(batch.stageTimings)
+    }
+}
