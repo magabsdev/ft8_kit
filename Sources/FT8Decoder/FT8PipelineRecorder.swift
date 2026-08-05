@@ -19,11 +19,11 @@ public enum FT8PipelineRecorderError: Error, Equatable, Sendable {
 /// - the 58 data tones after removing the three Costas blocks;
 /// - the 174 hard channel bits obtained through the FT8 inverse Gray map;
 /// - the exact 174 LLR values produced by `SoftSymbolExtractor`;
-/// - the 174 hard decisions presented to the LDPC decoder.
+/// - the 174 LDPC-input hard decisions derived from those LLRs.
 ///
-/// The current decoder applies no separate channel-bit permutation, so
-/// `interleavedBits` records the identity-ordered hard decisions derived from
-/// the LLR sign: non-negative is bit zero and negative is bit one.
+/// The current decoder has no separate hard-bit permutation between tone
+/// mapping and LDPC input. `interleavedBits` therefore records the hard
+/// decisions in the exact order supplied to the LDPC decoder.
 public struct FT8PipelineRecorder: Sendable {
     public var extractor: SoftSymbolExtractor
 
@@ -206,9 +206,13 @@ public struct FT8PipelineRecorder: Sendable {
         return bits
     }
 
-    /// Converts the decoder's log(p(0) / p(1)) values into the exact hard-bit
-    /// ordering supplied to the LDPC decoder. Empty input is accepted for
-    /// incremental diagnostic records.
+    /// Converts decoder LLRs to hard LDPC-input bits.
+    ///
+    /// The decoder convention is:
+    /// - non-negative LLR -> bit 0
+    /// - negative LLR -> bit 1
+    ///
+    /// An empty array is accepted for incremental diagnostic records.
     public static func hardDecisions(
         from logLikelihoodRatios: [Float]
     ) throws -> [UInt8] {
@@ -222,12 +226,17 @@ public struct FT8PipelineRecorder: Sendable {
             )
         }
 
-        return try logLikelihoodRatios.enumerated().map { index, value in
-            guard value.isFinite else {
+        var bits: [UInt8] = []
+        bits.reserveCapacity(FT8PipelineRecord.channelBitCount)
+
+        for (index, llr) in logLikelihoodRatios.enumerated() {
+            guard llr.isFinite else {
                 throw FT8PipelineRecorderError.nonFiniteLLR(index: index)
             }
-            return value < 0 ? 1 : 0
+            bits.append(llr < 0 ? 1 : 0)
         }
+
+        return bits
     }
 
     private static let costasToneIndices: Set<Int> =

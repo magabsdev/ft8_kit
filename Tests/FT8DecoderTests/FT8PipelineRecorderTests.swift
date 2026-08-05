@@ -190,7 +190,7 @@ final class FT8PipelineRecorderTests: XCTestCase {
 
     func testHardDecisionsUseEstablishedLLRSignConvention() throws {
         let llrs = Array(
-            repeating: [Float(12), Float.zero, Float(-12)],
+            repeating: [Float(12), 0, -12],
             count: 58
         ).flatMap { $0 }
 
