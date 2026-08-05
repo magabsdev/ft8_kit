@@ -168,7 +168,7 @@ public enum VectorMath {
             &scaled, 1,
             vDSP_Length(scaled.count)
         )
-        var base = Array(repeating: Float(10), count: scaled.count)
+        let base = Array(repeating: Float(10), count: scaled.count)
         var count = Int32(scaled.count)
         vvpowf(&output, scaled, base, &count)
         #else
@@ -189,7 +189,7 @@ public enum VectorMath {
         var output = Array(repeating: Float.zero, count: magnitudes.count)
 
         #if canImport(Accelerate)
-        var safe = magnitudes.map {
+        let safe = magnitudes.map {
             max($0, Float.leastNonzeroMagnitude)
         }
         var count = Int32(safe.count)

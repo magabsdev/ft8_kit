@@ -7,8 +7,8 @@ public final class FFT: @unchecked Sendable {
     public let size: Int
 
     #if canImport(Accelerate)
-    private let forwardTransform: vDSP.DFT<Float>
-    private let inverseTransform: vDSP.DFT<Float>
+    private let forwardTransform: vDSP.DiscreteFourierTransform<Float>
+    private let inverseTransform: vDSP.DiscreteFourierTransform<Float>
     #endif
 
     public init(size: Int) throws {
@@ -32,22 +32,24 @@ public final class FFT: @unchecked Sendable {
         self.size = size
 
         #if canImport(Accelerate)
-        guard let forward = vDSP.DFT(
-            count: size,
-            direction: .forward,
-            transformType: .complexComplex,
-            ofType: Float.self
-        ), let inverse = vDSP.DFT(
-            count: size,
-            direction: .inverse,
-            transformType: .complexComplex,
-            ofType: Float.self
-        ) else {
+        do {
+            forwardTransform = try vDSP.DiscreteFourierTransform(
+                previous: nil,
+                count: size,
+                direction: .forward,
+                transformType: .complexComplex,
+                ofType: Float.self
+            )
+            inverseTransform = try vDSP.DiscreteFourierTransform(
+                previous: nil,
+                count: size,
+                direction: .inverse,
+                transformType: .complexComplex,
+                ofType: Float.self
+            )
+        } catch {
             throw FFTError.unavailable
         }
-
-        self.forwardTransform = forward
-        self.inverseTransform = inverse
         #endif
     }
 
