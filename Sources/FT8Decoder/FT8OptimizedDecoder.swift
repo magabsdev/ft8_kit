@@ -218,26 +218,6 @@ public struct FT8OptimizedDecoder: Sendable {
                 .trimmingCharacters(in: .whitespacesAndNewlines)
                 ?? ""
 
-            if configuration.capturePipelineRecords,
-               !pipelineRecords.isEmpty {
-                let failure: String?
-                if primaryMessage == nil {
-                    failure = "messageDecodeFailed"
-                } else if primaryText.isEmpty {
-                    failure = "emptyMessageRejected"
-                } else {
-                    failure = nil
-                }
-
-                pipelineRecords[pipelineRecords.count - 1] =
-                    FT8PipelineRecorder.attachingMessageOutcome(
-                        decodedText: primaryText.isEmpty ? nil : primaryText,
-                        confidence: primaryMessage?.confidence,
-                        failureReason: failure,
-                        to: pipelineRecords[pipelineRecords.count - 1]
-                    )
-            }
-
             if let message = primaryMessage,
                !primaryText.isEmpty {
                 trace("[Optimized] Message decode returned: \(message.text)")
