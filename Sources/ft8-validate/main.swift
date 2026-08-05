@@ -62,6 +62,9 @@ private struct DecodeOptions {
     var diagnostics = false
     var dumpDirectory: String?
     var auditDirectory: String?
+    var expectedMessages: [String] = []
+    var expectedFrequencyHz: Double?
+    var expectedTimeSeconds: Double?
     var wavPath: String?
 }
 
@@ -342,6 +345,26 @@ private func parseDecodeOptions(_ arguments: [String]) throws -> DecodeOptions {
                 throw CLIError.missingValue(argument)
             }
             options.auditDirectory = arguments[index]
+        case "--expected-message":
+            index += 1
+            guard index < arguments.count else {
+                throw CLIError.missingValue(argument)
+            }
+            options.expectedMessages.append(arguments[index])
+        case "--expected-frequency":
+            index += 1
+            guard index < arguments.count,
+                  let value = Double(arguments[index]) else {
+                throw CLIError.missingValue(argument)
+            }
+            options.expectedFrequencyHz = value
+        case "--expected-time":
+            index += 1
+            guard index < arguments.count,
+                  let value = Double(arguments[index]) else {
+                throw CLIError.missingValue(argument)
+            }
+            options.expectedTimeSeconds = value
         default:
             guard !argument.hasPrefix("-"), options.wavPath == nil else {
                 throw CLIError.usage
@@ -378,10 +401,32 @@ private func runDecode(arguments: [String]) async throws {
             configuration: configuration
         ).decode(spectrogram: spectrogram)
 
+        let auditURL = URL(
+            fileURLWithPath: directory,
+            isDirectory: true
+        )
+
         try FT8AuditWriter().write(
             batch: auditBatch,
-            to: URL(fileURLWithPath: directory, isDirectory: true)
+            to: auditURL
         )
+
+        if !options.expectedMessages.isEmpty {
+            let expectations = options.expectedMessages.map {
+                FT8ReferenceExpectation(
+                    message: $0,
+                    frequencyHz: options.expectedFrequencyHz,
+                    timeSeconds: options.expectedTimeSeconds
+                )
+            }
+            let comparator = FT8ReferenceComparator()
+            let comparison = try comparator.compare(
+                traces: auditBatch.candidateTraces,
+                expectations: expectations
+            )
+            try comparator.write(comparison, to: auditURL)
+            comparator.printSummary(comparison)
+        }
 
         FileHandle.standardError.write(
             Data("[ft8-validate] Audit written to \(directory)\n".utf8)

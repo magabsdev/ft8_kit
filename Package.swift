@@ -18,7 +18,7 @@ let package = Package(
         .target(name: "FT8DSP"),
         .target(name: "FT8Decoder", dependencies: ["FT8Protocol", "FT8DSP"]),
         .target(name: "FT8Validation"),
-        .executableTarget(name: "ft8-validate", dependencies: ["FT8Decoder", "FT8Validation"]),
+        .executableTarget(name: "ft8-validate", dependencies: ["FT8Decoder", "FT8Validation", "FT8Encoder", "FT8Protocol"]),
         .testTarget(name: "FT8ProtocolTests", dependencies: ["FT8Protocol"]),
         .testTarget(name: "FT8EncoderTests", dependencies: ["FT8Encoder", "FT8Protocol"]),
         .testTarget(name: "FT8DSPTests", dependencies: ["FT8DSP"]),
