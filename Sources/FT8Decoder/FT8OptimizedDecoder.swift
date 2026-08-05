@@ -10,6 +10,7 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
     public var deduplicationFrequency: Float
     public var captureCandidateTraces: Bool
     public var capturePipelineRecords: Bool
+    public var captureStageTimings: Bool
 
     public init(maximumCandidatesToDecode: Int = 140,
     minimumCandidateConfidence: Float = 0.10,
@@ -18,7 +19,8 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
     deduplicationTime: Double = 0.160,
     deduplicationFrequency: Float = 12.5,
     captureCandidateTraces: Bool = false,
-    capturePipelineRecords: Bool = false) {
+    capturePipelineRecords: Bool = false,
+    captureStageTimings: Bool = false) {
         self.maximumCandidatesToDecode = maximumCandidatesToDecode
         self.minimumCandidateConfidence = minimumCandidateConfidence
         self.minimumSoftSymbolConfidence = minimumSoftSymbolConfidence
@@ -27,6 +29,7 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
         self.deduplicationFrequency = deduplicationFrequency
         self.captureCandidateTraces = captureCandidateTraces
         self.capturePipelineRecords = capturePipelineRecords
+        self.captureStageTimings = captureStageTimings
     }
 
     func validate() throws {
@@ -78,17 +81,20 @@ public struct FT8DecodeBatch: Equatable, Sendable {
     public let metrics: FT8DecodeMetrics
     public let candidateTraces: [FT8CandidateTrace]
     public let pipelineRecords: [FT8PipelineRecord]
+    public let stageTimings: FT8DecodeStageTimings?
 
     public init(
         messages: [FT8CompleteDecode],
         metrics: FT8DecodeMetrics,
         candidateTraces: [FT8CandidateTrace] = [],
-        pipelineRecords: [FT8PipelineRecord] = []
+        pipelineRecords: [FT8PipelineRecord] = [],
+        stageTimings: FT8DecodeStageTimings? = nil
     ) {
         self.messages = messages
         self.metrics = metrics
         self.candidateTraces = candidateTraces
         self.pipelineRecords = pipelineRecords
+        self.stageTimings = stageTimings
     }
 }
 
@@ -114,16 +120,21 @@ public struct FT8OptimizedDecoder: Sendable {
     public func decode(spectrogram: Spectrogram) throws -> FT8DecodeBatch {
         try configuration.validate()
         let started = ContinuousClock.now
+        var profiler = FT8DecodeStageProfiler()
 
         trace("[Optimized] Starting synchronizer search")
 
-        let found = try synchronizer.search(
-            in: spectrogram
-        )
+        let found = try profiler.measure(.synchronizer) {
+            try synchronizer.search(
+                in: spectrogram
+            )
+        }
 
         trace("[Optimized] Synchronizer returned \(found.count) candidates")
 
-        let scheduled = schedule(found)
+        let scheduled = profiler.measure(.scheduling) {
+            schedule(found)
+        }
 
         trace("[Optimized] Scheduled \(scheduled.count) candidates")
 
@@ -153,10 +164,12 @@ public struct FT8OptimizedDecoder: Sendable {
 
             let extraction: FT8SoftSymbolExtraction
             do {
-                extraction = try extractor.extractWithTrace(
-                    from: spectrogram,
-                    candidate: candidate
-                )
+                extraction = try profiler.measure(.softSymbolExtraction) {
+                    try extractor.extractWithTrace(
+                        from: spectrogram,
+                        candidate: candidate
+                    )
+                }
             } catch {
                 trace("[Optimized] Soft-symbol extraction failed: \(error)")
                 if configuration.captureCandidateTraces {
@@ -180,11 +193,13 @@ public struct FT8OptimizedDecoder: Sendable {
             var pipelineRecordIndex: Int?
             if configuration.capturePipelineRecords {
                 do {
-                    let record = try pipelineRecorder.captureReceivedTones(
-                        candidateIndex: index,
-                        candidate: candidate,
-                        spectrogram: spectrogram
-                    )
+                    let record = try profiler.measure(.pipelineCapture) {
+                        try pipelineRecorder.captureReceivedTones(
+                            candidateIndex: index,
+                            candidate: candidate,
+                            spectrogram: spectrogram
+                        )
+                    }
                     pipelineRecords.append(record)
                     pipelineRecordIndex = pipelineRecords.count - 1
                 } catch {
@@ -224,7 +239,9 @@ public struct FT8OptimizedDecoder: Sendable {
 
             trace("[Optimized] Starting LDPC decode")
 
-            let ldpc = try ldpcDecoder.decode(soft)
+            let ldpc = try profiler.measure(.ldpc) {
+                try ldpcDecoder.decode(soft)
+            }
 
             if let recordIndex = pipelineRecordIndex {
                 pipelineRecords[recordIndex] =
@@ -248,10 +265,12 @@ public struct FT8OptimizedDecoder: Sendable {
 
             trace("[Optimized] Starting message decode")
 
-            let primaryMessage = try? messageDecoder.decode(
-                ldpc,
-                softSymbols: soft
-            )
+            let primaryMessage = try? profiler.measure(.messageDecode) {
+                try messageDecoder.decode(
+                    ldpc,
+                    softSymbols: soft
+                )
+            }
             let primaryText = primaryMessage?.text
                 .trimmingCharacters(in: .whitespacesAndNewlines)
                 ?? ""
@@ -410,10 +429,13 @@ public struct FT8OptimizedDecoder: Sendable {
                     + "\(entry.candidate.frequency)"
                 )
 
-                if let retry = retryStrongCandidate(
-                    in: spectrogram,
-                    candidate: entry.candidate
-                ) {
+                let retry = profiler.measure(.nearbyRetry) {
+                    retryStrongCandidate(
+                        in: spectrogram,
+                        candidate: entry.candidate
+                    )
+                }
+                if let retry {
                     trace(
                         "[Optimized] Nearby hypothesis decoded: "
                         + retry.decode.decoded.text
@@ -433,7 +455,9 @@ public struct FT8OptimizedDecoder: Sendable {
 
         trace("[Optimized] Deduplicating \(decoded.count) decoded messages")
 
-        let messages = deduplicate(decoded)
+        let messages = profiler.measure(.deduplication) {
+            deduplicate(decoded)
+        }
         let duration = ContinuousClock.now - started
         let components = duration.components
         let elapsed = Double(components.seconds) + Double(components.attoseconds) / 1_000_000_000_000_000_000
@@ -455,7 +479,10 @@ public struct FT8OptimizedDecoder: Sendable {
                 elapsedSeconds: elapsed
             ),
             candidateTraces: candidateTraces,
-            pipelineRecords: pipelineRecords
+            pipelineRecords: pipelineRecords,
+            stageTimings: configuration.captureStageTimings
+                ? profiler.snapshot
+                : nil
         )
     }
 
