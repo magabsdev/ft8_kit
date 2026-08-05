@@ -4,7 +4,7 @@ import Foundation
 ///
 /// `FT8PipelineRecord.validationIssues` validates each stage independently.
 /// This validator checks that adjacent stages describe the same candidate.
-public enum FT8PipelineConsistencyIssue: Equatable, Sendable {
+public enum FT8PipelineConsistencyIssue: String, Codable, Equatable, Sendable {
     case dataTonesDoNotMatchReceivedTones
     case grayMappedBitsDoNotMatchDataTones
     case interleavedBitsDoNotMatchLLRs
