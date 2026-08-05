@@ -22,7 +22,7 @@ final class FT8DecodeStageProfilerTests: XCTestCase {
     func testMeasureReturnsOperationResult() throws {
         var profiler = FT8DecodeStageProfiler()
 
-        let value = try profiler.measure(.messageDecode) {
+        let value = profiler.measure(.messageDecode) {
             "CQ G0ABC IO91"
         }
 
