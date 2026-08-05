@@ -103,13 +103,9 @@ final class FT8OptimizedStageTimingIntegrationTests: XCTestCase {
     }
 
     func testDisabledCaptureLeavesStageTimingsNil() throws {
-        let spectrogram = Spectrogram(
-            frames: [],
-            sampleRate: 12_000,
-            fftSize: 4_096,
-            hopSize: 120,
-            minimumFrequency: 0,
-            maximumFrequency: 6_000
+        let spectrogram = SyntheticSpectrogram.make(
+            signalDB: -60,
+            noiseDB: -60
         )
 
         let decoder = FT8OptimizedDecoder(
