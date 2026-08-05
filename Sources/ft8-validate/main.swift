@@ -86,7 +86,7 @@ private enum CLIError: Error, CustomStringConvertible {
     }
 }
 
-private func analyseWAV(at url: URL) throws -> (WAVRecording, Spectrogram, FT8MultiPassDecodeBatch) {
+private func analyseWAV(at url: URL) async throws -> (WAVRecording, Spectrogram, FT8MultiPassDecodeBatch) {
     func trace(_ message: String) {
         FileHandle.standardError.write(Data("[ft8-validate] \(message)\n".utf8))
     }
@@ -154,7 +154,24 @@ private func analyseWAV(at url: URL) throws -> (WAVRecording, Spectrogram, FT8Mu
     trace("Starting FT8 decode")
     let decodeStart = Date()
 
-    let result = try slotDecoder.decoder.decode(
+    let parallelDecoder = FT8ParallelMultiPassDecoder(
+        configuration: slotDecoder.decoder.configuration,
+        decoder: FT8ParallelDecoder(
+            optimizedConfiguration:
+                slotDecoder.decoder.decoder.configuration,
+            synchronizer:
+                slotDecoder.decoder.decoder.synchronizer,
+            extractor:
+                slotDecoder.decoder.decoder.extractor,
+            ldpcDecoder:
+                slotDecoder.decoder.decoder.ldpcDecoder,
+            messageDecoder:
+                slotDecoder.decoder.decoder.messageDecoder
+        ),
+        canceller: slotDecoder.decoder.canceller
+    )
+
+    let result = try await parallelDecoder.decode(
         spectrogram: spectrogram
     )
 
@@ -332,14 +349,14 @@ private func parseDecodeOptions(_ arguments: [String]) throws -> DecodeOptions {
     return options
 }
 
-private func runDecode(arguments: [String]) throws {
+private func runDecode(arguments: [String]) async throws {
     let options = try parseDecodeOptions(arguments)
     guard let wavPath = options.wavPath else {
         throw CLIError.usage
     }
 
     let wavURL = URL(fileURLWithPath: wavPath)
-    let (recording, spectrogram, result) = try analyseWAV(at: wavURL)
+    let (recording, spectrogram, result) = try await analyseWAV(at: wavURL)
     let report = diagnostics(wavURL: wavURL, recording: recording, spectrogram: spectrogram, result: result)
 
     if let directory = options.dumpDirectory {
@@ -367,7 +384,7 @@ private func runDecode(arguments: [String]) throws {
     }
 }
 
-private func runCorpus(directory: URL) throws {
+private func runCorpus(directory: URL) async throws {
     guard FileManager.default.fileExists(atPath: directory.path) else {
         throw CLIError.missingPath(directory.path)
     }
@@ -377,7 +394,7 @@ private func runCorpus(directory: URL) throws {
     for item in cases {
         let expected = try item.expectedURL.map(WSJTXReferenceParser.parse (url:)) ?? []
         expectedTotal += expected.count
-        let (_, _, result) = try analyseWAV(at: item.wavURL)
+        let (_, _, result) = try await analyseWAV(at: item.wavURL)
         let decoded = observed(from: result)
         decodedTotal += decoded.count
         let comparison = ReferenceMatcher.compare(expected: expected, observed: decoded)
@@ -394,14 +411,14 @@ do {
     print("FT8Kit diagnostics build 2026-07-31")
     let arguments = Array(CommandLine.arguments.dropFirst())
     if arguments.first == "decode" {
-        try runDecode(arguments: Array(arguments.dropFirst()))
+        try await runDecode(arguments: Array(arguments.dropFirst()))
     } else if arguments.first == "corpus" {
         guard arguments.count == 2 else {
             throw CLIError.usage
         }
-        try runCorpus(directory: URL(fileURLWithPath: arguments[1]))
+        try await runCorpus(directory: URL(fileURLWithPath: arguments[1]))
     } else if arguments.count <= 1 {
-        try runCorpus(directory: URL(fileURLWithPath: arguments.first ?? "Tests/FT8ValidationTests/Fixtures"))
+        try await runCorpus(directory: URL(fileURLWithPath: arguments.first ?? "Tests/FT8ValidationTests/Fixtures"))
     } else {
         throw CLIError.usage
     }
