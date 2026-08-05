@@ -2,14 +2,18 @@ import Foundation
 import FT8DSP
 
 public enum FT8PipelineRecorderError: Error, Equatable, Sendable {
+    case invalidReceivedToneCount(actual: Int)
     case invalidMetricCount(symbolIndex: Int, actual: Int)
     case emptyToneMetrics(symbolIndex: Int)
 }
 
-/// Captures the detected 79-tone sequence for one FT8 candidate.
+/// Captures the detected FT8 tone pipeline for one candidate.
 ///
-/// This checkpoint records only the received tone stage. Later checkpoints
-/// populate the remaining fields in `FT8PipelineRecord`.
+/// Checkpoint 7.3.1C records:
+/// - all 79 received tones;
+/// - the 58 data tones after removing the three Costas blocks.
+///
+/// Later checkpoints populate the bit and LLR stages.
 public struct FT8PipelineRecorder: Sendable {
     public var extractor: SoftSymbolExtractor
 
@@ -44,21 +48,27 @@ public struct FT8PipelineRecorder: Sendable {
 
     /// Builds a pipeline record from already-calculated tone metrics.
     ///
-    /// This overload is useful to avoid recalculating metrics when a caller
-    /// already owns them and makes the selection logic independently testable.
+    /// This overload avoids recalculating metrics when a caller already owns
+    /// them and keeps tone-selection and Costas-removal independently testable.
     public func captureReceivedTones(
         candidateIndex: Int,
         candidate: FT8Candidate,
         toneMetrics: [[Float]]
     ) throws -> FT8PipelineRecord {
-        let tones = try Self.strongestTones(from: toneMetrics)
+        let receivedTones = try Self.strongestTones(
+            from: toneMetrics
+        )
+        let dataTones = try Self.extractDataTones(
+            from: receivedTones
+        )
 
         return FT8PipelineRecord(
             candidateIndex: candidateIndex,
             startTime: candidate.startTime,
             frequency: candidate.frequency,
             synchronizerScore: candidate.syncScore,
-            receivedTones: tones
+            receivedTones: receivedTones,
+            dataTones: dataTones
         )
     }
 
@@ -98,4 +108,39 @@ public struct FT8PipelineRecorder: Sendable {
 
         return tones
     }
+
+    /// Removes the three seven-symbol Costas synchronization blocks while
+    /// preserving the original order of the remaining data symbols.
+    public static func extractDataTones(
+        from receivedTones: [UInt8]
+    ) throws -> [UInt8] {
+        guard receivedTones.count
+                == FT8PipelineRecord.receivedToneCount else {
+            throw FT8PipelineRecorderError.invalidReceivedToneCount(
+                actual: receivedTones.count
+            )
+        }
+
+        var dataTones: [UInt8] = []
+        dataTones.reserveCapacity(FT8PipelineRecord.dataToneCount)
+
+        for (index, tone) in receivedTones.enumerated() {
+            guard !costasToneIndices.contains(index) else {
+                continue
+            }
+
+            dataTones.append(tone)
+        }
+
+        precondition(
+            dataTones.count == FT8PipelineRecord.dataToneCount
+        )
+
+        return dataTones
+    }
+
+    private static let costasToneIndices: Set<Int> =
+        Set(0..<7)
+            .union(36..<43)
+            .union(72..<79)
 }

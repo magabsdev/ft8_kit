@@ -44,7 +44,33 @@ final class FT8PipelineRecorderTests: XCTestCase {
         }
     }
 
-    func testCapturePopulatesOnlyReceivedToneStage() throws {
+    func testExtractDataTonesRemovesThreeCostasBlocks() throws {
+        let received = (0..<79).map { UInt8($0) }
+        let data = try FT8PipelineRecorder.extractDataTones(
+            from: received
+        )
+
+        XCTAssertEqual(data.count, 58)
+        XCTAssertEqual(data.first, 7)
+        XCTAssertEqual(data[28], 35)
+        XCTAssertEqual(data[29], 43)
+        XCTAssertEqual(data.last, 71)
+    }
+
+    func testExtractDataTonesRejectsWrongInputLength() {
+        XCTAssertThrowsError(
+            try FT8PipelineRecorder.extractDataTones(
+                from: Array(repeating: 0, count: 78)
+            )
+        ) { error in
+            XCTAssertEqual(
+                error as? FT8PipelineRecorderError,
+                .invalidReceivedToneCount(actual: 78)
+            )
+        }
+    }
+
+    func testCapturePopulatesReceivedAndDataToneStages() throws {
         let candidate = FT8Candidate(
             startTime: 1.25,
             frequency: 1_000,
@@ -71,7 +97,13 @@ final class FT8PipelineRecorderTests: XCTestCase {
         XCTAssertEqual(record.frequency, candidate.frequency)
         XCTAssertEqual(record.synchronizerScore, candidate.syncScore)
         XCTAssertEqual(record.receivedTones.count, 79)
-        XCTAssertTrue(record.dataTones.isEmpty)
+        XCTAssertEqual(record.dataTones.count, 58)
+        XCTAssertEqual(
+            record.dataTones,
+            try FT8PipelineRecorder.extractDataTones(
+                from: record.receivedTones
+            )
+        )
         XCTAssertTrue(record.grayMappedBits.isEmpty)
         XCTAssertTrue(record.interleavedBits.isEmpty)
         XCTAssertTrue(record.logLikelihoodRatios.isEmpty)
