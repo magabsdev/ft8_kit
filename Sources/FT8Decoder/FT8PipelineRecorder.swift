@@ -9,14 +9,17 @@ public enum FT8PipelineRecorderError: Error, Equatable, Sendable {
     case emptyToneMetrics(symbolIndex: Int)
 }
 
-/// Captures the detected FT8 tone and hard-bit pipeline for one candidate.
+/// Captures the detected FT8 tone, hard-bit and soft-bit pipeline for one
+/// candidate.
 ///
-/// Checkpoint 7.3.1D records:
+/// Checkpoint 7.3.1E records:
 /// - all 79 received tones;
 /// - the 58 data tones after removing the three Costas blocks;
-/// - the 174 hard channel bits obtained through the FT8 inverse Gray map.
+/// - the 174 hard channel bits obtained through the FT8 inverse Gray map;
+/// - the exact 174 LLR values produced by `SoftSymbolExtractor`.
 ///
-/// Later checkpoints populate the interleaved-bit and LLR stages.
+/// `interleavedBits` remains empty because the current decoder contains no
+/// separate hard-bit permutation between tone mapping and LDPC input.
 public struct FT8PipelineRecorder: Sendable {
     public var extractor: SoftSymbolExtractor
 
@@ -42,21 +45,43 @@ public struct FT8PipelineRecorder: Sendable {
             )
         }
 
+        let extraction = try extractor.extractWithTrace(
+            from: spectrogram,
+            candidate: candidate
+        )
+
         return try captureReceivedTones(
             candidateIndex: candidateIndex,
             candidate: candidate,
-            toneMetrics: toneMetrics
+            toneMetrics: toneMetrics,
+            logLikelihoodRatios:
+                extraction.softSymbols.logLikelihoodRatios
         )
     }
 
-    /// Builds a pipeline record from already-calculated tone metrics.
+    /// Builds a record from precomputed tone metrics.
     ///
-    /// This overload avoids recalculating metrics when a caller already owns
-    /// them and keeps each deterministic transformation independently testable.
+    /// This overload is retained for deterministic tone and Gray-map tests. It
+    /// does not fabricate LLRs, so `logLikelihoodRatios` remains empty.
     public func captureReceivedTones(
         candidateIndex: Int,
         candidate: FT8Candidate,
         toneMetrics: [[Float]]
+    ) throws -> FT8PipelineRecord {
+        try captureReceivedTones(
+            candidateIndex: candidateIndex,
+            candidate: candidate,
+            toneMetrics: toneMetrics,
+            logLikelihoodRatios: []
+        )
+    }
+
+    /// Builds a complete Checkpoint 7.3.1E record from precomputed stages.
+    public func captureReceivedTones(
+        candidateIndex: Int,
+        candidate: FT8Candidate,
+        toneMetrics: [[Float]],
+        logLikelihoodRatios: [Float]
     ) throws -> FT8PipelineRecord {
         let receivedTones = try Self.strongestTones(
             from: toneMetrics
@@ -75,7 +100,8 @@ public struct FT8PipelineRecorder: Sendable {
             synchronizerScore: candidate.syncScore,
             receivedTones: receivedTones,
             dataTones: dataTones,
-            grayMappedBits: grayMappedBits
+            grayMappedBits: grayMappedBits,
+            logLikelihoodRatios: logLikelihoodRatios
         )
     }
 
@@ -116,8 +142,6 @@ public struct FT8PipelineRecorder: Sendable {
         return tones
     }
 
-    /// Removes the three seven-symbol Costas synchronization blocks while
-    /// preserving the original order of the remaining data symbols.
     public static func extractDataTones(
         from receivedTones: [UInt8]
     ) throws -> [UInt8] {
@@ -135,21 +159,15 @@ public struct FT8PipelineRecorder: Sendable {
             guard !costasToneIndices.contains(index) else {
                 continue
             }
-
             dataTones.append(tone)
         }
 
         precondition(
             dataTones.count == FT8PipelineRecord.dataToneCount
         )
-
         return dataTones
     }
 
-    /// Converts each of the 58 detected data tones into its three channel bits
-    /// using the same inverse Gray mapping as `SoftSymbolExtractor`.
-    ///
-    /// Bit order is most-significant to least-significant for each tone.
     public static func mapDataTonesToBits(
         _ dataTones: [UInt8]
     ) throws -> [UInt8] {
