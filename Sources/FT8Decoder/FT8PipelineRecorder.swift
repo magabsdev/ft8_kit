@@ -137,7 +137,40 @@ public struct FT8PipelineRecorder: Sendable {
             ldpcIterations: ldpcResult.iterations,
             parityPassed: ldpcResult.parityPassed,
             crcPassed: ldpcResult.crcPassed,
-            syndromeWeight: ldpcResult.syndromeWeight
+            syndromeWeight: ldpcResult.syndromeWeight,
+            decodedText: record.decodedText,
+            messageConfidence: record.messageConfidence,
+            failureReason: record.failureReason
+        )
+    }
+
+    /// Returns a copy of a pipeline record with the final message-decoding
+    /// outcome attached. A nil decoded text represents a rejected candidate.
+    public static func attachingMessageOutcome(
+        decodedText: String?,
+        confidence: Float?,
+        failureReason: String?,
+        to record: FT8PipelineRecord
+    ) -> FT8PipelineRecord {
+        FT8PipelineRecord(
+            candidateIndex: record.candidateIndex,
+            startTime: record.startTime,
+            frequency: record.frequency,
+            synchronizerScore: record.synchronizerScore,
+            receivedTones: record.receivedTones,
+            dataTones: record.dataTones,
+            grayMappedBits: record.grayMappedBits,
+            interleavedBits: record.interleavedBits,
+            logLikelihoodRatios: record.logLikelihoodRatios,
+            decodedCodeword: record.decodedCodeword,
+            informationBits: record.informationBits,
+            ldpcIterations: record.ldpcIterations,
+            parityPassed: record.parityPassed,
+            crcPassed: record.crcPassed,
+            syndromeWeight: record.syndromeWeight,
+            decodedText: decodedText,
+            messageConfidence: confidence,
+            failureReason: failureReason
         )
     }
 

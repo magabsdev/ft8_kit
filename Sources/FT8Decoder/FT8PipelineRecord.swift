@@ -26,6 +26,9 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
     public let parityPassed: Bool?
     public let crcPassed: Bool?
     public let syndromeWeight: Int?
+    public let decodedText: String?
+    public let messageConfidence: Float?
+    public let failureReason: String?
 
     public init(
         candidateIndex: Int,
@@ -42,7 +45,10 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
         ldpcIterations: Int? = nil,
         parityPassed: Bool? = nil,
         crcPassed: Bool? = nil,
-        syndromeWeight: Int? = nil
+        syndromeWeight: Int? = nil,
+        decodedText: String? = nil,
+        messageConfidence: Float? = nil,
+        failureReason: String? = nil
     ) {
         self.candidateIndex = candidateIndex
         self.startTime = startTime
@@ -59,6 +65,9 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
         self.parityPassed = parityPassed
         self.crcPassed = crcPassed
         self.syndromeWeight = syndromeWeight
+        self.decodedText = decodedText
+        self.messageConfidence = messageConfidence
+        self.failureReason = failureReason
     }
 
     /// Returns every structural issue currently present in the snapshot.
@@ -142,6 +151,10 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
             )
         }
 
+        if let messageConfidence, !messageConfidence.isFinite {
+            issues.append(.nonFiniteMessageConfidence)
+        }
+
         if let syndromeWeight, syndromeWeight < 0 {
             issues.append(
                 .invalidDiagnosticValue(
@@ -217,6 +230,7 @@ public enum FT8PipelineValidationIssue: Codable, Equatable, Sendable {
     case invalidTone(stage: FT8PipelineStage, value: UInt8)
     case invalidBit(stage: FT8PipelineStage, value: UInt8)
     case nonFiniteLLR
+    case nonFiniteMessageConfidence
     case invalidDiagnosticValue(
         field: FT8PipelineDiagnosticField,
         value: Int
