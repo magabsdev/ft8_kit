@@ -9,6 +9,7 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
     public var deduplicationTime: Double
     public var deduplicationFrequency: Float
     public var captureCandidateTraces: Bool
+    public var capturePipelineRecords: Bool
 
     public init(maximumCandidatesToDecode: Int = 140,
     minimumCandidateConfidence: Float = 0.10,
@@ -16,7 +17,8 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
     decodeUnsupportedMessages: Bool = true,
     deduplicationTime: Double = 0.160,
     deduplicationFrequency: Float = 12.5,
-    captureCandidateTraces: Bool = false) {
+    captureCandidateTraces: Bool = false,
+    capturePipelineRecords: Bool = false) {
         self.maximumCandidatesToDecode = maximumCandidatesToDecode
         self.minimumCandidateConfidence = minimumCandidateConfidence
         self.minimumSoftSymbolConfidence = minimumSoftSymbolConfidence
@@ -24,6 +26,7 @@ public struct FT8OptimizedDecoderConfiguration: Equatable, Sendable {
         self.deduplicationTime = deduplicationTime
         self.deduplicationFrequency = deduplicationFrequency
         self.captureCandidateTraces = captureCandidateTraces
+        self.capturePipelineRecords = capturePipelineRecords
     }
 
     func validate() throws {
@@ -74,15 +77,18 @@ public struct FT8DecodeBatch: Equatable, Sendable {
     public let messages: [FT8CompleteDecode]
     public let metrics: FT8DecodeMetrics
     public let candidateTraces: [FT8CandidateTrace]
+    public let pipelineRecords: [FT8PipelineRecord]
 
     public init(
         messages: [FT8CompleteDecode],
         metrics: FT8DecodeMetrics,
-        candidateTraces: [FT8CandidateTrace] = []
+        candidateTraces: [FT8CandidateTrace] = [],
+        pipelineRecords: [FT8PipelineRecord] = []
     ) {
         self.messages = messages
         self.metrics = metrics
         self.candidateTraces = candidateTraces
+        self.pipelineRecords = pipelineRecords
     }
 }
 
@@ -127,6 +133,8 @@ public struct FT8OptimizedDecoder: Sendable {
         var crcPassed = 0
         var decoded: [FT8CompleteDecode] = []
         var candidateTraces: [FT8CandidateTrace] = []
+        var pipelineRecords: [FT8PipelineRecord] = []
+        let pipelineRecorder = FT8PipelineRecorder(extractor: extractor)
         var retryCandidates: [
             (
                 candidate: FT8Candidate,
@@ -169,12 +177,34 @@ public struct FT8OptimizedDecoder: Sendable {
             let soft = extraction.softSymbols
             softCount += 1
 
+            var pipelineRecordIndex: Int?
+            if configuration.capturePipelineRecords {
+                do {
+                    let record = try pipelineRecorder.captureReceivedTones(
+                        candidateIndex: index,
+                        candidate: candidate,
+                        spectrogram: spectrogram
+                    )
+                    pipelineRecords.append(record)
+                    pipelineRecordIndex = pipelineRecords.count - 1
+                } catch {
+                    trace("[Optimized] Pipeline capture failed: \(error)")
+                }
+            }
+
             trace(
                 "[Optimized] Soft symbols extracted, " + "average confidence=\(soft.averageConfidence)"
             )
 
             guard soft.averageConfidence >= configuration.minimumSoftSymbolConfidence else {
                 trace("[Optimized] Soft-symbol confidence below threshold")
+                attachPipelineMessageOutcome(
+                    decodedText: nil,
+                    confidence: nil,
+                    failureReason: "softSymbolConfidenceBelowThreshold",
+                    recordIndex: pipelineRecordIndex,
+                    records: &pipelineRecords
+                )
                 if configuration.captureCandidateTraces {
                     candidateTraces.append(
                         makeTrace(
@@ -195,6 +225,14 @@ public struct FT8OptimizedDecoder: Sendable {
             trace("[Optimized] Starting LDPC decode")
 
             let ldpc = try ldpcDecoder.decode(soft)
+
+            if let recordIndex = pipelineRecordIndex {
+                pipelineRecords[recordIndex] =
+                    FT8PipelineRecorder.attaching(
+                        ldpcResult: ldpc,
+                        to: pipelineRecords[recordIndex]
+                    )
+            }
 
             trace(
                 "[Optimized] LDPC decode returned, " + "parity=\(ldpc.parityPassed), " + "crc=\(ldpc.crcPassed)"
@@ -225,8 +263,23 @@ public struct FT8OptimizedDecoder: Sendable {
                 if !configuration.decodeUnsupportedMessages,
                    case .unsupported = message.message {
                     trace("[Optimized] Unsupported message skipped")
+                    attachPipelineMessageOutcome(
+                        decodedText: primaryText,
+                        confidence: message.confidence,
+                        failureReason: "unsupportedMessageRejected",
+                        recordIndex: pipelineRecordIndex,
+                        records: &pipelineRecords
+                    )
                     continue
                 }
+
+                attachPipelineMessageOutcome(
+                    decodedText: primaryText,
+                    confidence: message.confidence,
+                    failureReason: nil,
+                    recordIndex: pipelineRecordIndex,
+                    records: &pipelineRecords
+                )
 
                 decoded.append(
                     FT8CompleteDecode(
@@ -253,6 +306,18 @@ public struct FT8OptimizedDecoder: Sendable {
                         )
                     )
                 }
+                let messageFailure = primaryMessage == nil
+                    ? "messageDecodeFailed"
+                    : "emptyMessageRejected"
+
+                attachPipelineMessageOutcome(
+                    decodedText: primaryText.isEmpty ? nil : primaryText,
+                    confidence: primaryMessage?.confidence,
+                    failureReason: messageFailure,
+                    recordIndex: pipelineRecordIndex,
+                    records: &pipelineRecords
+                )
+
                 if primaryMessage != nil {
                     trace("[Optimized] Empty decoded message rejected")
                 } else {
@@ -389,8 +454,30 @@ public struct FT8OptimizedDecoder: Sendable {
                 messagesReturned: messages.count,
                 elapsedSeconds: elapsed
             ),
-            candidateTraces: candidateTraces
+            candidateTraces: candidateTraces,
+            pipelineRecords: pipelineRecords
         )
+    }
+
+    private func attachPipelineMessageOutcome(
+        decodedText: String?,
+        confidence: Float?,
+        failureReason: String?,
+        recordIndex: Int?,
+        records: inout [FT8PipelineRecord]
+    ) {
+        guard let recordIndex,
+              records.indices.contains(recordIndex) else {
+            return
+        }
+
+        records[recordIndex] =
+            FT8PipelineRecorder.attachingMessageOutcome(
+                decodedText: decodedText,
+                confidence: confidence,
+                failureReason: failureReason,
+                to: records[recordIndex]
+            )
     }
 
     private func makeTrace(
