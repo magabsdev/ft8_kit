@@ -9,6 +9,7 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
     public static let dataToneCount = 58
     public static let channelBitCount = 174
     public static let llrCount = 174
+    public static let informationBitCount = 91
 
     public let candidateIndex: Int
     public let startTime: Double
@@ -19,6 +20,12 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
     public let grayMappedBits: [UInt8]
     public let interleavedBits: [UInt8]
     public let logLikelihoodRatios: [Float]
+    public let decodedCodeword: [UInt8]
+    public let informationBits: [UInt8]
+    public let ldpcIterations: Int?
+    public let parityPassed: Bool?
+    public let crcPassed: Bool?
+    public let syndromeWeight: Int?
 
     public init(
         candidateIndex: Int,
@@ -29,7 +36,13 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
         dataTones: [UInt8] = [],
         grayMappedBits: [UInt8] = [],
         interleavedBits: [UInt8] = [],
-        logLikelihoodRatios: [Float] = []
+        logLikelihoodRatios: [Float] = [],
+        decodedCodeword: [UInt8] = [],
+        informationBits: [UInt8] = [],
+        ldpcIterations: Int? = nil,
+        parityPassed: Bool? = nil,
+        crcPassed: Bool? = nil,
+        syndromeWeight: Int? = nil
     ) {
         self.candidateIndex = candidateIndex
         self.startTime = startTime
@@ -40,6 +53,12 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
         self.grayMappedBits = grayMappedBits
         self.interleavedBits = interleavedBits
         self.logLikelihoodRatios = logLikelihoodRatios
+        self.decodedCodeword = decodedCodeword
+        self.informationBits = informationBits
+        self.ldpcIterations = ldpcIterations
+        self.parityPassed = parityPassed
+        self.crcPassed = crcPassed
+        self.syndromeWeight = syndromeWeight
     }
 
     /// Returns every structural issue currently present in the snapshot.
@@ -80,6 +99,18 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
             stage: .logLikelihoodRatios,
             into: &issues
         )
+        validateCount(
+            decodedCodeword,
+            expected: Self.channelBitCount,
+            stage: .decodedCodeword,
+            into: &issues
+        )
+        validateCount(
+            informationBits,
+            expected: Self.informationBitCount,
+            stage: .informationBits,
+            into: &issues
+        )
 
         if let invalidTone = receivedTones.first(where: { $0 > 7 }) {
             issues.append(
@@ -93,20 +124,31 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
             )
         }
 
-        if let invalidBit = grayMappedBits.first(where: { $0 > 1 }) {
-            issues.append(
-                .invalidBit(stage: .grayMappedBits, value: invalidBit)
-            )
-        }
-
-        if let invalidBit = interleavedBits.first(where: { $0 > 1 }) {
-            issues.append(
-                .invalidBit(stage: .interleavedBits, value: invalidBit)
-            )
-        }
+        validateBits(grayMappedBits, stage: .grayMappedBits, into: &issues)
+        validateBits(interleavedBits, stage: .interleavedBits, into: &issues)
+        validateBits(decodedCodeword, stage: .decodedCodeword, into: &issues)
+        validateBits(informationBits, stage: .informationBits, into: &issues)
 
         if logLikelihoodRatios.contains(where: { !$0.isFinite }) {
             issues.append(.nonFiniteLLR)
+        }
+
+        if let ldpcIterations, ldpcIterations < 0 {
+            issues.append(
+                .invalidDiagnosticValue(
+                    field: .ldpcIterations,
+                    value: ldpcIterations
+                )
+            )
+        }
+
+        if let syndromeWeight, syndromeWeight < 0 {
+            issues.append(
+                .invalidDiagnosticValue(
+                    field: .syndromeWeight,
+                    value: syndromeWeight
+                )
+            )
         }
 
         return issues
@@ -134,6 +176,16 @@ public struct FT8PipelineRecord: Codable, Equatable, Sendable {
             )
         )
     }
+
+    private func validateBits(
+        _ bits: [UInt8],
+        stage: FT8PipelineStage,
+        into issues: inout [FT8PipelineValidationIssue]
+    ) {
+        if let invalidBit = bits.first(where: { $0 > 1 }) {
+            issues.append(.invalidBit(stage: stage, value: invalidBit))
+        }
+    }
 }
 
 public enum FT8PipelineStage: String, Codable, Equatable, Sendable {
@@ -142,6 +194,18 @@ public enum FT8PipelineStage: String, Codable, Equatable, Sendable {
     case grayMappedBits
     case interleavedBits
     case logLikelihoodRatios
+    case decodedCodeword
+    case informationBits
+}
+
+public enum FT8PipelineDiagnosticField:
+    String,
+    Codable,
+    Equatable,
+    Sendable
+{
+    case ldpcIterations
+    case syndromeWeight
 }
 
 public enum FT8PipelineValidationIssue: Codable, Equatable, Sendable {
@@ -153,4 +217,8 @@ public enum FT8PipelineValidationIssue: Codable, Equatable, Sendable {
     case invalidTone(stage: FT8PipelineStage, value: UInt8)
     case invalidBit(stage: FT8PipelineStage, value: UInt8)
     case nonFiniteLLR
+    case invalidDiagnosticValue(
+        field: FT8PipelineDiagnosticField,
+        value: Int
+    )
 }

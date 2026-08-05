@@ -14,12 +14,14 @@ public enum FT8PipelineRecorderError: Error, Equatable, Sendable {
 /// Captures the detected FT8 tone, hard-bit and soft-bit pipeline for one
 /// candidate.
 ///
-/// Checkpoint 7.3.1F records:
+/// Checkpoint 7.3.1G records:
 /// - all 79 received tones;
 /// - the 58 data tones after removing the three Costas blocks;
 /// - the 174 hard channel bits obtained through the FT8 inverse Gray map;
 /// - the exact 174 LLR values produced by `SoftSymbolExtractor`;
-/// - the 174 LDPC-input hard decisions derived from those LLRs.
+/// - the 174 LDPC-input hard decisions derived from those LLRs;
+/// - the 174 corrected LDPC codeword bits;
+/// - the 91 information bits and LDPC diagnostics.
 ///
 /// The current decoder has no separate hard-bit permutation between tone
 /// mapping and LDPC input. `interleavedBits` therefore records the hard
@@ -80,7 +82,7 @@ public struct FT8PipelineRecorder: Sendable {
         )
     }
 
-    /// Builds a complete Checkpoint 7.3.1F record from precomputed stages.
+    /// Builds a complete pre-LDPC Checkpoint 7.3.1G record.
     public func captureReceivedTones(
         candidateIndex: Int,
         candidate: FT8Candidate,
@@ -110,6 +112,32 @@ public struct FT8PipelineRecorder: Sendable {
             grayMappedBits: grayMappedBits,
             interleavedBits: interleavedBits,
             logLikelihoodRatios: logLikelihoodRatios
+        )
+    }
+
+    /// Returns a copy of a pipeline record with the complete LDPC result
+    /// attached. The decoder result is already validated by `FT8LDPCDecoder`;
+    /// this method only transfers its exact output into the audit snapshot.
+    public static func attaching(
+        ldpcResult: FT8LDPCResult,
+        to record: FT8PipelineRecord
+    ) -> FT8PipelineRecord {
+        FT8PipelineRecord(
+            candidateIndex: record.candidateIndex,
+            startTime: record.startTime,
+            frequency: record.frequency,
+            synchronizerScore: record.synchronizerScore,
+            receivedTones: record.receivedTones,
+            dataTones: record.dataTones,
+            grayMappedBits: record.grayMappedBits,
+            interleavedBits: record.interleavedBits,
+            logLikelihoodRatios: record.logLikelihoodRatios,
+            decodedCodeword: ldpcResult.codeword.bits,
+            informationBits: ldpcResult.informationBits.bits,
+            ldpcIterations: ldpcResult.iterations,
+            parityPassed: ldpcResult.parityPassed,
+            crcPassed: ldpcResult.crcPassed,
+            syndromeWeight: ldpcResult.syndromeWeight
         )
     }
 
