@@ -80,14 +80,28 @@ final class FT8AdaptiveFineDecodeIntegrationTests: XCTestCase {
             adaptiveReport.candidateCount,
             refinementReport.candidates.count
         )
-        XCTAssertEqual(
+        XCTAssertGreaterThan(
             adaptiveReport.plannedAttemptCount,
-            refinementReport.totalPointCount
+            0
+        )
+        XCTAssertLessThanOrEqual(
+            adaptiveReport.plannedAttemptCount,
+            refinementReport.totalPointCount,
+            "The adaptive search must remain bounded below the exhaustive grid."
         )
         XCTAssertGreaterThan(adaptiveReport.completedAttemptCount, 0)
         XCTAssertLessThanOrEqual(
             adaptiveReport.completedAttemptCount,
             adaptiveReport.plannedAttemptCount
+        )
+        XCTAssertLessThan(
+            adaptiveReport.completedAttemptCount,
+            refinementReport.totalPointCount,
+            "The adaptive search unexpectedly evaluated the complete grid."
+        )
+        XCTAssertEqual(
+            adaptiveReport.crcPassingAttemptCount,
+            adaptiveReport.attempts.count { $0.crcPassed }
         )
 
         RealWAVAdaptiveFineDecoder.printSummary(adaptiveReport)
