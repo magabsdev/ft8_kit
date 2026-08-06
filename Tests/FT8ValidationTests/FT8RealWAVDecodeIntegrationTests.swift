@@ -17,6 +17,23 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
         let elapsedSeconds: Double
     }
 
+    private struct CandidateDiagnosticSummary {
+        let candidatesFound: Int
+        let candidatesScheduled: Int
+        let tracesCaptured: Int
+        let extractionFailures: Int
+        let belowConfidenceThreshold: Int
+        let ldpcAttempts: Int
+        let parityPassed: Int
+        let crcPassed: Int
+        let messageDecodeFailures: Int
+        let emptyMessagesRejected: Int
+        let otherFailures: Int
+        let averageSoftConfidence: Double
+        let bestSoftConfidence: Double
+        let lowestSyndromeWeight: Int?
+    }
+
     func testRepresentativeRealWAVCompletesDecoderPipeline() async throws {
         let fixtureDirectory = try fixturesDirectory()
         let referenceCase = try XCTUnwrap(
@@ -70,6 +87,16 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
               elapsed: \(result.metrics.elapsedSeconds)
             """
         )
+
+        if observed.isEmpty {
+            let diagnostics = try decodeCandidateDiagnostics(
+                referenceCase.wavURL
+            )
+            printCandidateDiagnostics(
+                diagnostics,
+                recording: referenceCase.name
+            )
+        }
 
         if let minimumMatchesText = ProcessInfo.processInfo.environment[
             "FT8_REAL_WAV_MINIMUM_MATCHES"
@@ -216,6 +243,151 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
         return try await parallelDecoder.decode(
             spectrogram: spectrogram
         )
+    }
+
+    private func decodeCandidateDiagnostics(
+        _ wavURL: URL
+    ) throws -> CandidateDiagnosticSummary {
+        let recording = try WAVFile.load(url: wavURL)
+        let slotDecoder = FT8MultiPassSlotDecoder()
+        let spectrogram = try Waterfall.analyse(
+            samples: recording.samples,
+            configuration: slotDecoder.waterfallConfiguration
+        )
+
+        var configuration =
+            slotDecoder.decoder.decoder.configuration
+        configuration.captureCandidateTraces = true
+        configuration.capturePipelineRecords = false
+        configuration.captureStageTimings = true
+
+        let diagnosticDecoder = FT8OptimizedDecoder(
+            configuration: configuration,
+            synchronizer: slotDecoder.decoder.decoder.synchronizer,
+            extractor: slotDecoder.decoder.decoder.extractor,
+            ldpcDecoder: slotDecoder.decoder.decoder.ldpcDecoder,
+            messageDecoder: slotDecoder.decoder.decoder.messageDecoder
+        )
+
+        let batch = try diagnosticDecoder.decode(
+            spectrogram: spectrogram
+        )
+        let traces = batch.candidateTraces
+        let softConfidences = traces.compactMap {
+            $0.averageSoftSymbolConfidence.map(Double.init)
+        }
+        let syndromeWeights = traces.compactMap {
+            $0.syndromeWeight
+        }
+
+        let summary = CandidateDiagnosticSummary(
+            candidatesFound: batch.metrics.candidatesFound,
+            candidatesScheduled: batch.metrics.candidatesScheduled,
+            tracesCaptured: traces.count,
+            extractionFailures: traces.count {
+                $0.failure?.hasPrefix("softSymbolExtraction:") == true
+            },
+            belowConfidenceThreshold: traces.count {
+                $0.failure == "softSymbolConfidenceBelowThreshold"
+            },
+            ldpcAttempts: batch.metrics.ldpcAttempts,
+            parityPassed: batch.metrics.parityPassed,
+            crcPassed: batch.metrics.crcPassed,
+            messageDecodeFailures: traces.count {
+                $0.failure == "messageDecodeFailed"
+            },
+            emptyMessagesRejected: traces.count {
+                $0.failure == "emptyMessageRejected"
+            },
+            otherFailures: traces.count {
+                guard let failure = $0.failure else { return false }
+                return !failure.hasPrefix("softSymbolExtraction:")
+                    && failure != "softSymbolConfidenceBelowThreshold"
+                    && failure != "messageDecodeFailed"
+                    && failure != "emptyMessageRejected"
+            },
+            averageSoftConfidence: softConfidences.isEmpty
+                ? 0
+                : softConfidences.reduce(0, +)
+                    / Double(softConfidences.count),
+            bestSoftConfidence: softConfidences.max() ?? 0,
+            lowestSyndromeWeight: syndromeWeights.min()
+        )
+
+        printTopCandidateDiagnostics(traces)
+        return summary
+    }
+
+    private func printCandidateDiagnostics(
+        _ summary: CandidateDiagnosticSummary,
+        recording: String
+    ) {
+        let lowestSyndrome = summary.lowestSyndromeWeight.map(String.init)
+            ?? "n/a"
+
+        print(
+            """
+            Real WAV candidate diagnostics:
+              recording: \(recording)
+              candidates found: \(summary.candidatesFound)
+              candidates scheduled: \(summary.candidatesScheduled)
+              traces captured: \(summary.tracesCaptured)
+              extraction failures: \(summary.extractionFailures)
+              below soft-confidence threshold: \(summary.belowConfidenceThreshold)
+              LDPC attempts: \(summary.ldpcAttempts)
+              parity passed: \(summary.parityPassed)
+              CRC passed: \(summary.crcPassed)
+              message decode failures: \(summary.messageDecodeFailures)
+              empty messages rejected: \(summary.emptyMessagesRejected)
+              other failures: \(summary.otherFailures)
+              average soft confidence: \(summary.averageSoftConfidence)
+              best soft confidence: \(summary.bestSoftConfidence)
+              lowest syndrome weight: \(lowestSyndrome)
+            """
+        )
+    }
+
+    private func printTopCandidateDiagnostics(
+        _ traces: [FT8CandidateTrace]
+    ) {
+        let ordered = traces.sorted {
+            let lhsCRC = $0.crcPassed == true
+            let rhsCRC = $1.crcPassed == true
+            if lhsCRC != rhsCRC {
+                return lhsCRC
+            }
+
+            let lhsParity = $0.parityPassed == true
+            let rhsParity = $1.parityPassed == true
+            if lhsParity != rhsParity {
+                return lhsParity
+            }
+
+            let lhsSyndrome = $0.syndromeWeight ?? .max
+            let rhsSyndrome = $1.syndromeWeight ?? .max
+            if lhsSyndrome != rhsSyndrome {
+                return lhsSyndrome < rhsSyndrome
+            }
+
+            return ($0.averageSoftSymbolConfidence ?? 0)
+                > ($1.averageSoftSymbolConfidence ?? 0)
+        }
+
+        print("Top real-WAV candidate traces:")
+
+        for trace in ordered.prefix(10) {
+            print(
+                "  #\(trace.candidateIndex + 1)"
+                    + " time=\(trace.startTime)"
+                    + " frequency=\(trace.frequency)"
+                    + " candidate=\(trace.candidateConfidence)"
+                    + " soft=\(trace.averageSoftSymbolConfidence ?? 0)"
+                    + " syndrome=\(trace.syndromeWeight.map(String.init) ?? "n/a")"
+                    + " parity=\(trace.parityPassed.map(String.init) ?? "n/a")"
+                    + " crc=\(trace.crcPassed.map(String.init) ?? "n/a")"
+                    + " failure=\(trace.failure ?? "none")"
+            )
+        }
     }
 
     private func observedDecodes(
