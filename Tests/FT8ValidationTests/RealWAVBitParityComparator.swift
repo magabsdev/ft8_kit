@@ -20,8 +20,7 @@ enum RealWAVBitParityComparator {
                 .invalidDecodedCodewordLength(record.decodedCodeword.count)
         }
 
-        let protocolMessage = protocolMessage(from: reference.message)
-        let payload = try FT8MessageCodec.pack(protocolMessage)
+        let payload = try FT8MessageCodec.pack(reference.message)
         let messageWithCRC = try FT8CRC.append(to: payload)
         let expectedCodeword = try FT8Encoder.encodeLDPC(messageWithCRC).bits
 
@@ -73,7 +72,7 @@ enum RealWAVBitParityComparator {
 
         return RealWAVBitComparison(
             candidateIndex: record.candidateIndex,
-            referenceMessage: protocolMessage,
+            referenceMessage: reference.message,
             candidateStartTime: record.startTime,
             candidateFrequencyHz: Double(record.frequency),
             referenceTime: reference.timeOffset,
@@ -136,22 +135,6 @@ enum RealWAVBitParityComparator {
             generatedAt: generatedAt,
             comparisons: comparisons
         )
-    }
-
-    private static func protocolMessage(from referenceMessage: String) -> String {
-        let trimmed = referenceMessage.trimmingCharacters(
-            in: .whitespacesAndNewlines
-        )
-
-        guard let annotationRange = trimmed.range(
-            of: #"\s{2,}"#,
-            options: .regularExpression
-        ) else {
-            return trimmed
-        }
-
-        return String(trimmed[..<annotationRange.lowerBound])
-            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private static func nearestReference(
