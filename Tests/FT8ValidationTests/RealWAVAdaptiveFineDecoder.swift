@@ -41,6 +41,21 @@ struct RealWAVAdaptiveFineDecodeReport: Codable, Equatable {
 }
 
 enum RealWAVAdaptiveFineDecoder {
+    private struct PointKey: Hashable {
+        let timeIndex: Int
+        let frequencyIndex: Int
+    }
+
+    private struct TrialResult {
+        let point: RealWAVFineHypothesisPoint
+        let attempt: RealWAVAdaptiveFineDecodeAttempt
+        let winner: RealWAVAdaptiveFineDecodeWinner?
+    }
+
+    private static let maximumAttemptsPerCandidate = 32
+    private static let maximumIterationsPerCandidate = 6
+    private static let maximumStagnantIterations = 2
+
     static func decode(
         recording: String,
         spectrogram: Spectrogram,
@@ -53,165 +68,26 @@ enum RealWAVAdaptiveFineDecoder {
         var attempts: [RealWAVAdaptiveFineDecodeAttempt] = []
         var winners: [RealWAVAdaptiveFineDecodeWinner] = []
 
-        attempts.reserveCapacity(refinementReport.totalPointCount)
+        let boundedCapacity = min(
+            refinementReport.totalPointCount,
+            refinementReport.candidates.count * maximumAttemptsPerCandidate
+        )
+        attempts.reserveCapacity(boundedCapacity)
         winners.reserveCapacity(refinementReport.candidates.count)
 
         for refinementCandidate in refinementReport.candidates {
-            let orderedPoints = refinementCandidate.points.sorted {
-                let lhsDistance =
-                    abs($0.timeOffset) / max(refinementReport.timeStep, 0.000_001)
-                    + abs($0.frequencyOffsetHz)
-                        / max(refinementReport.frequencyStepHz, 0.000_001)
-                let rhsDistance =
-                    abs($1.timeOffset) / max(refinementReport.timeStep, 0.000_001)
-                    + abs($1.frequencyOffsetHz)
-                        / max(refinementReport.frequencyStepHz, 0.000_001)
+            let result = decodeCandidate(
+                refinementCandidate,
+                report: refinementReport,
+                spectrogram: spectrogram,
+                extractor: extractor,
+                ldpcDecoder: ldpcDecoder,
+                messageDecoder: messageDecoder
+            )
 
-                if lhsDistance != rhsDistance {
-                    return lhsDistance < rhsDistance
-                }
-                if abs($0.timeOffset) != abs($1.timeOffset) {
-                    return abs($0.timeOffset) < abs($1.timeOffset)
-                }
-                if abs($0.frequencyOffsetHz) != abs($1.frequencyOffsetHz) {
-                    return abs($0.frequencyOffsetHz)
-                        < abs($1.frequencyOffsetHz)
-                }
-                if $0.timeOffset != $1.timeOffset {
-                    return $0.timeOffset < $1.timeOffset
-                }
-                return $0.frequencyOffsetHz < $1.frequencyOffsetHz
-            }
-
-            for point in orderedPoints {
-                let trialCandidate = FT8Candidate(
-                    startTime: point.trialTime,
-                    frequency: Float(point.trialFrequencyHz),
-                    driftHzPerSecond: 0,
-                    symbolOffset: 0,
-                    syncScore: 0,
-                    snrDB: 0,
-                    confidence: 0
-                )
-
-                do {
-                    let softSymbols = try extractor.extract(
-                        from: spectrogram,
-                        candidate: trialCandidate
-                    )
-                    let ldpcResult = try ldpcDecoder.decode(softSymbols)
-
-                    if ldpcResult.crcPassed {
-                        do {
-                            let decoded = try messageDecoder.decode(
-                                ldpcResult,
-                                softSymbols: softSymbols
-                            )
-                            let message = decoded.text.trimmingCharacters(
-                                in: .whitespacesAndNewlines
-                            )
-
-                            attempts.append(
-                                RealWAVAdaptiveFineDecodeAttempt(
-                                    candidateIndex: point.candidateIndex,
-                                    referenceMessage: point.referenceMessage,
-                                    trialTime: point.trialTime,
-                                    trialFrequencyHz: point.trialFrequencyHz,
-                                    timeOffset: point.timeOffset,
-                                    frequencyOffsetHz: point.frequencyOffsetHz,
-                                    averageSoftConfidence:
-                                        Double(softSymbols.averageConfidence),
-                                    syndromeWeight: ldpcResult.syndromeWeight,
-                                    parityPassed: ldpcResult.parityPassed,
-                                    crcPassed: true,
-                                    decodedMessage: message,
-                                    failure: message.isEmpty
-                                        ? "emptyDecodedMessage"
-                                        : nil
-                                )
-                            )
-
-                            if !message.isEmpty {
-                                winners.append(
-                                    RealWAVAdaptiveFineDecodeWinner(
-                                        candidateIndex: point.candidateIndex,
-                                        referenceMessage:
-                                            point.referenceMessage,
-                                        decodedMessage: message,
-                                        trialTime: point.trialTime,
-                                        trialFrequencyHz:
-                                            point.trialFrequencyHz,
-                                        timeOffset: point.timeOffset,
-                                        frequencyOffsetHz:
-                                            point.frequencyOffsetHz,
-                                        averageSoftConfidence:
-                                            Double(
-                                                softSymbols.averageConfidence
-                                            ),
-                                        iterations: ldpcResult.iterations
-                                    )
-                                )
-                                break
-                            }
-                        } catch {
-                            attempts.append(
-                                RealWAVAdaptiveFineDecodeAttempt(
-                                    candidateIndex: point.candidateIndex,
-                                    referenceMessage: point.referenceMessage,
-                                    trialTime: point.trialTime,
-                                    trialFrequencyHz: point.trialFrequencyHz,
-                                    timeOffset: point.timeOffset,
-                                    frequencyOffsetHz: point.frequencyOffsetHz,
-                                    averageSoftConfidence:
-                                        Double(softSymbols.averageConfidence),
-                                    syndromeWeight: ldpcResult.syndromeWeight,
-                                    parityPassed: ldpcResult.parityPassed,
-                                    crcPassed: ldpcResult.crcPassed,
-                                    decodedMessage: nil,
-                                    failure:
-                                        "messageDecode:\(String(describing: error))"
-                                )
-                            )
-                        }
-                    } else {
-                        attempts.append(
-                            RealWAVAdaptiveFineDecodeAttempt(
-                                candidateIndex: point.candidateIndex,
-                                referenceMessage: point.referenceMessage,
-                                trialTime: point.trialTime,
-                                trialFrequencyHz: point.trialFrequencyHz,
-                                timeOffset: point.timeOffset,
-                                frequencyOffsetHz: point.frequencyOffsetHz,
-                                averageSoftConfidence:
-                                    Double(softSymbols.averageConfidence),
-                                syndromeWeight: ldpcResult.syndromeWeight,
-                                parityPassed: ldpcResult.parityPassed,
-                                crcPassed: false,
-                                decodedMessage: nil,
-                                failure: ldpcResult.parityPassed
-                                    ? "crcFailed"
-                                    : "parityFailed"
-                            )
-                        )
-                    }
-                } catch {
-                    attempts.append(
-                        RealWAVAdaptiveFineDecodeAttempt(
-                            candidateIndex: point.candidateIndex,
-                            referenceMessage: point.referenceMessage,
-                            trialTime: point.trialTime,
-                            trialFrequencyHz: point.trialFrequencyHz,
-                            timeOffset: point.timeOffset,
-                            frequencyOffsetHz: point.frequencyOffsetHz,
-                            averageSoftConfidence: 0,
-                            syndromeWeight: .max,
-                            parityPassed: false,
-                            crcPassed: false,
-                            decodedMessage: nil,
-                            failure: "trialDecode:\(String(describing: error))"
-                        )
-                    )
-                }
+            attempts.append(contentsOf: result.attempts)
+            if let winner = result.winner {
+                winners.append(winner)
             }
         }
 
@@ -219,7 +95,7 @@ enum RealWAVAdaptiveFineDecoder {
             recording: recording,
             generatedAt: generatedAt,
             candidateCount: refinementReport.candidates.count,
-            plannedAttemptCount: refinementReport.totalPointCount,
+            plannedAttemptCount: boundedCapacity,
             completedAttemptCount: attempts.count,
             crcPassingAttemptCount: attempts.count { $0.crcPassed },
             winners: winners,
@@ -227,11 +103,383 @@ enum RealWAVAdaptiveFineDecoder {
         )
     }
 
+    private static func decodeCandidate(
+        _ candidate: RealWAVFineHypothesisCandidate,
+        report: RealWAVFineHypothesisReport,
+        spectrogram: Spectrogram,
+        extractor: SoftSymbolExtractor,
+        ldpcDecoder: FT8LDPCDecoder,
+        messageDecoder: FT8MessageDecoder
+    ) -> (
+        attempts: [RealWAVAdaptiveFineDecodeAttempt],
+        winner: RealWAVAdaptiveFineDecodeWinner?
+    ) {
+        let timeStep = max(report.timeStep, 0.000_001)
+        let frequencyStep = max(report.frequencyStepHz, 0.000_001)
+
+        let pointsByKey = Dictionary(
+            uniqueKeysWithValues: candidate.points.map { point in
+                (
+                    key(
+                        for: point,
+                        timeStep: timeStep,
+                        frequencyStep: frequencyStep
+                    ),
+                    point
+                )
+            }
+        )
+
+        guard let origin = nearestOrigin(in: candidate.points) else {
+            return ([], nil)
+        }
+
+        var attempts: [RealWAVAdaptiveFineDecodeAttempt] = []
+        attempts.reserveCapacity(
+            min(maximumAttemptsPerCandidate, candidate.points.count)
+        )
+
+        var visited: Set<PointKey> = []
+        var centre = origin
+        var bestResult: TrialResult?
+        var stagnantIterations = 0
+
+        for iteration in 0..<maximumIterationsPerCandidate {
+            let centreKey = key(
+                for: centre,
+                timeStep: timeStep,
+                frequencyStep: frequencyStep
+            )
+
+            let radius = iteration + 1
+            let keys = neighbourhoodKeys(
+                around: centreKey,
+                radius: radius
+            )
+
+            var iterationResults: [TrialResult] = []
+
+            for pointKey in keys {
+                guard attempts.count < maximumAttemptsPerCandidate else {
+                    break
+                }
+                guard visited.insert(pointKey).inserted,
+                      let point = pointsByKey[pointKey]
+                else {
+                    continue
+                }
+
+                let result = evaluate(
+                    point,
+                    spectrogram: spectrogram,
+                    extractor: extractor,
+                    ldpcDecoder: ldpcDecoder,
+                    messageDecoder: messageDecoder
+                )
+                attempts.append(result.attempt)
+                iterationResults.append(result)
+
+                if let winner = result.winner {
+                    return (attempts, winner)
+                }
+            }
+
+            guard !iterationResults.isEmpty else {
+                break
+            }
+
+            let iterationBest = iterationResults.min {
+                isBetter($0.attempt, than: $1.attempt)
+            }
+
+            guard let iterationBest else {
+                break
+            }
+
+            if let currentBest = bestResult {
+                if isBetter(
+                    iterationBest.attempt,
+                    than: currentBest.attempt
+                ) {
+                    bestResult = iterationBest
+                    centre = iterationBest.point
+                    stagnantIterations = 0
+                } else {
+                    stagnantIterations += 1
+                }
+            } else {
+                bestResult = iterationBest
+                centre = iterationBest.point
+                stagnantIterations = 0
+            }
+
+            if stagnantIterations >= maximumStagnantIterations {
+                break
+            }
+        }
+
+        return (attempts, nil)
+    }
+
+    private static func evaluate(
+        _ point: RealWAVFineHypothesisPoint,
+        spectrogram: Spectrogram,
+        extractor: SoftSymbolExtractor,
+        ldpcDecoder: FT8LDPCDecoder,
+        messageDecoder: FT8MessageDecoder
+    ) -> TrialResult {
+        let trialCandidate = FT8Candidate(
+            startTime: point.trialTime,
+            frequency: Float(point.trialFrequencyHz),
+            driftHzPerSecond: 0,
+            symbolOffset: 0,
+            syncScore: 0,
+            snrDB: 0,
+            confidence: 0
+        )
+
+        do {
+            let softSymbols = try extractor.extract(
+                from: spectrogram,
+                candidate: trialCandidate
+            )
+            let ldpcResult = try ldpcDecoder.decode(softSymbols)
+            let softConfidence = Double(softSymbols.averageConfidence)
+
+            guard ldpcResult.crcPassed else {
+                return TrialResult(
+                    point: point,
+                    attempt: RealWAVAdaptiveFineDecodeAttempt(
+                        candidateIndex: point.candidateIndex,
+                        referenceMessage: point.referenceMessage,
+                        trialTime: point.trialTime,
+                        trialFrequencyHz: point.trialFrequencyHz,
+                        timeOffset: point.timeOffset,
+                        frequencyOffsetHz: point.frequencyOffsetHz,
+                        averageSoftConfidence: softConfidence,
+                        syndromeWeight: ldpcResult.syndromeWeight,
+                        parityPassed: ldpcResult.parityPassed,
+                        crcPassed: false,
+                        decodedMessage: nil,
+                        failure: ldpcResult.parityPassed
+                            ? "crcFailed"
+                            : "parityFailed"
+                    ),
+                    winner: nil
+                )
+            }
+
+            do {
+                let decoded = try messageDecoder.decode(
+                    ldpcResult,
+                    softSymbols: softSymbols
+                )
+                let message = decoded.text.trimmingCharacters(
+                    in: .whitespacesAndNewlines
+                )
+
+                let attempt = RealWAVAdaptiveFineDecodeAttempt(
+                    candidateIndex: point.candidateIndex,
+                    referenceMessage: point.referenceMessage,
+                    trialTime: point.trialTime,
+                    trialFrequencyHz: point.trialFrequencyHz,
+                    timeOffset: point.timeOffset,
+                    frequencyOffsetHz: point.frequencyOffsetHz,
+                    averageSoftConfidence: softConfidence,
+                    syndromeWeight: ldpcResult.syndromeWeight,
+                    parityPassed: ldpcResult.parityPassed,
+                    crcPassed: true,
+                    decodedMessage: message,
+                    failure: message.isEmpty
+                        ? "emptyDecodedMessage"
+                        : nil
+                )
+
+                guard !message.isEmpty else {
+                    return TrialResult(
+                        point: point,
+                        attempt: attempt,
+                        winner: nil
+                    )
+                }
+
+                return TrialResult(
+                    point: point,
+                    attempt: attempt,
+                    winner: RealWAVAdaptiveFineDecodeWinner(
+                        candidateIndex: point.candidateIndex,
+                        referenceMessage: point.referenceMessage,
+                        decodedMessage: message,
+                        trialTime: point.trialTime,
+                        trialFrequencyHz: point.trialFrequencyHz,
+                        timeOffset: point.timeOffset,
+                        frequencyOffsetHz: point.frequencyOffsetHz,
+                        averageSoftConfidence: softConfidence,
+                        iterations: ldpcResult.iterations
+                    )
+                )
+            } catch {
+                return TrialResult(
+                    point: point,
+                    attempt: RealWAVAdaptiveFineDecodeAttempt(
+                        candidateIndex: point.candidateIndex,
+                        referenceMessage: point.referenceMessage,
+                        trialTime: point.trialTime,
+                        trialFrequencyHz: point.trialFrequencyHz,
+                        timeOffset: point.timeOffset,
+                        frequencyOffsetHz: point.frequencyOffsetHz,
+                        averageSoftConfidence: softConfidence,
+                        syndromeWeight: ldpcResult.syndromeWeight,
+                        parityPassed: ldpcResult.parityPassed,
+                        crcPassed: ldpcResult.crcPassed,
+                        decodedMessage: nil,
+                        failure:
+                            "messageDecode:\(String(describing: error))"
+                    ),
+                    winner: nil
+                )
+            }
+        } catch {
+            return TrialResult(
+                point: point,
+                attempt: RealWAVAdaptiveFineDecodeAttempt(
+                    candidateIndex: point.candidateIndex,
+                    referenceMessage: point.referenceMessage,
+                    trialTime: point.trialTime,
+                    trialFrequencyHz: point.trialFrequencyHz,
+                    timeOffset: point.timeOffset,
+                    frequencyOffsetHz: point.frequencyOffsetHz,
+                    averageSoftConfidence: 0,
+                    syndromeWeight: .max,
+                    parityPassed: false,
+                    crcPassed: false,
+                    decodedMessage: nil,
+                    failure: "trialDecode:\(String(describing: error))"
+                ),
+                winner: nil
+            )
+        }
+    }
+
+    private static func nearestOrigin(
+        in points: [RealWAVFineHypothesisPoint]
+    ) -> RealWAVFineHypothesisPoint? {
+        points.min { lhs, rhs in
+            let lhsDistance =
+                abs(lhs.timeOffset) + abs(lhs.frequencyOffsetHz)
+            let rhsDistance =
+                abs(rhs.timeOffset) + abs(rhs.frequencyOffsetHz)
+
+            if lhsDistance != rhsDistance {
+                return lhsDistance < rhsDistance
+            }
+            if abs(lhs.timeOffset) != abs(rhs.timeOffset) {
+                return abs(lhs.timeOffset) < abs(rhs.timeOffset)
+            }
+            return abs(lhs.frequencyOffsetHz)
+                < abs(rhs.frequencyOffsetHz)
+        }
+    }
+
+    private static func key(
+        for point: RealWAVFineHypothesisPoint,
+        timeStep: Double,
+        frequencyStep: Double
+    ) -> PointKey {
+        PointKey(
+            timeIndex: Int((point.timeOffset / timeStep).rounded()),
+            frequencyIndex: Int(
+                (point.frequencyOffsetHz / frequencyStep).rounded()
+            )
+        )
+    }
+
+    private static func neighbourhoodKeys(
+        around centre: PointKey,
+        radius: Int
+    ) -> [PointKey] {
+        guard radius > 0 else {
+            return [centre]
+        }
+
+        var keys: [PointKey] = []
+        keys.reserveCapacity(radius == 1 ? 9 : radius * 8)
+
+        if radius == 1 {
+            keys.append(centre)
+        }
+
+        for timeDelta in -radius...radius {
+            for frequencyDelta in -radius...radius {
+                guard max(abs(timeDelta), abs(frequencyDelta)) == radius else {
+                    continue
+                }
+
+                keys.append(
+                    PointKey(
+                        timeIndex: centre.timeIndex + timeDelta,
+                        frequencyIndex:
+                            centre.frequencyIndex + frequencyDelta
+                    )
+                )
+            }
+        }
+
+        return keys.sorted { lhs, rhs in
+            let lhsDistance =
+                abs(lhs.timeIndex - centre.timeIndex)
+                + abs(lhs.frequencyIndex - centre.frequencyIndex)
+            let rhsDistance =
+                abs(rhs.timeIndex - centre.timeIndex)
+                + abs(rhs.frequencyIndex - centre.frequencyIndex)
+
+            if lhsDistance != rhsDistance {
+                return lhsDistance < rhsDistance
+            }
+            if lhs.timeIndex != rhs.timeIndex {
+                return lhs.timeIndex < rhs.timeIndex
+            }
+            return lhs.frequencyIndex < rhs.frequencyIndex
+        }
+    }
+
+    private static func isBetter(
+        _ lhs: RealWAVAdaptiveFineDecodeAttempt,
+        than rhs: RealWAVAdaptiveFineDecodeAttempt
+    ) -> Bool {
+        if lhs.crcPassed != rhs.crcPassed {
+            return lhs.crcPassed
+        }
+        if lhs.parityPassed != rhs.parityPassed {
+            return lhs.parityPassed
+        }
+        if lhs.syndromeWeight != rhs.syndromeWeight {
+            return lhs.syndromeWeight < rhs.syndromeWeight
+        }
+        if lhs.averageSoftConfidence != rhs.averageSoftConfidence {
+            return lhs.averageSoftConfidence
+                > rhs.averageSoftConfidence
+        }
+
+        let lhsDistance =
+            abs(lhs.timeOffset) + abs(lhs.frequencyOffsetHz)
+        let rhsDistance =
+            abs(rhs.timeOffset) + abs(rhs.frequencyOffsetHz)
+
+        if lhsDistance != rhsDistance {
+            return lhsDistance < rhsDistance
+        }
+        if lhs.timeOffset != rhs.timeOffset {
+            return lhs.timeOffset < rhs.timeOffset
+        }
+        return lhs.frequencyOffsetHz < rhs.frequencyOffsetHz
+    }
+
     static func printSummary(_ report: RealWAVAdaptiveFineDecodeReport) {
         print("Real WAV adaptive fine decode:")
         print("  recording: \(report.recording)")
         print("  candidates: \(report.candidateCount)")
-        print("  planned attempts: \(report.plannedAttemptCount)")
+        print("  bounded attempts planned: \(report.plannedAttemptCount)")
         print("  completed attempts: \(report.completedAttemptCount)")
         print("  CRC-passing attempts: \(report.crcPassingAttemptCount)")
         print("  recovered messages: \(report.winners.count)")
@@ -252,17 +500,7 @@ enum RealWAVAdaptiveFineDecoder {
 
         if report.winners.isEmpty {
             let best = report.attempts.sorted {
-                if $0.crcPassed != $1.crcPassed {
-                    return $0.crcPassed
-                }
-                if $0.parityPassed != $1.parityPassed {
-                    return $0.parityPassed
-                }
-                if $0.syndromeWeight != $1.syndromeWeight {
-                    return $0.syndromeWeight < $1.syndromeWeight
-                }
-                return $0.averageSoftConfidence
-                    > $1.averageSoftConfidence
+                isBetter($0, than: $1)
             }
 
             print("  best unsuccessful hypotheses:")
