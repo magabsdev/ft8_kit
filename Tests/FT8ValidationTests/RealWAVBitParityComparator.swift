@@ -20,7 +20,8 @@ enum RealWAVBitParityComparator {
                 .invalidDecodedCodewordLength(record.decodedCodeword.count)
         }
 
-        let payload = try FT8MessageCodec.pack(reference.message)
+        let protocolMessage = referenceProtocolMessage(reference.message)
+        let payload = try FT8MessageCodec.pack(protocolMessage)
         let messageWithCRC = try FT8CRC.append(to: payload)
         let expectedCodeword = try FT8Encoder.encodeLDPC(messageWithCRC).bits
 
@@ -72,7 +73,7 @@ enum RealWAVBitParityComparator {
 
         return RealWAVBitComparison(
             candidateIndex: record.candidateIndex,
-            referenceMessage: reference.message,
+            referenceMessage: protocolMessage.displayText,
             candidateStartTime: record.startTime,
             candidateFrequencyHz: Double(record.frequency),
             referenceTime: reference.timeOffset,
@@ -122,12 +123,20 @@ enum RealWAVBitParityComparator {
                 continue
             }
 
-            comparisons.append(
-                try compare(
-                    record: record,
-                    reference: reference
+            do {
+                comparisons.append(
+                    try compare(
+                        record: record,
+                        reference: reference
+                    )
                 )
-            )
+            } catch let error as FT8ProtocolError {
+                print(
+                    "Skipping real-WAV bit comparison for candidate "
+                        + "#\(record.candidateIndex + 1): "
+                        + "reference=\"\(reference.message)\" error=\(error)"
+                )
+            }
         }
 
         return RealWAVBitComparisonReport(
@@ -135,6 +144,46 @@ enum RealWAVBitParityComparator {
             generatedAt: generatedAt,
             comparisons: comparisons
         )
+    }
+
+    private static func referenceProtocolMessage(_ rawMessage: String) -> FT8Message {
+        let protocolText = stripWSJTXAnnotation(from: rawMessage)
+        let fields = protocolText
+            .uppercased()
+            .split(whereSeparator: { $0.isWhitespace })
+            .map(String.init)
+
+        if fields.count == 3 {
+            return .standard(
+                to: fields[0],
+                from: fields[1],
+                extra: fields[2]
+            )
+        }
+
+        if fields.count == 4, fields[0] == "CQ" {
+            return .standard(
+                to: "CQ \(fields[1])",
+                from: fields[2],
+                extra: fields[3]
+            )
+        }
+
+        return .freeText(fields.joined(separator: " "))
+    }
+
+    private static func stripWSJTXAnnotation(from message: String) -> String {
+        let trimmed = message.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard let range = trimmed.range(
+            of: #"\s{2,}"#,
+            options: .regularExpression
+        ) else {
+            return trimmed
+        }
+
+        return String(trimmed[..<range.lowerBound])
+            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private static func nearestReference(
