@@ -90,7 +90,9 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
 
         if observed.isEmpty {
             let diagnostics = try decodeCandidateDiagnostics(
-                referenceCase.wavURL
+                referenceCase.wavURL,
+                expected: expected,
+                recording: referenceCase.name
             )
             printCandidateDiagnostics(
                 diagnostics,
@@ -246,7 +248,9 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
     }
 
     private func decodeCandidateDiagnostics(
-        _ wavURL: URL
+        _ wavURL: URL,
+        expected: [WSJTXExpectedDecode],
+        recording recordingName: String
     ) throws -> CandidateDiagnosticSummary {
         let recording = try WAVFile.load(url: wavURL)
         let slotDecoder = FT8MultiPassSlotDecoder()
@@ -258,7 +262,7 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
         var configuration =
             slotDecoder.decoder.decoder.configuration
         configuration.captureCandidateTraces = true
-        configuration.capturePipelineRecords = false
+        configuration.capturePipelineRecords = true
         configuration.captureStageTimings = true
 
         let diagnosticDecoder = FT8OptimizedDecoder(
@@ -278,6 +282,61 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
         }
         let syndromeWeights = traces.compactMap {
             $0.syndromeWeight
+        }
+
+        let parityReport = RealWAVParityDiagnostics.build(
+            recording: recordingName,
+            records: batch.pipelineRecords,
+            expected: expected
+        )
+        RealWAVParityDiagnostics.printSummary(parityReport)
+
+        let environment = ProcessInfo.processInfo.environment
+        let fileManager = FileManager.default
+
+        let jsonURL = environment["FT8_REAL_WAV_PARITY_JSON"]
+            .flatMap { value -> URL? in
+                let path = value.trimmingCharacters(
+                    in: .whitespacesAndNewlines
+                )
+                return path.isEmpty ? nil : URL(fileURLWithPath: path)
+            }
+        let csvURL = environment["FT8_REAL_WAV_PARITY_CSV"]
+            .flatMap { value -> URL? in
+                let path = value.trimmingCharacters(
+                    in: .whitespacesAndNewlines
+                )
+                return path.isEmpty ? nil : URL(fileURLWithPath: path)
+            }
+
+        for outputURL in [jsonURL, csvURL].compactMap({ $0 }) {
+            try fileManager.createDirectory(
+                at: outputURL.deletingLastPathComponent(),
+                withIntermediateDirectories: true,
+                attributes: nil
+            )
+        }
+
+        try RealWAVParityDiagnostics.write(
+            parityReport,
+            jsonURL: jsonURL,
+            csvURL: csvURL
+        )
+
+        if let jsonURL {
+            XCTAssertTrue(
+                fileManager.fileExists(atPath: jsonURL.path),
+                "Parity JSON was not created at \(jsonURL.path)."
+            )
+            print("Real WAV parity JSON written to: \(jsonURL.path)")
+        }
+
+        if let csvURL {
+            XCTAssertTrue(
+                fileManager.fileExists(atPath: csvURL.path),
+                "Parity CSV was not created at \(csvURL.path)."
+            )
+            print("Real WAV parity CSV written to: \(csvURL.path)")
         }
 
         let summary = CandidateDiagnosticSummary(
