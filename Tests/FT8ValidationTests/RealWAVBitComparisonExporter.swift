@@ -7,7 +7,7 @@ enum RealWAVBitComparisonExporter {
         environment: [String: String] = ProcessInfo.processInfo.environment
     ) throws {
         if let path = nonEmptyPath(
-            environment["FT8_REAL_WAV_BIT_COMPARE_JSON"]
+            environment["FT8_REAL_WAV_BIT_COMPARISON_JSON"]
         ) {
             let url = URL(fileURLWithPath: path)
             try prepareParentDirectory(for: url, fileManager: fileManager)
@@ -21,7 +21,7 @@ enum RealWAVBitComparisonExporter {
         }
 
         if let path = nonEmptyPath(
-            environment["FT8_REAL_WAV_BIT_COMPARE_CSV"]
+            environment["FT8_REAL_WAV_BIT_COMPARISON_CSV"]
         ) {
             let url = URL(fileURLWithPath: path)
             try prepareParentDirectory(for: url, fileManager: fileManager)

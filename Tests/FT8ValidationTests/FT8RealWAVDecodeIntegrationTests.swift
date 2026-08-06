@@ -299,6 +299,15 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
             refinementReport
         )
 
+        let bitComparisonReport = try RealWAVBitParityComparator.buildReport(
+            recording: recordingName,
+            records: batch.pipelineRecords,
+            references: expected
+        )
+        RealWAVBitComparisonExporter.printSummary(bitComparisonReport)
+
+        try RealWAVBitComparisonExporter.exportIfRequested(bitComparisonReport)
+
         let environment = ProcessInfo.processInfo.environment
         let fileManager = FileManager.default
 
