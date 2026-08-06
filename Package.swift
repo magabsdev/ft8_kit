@@ -31,7 +31,13 @@ let package = Package(
         ),
         .testTarget(
             name: "FT8ValidationTests",
-            dependencies: ["FT8Validation", "FT8Decoder", "FT8DSP"],
+            dependencies: [
+                "FT8Validation",
+                "FT8Decoder",
+                "FT8DSP",
+                "FT8Encoder",
+                "FT8Protocol"
+            ],
             resources: [.copy("Fixtures")]
         )
     ]

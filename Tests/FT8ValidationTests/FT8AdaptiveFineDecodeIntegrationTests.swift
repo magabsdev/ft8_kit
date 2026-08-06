@@ -58,6 +58,34 @@ final class FT8AdaptiveFineDecodeIntegrationTests: XCTestCase {
             "The adaptive stage requires at least one zero-syndrome candidate."
         )
 
+        let bitComparisonReport = try RealWAVBitParityComparator.buildReport(
+            recording: referenceCase.name,
+            records: diagnosticBatch.pipelineRecords,
+            references: expected
+        )
+        XCTAssertEqual(
+            bitComparisonReport.totalComparisons,
+            parityReport.paritySuccessCount
+        )
+        for comparison in bitComparisonReport.comparisons {
+            XCTAssertEqual(comparison.totalBits, 174)
+            XCTAssertEqual(
+                comparison.correctBits + comparison.incorrectBits,
+                174
+            )
+            XCTAssertEqual(
+                comparison.messageBitErrors
+                    + comparison.crcBitErrors
+                    + comparison.parityBitErrors,
+                comparison.incorrectBits
+            )
+        }
+
+        RealWAVBitComparisonExporter.printSummary(bitComparisonReport)
+        try RealWAVBitComparisonExporter.exportIfRequested(
+            bitComparisonReport
+        )
+
         let refinementReport = RealWAVFineHypothesisGrid.build(
             from: parityReport
         )
@@ -80,10 +108,7 @@ final class FT8AdaptiveFineDecodeIntegrationTests: XCTestCase {
             adaptiveReport.candidateCount,
             refinementReport.candidates.count
         )
-        XCTAssertGreaterThan(
-            adaptiveReport.plannedAttemptCount,
-            0
-        )
+        XCTAssertGreaterThan(adaptiveReport.plannedAttemptCount, 0)
         XCTAssertLessThanOrEqual(
             adaptiveReport.plannedAttemptCount,
             refinementReport.totalPointCount,
