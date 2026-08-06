@@ -291,6 +291,14 @@ final class FT8RealWAVDecodeIntegrationTests: XCTestCase {
         )
         RealWAVParityDiagnostics.printSummary(parityReport)
 
+        let refinementReport = RealWAVFineHypothesisGrid.build(
+            from: parityReport
+        )
+        RealWAVFineHypothesisGrid.printSummary(refinementReport)
+        try RealWAVFineHypothesisGrid.exportIfRequested(
+            refinementReport
+        )
+
         let environment = ProcessInfo.processInfo.environment
         let fileManager = FileManager.default
 
