@@ -236,7 +236,7 @@ enum RealWAVParityDiagnostics {
             .map { reference in
                 let timeDelta = abs(reference.timeOffset - record.startTime)
                 let frequencyDelta = abs(
-                    reference.frequencyHz - Double(record.frequency)
+                    Double(reference.frequencyHz) - Double(record.frequency)
                 )
 
                 return (
