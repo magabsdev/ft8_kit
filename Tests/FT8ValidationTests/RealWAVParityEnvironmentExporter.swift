@@ -1,54 +1,69 @@
 import Foundation
-import XCTest
 
-/// Writes real-WAV parity diagnostics when the corresponding environment
-/// variables are present.
-///
-/// Supported variables:
-/// - FT8_REAL_WAV_PARITY_JSON
-/// - FT8_REAL_WAV_PARITY_CSV
 enum RealWAVParityEnvironmentExporter {
     static func exportIfRequested(
-        report: RealWAVParityReport,
+        report: RealWAVParityDiagnosticReport,
         fileManager: FileManager = .default,
         environment: [String: String] = ProcessInfo.processInfo.environment
     ) throws {
-        if let jsonPath = normalizedPath(
-            environment["FT8_REAL_WAV_PARITY_JSON"]
-        ) {
-            let jsonURL = URL(fileURLWithPath: jsonPath)
-            try prepareParentDirectory(for: jsonURL, fileManager: fileManager)
-            try RealWAVParityDiagnosticsWriter.writeJSON(report, to: jsonURL)
+        let jsonURL = exportURL(
+            for: "FT8_REAL_WAV_PARITY_JSON",
+            environment: environment
+        )
+        let csvURL = exportURL(
+            for: "FT8_REAL_WAV_PARITY_CSV",
+            environment: environment
+        )
 
+        if let jsonURL {
+            try prepareParentDirectory(
+                for: jsonURL,
+                fileManager: fileManager
+            )
+        }
+
+        if let csvURL {
+            try prepareParentDirectory(
+                for: csvURL,
+                fileManager: fileManager
+            )
+        }
+
+        try RealWAVParityDiagnostics.write(
+            report,
+            jsonURL: jsonURL,
+            csvURL: csvURL
+        )
+
+        if let jsonURL {
             guard fileManager.fileExists(atPath: jsonURL.path) else {
-                throw ExportError.fileWasNotCreated(jsonURL.path)
+                throw ExportError.outputFileWasNotCreated(jsonURL.path)
             }
 
             print("Real WAV parity JSON written to: \(jsonURL.path)")
         }
 
-        if let csvPath = normalizedPath(
-            environment["FT8_REAL_WAV_PARITY_CSV"]
-        ) {
-            let csvURL = URL(fileURLWithPath: csvPath)
-            try prepareParentDirectory(for: csvURL, fileManager: fileManager)
-            try RealWAVParityDiagnosticsWriter.writeCSV(report, to: csvURL)
-
+        if let csvURL {
             guard fileManager.fileExists(atPath: csvURL.path) else {
-                throw ExportError.fileWasNotCreated(csvURL.path)
+                throw ExportError.outputFileWasNotCreated(csvURL.path)
             }
 
             print("Real WAV parity CSV written to: \(csvURL.path)")
         }
     }
 
-    private static func normalizedPath(_ rawValue: String?) -> String? {
-        guard let rawValue else {
+    private static func exportURL(
+        for variable: String,
+        environment: [String: String]
+    ) -> URL? {
+        guard let rawPath = environment[variable]?
+            .trimmingCharacters(in: .whitespacesAndNewlines),
+              !rawPath.isEmpty else {
             return nil
         }
 
-        let path = rawValue.trimmingCharacters(in: .whitespacesAndNewlines)
-        return path.isEmpty ? nil : path
+        let expandedPath = NSString(string: rawPath).expandingTildeInPath
+        return URL(fileURLWithPath: expandedPath)
     }
 
     private static func prepareParentDirectory(
@@ -57,20 +72,25 @@ enum RealWAVParityEnvironmentExporter {
     ) throws {
         let directoryURL = fileURL.deletingLastPathComponent()
 
+        guard !directoryURL.path.isEmpty else {
+            return
+        }
+
         try fileManager.createDirectory(
             at: directoryURL,
-            withIntermediateDirectories: true,
-            attributes: nil
+            withIntermediateDirectories: true
         )
     }
+}
 
-    enum ExportError: LocalizedError {
-        case fileWasNotCreated(String)
+extension RealWAVParityEnvironmentExporter {
+    enum ExportError: LocalizedError, Equatable {
+        case outputFileWasNotCreated(String)
 
         var errorDescription: String? {
             switch self {
-            case .fileWasNotCreated(let path):
-                return "Requested parity export was not created at \(path)."
+            case .outputFileWasNotCreated(let path):
+                return "The requested parity diagnostics file was not created: \(path)"
             }
         }
     }
