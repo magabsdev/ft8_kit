@@ -18,7 +18,10 @@ let package = Package(
         .target(name: "FT8DSP"),
         .target(name: "FT8Decoder", dependencies: ["FT8Protocol", "FT8DSP"]),
         .target(name: "FT8Validation"),
-        .executableTarget(name: "ft8-validate", dependencies: ["FT8Decoder", "FT8Validation", "FT8Encoder", "FT8Protocol"]),
+        .executableTarget(
+            name: "ft8-validate",
+            dependencies: ["FT8Decoder", "FT8Validation", "FT8Encoder", "FT8Protocol"]
+        ),
         .testTarget(name: "FT8ProtocolTests", dependencies: ["FT8Protocol"]),
         .testTarget(name: "FT8EncoderTests", dependencies: ["FT8Encoder", "FT8Protocol"]),
         .testTarget(name: "FT8DSPTests", dependencies: ["FT8DSP"]),
@@ -26,6 +29,10 @@ let package = Package(
             name: "FT8DecoderTests",
             dependencies: ["FT8Decoder", "FT8Encoder", "FT8DSP", "FT8Protocol"]
         ),
-        .testTarget(name: "FT8ValidationTests", dependencies: ["FT8Validation"], resources: [.copy("Fixtures")])
+        .testTarget(
+            name: "FT8ValidationTests",
+            dependencies: ["FT8Validation", "FT8Decoder", "FT8DSP"],
+            resources: [.copy("Fixtures")]
+        )
     ]
 )
