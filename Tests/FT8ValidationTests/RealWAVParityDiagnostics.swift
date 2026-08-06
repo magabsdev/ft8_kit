@@ -232,26 +232,30 @@ enum RealWAVParityDiagnostics {
         to record: FT8PipelineRecord,
         expected: [WSJTXExpectedDecode]
     ) -> RealWAVReferenceAssociation? {
-        expected
-            .map { reference in
-                let timeDelta = abs(reference.timeOffset - record.startTime)
-                let frequencyDelta = abs(
-                    Double(reference.frequencyHz) - Double(record.frequency)
-                )
+        var bestAssociation: RealWAVReferenceAssociation?
+        var bestScore = Double.greatestFiniteMagnitude
 
-                return (
-                    score: timeDelta + frequencyDelta / 50,
-                    association: RealWAVReferenceAssociation(
-                        message: reference.message,
-                        timeOffset: reference.timeOffset,
-                        frequencyHz: reference.frequencyHz,
-                        timeDelta: timeDelta,
-                        frequencyDeltaHz: frequencyDelta
-                    )
+        for reference in expected {
+            let referenceFrequency = Double(reference.frequencyHz)
+            let timeDelta = abs(reference.timeOffset - record.startTime)
+            let frequencyDelta = abs(
+                referenceFrequency - Double(record.frequency)
+            )
+            let score = timeDelta + frequencyDelta / 50.0
+
+            if score < bestScore {
+                bestScore = score
+                bestAssociation = RealWAVReferenceAssociation(
+                    message: reference.message,
+                    timeOffset: reference.timeOffset,
+                    frequencyHz: referenceFrequency,
+                    timeDelta: timeDelta,
+                    frequencyDeltaHz: frequencyDelta
                 )
             }
-            .min { $0.score < $1.score }?
-            .association
+        }
+
+        return bestAssociation
     }
 
     private static func normalisedBits(
