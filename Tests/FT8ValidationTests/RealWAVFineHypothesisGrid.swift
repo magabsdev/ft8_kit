@@ -84,14 +84,14 @@ enum RealWAVFineHypothesisGrid {
                         candidateIndex: candidate.candidateIndex,
                         referenceMessage: reference.message,
                         detectedTime: candidate.startTime,
-                        detectedFrequencyHz: candidate.frequency,
+                        detectedFrequencyHz: Double(candidate.frequency),
                         referenceTime: reference.timeOffset,
                         referenceFrequencyHz: reference.frequencyHz,
                         timeOffset: timeOffset,
                         frequencyOffsetHz: frequencyOffset,
                         trialTime: candidate.startTime + timeOffset,
                         trialFrequencyHz:
-                            candidate.frequency + frequencyOffset
+                            Double(candidate.frequency) + frequencyOffset
                     )
                 }
             }
@@ -100,7 +100,7 @@ enum RealWAVFineHypothesisGrid {
                 candidateIndex: candidate.candidateIndex,
                 referenceMessage: reference.message,
                 detectedTime: candidate.startTime,
-                detectedFrequencyHz: candidate.frequency,
+                detectedFrequencyHz: Double(candidate.frequency),
                 referenceTime: reference.timeOffset,
                 referenceFrequencyHz: reference.frequencyHz,
                 initialTimeDelta: reference.timeDelta,
@@ -317,9 +317,10 @@ enum RealWAVFineHypothesisGrid {
             return value
         }
 
-        return "\"\(value.replacingOccurrences(
+        let escaped = value.replacingOccurrences(
             of: "\"",
             with: "\"\""
-        ))\""
+        )
+        return "\"" + escaped + "\""
     }
 }
