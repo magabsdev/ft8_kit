@@ -1,0 +1,655 @@
+import Foundation
+import FT8DSP
+
+public struct FT8CandidateGuidedFineDecodeConfiguration:
+    Equatable,
+    Sendable
+{
+    public var maximumSeeds: Int
+    public var minimumCandidateConfidence: Float
+    public var maximumSeedSyndromeWeight: Int
+    public var seedFrequencySeparationHz: Float
+
+    public var coarseTimeRadius: Double
+    public var coarseTimeStep: Double
+    public var coarseFrequencyRadiusHz: Float
+    public var coarseFrequencyStepHz: Float
+    public var coarseHypothesesRetained: Int
+
+    public var fineTimeRadius: Double
+    public var fineTimeStep: Double
+    public var fineFrequencyRadiusHz: Float
+    public var fineFrequencyStepHz: Float
+    public var fineSeedsPerCandidate: Int
+
+    public var minimumCostasScore: Float
+    public var minimumSoftConfidence: Float
+
+    public init(
+        maximumSeeds: Int = 8,
+        minimumCandidateConfidence: Float = 0.68,
+        maximumSeedSyndromeWeight: Int = 48,
+        seedFrequencySeparationHz: Float = 18.75,
+        coarseTimeRadius: Double = 0.48,
+        coarseTimeStep: Double = 0.04,
+        coarseFrequencyRadiusHz: Float = 9.375,
+        coarseFrequencyStepHz: Float = 1.5625,
+        coarseHypothesesRetained: Int = 12,
+        fineTimeRadius: Double = 0.04,
+        fineTimeStep: Double = 0.01,
+        fineFrequencyRadiusHz: Float = 1.5625,
+        fineFrequencyStepHz: Float = 0.78125,
+        fineSeedsPerCandidate: Int = 3,
+        minimumCostasScore: Float = 0.50,
+        minimumSoftConfidence: Float = 0.08
+    ) {
+        self.maximumSeeds = maximumSeeds
+        self.minimumCandidateConfidence =
+            minimumCandidateConfidence
+        self.maximumSeedSyndromeWeight =
+            maximumSeedSyndromeWeight
+        self.seedFrequencySeparationHz =
+            seedFrequencySeparationHz
+
+        self.coarseTimeRadius = coarseTimeRadius
+        self.coarseTimeStep = coarseTimeStep
+        self.coarseFrequencyRadiusHz =
+            coarseFrequencyRadiusHz
+        self.coarseFrequencyStepHz =
+            coarseFrequencyStepHz
+        self.coarseHypothesesRetained =
+            coarseHypothesesRetained
+
+        self.fineTimeRadius = fineTimeRadius
+        self.fineTimeStep = fineTimeStep
+        self.fineFrequencyRadiusHz =
+            fineFrequencyRadiusHz
+        self.fineFrequencyStepHz =
+            fineFrequencyStepHz
+        self.fineSeedsPerCandidate =
+            fineSeedsPerCandidate
+
+        self.minimumCostasScore =
+            minimumCostasScore
+        self.minimumSoftConfidence =
+            minimumSoftConfidence
+    }
+}
+
+public struct FT8FineDecodeHypothesis:
+    Equatable,
+    Sendable
+{
+    public let seedPass: Int
+    public let seedCandidateIndex: Int
+    public let seedTime: Double
+    public let seedFrequencyHz: Float
+
+    public let startTime: Double
+    public let frequencyHz: Float
+    public let costasScore: Float
+    public let costasSNRDB: Float
+    public let softConfidence: Float?
+    public let syndromeWeight: Int?
+    public let parityPassed: Bool?
+    public let crcPassed: Bool?
+    public let decodedText: String?
+}
+
+public struct FT8CandidateGuidedFineDecodeResult:
+    Equatable,
+    Sendable
+{
+    public let messages: [FT8CompleteDecode]
+    public let hypothesesTested: Int
+    public let ldpcAttempts: Int
+    public let seedsSelected: Int
+    public let bestHypotheses:
+        [FT8FineDecodeHypothesis]
+    public let elapsedSeconds: Double
+}
+
+public struct FT8CandidateGuidedFineDecoder:
+    Sendable
+{
+    public var configuration:
+        FT8CandidateGuidedFineDecodeConfiguration
+    public var extractor: SoftSymbolExtractor
+    public var ldpcDecoder: FT8LDPCDecoder
+    public var messageDecoder: FT8MessageDecoder
+
+    public init(
+        configuration:
+            FT8CandidateGuidedFineDecodeConfiguration =
+                .init(),
+        extractor: SoftSymbolExtractor = .init(),
+        ldpcDecoder: FT8LDPCDecoder = .init(),
+        messageDecoder: FT8MessageDecoder = .init()
+    ) {
+        self.configuration = configuration
+        self.extractor = extractor
+        self.ldpcDecoder = ldpcDecoder
+        self.messageDecoder = messageDecoder
+    }
+
+    public func decode(
+        spectrogram: Spectrogram,
+        traces: [FT8CandidateTrace],
+        excludingPayloads:
+            [FT8MessagePayload] = []
+    ) throws -> FT8CandidateGuidedFineDecodeResult {
+        let started = ContinuousClock.now
+
+        let seeds = selectSeeds(
+            from: traces
+        )
+
+        var decoded: [FT8CompleteDecode] = []
+        var bestDiagnostics:
+            [FT8FineDecodeHypothesis] = []
+        var hypothesesTested = 0
+        var ldpcAttempts = 0
+
+        for seed in seeds {
+            let coarse = coarseHypotheses(
+                for: seed,
+                in: spectrogram
+            )
+            hypothesesTested += coarse.count
+
+            let retained = Array(
+                coarse
+                    .filter {
+                        $0.correlation.score
+                            >= configuration.minimumCostasScore
+                    }
+                    .sorted {
+                        if $0.correlation.score
+                            != $1.correlation.score {
+                            return $0.correlation.score
+                                > $1.correlation.score
+                        }
+                        return $0.correlation.snrDB
+                            > $1.correlation.snrDB
+                    }
+                    .prefix(
+                        configuration
+                            .coarseHypothesesRetained
+                    )
+            )
+
+            var rankedOutcomes:
+                [RefinedOutcome] = []
+
+            for hypothesis in retained {
+                if let outcome = try evaluate(
+                    seed: seed,
+                    hypothesis: hypothesis,
+                    spectrogram: spectrogram
+                ) {
+                    ldpcAttempts += 1
+                    rankedOutcomes.append(outcome)
+
+                    if outcome.ldpc.crcPassed,
+                       let message = outcome.message,
+                       !excludingPayloads.contains(
+                            message.payload
+                       ) {
+                        decoded.append(
+                            FT8CompleteDecode(
+                                candidate:
+                                    outcome.candidate,
+                                softSymbols:
+                                    outcome.soft,
+                                ldpc: outcome.ldpc,
+                                decoded: message
+                            )
+                        )
+                    }
+                }
+            }
+
+            let fineBases = rankedOutcomes
+                .sorted(by: outcomeIsBetter)
+                .prefix(
+                    configuration
+                        .fineSeedsPerCandidate
+                )
+
+            for base in fineBases {
+                let fine = fineHypotheses(
+                    around: base.candidate,
+                    seed: seed,
+                    in: spectrogram
+                )
+
+                hypothesesTested += fine.count
+
+                for hypothesis in fine {
+                    guard hypothesis.correlation.score
+                        >= configuration.minimumCostasScore
+                    else {
+                        continue
+                    }
+
+                    if let outcome = try evaluate(
+                        seed: seed,
+                        hypothesis: hypothesis,
+                        spectrogram: spectrogram
+                    ) {
+                        ldpcAttempts += 1
+                        rankedOutcomes.append(outcome)
+
+                        if outcome.ldpc.crcPassed,
+                           let message = outcome.message,
+                           !excludingPayloads.contains(
+                                message.payload
+                           ) {
+                            decoded.append(
+                                FT8CompleteDecode(
+                                    candidate:
+                                        outcome.candidate,
+                                    softSymbols:
+                                        outcome.soft,
+                                    ldpc: outcome.ldpc,
+                                    decoded: message
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+
+            if let best = rankedOutcomes
+                .sorted(by: outcomeIsBetter)
+                .first {
+                bestDiagnostics.append(
+                    diagnostic(
+                        seed: seed,
+                        outcome: best
+                    )
+                )
+            }
+        }
+
+        let unique = deduplicate(decoded)
+        let elapsed = Self.seconds(
+            ContinuousClock.now - started
+        )
+
+        return FT8CandidateGuidedFineDecodeResult(
+            messages: unique,
+            hypothesesTested: hypothesesTested,
+            ldpcAttempts: ldpcAttempts,
+            seedsSelected: seeds.count,
+            bestHypotheses: bestDiagnostics,
+            elapsedSeconds: elapsed
+        )
+    }
+
+    private struct Seed {
+        let trace: FT8CandidateTrace
+    }
+
+    private struct SearchHypothesis {
+        let startTime: Double
+        let frequencyHz: Float
+        let correlation: CostasCorrelation
+    }
+
+    private struct RefinedOutcome {
+        let candidate: FT8Candidate
+        let soft: FT8SoftSymbols
+        let ldpc: FT8LDPCResult
+        let message: FT8DecodedMessage?
+        let correlation: CostasCorrelation
+    }
+
+    private func selectSeeds(
+        from traces: [FT8CandidateTrace]
+    ) -> [Seed] {
+        let eligible = traces.filter {
+            $0.failure != nil
+            && $0.candidateConfidence
+                >= configuration
+                    .minimumCandidateConfidence
+            && (
+                $0.parityPassed == true
+                || ($0.syndromeWeight ?? Int.max)
+                    <= configuration
+                        .maximumSeedSyndromeWeight
+            )
+        }
+        .sorted {
+            if $0.parityPassed != $1.parityPassed {
+                return $0.parityPassed == true
+            }
+
+            let lhsSyndrome =
+                $0.syndromeWeight ?? Int.max
+            let rhsSyndrome =
+                $1.syndromeWeight ?? Int.max
+
+            if lhsSyndrome != rhsSyndrome {
+                return lhsSyndrome < rhsSyndrome
+            }
+
+            let lhsSoft =
+                $0.averageSoftSymbolConfidence ?? 0
+            let rhsSoft =
+                $1.averageSoftSymbolConfidence ?? 0
+
+            if lhsSoft != rhsSoft {
+                return lhsSoft > rhsSoft
+            }
+
+            return $0.candidateConfidence
+                > $1.candidateConfidence
+        }
+
+        var accepted: [Seed] = []
+
+        for trace in eligible {
+            let overlaps = accepted.contains {
+                abs(
+                    $0.trace.frequency
+                        - trace.frequency
+                ) < configuration
+                    .seedFrequencySeparationHz
+            }
+
+            if overlaps {
+                continue
+            }
+
+            accepted.append(
+                Seed(trace: trace)
+            )
+
+            if accepted.count
+                >= configuration.maximumSeeds {
+                break
+            }
+        }
+
+        return accepted
+    }
+
+    private func coarseHypotheses(
+        for seed: Seed,
+        in spectrogram: Spectrogram
+    ) -> [SearchHypothesis] {
+        searchGrid(
+            centreTime: seed.trace.startTime,
+            timeRadius:
+                configuration.coarseTimeRadius,
+            timeStep:
+                configuration.coarseTimeStep,
+            centreFrequency:
+                seed.trace.frequency,
+            frequencyRadius:
+                configuration
+                    .coarseFrequencyRadiusHz,
+            frequencyStep:
+                configuration
+                    .coarseFrequencyStepHz,
+            driftHzPerSecond:
+                seed.trace.driftHzPerSecond,
+            in: spectrogram
+        )
+    }
+
+    private func fineHypotheses(
+        around candidate: FT8Candidate,
+        seed: Seed,
+        in spectrogram: Spectrogram
+    ) -> [SearchHypothesis] {
+        searchGrid(
+            centreTime: candidate.startTime,
+            timeRadius:
+                configuration.fineTimeRadius,
+            timeStep:
+                configuration.fineTimeStep,
+            centreFrequency:
+                candidate.frequency,
+            frequencyRadius:
+                configuration
+                    .fineFrequencyRadiusHz,
+            frequencyStep:
+                configuration
+                    .fineFrequencyStepHz,
+            driftHzPerSecond:
+                seed.trace.driftHzPerSecond,
+            in: spectrogram
+        )
+    }
+
+    private func searchGrid(
+        centreTime: Double,
+        timeRadius: Double,
+        timeStep: Double,
+        centreFrequency: Float,
+        frequencyRadius: Float,
+        frequencyStep: Float,
+        driftHzPerSecond: Float,
+        in spectrogram: Spectrogram
+    ) -> [SearchHypothesis] {
+        guard timeStep > 0,
+              frequencyStep > 0 else {
+            return []
+        }
+
+        var results: [SearchHypothesis] = []
+
+        var time =
+            centreTime - timeRadius
+
+        while time
+            <= centreTime + timeRadius
+                + timeStep * 0.5 {
+            if time >= 0 {
+                var frequency =
+                    centreFrequency
+                    - frequencyRadius
+
+                while frequency
+                    <= centreFrequency
+                        + frequencyRadius
+                        + frequencyStep * 0.5 {
+                    let correlation =
+                        CostasCorrelator.correlate(
+                            spectrogram:
+                                spectrogram,
+                            startTime: time,
+                            baseFrequency:
+                                frequency,
+                            driftHzPerSecond:
+                                driftHzPerSecond
+                        )
+
+                    results.append(
+                        SearchHypothesis(
+                            startTime: time,
+                            frequencyHz:
+                                frequency,
+                            correlation:
+                                correlation
+                        )
+                    )
+
+                    frequency += frequencyStep
+                }
+            }
+
+            time += timeStep
+        }
+
+        return results
+    }
+
+    private func evaluate(
+        seed: Seed,
+        hypothesis: SearchHypothesis,
+        spectrogram: Spectrogram
+    ) throws -> RefinedOutcome? {
+        let candidate = FT8Candidate(
+            startTime: hypothesis.startTime,
+            frequency:
+                hypothesis.frequencyHz,
+            driftHzPerSecond:
+                seed.trace.driftHzPerSecond,
+            symbolOffset: 0,
+            syncScore:
+                hypothesis.correlation.score,
+            snrDB:
+                hypothesis.correlation.snrDB,
+            confidence:
+                hypothesis.correlation.score
+        )
+
+        let extraction: FT8SoftSymbolExtraction
+
+        do {
+            extraction =
+                try extractor.extractWithTrace(
+                    from: spectrogram,
+                    candidate: candidate
+                )
+        } catch {
+            return nil
+        }
+
+        let soft = extraction.softSymbols
+
+        guard soft.averageConfidence
+            >= configuration
+                .minimumSoftConfidence
+        else {
+            return nil
+        }
+
+        let ldpc = try ldpcDecoder.decode(soft)
+        let message = try? messageDecoder.decode(
+            ldpc,
+            softSymbols: soft
+        )
+
+        return RefinedOutcome(
+            candidate: candidate,
+            soft: soft,
+            ldpc: ldpc,
+            message: message,
+            correlation:
+                hypothesis.correlation
+        )
+    }
+
+    private func outcomeIsBetter(
+        _ lhs: RefinedOutcome,
+        _ rhs: RefinedOutcome
+    ) -> Bool {
+        if lhs.ldpc.crcPassed
+            != rhs.ldpc.crcPassed {
+            return lhs.ldpc.crcPassed
+        }
+
+        if lhs.ldpc.parityPassed
+            != rhs.ldpc.parityPassed {
+            return lhs.ldpc.parityPassed
+        }
+
+        if lhs.ldpc.syndromeWeight
+            != rhs.ldpc.syndromeWeight {
+            return lhs.ldpc.syndromeWeight
+                < rhs.ldpc.syndromeWeight
+        }
+
+        if lhs.soft.averageConfidence
+            != rhs.soft.averageConfidence {
+            return lhs.soft.averageConfidence
+                > rhs.soft.averageConfidence
+        }
+
+        return lhs.correlation.score
+            > rhs.correlation.score
+    }
+
+    private func diagnostic(
+        seed: Seed,
+        outcome: RefinedOutcome
+    ) -> FT8FineDecodeHypothesis {
+        FT8FineDecodeHypothesis(
+            seedPass: seed.trace.pass,
+            seedCandidateIndex:
+                seed.trace.candidateIndex,
+            seedTime: seed.trace.startTime,
+            seedFrequencyHz:
+                seed.trace.frequency,
+            startTime:
+                outcome.candidate.startTime,
+            frequencyHz:
+                outcome.candidate.frequency,
+            costasScore:
+                outcome.correlation.score,
+            costasSNRDB:
+                outcome.correlation.snrDB,
+            softConfidence:
+                outcome.soft.averageConfidence,
+            syndromeWeight:
+                outcome.ldpc.syndromeWeight,
+            parityPassed:
+                outcome.ldpc.parityPassed,
+            crcPassed:
+                outcome.ldpc.crcPassed,
+            decodedText:
+                outcome.message?.text
+        )
+    }
+
+    private func deduplicate(
+        _ messages: [FT8CompleteDecode]
+    ) -> [FT8CompleteDecode] {
+        var accepted:
+            [FT8CompleteDecode] = []
+
+        for message in messages.sorted(
+            by: {
+                $0.decoded.confidence
+                    > $1.decoded.confidence
+            }
+        ) {
+            if accepted.contains(
+                where: {
+                    $0.decoded.payload
+                        == message.decoded.payload
+                }
+            ) {
+                continue
+            }
+
+            accepted.append(message)
+        }
+
+        return accepted.sorted {
+            if $0.candidate.startTime
+                == $1.candidate.startTime {
+                return $0.candidate.frequency
+                    < $1.candidate.frequency
+            }
+
+            return $0.candidate.startTime
+                < $1.candidate.startTime
+        }
+    }
+
+    private static func seconds(
+        _ duration: Duration
+    ) -> Double {
+        let components =
+            duration.components
+
+        return Double(components.seconds)
+            + Double(components.attoseconds)
+                / 1_000_000_000_000_000_000
+    }
+}
