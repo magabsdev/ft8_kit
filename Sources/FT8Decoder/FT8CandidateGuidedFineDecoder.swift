@@ -338,20 +338,131 @@ public struct FT8CandidateGuidedFineDecoder:
                             + "syndrome=\(outcome.ldpc.syndromeWeight)"
                     )
 
-                    guard let recovered = try osd.decode(
-                        logLikelihoodRatios:
-                            outcome.soft.logLikelihoodRatios
-                    ) else {
-                        print(
-                            "[FineDecode]     OSD produced no codeword"
+                    let snapshotDecoder = FT8BPReliabilitySnapshotDecoder(
+
+
+                        configuration: .init(
+
+
+                            maximumIterations: 30,
+
+
+                            maximumSnapshots: 3,
+
+
+                            messageLimit: 32
+
+
                         )
-                        continue
+
+
+                    )
+
+
+
+                    let reliabilitySnapshots = try snapshotDecoder.snapshots(
+
+
+                        logLikelihoodRatios:
+
+
+                            outcome.soft.logLikelihoodRatios
+
+
+                    )
+
+
+
+                    var recoveredPair: (FT8LDPCResult, FT8DecodedMessage)?
+
+
+
+                    for (snapshotIndex, reliability) in reliabilitySnapshots.enumerated() {
+
+
+                        print(
+
+
+                            "[FineDecode]     OSD BP snapshot "
+
+
+                                + "\(snapshotIndex + 1)/\(reliabilitySnapshots.count)"
+
+
+                        )
+
+
+
+                        guard let recovered = try osd.decode(
+
+
+                            logLikelihoodRatios: reliability
+
+
+                        ) else {
+
+
+                            continue
+
+
+                        }
+
+
+
+                        guard let message = try? messageDecoder.decode(
+
+
+                            recovered,
+
+
+                            softSymbols: outcome.soft
+
+
+                        ) else {
+
+
+                            // A parity/CRC-valid but non-displayable payload must not
+
+
+                            // outrank a real FT8 message. Continue with the next saved
+
+
+                            // BP reliability vector, as WSJT-X does with zsave(:,i).
+
+
+                            continue
+
+
+                        }
+
+
+
+                        recoveredPair = (recovered, message)
+
+
+                        break
+
+
                     }
 
-                    let message = try? messageDecoder.decode(
-                        recovered,
-                        softSymbols: outcome.soft
-                    )
+
+
+                    guard let (recovered, message) = recoveredPair else {
+
+
+                        print(
+
+
+                            "[FineDecode]     OSD produced no valid message from BP snapshots"
+
+
+                        )
+
+
+                        continue
+
+
+                    }
 
                     let rescued = RefinedOutcome(
                         candidate: outcome.candidate,
