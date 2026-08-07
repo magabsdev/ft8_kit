@@ -90,6 +90,7 @@ public struct FT8FineDecodeHypothesis:
     public let frequencyHz: Float
     public let costasScore: Float
     public let costasSNRDB: Float
+    public let profileName: String?
     public let softConfidence: Float?
     public let syndromeWeight: Int?
     public let parityPassed: Bool?
@@ -115,7 +116,8 @@ public struct FT8CandidateGuidedFineDecoder:
 {
     public var configuration:
         FT8CandidateGuidedFineDecodeConfiguration
-    public var extractor: SoftSymbolExtractor
+    public var ensembleExtractor:
+        FT8SoftSymbolEnsembleExtractor
     public var ldpcDecoder: FT8LDPCDecoder
     public var messageDecoder: FT8MessageDecoder
 
@@ -123,12 +125,13 @@ public struct FT8CandidateGuidedFineDecoder:
         configuration:
             FT8CandidateGuidedFineDecodeConfiguration =
                 .init(),
-        extractor: SoftSymbolExtractor = .init(),
+        ensembleExtractor:
+            FT8SoftSymbolEnsembleExtractor = .init(),
         ldpcDecoder: FT8LDPCDecoder = .init(),
         messageDecoder: FT8MessageDecoder = .init()
     ) {
         self.configuration = configuration
-        self.extractor = extractor
+        self.ensembleExtractor = ensembleExtractor
         self.ldpcDecoder = ldpcDecoder
         self.messageDecoder = messageDecoder
     }
@@ -199,37 +202,39 @@ public struct FT8CandidateGuidedFineDecoder:
                 [RefinedOutcome] = []
 
             for hypothesis in retained {
-                if let outcome = try evaluate(
+                let outcomes = try evaluate(
                     seed: seed,
                     hypothesis: hypothesis,
                     spectrogram: spectrogram
-                ) {
-                    ldpcAttempts += 1
-                    rankedOutcomes.append(outcome)
+                )
+                ldpcAttempts += outcomes.count
+                rankedOutcomes.append(contentsOf: outcomes)
 
-                    if outcome.ldpc.crcPassed,
-                       let message = outcome.message,
-                       !excludingPayloads.contains(
-                            message.payload
-                       ) {
-                        decoded.append(
-                            FT8CompleteDecode(
-                                candidate:
-                                    outcome.candidate,
-                                softSymbols:
-                                    outcome.soft,
-                                ldpc: outcome.ldpc,
-                                decoded: message
-                            )
-                        )
+                for outcome in outcomes where outcome.ldpc.crcPassed {
+                    guard let message = outcome.message,
+                          !excludingPayloads.contains(message.payload)
+                    else {
+                        continue
                     }
+
+                    decoded.append(
+                        FT8CompleteDecode(
+                            candidate: outcome.candidate,
+                            softSymbols: outcome.soft,
+                            ldpc: outcome.ldpc,
+                            decoded: message
+                        )
+                    )
                 }
             }
 
-            if let currentBest = rankedOutcomes.sorted(by: outcomeIsBetter).first {
+            if let currentBest = rankedOutcomes
+                .sorted(by: outcomeIsBetter)
+                .first {
                 print(
-                    "[FineDecode]   coarse best syndrome="
-                        + "\(currentBest.ldpc.syndromeWeight) "
+                    "[FineDecode]   coarse best profile="
+                        + "\(currentBest.profileName) "
+                        + "syndrome=\(currentBest.ldpc.syndromeWeight) "
                         + "parity=\(currentBest.ldpc.parityPassed) "
                         + "crc=\(currentBest.ldpc.crcPassed)"
                 )
@@ -258,30 +263,29 @@ public struct FT8CandidateGuidedFineDecoder:
                         continue
                     }
 
-                    if let outcome = try evaluate(
+                    let outcomes = try evaluate(
                         seed: seed,
                         hypothesis: hypothesis,
                         spectrogram: spectrogram
-                    ) {
-                        ldpcAttempts += 1
-                        rankedOutcomes.append(outcome)
+                    )
+                    ldpcAttempts += outcomes.count
+                    rankedOutcomes.append(contentsOf: outcomes)
 
-                        if outcome.ldpc.crcPassed,
-                           let message = outcome.message,
-                           !excludingPayloads.contains(
-                                message.payload
-                           ) {
-                            decoded.append(
-                                FT8CompleteDecode(
-                                    candidate:
-                                        outcome.candidate,
-                                    softSymbols:
-                                        outcome.soft,
-                                    ldpc: outcome.ldpc,
-                                    decoded: message
-                                )
-                            )
+                    for outcome in outcomes where outcome.ldpc.crcPassed {
+                        guard let message = outcome.message,
+                              !excludingPayloads.contains(message.payload)
+                        else {
+                            continue
                         }
+
+                        decoded.append(
+                            FT8CompleteDecode(
+                                candidate: outcome.candidate,
+                                softSymbols: outcome.soft,
+                                ldpc: outcome.ldpc,
+                                decoded: message
+                            )
+                        )
                     }
                 }
             }
@@ -293,6 +297,7 @@ public struct FT8CandidateGuidedFineDecoder:
                     "[FineDecode]   final best time="
                         + "\(best.candidate.startTime) "
                         + "frequency=\(best.candidate.frequency) "
+                        + "profile=\(best.profileName) "
                         + "syndrome=\(best.ldpc.syndromeWeight) "
                         + "parity=\(best.ldpc.parityPassed) "
                         + "crc=\(best.ldpc.crcPassed)"
@@ -333,6 +338,7 @@ public struct FT8CandidateGuidedFineDecoder:
 
     private struct RefinedOutcome {
         let candidate: FT8Candidate
+        let profileName: String
         let soft: FT8SoftSymbols
         let ldpc: FT8LDPCResult
         let message: FT8DecodedMessage?
@@ -525,7 +531,7 @@ public struct FT8CandidateGuidedFineDecoder:
         seed: Seed,
         hypothesis: SearchHypothesis,
         spectrogram: Spectrogram
-    ) throws -> RefinedOutcome? {
+    ) throws -> [RefinedOutcome] {
         let candidate = FT8Candidate(
             startTime: hypothesis.startTime,
             frequency:
@@ -541,41 +547,49 @@ public struct FT8CandidateGuidedFineDecoder:
                 hypothesis.correlation.score
         )
 
-        let extraction: FT8SoftSymbolExtraction
+        let variants: [FT8SoftSymbolVariant]
 
         do {
-            extraction =
-                try extractor.extractWithTrace(
-                    from: spectrogram,
-                    candidate: candidate
-                )
+            variants = try ensembleExtractor.extract(
+                from: spectrogram,
+                candidate: candidate
+            )
         } catch {
-            return nil
+            return []
         }
 
-        let soft = extraction.softSymbols
+        var outcomes: [RefinedOutcome] = []
+        outcomes.reserveCapacity(variants.count)
 
-        guard soft.averageConfidence
-            >= configuration
-                .minimumSoftConfidence
-        else {
-            return nil
+        for variant in variants {
+            let soft = variant.softSymbols
+
+            guard soft.averageConfidence
+                >= configuration.minimumSoftConfidence
+            else {
+                continue
+            }
+
+            let ldpc = try ldpcDecoder.decode(soft)
+            let message = try? messageDecoder.decode(
+                ldpc,
+                softSymbols: soft
+            )
+
+            outcomes.append(
+                RefinedOutcome(
+                    candidate: candidate,
+                    profileName: variant.profileName,
+                    soft: soft,
+                    ldpc: ldpc,
+                    message: message,
+                    correlation:
+                        hypothesis.correlation
+                )
+            )
         }
 
-        let ldpc = try ldpcDecoder.decode(soft)
-        let message = try? messageDecoder.decode(
-            ldpc,
-            softSymbols: soft
-        )
-
-        return RefinedOutcome(
-            candidate: candidate,
-            soft: soft,
-            ldpc: ldpc,
-            message: message,
-            correlation:
-                hypothesis.correlation
-        )
+        return outcomes
     }
 
     private func outcomeIsBetter(
@@ -604,8 +618,13 @@ public struct FT8CandidateGuidedFineDecoder:
                 > rhs.soft.averageConfidence
         }
 
-        return lhs.correlation.score
-            > rhs.correlation.score
+        if lhs.correlation.score
+            != rhs.correlation.score {
+            return lhs.correlation.score
+                > rhs.correlation.score
+        }
+
+        return lhs.profileName < rhs.profileName
     }
 
     private func diagnostic(
@@ -627,6 +646,8 @@ public struct FT8CandidateGuidedFineDecoder:
                 outcome.correlation.score,
             costasSNRDB:
                 outcome.correlation.snrDB,
+            profileName:
+                outcome.profileName,
             softConfidence:
                 outcome.soft.averageConfidence,
             syndromeWeight:
