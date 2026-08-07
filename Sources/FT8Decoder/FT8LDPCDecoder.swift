@@ -28,7 +28,7 @@ public struct FT8LDPCConfiguration: Equatable, Sendable {
         damping: Float = 0,
         messageLimit: Float = 32,
         enableRobustRetries: Bool = true,
-        robustRetryMaximumSyndromeWeight: Int = 45
+        robustRetryMaximumSyndromeWeight: Int = 12
     ) {
         self.algorithm = algorithm
         self.maximumIterations = maximumIterations
@@ -262,35 +262,23 @@ public struct FT8LDPCDecoder: Sendable {
     private func robustConfigurations()
         -> [FT8LDPCConfiguration] {
         [
+            // One alternate min-sum path and one sum-product path are enough
+            // for a bounded rescue pass. The previous 4 × 3 ensemble could
+            // perform hundreds of expensive BP iterations for every real-WAV
+            // candidate and made the integration test appear to hang.
             .init(
                 algorithm: .normalizedMinSum,
-                maximumIterations: 80,
-                normalizationFactor: 0.68,
+                maximumIterations: 60,
+                normalizationFactor: 0.70,
+                damping: 0.12,
+                messageLimit: 32,
+                enableRobustRetries: false
+            ),
+            .init(
+                algorithm: .sumProduct,
+                maximumIterations: 60,
+                normalizationFactor: 0.8,
                 damping: 0.10,
-                messageLimit: 32,
-                enableRobustRetries: false
-            ),
-            .init(
-                algorithm: .normalizedMinSum,
-                maximumIterations: 100,
-                normalizationFactor: 0.88,
-                damping: 0.20,
-                messageLimit: 32,
-                enableRobustRetries: false
-            ),
-            .init(
-                algorithm: .sumProduct,
-                maximumIterations: 80,
-                normalizationFactor: 0.8,
-                damping: 0,
-                messageLimit: 32,
-                enableRobustRetries: false
-            ),
-            .init(
-                algorithm: .sumProduct,
-                maximumIterations: 100,
-                normalizationFactor: 0.8,
-                damping: 0.15,
                 messageLimit: 32,
                 enableRobustRetries: false
             )
@@ -300,28 +288,14 @@ public struct FT8LDPCDecoder: Sendable {
     private func robustChannelVariants(
         _ channel: [Float]
     ) -> [[Float]] {
-        var variants: [[Float]] = [channel]
-
-        // Attenuating only the weakest observations acts as a soft erasure:
-        // the parity graph is allowed to decide those positions instead of
-        // being forced by a questionable channel sign.
-        variants.append(
+        [
+            channel,
             attenuatingWeakest(
                 channel,
                 count: 8,
                 factor: 0.25
             )
-        )
-
-        variants.append(
-            attenuatingWeakest(
-                channel,
-                count: 14,
-                factor: 0
-            )
-        )
-
-        return variants
+        ]
     }
 
     private func attenuatingWeakest(
