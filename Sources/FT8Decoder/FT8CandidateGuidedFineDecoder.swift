@@ -570,19 +570,45 @@ public struct FT8CandidateGuidedFineDecoder:
                 continue
             }
 
-            let ldpc = try ldpcDecoder.decode(soft)
-            let message = try? messageDecoder.decode(
-                ldpc,
+            let primaryLDPC = try ldpcDecoder.decode(soft)
+
+            var selectedLDPC = primaryLDPC
+            var selectedMessage = try? messageDecoder.decode(
+                primaryLDPC,
                 softSymbols: soft
             )
+
+            // WSJT-X source-of-truth path: BP first, then an ordered-statistics
+            // rescue pass using channel reliability when BP did not produce
+            // a CRC-valid word. This replaces further ad-hoc LLR perturbation
+            // at the fine-decode layer.
+            if !primaryLDPC.crcPassed {
+                let osd = FT8OrderedStatisticsDecoder(
+                    configuration: .init(
+                        order: 1,
+                        pivotSearchExtraColumns: 20,
+                        maximumOrderOnePatterns: 91
+                    )
+                )
+
+                if let recovered = try osd.decode(
+                    logLikelihoodRatios: soft.logLikelihoodRatios
+                ) {
+                    selectedLDPC = recovered
+                    selectedMessage = try? messageDecoder.decode(
+                        recovered,
+                        softSymbols: soft
+                    )
+                }
+            }
 
             outcomes.append(
                 RefinedOutcome(
                     candidate: candidate,
                     profileName: variant.profileName,
                     soft: soft,
-                    ldpc: ldpc,
-                    message: message,
+                    ldpc: selectedLDPC,
+                    message: selectedMessage,
                     correlation:
                         hypothesis.correlation
                 )
