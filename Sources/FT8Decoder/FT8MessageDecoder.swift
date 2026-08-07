@@ -1,3 +1,4 @@
+import Foundation
 import FT8Protocol
 
 public enum FT8MessageDecodeError: Error, Equatable, Sendable {
@@ -5,6 +6,7 @@ public enum FT8MessageDecodeError: Error, Equatable, Sendable {
     case crcFailed
     case invalidInformationLength(Int)
     case unpackFailed(FT8ProtocolError)
+    case emptyDecodedText
 }
 
 public struct FT8DecodedMessage: Equatable, Sendable {
@@ -64,6 +66,16 @@ public struct FT8MessageDecoder: Sendable {
             message = try FT8MessageCodec.unpack(payload)
         } catch let error as FT8ProtocolError {
             throw FT8MessageDecodeError.unpackFailed(error)
+        }
+
+        // WSJT-X-style acceptance gate: parity + CRC are necessary, but the
+        // payload must also unpack into a meaningful protocol message.
+        // Reject CRC-valid reserved/degenerate payloads that render as blank.
+        let decodedText = message.displayText.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+        guard !decodedText.isEmpty else {
+            throw FT8MessageDecodeError.emptyDecodedText
         }
 
         return FT8DecodedMessage(

@@ -86,6 +86,22 @@ final class FT8MessageDecoderTests: XCTestCase {
         }
     }
 
+    func testRejectsCRCValidEmptyDecodedMessage() throws {
+        let result = try makePerfectLDPCResult(.freeText(""))
+
+        XCTAssertTrue(result.parityPassed)
+        XCTAssertTrue(result.crcPassed)
+
+        XCTAssertThrowsError(
+            try FT8MessageDecoder().decode(result)
+        ) {
+            XCTAssertEqual(
+                $0 as? FT8MessageDecodeError,
+                .emptyDecodedText
+            )
+        }
+    }
+
     func testSoftConfidenceContributesToResult() throws {
         let result = try makePerfectLDPCResult(.freeText("CONFIDENCE"))
         let soft = FT8SoftSymbols(
