@@ -43,10 +43,7 @@ final class FT8SignalCancellerTests: XCTestCase {
         let configuration =
             FT8SignalCancellationConfiguration()
 
-        XCTAssertEqual(
-            configuration.binRadius,
-            1
-        )
+        XCTAssertEqual(configuration.binRadius, 1)
         XCTAssertEqual(
             configuration.cancellationStrength,
             1.0,
@@ -57,8 +54,58 @@ final class FT8SignalCancellerTests: XCTestCase {
             0.5,
             accuracy: 0.0001
         )
-        XCTAssertTrue(
-            configuration.preserveNoiseFloor
+        XCTAssertTrue(configuration.preserveNoiseFloor)
+    }
+
+    func testOneNearestFramePerSymbolIsCancelled()
+        throws
+    {
+        let decode = try makeDecode()
+
+        let spectrogram = SyntheticSpectrogram.make(
+            baseFrequency: 1_000,
+            duration: 13,
+            signalDB: -10,
+            noiseDB: -100
+        )
+
+        let result = try FT8SignalCanceller(
+            configuration: .init(
+                cancellationStrength: 1.0,
+                binRadius: 1,
+                timeTaperFloor: 0.5
+            )
+        ).cancel([decode], from: spectrogram)
+
+        // 79 FT8 symbols × 3 bins (radius 1), provided every tone is inside
+        // the synthetic waterfall. This guards against reintroducing the old
+        // four-overlapping-FFT-frames-per-symbol production behaviour.
+        XCTAssertLessThanOrEqual(
+            result.affectedBins,
+            79 * 3
+        )
+    }
+
+    func testNoiseFloorIsPreserved()
+        throws
+    {
+        let decode = try makeDecode()
+
+        let spectrogram = SyntheticSpectrogram.make(
+            baseFrequency: 1_000,
+            duration: 13,
+            signalDB: -10,
+            noiseDB: -100
+        )
+
+        let result = try FT8SignalCanceller().cancel(
+            [decode],
+            from: spectrogram
+        )
+
+        XCTAssertEqual(
+            result.spectrogram.frames.map(\.noiseFloorDB),
+            spectrogram.frames.map(\.noiseFloorDB)
         )
     }
 
@@ -69,6 +116,7 @@ final class FT8SignalCancellerTests: XCTestCase {
             baseFrequency: 1_000,
             duration: 13
         )
+
         let result = try FT8SignalCanceller().cancel(
             [],
             from: spectrogram

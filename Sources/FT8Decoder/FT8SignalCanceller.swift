@@ -20,9 +20,10 @@ public struct FT8SignalCancellationConfiguration:
     /// FT8 transmission still receives full configured cancellation strength.
     public var timeTaperFloor: Float
 
-    /// Prevent cancellation from pushing a bin below the measured frame noise
-    /// floor. This avoids creating artificial spectral holes that can damage
-    /// neighbouring weak signals.
+    /// Preserve the measured frame noise floor while removing signal power.
+    ///
+    /// This is the production default because the calibrated real-WAV
+    /// cancellation path subtracts only power above the existing noise floor.
     public var preserveNoiseFloor: Bool
 
     public var minimumResidualMagnitude: Float
@@ -83,7 +84,10 @@ public struct FT8CancellationResult: Equatable, Sendable {
 
     public var reductionFraction: Double {
         guard energyBefore > 0 else { return 0 }
-        return removedEnergy / energyBefore
+        return min(
+            max(1 - energyAfter / energyBefore, 0),
+            1
+        )
     }
 }
 
@@ -116,180 +120,175 @@ public struct FT8SignalCanceller: Sendable {
             )
         }
 
-        var frameMagnitudes = spectrogram.frames.map(
-            \.magnitudes
-        )
-        var affected = Set<BinAddress>()
-        var before: Double = 0
-        var after: Double = 0
+        // IMPORTANT:
+        // The calibrated real-WAV cancellation path operates on exactly one
+        // nearest waterfall frame per FT8 symbol. Do not expand the 160 ms
+        // symbol over every overlapping FFT frame. The previous production
+        // implementation did that and touched 948 cells instead of the
+        // calibrated 237, suppressing neighbouring weak signals.
+        var frames = spectrogram.frames
+
+        var powerBefore: Double = 0
+        var powerAfter: Double = 0
+        var affectedBins = 0
 
         for decode in decodes {
             let tones = try synthesizer.tones(for: decode)
+            let symbolCount = min(79, tones.count)
 
-            for symbolIndex in tones.indices {
+            for symbolIndex in 0..<symbolCount {
                 let symbolStart =
                     decode.candidate.startTime +
                     Double(symbolIndex) *
                     configuration.symbolPeriod
-                let symbolEnd =
-                    symbolStart +
-                    configuration.symbolPeriod
 
-                let timeTaper = symbolTimeTaper(
-                    symbolIndex: symbolIndex,
-                    symbolCount: tones.count
+                guard let frameIndex = nearestFrameIndex(
+                    in: frames,
+                    time: symbolStart
+                ) else {
+                    continue
+                }
+
+                let frame = frames[frameIndex]
+
+                let elapsed = Float(
+                    symbolStart -
+                    decode.candidate.startTime
                 )
 
-                for frameIndex in spectrogram.frames.indices {
-                    let frame = spectrogram.frames[frameIndex]
-                    let frameCentre = frame.time +
-                        Double(spectrogram.fftSize) /
-                        Double(spectrogram.sampleRate) / 2
+                let toneFrequency =
+                    decode.candidate.frequency +
+                    Float(tones[symbolIndex]) *
+                    configuration.toneSpacing +
+                    decode.candidate.driftHzPerSecond *
+                    elapsed
 
-                    guard frameCentre >= symbolStart,
-                          frameCentre < symbolEnd else {
+                let centreBin = Int(
+                    (
+                        (toneFrequency -
+                            frame.minimumFrequency) /
+                        frame.binWidth
+                    ).rounded()
+                )
+
+                let taper = symbolTimeTaper(
+                    symbolIndex: symbolIndex,
+                    symbolCount: symbolCount
+                )
+
+                var decibels = frame.decibels
+
+                let radius = configuration.binRadius
+                let sigma = max(
+                    Float(radius) / 2,
+                    0.75
+                )
+
+                for offset in -radius...radius {
+                    let bin = centreBin + offset
+
+                    guard decibels.indices.contains(bin) else {
                         continue
                     }
 
-                    let elapsed = Float(
-                        frameCentre -
-                        decode.candidate.startTime
-                    )
-                    let frequency =
-                        decode.candidate.frequency +
-                        Float(tones[symbolIndex]) *
-                        configuration.toneSpacing +
-                        decode.candidate.driftHzPerSecond *
-                        elapsed
-
-                    let centreBin = Int(
-                        (
-                            (frequency -
-                                frame.minimumFrequency) /
-                            frame.binWidth
-                        ).rounded()
+                    let frequencyWeight = expf(
+                        -Float(offset * offset) /
+                        (2 * sigma * sigma)
                     )
 
-                    let lower =
-                        centreBin - configuration.binRadius
-                    let upper =
-                        centreBin + configuration.binRadius
+                    let strength = min(
+                        max(
+                            configuration.cancellationStrength *
+                            taper *
+                            frequencyWeight,
+                            0
+                        ),
+                        1
+                    )
 
-                    for bin in lower...upper
-                    where frame.magnitudes.indices.contains(bin) {
-                        let address = BinAddress(
-                            frame: frameIndex,
-                            bin: bin
+                    let originalDB = decibels[bin]
+                    let originalPower = pow(
+                        10.0,
+                        Double(originalDB) / 10.0
+                    )
+
+                    let minimumPower = pow(
+                        Double(
+                            configuration.minimumResidualMagnitude
+                        ),
+                        2
+                    )
+
+                    let remainingPower: Double
+
+                    if configuration.preserveNoiseFloor {
+                        let noisePower = pow(
+                            10.0,
+                            Double(frame.noiseFloorDB) / 10.0
                         )
 
-                        // A bin can be touched by adjacent symbol windows. Only
-                        // charge its energy once, but allow the strongest
-                        // requested cancellation to remain applied.
-                        let firstTouch =
-                            affected.insert(address).inserted
+                        let removablePower = max(
+                            originalPower - noisePower,
+                            0
+                        )
 
-                        let original =
-                            frameMagnitudes[frameIndex][bin]
+                        remainingPower = max(
+                            originalPower -
+                                removablePower *
+                                Double(strength),
+                            max(noisePower, minimumPower)
+                        )
+                    } else {
+                        remainingPower = max(
+                            originalPower *
+                                (1 - Double(strength)),
+                            minimumPower
+                        )
+                    }
 
-                        if firstTouch {
-                            before += Double(original * original)
-                        }
+                    powerBefore += originalPower
+                    powerAfter += remainingPower
+                    affectedBins += 1
 
-                        let frequencyWeight =
-                            gaussianFrequencyWeight(
-                                bin: bin,
-                                centreBin: centreBin
-                            )
-
-                        let strength = min(
+                    decibels[bin] = Float(
+                        10.0 * log10(
                             max(
-                                configuration.cancellationStrength *
-                                timeTaper *
-                                frequencyWeight,
+                                remainingPower,
+                                Double.leastNonzeroMagnitude
+                            )
+                        )
+                    )
+                }
+
+                // Preserve the original measured frame noise floor. Recomputing
+                // it after cancellation changed the residual waterfall and
+                // produced extreme diagnostic deltas.
+                frames[frameIndex] = WaterfallFrame(
+                    index: frame.index,
+                    sampleOffset: frame.sampleOffset,
+                    time: frame.time,
+                    minimumFrequency:
+                        frame.minimumFrequency,
+                    binWidth: frame.binWidth,
+                    magnitudes: decibels.map {
+                        powf(10, $0 / 20)
+                    },
+                    decibels: decibels,
+                    intensities: decibels.map {
+                        min(
+                            max(
+                                ($0 -
+                                    frame.noiseFloorDB) /
+                                    70,
                                 0
                             ),
                             1
                         )
-
-                        let scale = max(0, 1 - strength)
-                        var residual = max(
-                            original * scale,
-                            configuration.minimumResidualMagnitude
-                        )
-
-                        if configuration.preserveNoiseFloor {
-                            let noiseMagnitude = powf(
-                                10,
-                                frame.noiseFloorDB / 20
-                            )
-
-                            // Never raise a bin that was already below the
-                            // measured noise floor.
-                            if original > noiseMagnitude {
-                                residual = max(
-                                    residual,
-                                    noiseMagnitude
-                                )
-                            }
-                        }
-
-                        frameMagnitudes[frameIndex][bin] =
-                            min(
-                                frameMagnitudes[frameIndex][bin],
-                                residual
-                            )
-                    }
-                }
-            }
-        }
-
-        // Compute after-energy from the final residual values so bins touched
-        // more than once are not double-counted.
-        for address in affected {
-            let value =
-                frameMagnitudes[address.frame][address.bin]
-            after += Double(value * value)
-        }
-
-        let frames = spectrogram.frames.indices.map {
-            frameIndex -> WaterfallFrame in
-            let source = spectrogram.frames[frameIndex]
-            let magnitudes = frameMagnitudes[frameIndex]
-            let decibels = VectorMath.decibels(
-                magnitudes: magnitudes
-            )
-            let noise = NoiseFloorEstimator.median(
-                of: decibels
-            )
-            let dynamicRange = max(
-                (source.decibels.max() ?? noise) -
-                    (source.decibels.min() ?? noise),
-                1
-            )
-            let ceiling = max(
-                decibels.max() ?? noise,
-                noise + dynamicRange
-            )
-            let floorDB = ceiling - dynamicRange
-            let intensities = decibels.map {
-                min(
-                    max(($0 - floorDB) / dynamicRange, 0),
-                    1
+                    },
+                    noiseFloorDB:
+                        frame.noiseFloorDB
                 )
             }
-
-            return WaterfallFrame(
-                index: source.index,
-                sampleOffset: source.sampleOffset,
-                time: source.time,
-                minimumFrequency:
-                    source.minimumFrequency,
-                binWidth: source.binWidth,
-                magnitudes: magnitudes,
-                decibels: decibels,
-                intensities: intensities,
-                noiseFloorDB: noise
-            )
         }
 
         return FT8CancellationResult(
@@ -303,10 +302,35 @@ public struct FT8SignalCanceller: Sendable {
                 maximumFrequency:
                     spectrogram.maximumFrequency
             ),
-            energyBefore: before,
-            energyAfter: after,
-            affectedBins: affected.count
+            energyBefore: powerBefore,
+            energyAfter: powerAfter,
+            affectedBins: affectedBins
         )
+    }
+
+    private func nearestFrameIndex(
+        in frames: [WaterfallFrame],
+        time: Double
+    ) -> Int? {
+        guard !frames.isEmpty else {
+            return nil
+        }
+
+        var bestIndex = 0
+        var bestDistance =
+            abs(frames[0].time - time)
+
+        for index in 1..<frames.count {
+            let distance =
+                abs(frames[index].time - time)
+
+            if distance < bestDistance {
+                bestIndex = index
+                bestDistance = distance
+            }
+        }
+
+        return bestIndex
     }
 
     private func symbolTimeTaper(
@@ -319,34 +343,16 @@ public struct FT8SignalCanceller: Sendable {
 
         let midpoint =
             Float(symbolCount - 1) / 2
+
         let distance =
-            abs(Float(symbolIndex) - midpoint)
-            / max(midpoint, 1)
+            abs(
+                Float(symbolIndex) -
+                midpoint
+            ) / max(midpoint, 1)
 
         return max(
             configuration.timeTaperFloor,
             1 - distance * distance
         )
     }
-
-    private func gaussianFrequencyWeight(
-        bin: Int,
-        centreBin: Int
-    ) -> Float {
-        let distance = bin - centreBin
-        let sigma = max(
-            Float(configuration.binRadius) / 2,
-            0.75
-        )
-
-        return expf(
-            -Float(distance * distance) /
-            (2 * sigma * sigma)
-        )
-    }
-}
-
-private struct BinAddress: Hashable {
-    let frame: Int
-    let bin: Int
 }
