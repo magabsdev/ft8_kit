@@ -27,17 +27,9 @@ public struct FT8SoftSymbolVariant: Equatable, Sendable {
     }
 }
 
-/// Produces a small bounded ensemble of soft-symbol interpretations for a
-/// single synchronized FT8 candidate.
-///
-/// Weak real-world FT8 signals can respond differently to temporal and
-/// frequency integration. Rather than committing the LDPC decoder to one
-/// observation strategy, this extractor provides several deliberately small,
-/// deterministic alternatives that can be ranked by the decoder.
-///
-/// The default profiles are intentionally conservative so this stage remains
-/// suitable for production candidate-guided decoding rather than turning into
-/// an unbounded brute-force search.
+/// Produces a bounded set of soft-symbol interpretations for one synchronized
+/// FT8 candidate. The ensemble remains at four profiles; this checkpoint
+/// changes the weak-signal likelihood model rather than widening the search.
 public struct FT8SoftSymbolEnsembleExtractor: Sendable {
     public var profiles: [FT8SoftSymbolProfile]
 
@@ -55,7 +47,8 @@ public struct FT8SoftSymbolEnsembleExtractor: Sendable {
                 timeIntegrationRadius: 0,
                 minimumObservationsPerSymbol: 1,
                 llrScale: 1,
-                llrLimit: 24
+                llrLimit: 24,
+                metricMode: .maxLog
             )
         ),
         FT8SoftSymbolProfile(
@@ -65,7 +58,8 @@ public struct FT8SoftSymbolEnsembleExtractor: Sendable {
                 timeIntegrationRadius: 1,
                 minimumObservationsPerSymbol: 1,
                 llrScale: 1,
-                llrLimit: 24
+                llrLimit: 24,
+                metricMode: .logMAP
             )
         ),
         FT8SoftSymbolProfile(
@@ -75,7 +69,8 @@ public struct FT8SoftSymbolEnsembleExtractor: Sendable {
                 timeIntegrationRadius: 1,
                 minimumObservationsPerSymbol: 1,
                 llrScale: 1,
-                llrLimit: 24
+                llrLimit: 24,
+                metricMode: .logMAP
             )
         ),
         FT8SoftSymbolProfile(
@@ -85,7 +80,8 @@ public struct FT8SoftSymbolEnsembleExtractor: Sendable {
                 timeIntegrationRadius: 2,
                 minimumObservationsPerSymbol: 1,
                 llrScale: 1,
-                llrLimit: 24
+                llrLimit: 24,
+                metricMode: .logMAP
             )
         )
     ]

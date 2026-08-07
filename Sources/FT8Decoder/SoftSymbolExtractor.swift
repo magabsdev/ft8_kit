@@ -8,24 +8,20 @@ public enum SoftSymbolError: Error, Equatable, Sendable {
     case insufficientObservations(symbol: Int)
 }
 
+public enum SoftSymbolMetricMode: String, Equatable, Sendable {
+    case maxLog
+    case logMAP
+}
+
 public struct SoftSymbolConfiguration: Equatable, Sendable {
     public var symbolPeriod: Double
     public var toneSpacing: Float
-
-    /// Number of neighbouring frequency bins included on each side of the
-    /// interpolated tone frequency. A value of zero still uses fractional-bin
-    /// interpolation between the two nearest FFT bins.
     public var integrationRadius: Int
-
-    /// Number of neighbouring waterfall frames included on each side of the
-    /// frame nearest the symbol start. FT8Kit's waterfall frame timestamp is
-    /// the FFT-window start, so the default ±1 frames samples the same symbol
-    /// at three overlapping FFT windows when the normal 40 ms hop is used.
     public var timeIntegrationRadius: Int
-
     public var minimumObservationsPerSymbol: Int
     public var llrScale: Float
     public var llrLimit: Float
+    public var metricMode: SoftSymbolMetricMode
 
     public init(
         symbolPeriod: Double = 0.160,
@@ -34,7 +30,8 @@ public struct SoftSymbolConfiguration: Equatable, Sendable {
         timeIntegrationRadius: Int = 1,
         minimumObservationsPerSymbol: Int = 1,
         llrScale: Float = 1,
-        llrLimit: Float = 24
+        llrLimit: Float = 24,
+        metricMode: SoftSymbolMetricMode = .maxLog
     ) {
         self.symbolPeriod = symbolPeriod
         self.toneSpacing = toneSpacing
@@ -43,6 +40,7 @@ public struct SoftSymbolConfiguration: Equatable, Sendable {
         self.minimumObservationsPerSymbol = minimumObservationsPerSymbol
         self.llrScale = llrScale
         self.llrLimit = llrLimit
+        self.metricMode = metricMode
     }
 
     fileprivate func validate() throws {
@@ -80,9 +78,11 @@ public struct SoftSymbolExtractor: Sendable {
         candidate: FT8Candidate
     ) throws -> FT8SoftSymbolExtraction {
         try configuration.validate()
+
         guard !spectrogram.frames.isEmpty else {
             throw SoftSymbolError.emptySpectrogram
         }
+
         guard candidate.frequency >= spectrogram.minimumFrequency,
               candidate.frequency + 7 * configuration.toneSpacing <= spectrogram.maximumFrequency else {
             throw SoftSymbolError.invalidCandidateFrequency(candidate.frequency)
@@ -114,29 +114,21 @@ public struct SoftSymbolExtractor: Sendable {
                 )
             )
 
-            // Max-log bit likelihoods. There are 58 data symbols × 3 bits =
-            // 174 channel LLRs, exactly one value per LDPC codeword bit.
             for bitIndex in 0..<3 {
-                var zero = -Float.infinity
-                var one = -Float.infinity
+                let llr = bitLLR(
+                    bitIndex: bitIndex,
+                    toneMetricsDB: metrics
+                )
 
-                for tone in 0..<8 {
-                    let bits = FT8ToneMapping.bits(forTone: tone)
-                    let bit = bitIndex == 0
-                        ? bits.0
-                        : (bitIndex == 1 ? bits.1 : bits.2)
-
-                    if bit == 0 {
-                        zero = max(zero, metrics[tone])
-                    } else {
-                        one = max(one, metrics[tone])
-                    }
-                }
-
-                // FT8LDPCDecoder uses negative LLR values for hard bit 1.
-                // Preserve the raw relative reliability here; the LDPC decoder
-                // performs whole-vector variance normalisation before BP.
-                llrs.append((zero - one) * configuration.llrScale)
+                llrs.append(
+                    min(
+                        max(
+                            llr * configuration.llrScale,
+                            -configuration.llrLimit
+                        ),
+                        configuration.llrLimit
+                    )
+                )
             }
         }
 
@@ -189,9 +181,6 @@ public struct SoftSymbolExtractor: Sendable {
         for frameIndex in firstFrameIndex...lastFrameIndex {
             let frame = spectrogram.frames[frameIndex]
 
-            // Triangular temporal weighting keeps the original nearest-frame
-            // observation dominant while using overlapping neighbouring FFTs
-            // to reduce a single-frame fade/noise spike.
             let frameDistance = abs(frameIndex - centreFrameIndex)
             let timeWeight = Float(
                 configuration.timeIntegrationRadius + 1 - frameDistance
@@ -237,6 +226,71 @@ public struct SoftSymbolExtractor: Sendable {
         }
     }
 
+    private func bitLLR(
+        bitIndex: Int,
+        toneMetricsDB: [Float]
+    ) -> Float {
+        switch configuration.metricMode {
+        case .maxLog:
+            var zero = -Float.infinity
+            var one = -Float.infinity
+
+            for tone in 0..<8 {
+                let bits = FT8ToneMapping.bits(forTone: tone)
+                let bit = bitIndex == 0
+                    ? bits.0
+                    : (bitIndex == 1 ? bits.1 : bits.2)
+
+                if bit == 0 {
+                    zero = max(zero, toneMetricsDB[tone])
+                } else {
+                    one = max(one, toneMetricsDB[tone])
+                }
+            }
+
+            return zero - one
+
+        case .logMAP:
+            // Preserve likelihood contribution from every compatible tone.
+            // dB power is converted to natural-log space before log-sum-exp.
+            let dbToNaturalLog = Float(log(10.0) / 10.0)
+            var zero: [Float] = []
+            var one: [Float] = []
+            zero.reserveCapacity(4)
+            one.reserveCapacity(4)
+
+            for tone in 0..<8 {
+                let bits = FT8ToneMapping.bits(forTone: tone)
+                let bit = bitIndex == 0
+                    ? bits.0
+                    : (bitIndex == 1 ? bits.1 : bits.2)
+
+                let value = toneMetricsDB[tone] * dbToNaturalLog
+
+                if bit == 0 {
+                    zero.append(value)
+                } else {
+                    one.append(value)
+                }
+            }
+
+            return logSumExp(zero) - logSumExp(one)
+        }
+    }
+
+    private func logSumExp(_ values: [Float]) -> Float {
+        guard let maximum = values.max(), maximum.isFinite else {
+            return -Float.infinity
+        }
+
+        var sum: Float = 0
+        for value in values {
+            sum += expf(value - maximum)
+        }
+
+        return maximum + logf(max(sum, Float.leastNonzeroMagnitude))
+    }
+
     private func interpolatedLinearPower(
         at frequency: Float,
         in frame: WaterfallFrame
@@ -254,8 +308,6 @@ public struct SoftSymbolExtractor: Sendable {
         var weightedPower: Float = 0
         var totalWeight: Float = 0
 
-        // integrationRadius = 0 still performs two-bin linear interpolation.
-        // Larger radii add symmetric neighbouring interpolated samples.
         for offset in -configuration.integrationRadius...configuration.integrationRadius {
             let lower = lowerCentre + offset
             let upper = lower + 1
@@ -272,8 +324,6 @@ public struct SoftSymbolExtractor: Sendable {
                 lowerPower * (1 - fraction)
                 + upperPower * fraction
 
-            // Frequency neighbours use a triangular weight so the bins closest
-            // to the requested tone remain dominant.
             let frequencyWeight = Float(
                 configuration.integrationRadius + 1 - abs(offset)
             )
