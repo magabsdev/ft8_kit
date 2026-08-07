@@ -64,7 +64,12 @@ final class SoftSymbolExtractorTests: XCTestCase {
     }
 
     func testCompensatesForCandidateDrift() throws {
-        let tones = try FT8Encoder.encode(text: "DRIFT")
+        let text = "DRIFT"
+        let tones = try FT8Encoder.encode(text: text)
+        let expected = try FT8Encoder.encodeLDPC(
+            FT8CRC.append(to: FT8MessageCodec.pack(text))
+        )
+
         let spectrogram = makeSpectrogram(
             tones: tones,
             startTime: 0.2,
@@ -84,7 +89,14 @@ final class SoftSymbolExtractorTests: XCTestCase {
             from: spectrogram,
             candidate: candidate
         )
-        XCTAssertGreaterThan(extracted.averageConfidence, 0.9)
+
+        // Fractional-bin interpolation deliberately shares energy with an
+        // adjacent 6.25 Hz tone when the signal falls between FFT bins.
+        // Therefore the old >0.9 margin-confidence expectation is no longer
+        // valid. The important invariant is that the soft metrics preserve
+        // the correct 174-bit codeword under drift.
+        XCTAssertEqual(extracted.hardBits, expected)
+        XCTAssertGreaterThan(extracted.averageConfidence, 0.65)
     }
 
     func testFractionalBinInterpolationPreservesExpectedTone() throws {
@@ -127,9 +139,6 @@ final class SoftSymbolExtractorTests: XCTestCase {
             baseFrequency: 1_000
         )
 
-        // Corrupt the nearest FFT frame for one data symbol. The neighbouring
-        // overlapping frames still carry the correct tone and should keep the
-        // temporal-integrating extractor on the correct codeword.
         let dataSymbol = try XCTUnwrap(
             FT8ToneMapping.dataSymbolIndices.first
         )
@@ -292,8 +301,6 @@ final class SoftSymbolExtractorTests: XCTestCase {
                         + driftHzPerSecond
                             * Float(centre - startTime)
 
-                    // Split a fractional-bin tone across its two neighbouring
-                    // bins so tests exercise the extractor's interpolation.
                     let exactBin = frequency / binWidth
                     let lower = Int(floor(exactBin))
                     let upper = lower + 1
