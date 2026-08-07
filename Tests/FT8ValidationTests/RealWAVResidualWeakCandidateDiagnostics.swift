@@ -1,5 +1,6 @@
 import Foundation
 import FT8Decoder
+import FT8Validation
 
 enum RealWAVResidualWeakCandidateDiagnostics {
     struct Configuration: Equatable, Sendable {
@@ -24,8 +25,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
             decodedMessages.map(normalizedProtocolMessage)
         )
 
-        let passTraces = traces
-            .filter { $0.pass == pass }
+        let passTraces = traces.filter { $0.pass == pass }
 
         let references = expected.enumerated().map {
             referenceIndex,
@@ -46,8 +46,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
                     )
                 }
                 .sorted {
-                    if $0.normalizedDistance
-                        == $1.normalizedDistance {
+                    if $0.normalizedDistance == $1.normalizedDistance {
                         return $0.candidateConfidence
                             > $1.candidateConfidence
                     }
@@ -57,18 +56,18 @@ enum RealWAVResidualWeakCandidateDiagnostics {
 
             let nearest = ranked.first
 
-            let nearby = ranked
-                .filter {
-                    $0.timeDelta
-                        <= configuration.nearbyTimeTolerance
-                    && $0.frequencyDeltaHz
-                        <= configuration.nearbyFrequencyToleranceHz
-                }
-                .prefix(
-                    configuration.maximumNearbyCandidates
-                )
-
-            let nearbyArray = Array(nearby)
+            let nearbyArray = Array(
+                ranked
+                    .filter {
+                        $0.timeDelta
+                            <= configuration.nearbyTimeTolerance
+                        && $0.frequencyDeltaHz
+                            <= configuration.nearbyFrequencyToleranceHz
+                    }
+                    .prefix(
+                        configuration.maximumNearbyCandidates
+                    )
+            )
 
             let tightCandidatePresent =
                 nearbyArray.contains {
@@ -85,9 +84,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
 
             let bestSoftSymbolConfidence =
                 nearbyArray
-                    .compactMap(
-                        \.averageSoftSymbolConfidence
-                    )
+                    .compactMap(\.averageSoftSymbolConfidence)
                     .max()
 
             let parityCount =
@@ -104,28 +101,21 @@ enum RealWAVResidualWeakCandidateDiagnostics {
                 referenceIndex: referenceIndex,
                 referenceMessage: protocolMessage,
                 referenceSNRDB: reference.snrDB,
-                referenceTimeOffset:
-                    reference.timeOffset,
-                referenceFrequencyHz:
-                    reference.frequencyHz,
+                referenceTimeOffset: reference.timeOffset,
+                referenceFrequencyHz: reference.frequencyHz,
                 alreadyDecoded: alreadyDecoded,
-                failureStage:
-                    classify(
-                        alreadyDecoded: alreadyDecoded,
-                        nearest: nearest,
-                        nearby: nearbyArray,
-                        tightCandidatePresent:
-                            tightCandidatePresent,
-                        configuration: configuration
-                    ),
+                failureStage: classify(
+                    alreadyDecoded: alreadyDecoded,
+                    nearest: nearest,
+                    nearby: nearbyArray,
+                    tightCandidatePresent: tightCandidatePresent,
+                    configuration: configuration
+                ),
                 nearestCandidate: nearest,
                 nearbyCandidates: nearbyArray,
-                tightCandidatePresent:
-                    tightCandidatePresent,
-                bestSyndromeWeight:
-                    bestSyndromeWeight,
-                bestSoftSymbolConfidence:
-                    bestSoftSymbolConfidence,
+                tightCandidatePresent: tightCandidatePresent,
+                bestSyndromeWeight: bestSyndromeWeight,
+                bestSoftSymbolConfidence: bestSoftSymbolConfidence,
                 parityCandidateCount: parityCount,
                 crcCandidateCount: crcCount
             )
@@ -136,13 +126,9 @@ enum RealWAVResidualWeakCandidateDiagnostics {
             passAnalysed: pass,
             expectedReferenceCount: expected.count,
             decodedMessages:
-                decodedMessages.map(
-                    normalizedProtocolMessage
-                ),
+                decodedMessages.map(normalizedProtocolMessage),
             remainingReferenceCount:
-                references.count {
-                    !$0.alreadyDecoded
-                },
+                references.count { !$0.alreadyDecoded },
             passCandidateCount: passTraces.count,
             references: references
         )
@@ -152,9 +138,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
         _ report: RealWAVResidualWeakCandidateReport
     ) {
         print("Residual weak-candidate diagnostics:")
-        print(
-            "  recording: \(report.recording)"
-        )
+        print("  recording: \(report.recording)")
         print(
             "  pass: \(report.passAnalysed)"
                 + " candidates=\(report.passCandidateCount)"
@@ -163,8 +147,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
         )
         print(
             "  decoded: "
-                + report.decodedMessages
-                    .joined(separator: " | ")
+                + report.decodedMessages.joined(separator: " | ")
         )
 
         for reference in report.references
@@ -187,8 +170,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
                     + optional(reference.bestSoftSymbolConfidence)
             )
 
-            if let nearest =
-                reference.nearestCandidate {
+            if let nearest = reference.nearestCandidate {
                 print(
                     "    nearest:"
                         + " candidate=\(nearest.candidateIndex)"
@@ -209,35 +191,15 @@ enum RealWAVResidualWeakCandidateDiagnostics {
                         + (nearest.failure ?? "none")
                 )
             }
-
-            for candidate
-            in reference.nearbyCandidates.prefix(4) {
-                print(
-                    "      #\(candidate.candidateIndex)"
-                        + " dt=\(String(format: "%.3f", candidate.timeDelta))"
-                        + " df=\(String(format: "%.3f", candidate.frequencyDeltaHz))"
-                        + " soft="
-                        + optional(
-                            candidate.averageSoftSymbolConfidence
-                        )
-                        + " syndrome="
-                        + optional(candidate.syndromeWeight)
-                        + " parity="
-                        + optional(candidate.parityPassed)
-                        + " crc="
-                        + optional(candidate.crcPassed)
-                )
-            }
         }
     }
 
     static func normalizedProtocolMessage(
         _ message: String
     ) -> String {
-        let trimmed = message
-            .trimmingCharacters(
-                in: .whitespacesAndNewlines
-            )
+        let trimmed = message.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
 
         let protocolPart: String
 
@@ -254,11 +216,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
 
         return protocolPart
             .uppercased()
-            .split(
-                whereSeparator: {
-                    $0.isWhitespace
-                }
-            )
+            .split(whereSeparator: { $0.isWhitespace })
             .joined(separator: " ")
     }
 
@@ -267,10 +225,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
         reference: WSJTXExpectedDecode,
         configuration: Configuration
     ) -> RealWAVResidualCandidateDiagnostic {
-        let dt = abs(
-            trace.startTime
-                - reference.timeOffset
-        )
+        let dt = abs(trace.startTime - reference.timeOffset)
         let df = abs(
             Double(trace.frequency)
                 - Double(reference.frequencyHz)
@@ -290,8 +245,7 @@ enum RealWAVResidualWeakCandidateDiagnostics {
             normalizedDistance: distance,
             syncScore: trace.syncScore,
             snrDB: trace.snrDB,
-            candidateConfidence:
-                trace.candidateConfidence,
+            candidateConfidence: trace.candidateConfidence,
             averageSoftSymbolConfidence:
                 trace.averageSoftSymbolConfidence,
             ldpcIterations: trace.ldpcIterations,
@@ -305,10 +259,8 @@ enum RealWAVResidualWeakCandidateDiagnostics {
 
     private static func classify(
         alreadyDecoded: Bool,
-        nearest:
-            RealWAVResidualCandidateDiagnostic?,
-        nearby:
-            [RealWAVResidualCandidateDiagnostic],
+        nearest: RealWAVResidualCandidateDiagnostic?,
+        nearby: [RealWAVResidualCandidateDiagnostic],
         tightCandidatePresent: Bool,
         configuration: Configuration
     ) -> RealWAVResidualFailureStage {
@@ -321,37 +273,24 @@ enum RealWAVResidualWeakCandidateDiagnostics {
         }
 
         guard tightCandidatePresent else {
-            if nearest.timeDelta
-                > configuration.nearbyTimeTolerance
+            if nearest.timeDelta > configuration.nearbyTimeTolerance
                 || nearest.frequencyDeltaHz
-                > configuration.nearbyFrequencyToleranceHz {
+                    > configuration.nearbyFrequencyToleranceHz {
                 return .noCandidate
             }
 
             return .candidateAssociation
         }
 
-        if nearby.contains(
-            where: {
-                $0.crcPassed == true
-            }
-        ) {
+        if nearby.contains(where: { $0.crcPassed == true }) {
             return .decoded
         }
 
-        if nearby.contains(
-            where: {
-                $0.parityPassed == true
-            }
-        ) {
+        if nearby.contains(where: { $0.parityPassed == true }) {
             return .crc
         }
 
-        if nearby.contains(
-            where: {
-                $0.syndromeWeight != nil
-            }
-        ) {
+        if nearby.contains(where: { $0.syndromeWeight != nil }) {
             return .ldpc
         }
 
@@ -377,7 +316,6 @@ enum RealWAVResidualWeakCandidateDiagnostics {
     private static func optional<T>(
         _ value: T?
     ) -> String {
-        value.map { String(describing: $0) }
-            ?? "nil"
+        value.map { String(describing: $0) } ?? "nil"
     }
 }
