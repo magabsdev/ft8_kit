@@ -18,8 +18,9 @@ final class FT8SignalCancellerTests: XCTestCase {
 
         let result = try FT8SignalCanceller(
             configuration: .init(
-                cancellationStrength: 0.9,
-                binRadius: 1
+                cancellationStrength: 1.0,
+                binRadius: 1,
+                timeTaperFloor: 0.5
             )
         ).cancel([decode], from: spectrogram)
 
@@ -38,6 +39,29 @@ final class FT8SignalCancellerTests: XCTestCase {
         )
     }
 
+    func testProductionDefaultsMatchCalibratedProfile() {
+        let configuration =
+            FT8SignalCancellationConfiguration()
+
+        XCTAssertEqual(
+            configuration.binRadius,
+            1
+        )
+        XCTAssertEqual(
+            configuration.cancellationStrength,
+            1.0,
+            accuracy: 0.0001
+        )
+        XCTAssertEqual(
+            configuration.timeTaperFloor,
+            0.5,
+            accuracy: 0.0001
+        )
+        XCTAssertTrue(
+            configuration.preserveNoiseFloor
+        )
+    }
+
     func testEmptyCancellationPreservesSpectrogram()
         throws
     {
@@ -50,7 +74,10 @@ final class FT8SignalCancellerTests: XCTestCase {
             from: spectrogram
         )
 
-        XCTAssertEqual(result.spectrogram, spectrogram)
+        XCTAssertEqual(
+            result.spectrogram,
+            spectrogram
+        )
         XCTAssertEqual(result.affectedBins, 0)
     }
 
@@ -60,14 +87,28 @@ final class FT8SignalCancellerTests: XCTestCase {
             baseFrequency: 1_000,
             duration: 13
         )
-        let canceller = FT8SignalCanceller(
+
+        let invalidStrength = FT8SignalCanceller(
             configuration: .init(
                 cancellationStrength: 1.5
             )
         )
 
         XCTAssertThrowsError(
-            try canceller.cancel(
+            try invalidStrength.cancel(
+                [decode],
+                from: spectrogram
+            )
+        )
+
+        let invalidTaper = FT8SignalCanceller(
+            configuration: .init(
+                timeTaperFloor: 1.5
+            )
+        )
+
+        XCTAssertThrowsError(
+            try invalidTaper.cancel(
                 [decode],
                 from: spectrogram
             )
@@ -80,7 +121,9 @@ final class FT8SignalCancellerTests: XCTestCase {
         let payload = try FT8MessageCodec.pack(
             "CQ G0ABC IO91"
         )
-        let message91 = try FT8CRC.append(to: payload)
+        let message91 = try FT8CRC.append(
+            to: payload
+        )
         let codeword = try FT8Encoder.encodeLDPC(
             message91
         )

@@ -13,13 +13,27 @@ public struct FT8SignalCancellationConfiguration:
     public var toneSpacing: Float
     public var cancellationStrength: Float
     public var binRadius: Int
+
+    /// Minimum time-domain cancellation multiplier at the first/last symbols.
+    ///
+    /// The real-WAV cancellation calibration selected 0.50. The centre of the
+    /// FT8 transmission still receives full configured cancellation strength.
+    public var timeTaperFloor: Float
+
+    /// Prevent cancellation from pushing a bin below the measured frame noise
+    /// floor. This avoids creating artificial spectral holes that can damage
+    /// neighbouring weak signals.
+    public var preserveNoiseFloor: Bool
+
     public var minimumResidualMagnitude: Float
 
     public init(
         symbolPeriod: Double = 0.160,
         toneSpacing: Float = 6.25,
-        cancellationStrength: Float = 0.92,
+        cancellationStrength: Float = 1.00,
         binRadius: Int = 1,
+        timeTaperFloor: Float = 0.50,
+        preserveNoiseFloor: Bool = true,
         minimumResidualMagnitude: Float =
             Float.leastNonzeroMagnitude
     ) {
@@ -27,6 +41,8 @@ public struct FT8SignalCancellationConfiguration:
         self.toneSpacing = toneSpacing
         self.cancellationStrength = cancellationStrength
         self.binRadius = binRadius
+        self.timeTaperFloor = timeTaperFloor
+        self.preserveNoiseFloor = preserveNoiseFloor
         self.minimumResidualMagnitude =
             minimumResidualMagnitude
     }
@@ -36,6 +52,7 @@ public struct FT8SignalCancellationConfiguration:
               toneSpacing > 0,
               (0...1).contains(cancellationStrength),
               binRadius >= 0,
+              (0...1).contains(timeTaperFloor),
               minimumResidualMagnitude > 0 else {
             throw FT8SignalCancellationError.invalidConfiguration
         }
@@ -89,6 +106,7 @@ public struct FT8SignalCanceller: Sendable {
         from spectrogram: Spectrogram
     ) throws -> FT8CancellationResult {
         try configuration.validate()
+
         guard !decodes.isEmpty else {
             return FT8CancellationResult(
                 spectrogram: spectrogram,
@@ -116,6 +134,11 @@ public struct FT8SignalCanceller: Sendable {
                 let symbolEnd =
                     symbolStart +
                     configuration.symbolPeriod
+
+                let timeTaper = symbolTimeTaper(
+                    symbolIndex: symbolIndex,
+                    symbolCount: tones.count
+                )
 
                 for frameIndex in spectrogram.frames.indices {
                     let frame = spectrogram.frames[frameIndex]
@@ -147,10 +170,10 @@ public struct FT8SignalCanceller: Sendable {
                         ).rounded()
                     )
 
-                    let lower = centreBin -
-                        configuration.binRadius
-                    let upper = centreBin +
-                        configuration.binRadius
+                    let lower =
+                        centreBin - configuration.binRadius
+                    let upper =
+                        centreBin + configuration.binRadius
 
                     for bin in lower...upper
                     where frame.magnitudes.indices.contains(bin) {
@@ -158,34 +181,74 @@ public struct FT8SignalCanceller: Sendable {
                             frame: frameIndex,
                             bin: bin
                         )
-                        guard affected.insert(address).inserted
-                        else { continue }
+
+                        // A bin can be touched by adjacent symbol windows. Only
+                        // charge its energy once, but allow the strongest
+                        // requested cancellation to remain applied.
+                        let firstTouch =
+                            affected.insert(address).inserted
 
                         let original =
                             frameMagnitudes[frameIndex][bin]
-                        before += Double(original * original)
 
-                        let distance = abs(bin - centreBin)
-                        let radius =
-                            max(configuration.binRadius, 1)
-                        let taper = 1 - Float(distance) /
-                            Float(radius + 1)
-                        let scale = max(
-                            0,
-                            1 -
-                            configuration.cancellationStrength *
-                            taper
+                        if firstTouch {
+                            before += Double(original * original)
+                        }
+
+                        let frequencyWeight =
+                            gaussianFrequencyWeight(
+                                bin: bin,
+                                centreBin: centreBin
+                            )
+
+                        let strength = min(
+                            max(
+                                configuration.cancellationStrength *
+                                timeTaper *
+                                frequencyWeight,
+                                0
+                            ),
+                            1
                         )
-                        let residual = max(
+
+                        let scale = max(0, 1 - strength)
+                        var residual = max(
                             original * scale,
                             configuration.minimumResidualMagnitude
                         )
+
+                        if configuration.preserveNoiseFloor {
+                            let noiseMagnitude = powf(
+                                10,
+                                frame.noiseFloorDB / 20
+                            )
+
+                            // Never raise a bin that was already below the
+                            // measured noise floor.
+                            if original > noiseMagnitude {
+                                residual = max(
+                                    residual,
+                                    noiseMagnitude
+                                )
+                            }
+                        }
+
                         frameMagnitudes[frameIndex][bin] =
-                            residual
-                        after += Double(residual * residual)
+                            min(
+                                frameMagnitudes[frameIndex][bin],
+                                residual
+                            )
                     }
                 }
             }
+        }
+
+        // Compute after-energy from the final residual values so bins touched
+        // more than once are not double-counted.
+        for address in affected {
+            let value =
+                frameMagnitudes[address.frame][address.bin]
+            after += Double(value * value)
         }
 
         let frames = spectrogram.frames.indices.map {
@@ -243,6 +306,42 @@ public struct FT8SignalCanceller: Sendable {
             energyBefore: before,
             energyAfter: after,
             affectedBins: affected.count
+        )
+    }
+
+    private func symbolTimeTaper(
+        symbolIndex: Int,
+        symbolCount: Int
+    ) -> Float {
+        guard symbolCount > 1 else {
+            return 1
+        }
+
+        let midpoint =
+            Float(symbolCount - 1) / 2
+        let distance =
+            abs(Float(symbolIndex) - midpoint)
+            / max(midpoint, 1)
+
+        return max(
+            configuration.timeTaperFloor,
+            1 - distance * distance
+        )
+    }
+
+    private func gaussianFrequencyWeight(
+        bin: Int,
+        centreBin: Int
+    ) -> Float {
+        let distance = bin - centreBin
+        let sigma = max(
+            Float(configuration.binRadius) / 2,
+            0.75
+        )
+
+        return expf(
+            -Float(distance * distance) /
+            (2 * sigma * sigma)
         )
     }
 }

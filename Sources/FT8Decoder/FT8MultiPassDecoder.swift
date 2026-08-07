@@ -19,12 +19,28 @@ public struct FT8MultiPassConfiguration:
     public var minimumEnergyReductionFraction: Double
     public var stopWhenNoNewMessages: Bool
 
+    /// Treat a payload already returned by an earlier pass as a duplicate even
+    /// when cancellation causes it to be rediscovered at a shifted time/bin.
+    public var suppressDuplicatePayloadAcrossPasses: Bool
+
+    /// Residual passes are primarily intended to expose weaker signals after
+    /// subtraction. Expensive robust-LDPC ensembles are disabled by default on
+    /// pass 2+ because the real-WAV profiling showed they dominate runtime.
+    public var disableRobustLDPCOnResidualPasses: Bool
+
+    /// Candidate cap applied only to residual passes. Pass 1 continues to use
+    /// the optimized decoder's configured limit.
+    public var residualMaximumCandidatesToDecode: Int
+
     public init(
-        maximumPasses: Int = 3,
-        maximumSignalsPerPass: Int = 12,
+        maximumPasses: Int = 5,
+        maximumSignalsPerPass: Int = 1,
         minimumNewMessages: Int = 1,
-        minimumEnergyReductionFraction: Double = 0.000_001,
-        stopWhenNoNewMessages: Bool = true
+        minimumEnergyReductionFraction: Double = 0.001,
+        stopWhenNoNewMessages: Bool = true,
+        suppressDuplicatePayloadAcrossPasses: Bool = true,
+        disableRobustLDPCOnResidualPasses: Bool = true,
+        residualMaximumCandidatesToDecode: Int = 60
     ) {
         self.maximumPasses = maximumPasses
         self.maximumSignalsPerPass =
@@ -34,6 +50,12 @@ public struct FT8MultiPassConfiguration:
             minimumEnergyReductionFraction
         self.stopWhenNoNewMessages =
             stopWhenNoNewMessages
+        self.suppressDuplicatePayloadAcrossPasses =
+            suppressDuplicatePayloadAcrossPasses
+        self.disableRobustLDPCOnResidualPasses =
+            disableRobustLDPCOnResidualPasses
+        self.residualMaximumCandidatesToDecode =
+            residualMaximumCandidatesToDecode
     }
 
     func validate() throws {
@@ -41,7 +63,8 @@ public struct FT8MultiPassConfiguration:
               maximumSignalsPerPass > 0,
               minimumNewMessages >= 0,
               minimumEnergyReductionFraction >= 0,
-              minimumEnergyReductionFraction <= 1 else {
+              minimumEnergyReductionFraction <= 1,
+              residualMaximumCandidatesToDecode > 0 else {
             throw FT8MultiPassDecoderError.invalidConfiguration
         }
     }
@@ -58,9 +81,16 @@ public struct FT8DecodePassMetrics:
     public let ldpcAttempts: Int
     public let parityPassed: Int
     public let crcPassed: Int
+
+    /// CRC-valid messages actually returned by the decoder. This stays correct
+    /// even when a bounded nearby-hypothesis retry succeeds after the primary
+    /// candidate loop and therefore is not reflected in crcPassed.
+    public let returnedCRCValidMessages: Int
+
     public let messagesDecoded: Int
     public let newMessages: Int
     public let signalsCancelled: Int
+    public let cancelledMessages: [String]
     public let affectedBins: Int
     public let energyReductionFraction: Double
     public let elapsedSeconds: Double
@@ -73,9 +103,11 @@ public struct FT8DecodePassMetrics:
         ldpcAttempts: Int,
         parityPassed: Int,
         crcPassed: Int,
+        returnedCRCValidMessages: Int = 0,
         messagesDecoded: Int,
         newMessages: Int,
         signalsCancelled: Int,
+        cancelledMessages: [String] = [],
         affectedBins: Int,
         energyReductionFraction: Double,
         elapsedSeconds: Double
@@ -87,9 +119,12 @@ public struct FT8DecodePassMetrics:
         self.ldpcAttempts = ldpcAttempts
         self.parityPassed = parityPassed
         self.crcPassed = crcPassed
+        self.returnedCRCValidMessages =
+            returnedCRCValidMessages
         self.messagesDecoded = messagesDecoded
         self.newMessages = newMessages
         self.signalsCancelled = signalsCancelled
+        self.cancelledMessages = cancelledMessages
         self.affectedBins = affectedBins
         self.energyReductionFraction =
             energyReductionFraction
@@ -180,30 +215,52 @@ public struct FT8MultiPassDecoder: Sendable {
 
         for passIndex in 1...configuration.maximumPasses {
             let passStarted = ContinuousClock.now
-            let batch = try decoder.decode(
+
+            var passDecoder = decoder
+
+            if passIndex > 1 {
+                passDecoder.configuration.maximumCandidatesToDecode =
+                    min(
+                        passDecoder.configuration.maximumCandidatesToDecode,
+                        configuration.residualMaximumCandidatesToDecode
+                    )
+
+                if configuration.disableRobustLDPCOnResidualPasses {
+                    passDecoder.ldpcDecoder.configuration
+                        .enableRobustRetries = false
+                }
+            }
+
+            let batch = try passDecoder.decode(
                 spectrogram: residual
             )
-            candidateTraces.append(contentsOf: batch.candidateTraces.map {
-                FT8CandidateTrace(
-                    pass: passIndex,
-                    candidateIndex: $0.candidateIndex,
-                    startTime: $0.startTime,
-                    frequency: $0.frequency,
-                    driftHzPerSecond: $0.driftHzPerSecond,
-                    syncScore: $0.syncScore,
-                    snrDB: $0.snrDB,
-                    candidateConfidence: $0.candidateConfidence,
-                    averageSoftSymbolConfidence: $0.averageSoftSymbolConfidence,
-                    symbols: $0.symbols,
-                    logLikelihoodRatios: $0.logLikelihoodRatios,
-                    ldpcIterations: $0.ldpcIterations,
-                    syndromeWeight: $0.syndromeWeight,
-                    parityPassed: $0.parityPassed,
-                    crcPassed: $0.crcPassed,
-                    decodedText: $0.decodedText,
-                    failure: $0.failure
-                )
-            })
+
+            candidateTraces.append(
+                contentsOf: batch.candidateTraces.map {
+                    FT8CandidateTrace(
+                        pass: passIndex,
+                        candidateIndex: $0.candidateIndex,
+                        startTime: $0.startTime,
+                        frequency: $0.frequency,
+                        driftHzPerSecond: $0.driftHzPerSecond,
+                        syncScore: $0.syncScore,
+                        snrDB: $0.snrDB,
+                        candidateConfidence:
+                            $0.candidateConfidence,
+                        averageSoftSymbolConfidence:
+                            $0.averageSoftSymbolConfidence,
+                        symbols: $0.symbols,
+                        logLikelihoodRatios:
+                            $0.logLikelihoodRatios,
+                        ldpcIterations: $0.ldpcIterations,
+                        syndromeWeight: $0.syndromeWeight,
+                        parityPassed: $0.parityPassed,
+                        crcPassed: $0.crcPassed,
+                        decodedText: $0.decodedText,
+                        failure: $0.failure
+                    )
+                }
+            )
 
             let newMessages = batch.messages.filter {
                 candidate in
@@ -215,8 +272,15 @@ public struct FT8MultiPassDecoder: Sendable {
             accepted.append(contentsOf: newMessages)
             accepted = stableOrder(accepted)
 
+            // Successive interference cancellation works best when each pass
+            // removes the strongest newly-decoded transmission, then reruns the
+            // synchronizer on the fresh residual.
             let cancellable = Array(
                 newMessages
+                    .filter {
+                        $0.ldpc.parityPassed &&
+                        $0.ldpc.crcPassed
+                    }
                     .sorted {
                         $0.decoded.confidence >
                         $1.decoded.confidence
@@ -242,6 +306,12 @@ public struct FT8MultiPassDecoder: Sendable {
                 totalAffectedBins += affectedBins
             }
 
+            let returnedCRCValidMessages =
+                batch.messages.count {
+                    $0.ldpc.parityPassed &&
+                    $0.ldpc.crcPassed
+                }
+
             passMetrics.append(
                 FT8DecodePassMetrics(
                     pass: passIndex,
@@ -257,11 +327,17 @@ public struct FT8MultiPassDecoder: Sendable {
                         batch.metrics.parityPassed,
                     crcPassed:
                         batch.metrics.crcPassed,
+                    returnedCRCValidMessages:
+                        returnedCRCValidMessages,
                     messagesDecoded:
                         batch.messages.count,
                     newMessages: newMessages.count,
                     signalsCancelled:
                         cancellable.count,
+                    cancelledMessages:
+                        cancellable.map {
+                            $0.decoded.text
+                        },
                     affectedBins: affectedBins,
                     energyReductionFraction:
                         cancellationFraction,
@@ -275,6 +351,14 @@ public struct FT8MultiPassDecoder: Sendable {
             if configuration.stopWhenNoNewMessages,
                newMessages.count <
                 configuration.minimumNewMessages {
+                break
+            }
+
+            // If the pass decoded something but none of it was CRC-valid, there
+            // is no trustworthy waveform to subtract. Stop rather than burning
+            // another full residual search.
+            if newMessages.count > 0,
+               cancellable.isEmpty {
                 break
             }
 
@@ -309,15 +393,20 @@ public struct FT8MultiPassDecoder: Sendable {
         _ lhs: FT8CompleteDecode,
         _ rhs: FT8CompleteDecode
     ) -> Bool {
-        lhs.decoded.payload == rhs.decoded.payload &&
-        abs(
-            lhs.candidate.startTime -
-            rhs.candidate.startTime
-        ) <= decoder.configuration.deduplicationTime &&
-        abs(
-            lhs.candidate.frequency -
-            rhs.candidate.frequency
-        ) <= decoder.configuration.deduplicationFrequency
+        if configuration.suppressDuplicatePayloadAcrossPasses,
+           lhs.decoded.payload == rhs.decoded.payload {
+            return true
+        }
+
+        return lhs.decoded.payload == rhs.decoded.payload &&
+            abs(
+                lhs.candidate.startTime -
+                rhs.candidate.startTime
+            ) <= decoder.configuration.deduplicationTime &&
+            abs(
+                lhs.candidate.frequency -
+                rhs.candidate.frequency
+            ) <= decoder.configuration.deduplicationFrequency
     }
 
     private func stableOrder(
@@ -329,6 +418,7 @@ public struct FT8MultiPassDecoder: Sendable {
                 return $0.candidate.frequency <
                     $1.candidate.frequency
             }
+
             return $0.candidate.startTime <
                 $1.candidate.startTime
         }

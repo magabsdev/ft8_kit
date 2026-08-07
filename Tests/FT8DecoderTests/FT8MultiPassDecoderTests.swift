@@ -22,6 +22,33 @@ final class FT8MultiPassDecoderTests: XCTestCase {
         )
     }
 
+    func testProductionDefaultsUseBoundedResidualPasses() {
+        let configuration =
+            FT8MultiPassConfiguration()
+
+        XCTAssertEqual(
+            configuration.maximumPasses,
+            5
+        )
+        XCTAssertEqual(
+            configuration.maximumSignalsPerPass,
+            1
+        )
+        XCTAssertTrue(
+            configuration
+                .suppressDuplicatePayloadAcrossPasses
+        )
+        XCTAssertTrue(
+            configuration
+                .disableRobustLDPCOnResidualPasses
+        )
+        XCTAssertEqual(
+            configuration
+                .residualMaximumCandidatesToDecode,
+            60
+        )
+    }
+
     func testNoiseOnlyStopsAfterFirstPass()
         throws
     {
@@ -114,7 +141,7 @@ final class FT8MultiPassDecoderTests: XCTestCase {
             decoder: FT8MultiPassDecoder(
                 configuration: .init(
                     maximumPasses: 2,
-                    maximumSignalsPerPass: 4
+                    maximumSignalsPerPass: 1
                 ),
                 decoder: optimized
             )
@@ -124,7 +151,9 @@ final class FT8MultiPassDecoderTests: XCTestCase {
             samples: waveform
         )
 
-        XCTAssertFalse(batch.metrics.passes.isEmpty)
+        XCTAssertFalse(
+            batch.metrics.passes.isEmpty
+        )
         XCTAssertLessThanOrEqual(
             batch.metrics.passesCompleted,
             2
@@ -133,5 +162,16 @@ final class FT8MultiPassDecoderTests: XCTestCase {
             batch.metrics.uniqueMessages,
             batch.messages.count
         )
+
+        for pass in batch.metrics.passes {
+            XCTAssertGreaterThanOrEqual(
+                pass.returnedCRCValidMessages,
+                0
+            )
+            XCTAssertEqual(
+                pass.signalsCancelled,
+                pass.cancelledMessages.count
+            )
+        }
     }
 }
