@@ -1,5 +1,6 @@
 import Foundation
 import FT8DSP
+import FT8Protocol
 
 public struct FT8CandidateGuidedFineDecodeConfiguration:
     Equatable,
@@ -136,7 +137,7 @@ public struct FT8CandidateGuidedFineDecoder:
         spectrogram: Spectrogram,
         traces: [FT8CandidateTrace],
         excludingPayloads:
-            [FT8MessagePayload] = []
+            [FT8BitBuffer] = []
     ) throws -> FT8CandidateGuidedFineDecodeResult {
         let started = ContinuousClock.now
 
