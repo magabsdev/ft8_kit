@@ -114,6 +114,7 @@ public struct FT8LDPCDecoder: Sendable {
         )
 
         guard configuration.enableRobustRetries,
+              configuration.maximumIterations > 1,
               !primary.crcPassed,
               primary.syndromeWeight
                 <= configuration.robustRetryMaximumSyndromeWeight else {
