@@ -21,6 +21,52 @@ final class FT8ProtocolTests: XCTestCase {
         }
     }
 
+    func testDirectedCQAlphaRoundTrip() throws {
+        let message = FT8Message.standard(
+            to: "CQ DX",
+            from: "R6WA",
+            extra: "LN32"
+        )
+
+        let payload = try FT8MessageCodec.pack(message)
+
+        XCTAssertEqual(payload.count, 77)
+        XCTAssertEqual(
+            try FT8MessageCodec.unpack(payload),
+            message
+        )
+    }
+
+    func testDirectedCQNumericRoundTrip() throws {
+        let message = FT8Message.standard(
+            to: "CQ 123",
+            from: "G0ABC",
+            extra: "IO91"
+        )
+
+        let payload = try FT8MessageCodec.pack(message)
+
+        XCTAssertEqual(
+            try FT8MessageCodec.unpack(payload),
+            message
+        )
+    }
+
+    func testDirectedCQTextConveniencePacking() throws {
+        let payload = try FT8MessageCodec.pack(
+            "CQ DX R6WA LN32"
+        )
+
+        XCTAssertEqual(
+            try FT8MessageCodec.unpack(payload),
+            .standard(
+                to: "CQ DX",
+                from: "R6WA",
+                extra: "LN32"
+            )
+        )
+    }
+
     func testCRCAppendAndValidation() throws {
         let payload = try FT8MessageCodec.pack(.standard(to: "CQ", from: "G0ABC", extra: "IO91"))
         let protected = try FT8CRC.append(to: payload)

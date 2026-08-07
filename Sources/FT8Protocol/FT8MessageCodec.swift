@@ -171,9 +171,50 @@ public enum FT8MessageCodec {
 
     private static func pack28(_ input: String) throws -> (UInt32, Int) {
         let upper = input.uppercased()
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+
         if upper == "DE" { return (0, 0) }
         if upper == "QRZ" { return (1, 0) }
         if upper == "CQ" { return (2, 0) }
+
+        // WSJT-X c28 special tokens:
+        //   CQ nnn   -> values 3...1002
+        //   CQ aaaa  -> values 1003...532443
+        //
+        // The alpha form is right-justified in a four-character base-27
+        // field, matching packjt77.f90's ADJUSTR behaviour.
+        if upper.hasPrefix("CQ ") {
+            let modifier = String(upper.dropFirst(3))
+                .trimmingCharacters(in: .whitespaces)
+
+            if modifier.count == 3,
+               modifier.allSatisfy(\.isNumber),
+               let number = UInt32(modifier),
+               number <= 999 {
+                return (3 + number, 0)
+            }
+
+            if (1...4).contains(modifier.count),
+               modifier.allSatisfy({ $0 >= "A" && $0 <= "Z" }) {
+                let alphabet = Array(" ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                let padded = String(
+                    repeating: " ",
+                    count: 4 - modifier.count
+                ) + modifier
+
+                var value: UInt32 = 0
+                for character in padded {
+                    guard let index = alphabet.firstIndex(of: character) else {
+                        throw FT8ProtocolError.invalidPackedField
+                    }
+                    value = value * 27 + UInt32(index)
+                }
+
+                return (1003 + value, 0)
+            }
+
+            throw FT8ProtocolError.invalidPackedField
+        }
 
         var suffix = 0
         var base = upper
@@ -270,13 +311,35 @@ public enum FT8MessageCodec {
 
 public extension FT8MessageCodec {
     static func pack(_ text: String) throws -> FT8BitBuffer {
-        let normalised = text.uppercased().split(whereSeparator: { $0.isWhitespace }).joined(separator: " ")
+        let normalised = text.uppercased()
+            .split(whereSeparator: { $0.isWhitespace })
+            .joined(separator: " ")
         let fields = normalised.split(separator: " ").map(String.init)
+
         if fields.count == 3 {
-            if let standard = try? pack(.standard(to: fields[0], from: fields[1], extra: fields[2])) {
+            if let standard = try? pack(
+                .standard(
+                    to: fields[0],
+                    from: fields[1],
+                    extra: fields[2]
+                )
+            ) {
                 return standard
             }
         }
+
+        if fields.count == 4, fields[0] == "CQ" {
+            if let standard = try? pack(
+                .standard(
+                    to: "CQ \(fields[1])",
+                    from: fields[2],
+                    extra: fields[3]
+                )
+            ) {
+                return standard
+            }
+        }
+
         return try pack(.freeText(normalised))
     }
 }
