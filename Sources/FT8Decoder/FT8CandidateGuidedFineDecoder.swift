@@ -483,7 +483,6 @@ public struct FT8CandidateGuidedFineDecoder:
                     )
 
                     if recovered.crcPassed,
-                       let message,
                        !excludingPayloads.contains(message.payload) {
                         decoded.append(
                             FT8CompleteDecode(
