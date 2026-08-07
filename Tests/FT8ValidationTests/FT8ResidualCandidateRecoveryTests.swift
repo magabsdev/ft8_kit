@@ -29,12 +29,9 @@ final class FT8ResidualCandidateRecoveryTests:
         let expectedURL = try XCTUnwrap(
             referenceCase.expectedURL
         )
-
-        let expected =
-            try WSJTXReferenceParser.parse(
-                url: expectedURL
-            )
-
+        let expected = try WSJTXReferenceParser.parse(
+            url: expectedURL
+        )
         let recording = try WAVFile.load(
             url: referenceCase.wavURL
         )
@@ -72,6 +69,12 @@ final class FT8ResidualCandidateRecoveryTests:
             .baseDecoder.decoder.configuration
             .captureCandidateTraces = true
 
+        // Performance-safe residual recovery profile.
+        //
+        // The previous checkpoint used global fine search with 220 candidates,
+        // 8× time subdivisions, 8× frequency subdivisions and wide radii.
+        // FT8Synchronizer refines up to maximumCandidates*3 seeds, so that
+        // profile can generate millions of Costas correlation evaluations.
         slotDecoder.decoder.configuration =
             .init(
                 enabled: true,
@@ -79,19 +82,15 @@ final class FT8ResidualCandidateRecoveryTests:
                 maximumSignalsPerPass: 1,
                 minimumSyncScore: 0.34,
                 minimumSNRDB: -3.0,
-                maximumSynchronizerCandidates:
-                    220,
+                maximumSynchronizerCandidates: 120,
                 deduplicationTime: 0.060,
                 deduplicationFrequency: 4.6875,
                 minimumRelativeConfidence: 0.42,
                 minimumPeakIsolation: 0,
                 minimumCandidatesAfterPruning: 24,
-                maximumCandidatesAfterPruning: 120,
-                fineTimeSubdivisions: 8,
-                fineFrequencySubdivisions: 8,
-                fineTimeRadius: 0.160,
-                fineFrequencyRadius: 12.5,
-                maximumCandidatesToDecode: 100,
+                maximumCandidatesAfterPruning: 90,
+                enableGlobalFineSearch: false,
+                maximumCandidatesToDecode: 80,
                 minimumCandidateConfidence: 0.05,
                 minimumSoftSymbolConfidence: 0.05,
                 disableRobustLDPC: true
@@ -108,8 +107,7 @@ final class FT8ResidualCandidateRecoveryTests:
         let report =
             RealWAVResidualWeakCandidateDiagnostics
                 .build(
-                    recording:
-                        referenceCase.name,
+                    recording: referenceCase.name,
                     pass: recoveryPass.pass,
                     expected: expected,
                     decodedMessages:
@@ -120,83 +118,42 @@ final class FT8ResidualCandidateRecoveryTests:
                         batch.candidateTraces
                 )
 
-        print(
-            "Residual candidate recovery:"
-        )
+        print("Residual candidate recovery:")
         print(
             "  base messages: "
-                + String(
-                    batch.baseBatch
-                        .messages.count
-                )
+                + "\(batch.baseBatch.messages.count)"
         )
         print(
             "  final messages: "
-                + String(batch.messages.count)
+                + "\(batch.messages.count)"
         )
         print(
-            "  recovery pass: "
-                + String(recoveryPass.pass)
+            "  recovery pass: \(recoveryPass.pass)"
         )
         print(
             "  candidates found: "
-                + String(
-                    recoveryPass
-                        .candidatesFound
-                )
+                + "\(recoveryPass.candidatesFound)"
         )
         print(
             "  candidates scheduled: "
-                + String(
-                    recoveryPass
-                        .candidatesScheduled
-                )
+                + "\(recoveryPass.candidatesScheduled)"
         )
         print(
             "  parity passed: "
-                + String(
-                    recoveryPass
-                        .parityPassed
-                )
+                + "\(recoveryPass.parityPassed)"
         )
         print(
             "  CRC passed: "
-                + String(
-                    recoveryPass.crcPassed
-                )
+                + "\(recoveryPass.crcPassed)"
         )
         print(
             "  new messages: "
-                + String(
-                    recoveryPass.newMessages
-                )
+                + "\(recoveryPass.newMessages)"
         )
-
-        for message in batch.messages {
-            print(
-                "  \"\(message.decoded.text)\""
-                    + " time="
-                    + String(
-                        message.candidate
-                            .startTime
-                    )
-                    + " frequency="
-                    + String(
-                        message.candidate
-                            .frequency
-                    )
-                    + " parity="
-                    + String(
-                        message.ldpc
-                            .parityPassed
-                    )
-                    + " crc="
-                    + String(
-                        message.ldpc
-                            .crcPassed
-                    )
-            )
-        }
+        print(
+            "  recovery elapsed: "
+                + "\(recoveryPass.elapsedSeconds)"
+        )
 
         RealWAVResidualWeakCandidateDiagnostics
             .printSummary(report)
@@ -208,12 +165,10 @@ final class FT8ResidualCandidateRecoveryTests:
             batch.messages.count,
             batch.baseBatch.messages.count
         )
-
         XCTAssertGreaterThan(
             recoveryPass.candidatesFound,
             0
         )
-
         XCTAssertGreaterThan(
             recoveryPass.candidatesScheduled,
             0

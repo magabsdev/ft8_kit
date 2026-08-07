@@ -29,10 +29,13 @@ public struct FT8ResidualRecoveryConfiguration:
     public var minimumCandidatesAfterPruning: Int
     public var maximumCandidatesAfterPruning: Int
 
-    public var fineTimeSubdivisions: Int
-    public var fineFrequencySubdivisions: Int
-    public var fineTimeRadius: Double
-    public var fineFrequencyRadius: Float
+    /// Residual recovery is intentionally COARSE globally.
+    ///
+    /// Do not turn on FT8Synchronizer's global fine search here. With hundreds
+    /// of relaxed residual seeds, an 8×8 refinement grid expands into millions
+    /// of Costas evaluations. Fine timing/frequency work belongs in the
+    /// decoder's bounded nearby-hypothesis stage after coarse candidates exist.
+    public var enableGlobalFineSearch: Bool
 
     public var maximumCandidatesToDecode: Int
     public var minimumCandidateConfidence: Float
@@ -45,18 +48,15 @@ public struct FT8ResidualRecoveryConfiguration:
         maximumSignalsPerPass: Int = 1,
         minimumSyncScore: Float = 0.34,
         minimumSNRDB: Float = -3.0,
-        maximumSynchronizerCandidates: Int = 220,
+        maximumSynchronizerCandidates: Int = 120,
         deduplicationTime: Double = 0.060,
         deduplicationFrequency: Float = 4.6875,
         minimumRelativeConfidence: Float = 0.42,
         minimumPeakIsolation: Float = 0,
         minimumCandidatesAfterPruning: Int = 24,
-        maximumCandidatesAfterPruning: Int = 120,
-        fineTimeSubdivisions: Int = 8,
-        fineFrequencySubdivisions: Int = 8,
-        fineTimeRadius: Double = 0.160,
-        fineFrequencyRadius: Float = 12.5,
-        maximumCandidatesToDecode: Int = 100,
+        maximumCandidatesAfterPruning: Int = 90,
+        enableGlobalFineSearch: Bool = false,
+        maximumCandidatesToDecode: Int = 80,
         minimumCandidateConfidence: Float = 0.05,
         minimumSoftSymbolConfidence: Float = 0.05,
         disableRobustLDPC: Bool = true
@@ -66,16 +66,13 @@ public struct FT8ResidualRecoveryConfiguration:
             maximumRecoveryPasses
         self.maximumSignalsPerPass =
             maximumSignalsPerPass
-
         self.minimumSyncScore = minimumSyncScore
         self.minimumSNRDB = minimumSNRDB
         self.maximumSynchronizerCandidates =
             maximumSynchronizerCandidates
-
         self.deduplicationTime = deduplicationTime
         self.deduplicationFrequency =
             deduplicationFrequency
-
         self.minimumRelativeConfidence =
             minimumRelativeConfidence
         self.minimumPeakIsolation =
@@ -84,15 +81,8 @@ public struct FT8ResidualRecoveryConfiguration:
             minimumCandidatesAfterPruning
         self.maximumCandidatesAfterPruning =
             maximumCandidatesAfterPruning
-
-        self.fineTimeSubdivisions =
-            fineTimeSubdivisions
-        self.fineFrequencySubdivisions =
-            fineFrequencySubdivisions
-        self.fineTimeRadius = fineTimeRadius
-        self.fineFrequencyRadius =
-            fineFrequencyRadius
-
+        self.enableGlobalFineSearch =
+            enableGlobalFineSearch
         self.maximumCandidatesToDecode =
             maximumCandidatesToDecode
         self.minimumCandidateConfidence =
@@ -117,10 +107,6 @@ public struct FT8ResidualRecoveryConfiguration:
               minimumCandidatesAfterPruning > 0,
               maximumCandidatesAfterPruning
                 >= minimumCandidatesAfterPruning,
-              fineTimeSubdivisions > 0,
-              fineFrequencySubdivisions > 0,
-              fineTimeRadius >= 0,
-              fineFrequencyRadius >= 0,
               maximumCandidatesToDecode > 0,
               (0 ... 1).contains(
                 minimumCandidateConfidence
@@ -149,34 +135,6 @@ public struct FT8ResidualRecoveryPassMetrics:
     public let affectedBins: Int
     public let energyReductionFraction: Double
     public let elapsedSeconds: Double
-
-    public init(
-        pass: Int,
-        candidatesFound: Int,
-        candidatesScheduled: Int,
-        parityPassed: Int,
-        crcPassed: Int,
-        messagesReturned: Int,
-        newMessages: Int,
-        signalsCancelled: Int,
-        affectedBins: Int,
-        energyReductionFraction: Double,
-        elapsedSeconds: Double
-    ) {
-        self.pass = pass
-        self.candidatesFound = candidatesFound
-        self.candidatesScheduled =
-            candidatesScheduled
-        self.parityPassed = parityPassed
-        self.crcPassed = crcPassed
-        self.messagesReturned = messagesReturned
-        self.newMessages = newMessages
-        self.signalsCancelled = signalsCancelled
-        self.affectedBins = affectedBins
-        self.energyReductionFraction =
-            energyReductionFraction
-        self.elapsedSeconds = elapsedSeconds
-    }
 }
 
 public struct FT8ResidualRecoveryDecodeBatch:
@@ -189,32 +147,8 @@ public struct FT8ResidualRecoveryDecodeBatch:
     public let recoveryPasses:
         [FT8ResidualRecoveryPassMetrics]
     public let candidateTraces: [FT8CandidateTrace]
-
-    public init(
-        messages: [FT8CompleteDecode],
-        residualSpectrogram: Spectrogram,
-        baseBatch: FT8MultiPassDecodeBatch,
-        recoveryPasses:
-            [FT8ResidualRecoveryPassMetrics],
-        candidateTraces: [FT8CandidateTrace]
-    ) {
-        self.messages = messages
-        self.residualSpectrogram =
-            residualSpectrogram
-        self.baseBatch = baseBatch
-        self.recoveryPasses = recoveryPasses
-        self.candidateTraces = candidateTraces
-    }
 }
 
-/// Runs the normal production multi-pass decoder first, then performs a
-/// bounded, residual-only candidate-recovery pass with a more permissive
-/// synchronizer profile.
-///
-/// The recovery path is deliberately isolated from pass 1. Strong-signal
-/// behaviour therefore remains unchanged, while the post-cancellation
-/// residual can retain lower-confidence timing/frequency hypotheses that the
-/// normal adaptive pruning profile would discard.
 public struct FT8ResidualRecoveryDecoder:
     Sendable
 {
@@ -263,22 +197,27 @@ public struct FT8ResidualRecoveryDecoder:
         var accepted = base.messages
         var residual = base.residualSpectrogram
         var traces = base.candidateTraces
-        var recoveryMetrics:
+        var metrics:
             [FT8ResidualRecoveryPassMetrics] = []
 
         for recoveryIndex
         in 1...configuration.maximumRecoveryPasses {
-            let started = ContinuousClock.now
+            let logicalPass =
+                base.metrics.passesCompleted
+                + recoveryIndex
 
-            var decoder = configuredRecoveryDecoder()
+            print(
+                "[ResidualRecovery] Starting pass "
+                    + "\(logicalPass)"
+                    + " with bounded coarse synchronizer"
+            )
+
+            let started = ContinuousClock.now
+            let decoder = configuredRecoveryDecoder()
 
             let batch = try decoder.decode(
                 spectrogram: residual
             )
-
-            let logicalPass =
-                base.metrics.passesCompleted
-                + recoveryIndex
 
             traces.append(
                 contentsOf:
@@ -320,28 +259,29 @@ public struct FT8ResidualRecoveryDecoder:
             )
 
             var affectedBins = 0
-            var reduction: Double = 0
+            var reduction = 0.0
 
             if !cancellable.isEmpty {
                 let result = try canceller.cancel(
                     cancellable,
                     from: residual
                 )
-
                 residual = result.spectrogram
                 affectedBins = result.affectedBins
                 reduction = result.reductionFraction
             }
 
-            recoveryMetrics.append(
+            let elapsed = Self.seconds(
+                ContinuousClock.now - started
+            )
+
+            metrics.append(
                 FT8ResidualRecoveryPassMetrics(
                     pass: logicalPass,
                     candidatesFound:
-                        batch.metrics
-                            .candidatesFound,
+                        batch.metrics.candidatesFound,
                     candidatesScheduled:
-                        batch.metrics
-                            .candidatesScheduled,
+                        batch.metrics.candidatesScheduled,
                     parityPassed:
                         batch.metrics.parityPassed,
                     crcPassed:
@@ -355,19 +295,23 @@ public struct FT8ResidualRecoveryDecoder:
                     affectedBins: affectedBins,
                     energyReductionFraction:
                         reduction,
-                    elapsedSeconds:
-                        Self.seconds(
-                            ContinuousClock.now
-                                - started
-                        )
+                    elapsedSeconds: elapsed
                 )
             )
 
-            if newMessages.isEmpty {
-                break
-            }
+            print(
+                "[ResidualRecovery] Complete pass "
+                    + "\(logicalPass)"
+                    + ": candidates="
+                    + "\(batch.metrics.candidatesFound)"
+                    + " scheduled="
+                    + "\(batch.metrics.candidatesScheduled)"
+                    + " new=\(newMessages.count)"
+                    + " elapsed=\(elapsed)s"
+            )
 
-            if cancellable.isEmpty {
+            if newMessages.isEmpty
+                || cancellable.isEmpty {
                 break
             }
         }
@@ -376,7 +320,7 @@ public struct FT8ResidualRecoveryDecoder:
             messages: stableOrder(accepted),
             residualSpectrogram: residual,
             baseBatch: base,
-            recoveryPasses: recoveryMetrics,
+            recoveryPasses: metrics,
             candidateTraces: traces
         )
     }
@@ -409,99 +353,45 @@ public struct FT8ResidualRecoveryDecoder:
         var sync =
             decoder.synchronizer.configuration
 
-        sync.minimumSyncScore =
-            min(
-                sync.minimumSyncScore,
-                configuration.minimumSyncScore
-            )
+        sync.minimumSyncScore = min(
+            sync.minimumSyncScore,
+            configuration.minimumSyncScore
+        )
+        sync.minimumSNRDB = min(
+            sync.minimumSNRDB,
+            configuration.minimumSNRDB
+        )
 
-        sync.minimumSNRDB =
-            min(
-                sync.minimumSNRDB,
-                configuration.minimumSNRDB
-            )
-
+        // Bound the relaxed residual search. The previous checkpoint used 220,
+        // which made the synchronizer retain up to 660 fine-search seeds.
         sync.maximumCandidates =
-            max(
-                sync.maximumCandidates,
-                configuration
-                    .maximumSynchronizerCandidates
-            )
+            configuration.maximumSynchronizerCandidates
 
         sync.deduplicationTime =
-            min(
-                sync.deduplicationTime,
-                configuration.deduplicationTime
-            )
-
+            configuration.deduplicationTime
         sync.deduplicationFrequency =
-            min(
-                sync.deduplicationFrequency,
-                configuration
-                    .deduplicationFrequency
-            )
+            configuration.deduplicationFrequency
 
-        sync.enableFineSearch = true
-
-        sync.fineTimeSubdivisions =
-            max(
-                sync.fineTimeSubdivisions,
-                configuration
-                    .fineTimeSubdivisions
-            )
-
-        sync.fineFrequencySubdivisions =
-            max(
-                sync.fineFrequencySubdivisions,
-                configuration
-                    .fineFrequencySubdivisions
-            )
-
-        sync.fineTimeRadius =
-            max(
-                sync.fineTimeRadius,
-                configuration.fineTimeRadius
-            )
-
-        sync.fineFrequencyRadius =
-            max(
-                sync.fineFrequencyRadius,
-                configuration
-                    .fineFrequencyRadius
-            )
+        // Critical performance fix: do a broad COARSE residual search only.
+        // FT8OptimizedDecoder's nearby-hypothesis retry remains responsible for
+        // bounded fine timing/frequency recovery.
+        sync.enableFineSearch =
+            configuration.enableGlobalFineSearch
 
         sync.enableAdaptivePruning = true
-
         sync.minimumRelativeConfidence =
-            min(
-                sync.minimumRelativeConfidence,
-                configuration
-                    .minimumRelativeConfidence
-            )
-
+            configuration.minimumRelativeConfidence
         sync.minimumPeakIsolation =
-            min(
-                sync.minimumPeakIsolation,
-                configuration
-                    .minimumPeakIsolation
-            )
-
+            configuration.minimumPeakIsolation
         sync.minimumCandidatesAfterPruning =
-            max(
-                sync.minimumCandidatesAfterPruning,
-                configuration
-                    .minimumCandidatesAfterPruning
-            )
-
+            configuration.minimumCandidatesAfterPruning
         sync.maximumCandidatesAfterPruning =
-            max(
-                sync.maximumCandidatesAfterPruning,
-                configuration
-                    .maximumCandidatesAfterPruning
+            min(
+                configuration.maximumCandidatesAfterPruning,
+                configuration.maximumSynchronizerCandidates
             )
 
         decoder.synchronizer.configuration = sync
-
         return decoder
     }
 
@@ -511,8 +401,7 @@ public struct FT8ResidualRecoveryDecoder:
     ) -> FT8CandidateTrace {
         FT8CandidateTrace(
             pass: pass,
-            candidateIndex:
-                trace.candidateIndex,
+            candidateIndex: trace.candidateIndex,
             startTime: trace.startTime,
             frequency: trace.frequency,
             driftHzPerSecond:
@@ -526,16 +415,11 @@ public struct FT8ResidualRecoveryDecoder:
             symbols: trace.symbols,
             logLikelihoodRatios:
                 trace.logLikelihoodRatios,
-            ldpcIterations:
-                trace.ldpcIterations,
-            syndromeWeight:
-                trace.syndromeWeight,
-            parityPassed:
-                trace.parityPassed,
-            crcPassed:
-                trace.crcPassed,
-            decodedText:
-                trace.decodedText,
+            ldpcIterations: trace.ldpcIterations,
+            syndromeWeight: trace.syndromeWeight,
+            parityPassed: trace.parityPassed,
+            crcPassed: trace.crcPassed,
+            decodedText: trace.decodedText,
             failure: trace.failure
         )
     }
@@ -549,7 +433,6 @@ public struct FT8ResidualRecoveryDecoder:
                 return $0.candidate.frequency
                     < $1.candidate.frequency
             }
-
             return $0.candidate.startTime
                 < $1.candidate.startTime
         }
@@ -559,7 +442,6 @@ public struct FT8ResidualRecoveryDecoder:
         _ duration: Duration
     ) -> Double {
         let components = duration.components
-
         return Double(components.seconds)
             + Double(components.attoseconds)
                 / 1_000_000_000_000_000_000
@@ -603,7 +485,6 @@ public struct FT8ResidualRecoverySlotDecoder:
             configuration:
                 waterfallConfiguration
         )
-
         return try decoder.decode(
             spectrogram: spectrogram
         )
