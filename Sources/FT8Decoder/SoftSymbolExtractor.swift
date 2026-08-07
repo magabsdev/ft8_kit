@@ -11,7 +11,18 @@ public enum SoftSymbolError: Error, Equatable, Sendable {
 public struct SoftSymbolConfiguration: Equatable, Sendable {
     public var symbolPeriod: Double
     public var toneSpacing: Float
+
+    /// Number of neighbouring frequency bins included on each side of the
+    /// interpolated tone frequency. A value of zero still uses fractional-bin
+    /// interpolation between the two nearest FFT bins.
     public var integrationRadius: Int
+
+    /// Number of neighbouring waterfall frames included on each side of the
+    /// frame nearest the symbol start. FT8Kit's waterfall frame timestamp is
+    /// the FFT-window start, so the default ±1 frames samples the same symbol
+    /// at three overlapping FFT windows when the normal 40 ms hop is used.
+    public var timeIntegrationRadius: Int
+
     public var minimumObservationsPerSymbol: Int
     public var llrScale: Float
     public var llrLimit: Float
@@ -20,6 +31,7 @@ public struct SoftSymbolConfiguration: Equatable, Sendable {
         symbolPeriod: Double = 0.160,
         toneSpacing: Float = 6.25,
         integrationRadius: Int = 0,
+        timeIntegrationRadius: Int = 1,
         minimumObservationsPerSymbol: Int = 1,
         llrScale: Float = 1,
         llrLimit: Float = 24
@@ -27,6 +39,7 @@ public struct SoftSymbolConfiguration: Equatable, Sendable {
         self.symbolPeriod = symbolPeriod
         self.toneSpacing = toneSpacing
         self.integrationRadius = integrationRadius
+        self.timeIntegrationRadius = timeIntegrationRadius
         self.minimumObservationsPerSymbol = minimumObservationsPerSymbol
         self.llrScale = llrScale
         self.llrLimit = llrLimit
@@ -36,6 +49,7 @@ public struct SoftSymbolConfiguration: Equatable, Sendable {
         guard symbolPeriod > 0,
               toneSpacing > 0,
               integrationRadius >= 0,
+              timeIntegrationRadius >= 0,
               minimumObservationsPerSymbol > 0,
               llrScale > 0,
               llrLimit > 0 else {
@@ -87,9 +101,11 @@ public struct SoftSymbolExtractor: Sendable {
                 spectrogram: spectrogram,
                 candidate: candidate
             )
+
             let ordered = metrics.sorted(by: >)
             let confidence = min(max((ordered[0] - ordered[1]) / 6, 0), 1)
             confidences.append(confidence)
+
             traces.append(
                 FT8SymbolTrace(
                     symbolIndex: symbolIndex,
@@ -98,12 +114,18 @@ public struct SoftSymbolExtractor: Sendable {
                 )
             )
 
+            // Max-log bit likelihoods. There are 58 data symbols × 3 bits =
+            // 174 channel LLRs, exactly one value per LDPC codeword bit.
             for bitIndex in 0..<3 {
                 var zero = -Float.infinity
                 var one = -Float.infinity
+
                 for tone in 0..<8 {
                     let bits = FT8ToneMapping.bits(forTone: tone)
-                    let bit = bitIndex == 0 ? bits.0 : (bitIndex == 1 ? bits.1 : bits.2)
+                    let bit = bitIndex == 0
+                        ? bits.0
+                        : (bitIndex == 1 ? bits.1 : bits.2)
+
                     if bit == 0 {
                         zero = max(zero, metrics[tone])
                     } else {
@@ -111,74 +133,159 @@ public struct SoftSymbolExtractor: Sendable {
                     }
                 }
 
-                // FT8LDPCDecoder uses negative LLR values for hard bit 1, so
-                // retain the decoder's established log(p(0) / p(1)) sign.
-                // Match ft8_lib: preserve the raw max-log likelihood ratio here.
-                // FT8LDPCDecoder performs the reference whole-vector variance
-                // normalisation immediately before belief propagation. Clipping
-                // individual values at this stage changes their relative weights.
-                let value = (zero - one) * configuration.llrScale
-                llrs.append(value)
+                // FT8LDPCDecoder uses negative LLR values for hard bit 1.
+                // Preserve the raw relative reliability here; the LDPC decoder
+                // performs whole-vector variance normalisation before BP.
+                llrs.append((zero - one) * configuration.llrScale)
             }
         }
 
-        let softSymbols = FT8SoftSymbols(
-            logLikelihoodRatios: llrs,
-            symbolConfidences: confidences
-        )
         return FT8SoftSymbolExtraction(
-            softSymbols: softSymbols,
+            softSymbols: FT8SoftSymbols(
+                logLikelihoodRatios: llrs,
+                symbolConfidences: confidences
+            ),
             symbols: traces
         )
     }
 
     public func toneMetrics(
-    symbolIndex: Int,
-    spectrogram: Spectrogram,
-    candidate: FT8Candidate
+        symbolIndex: Int,
+        spectrogram: Spectrogram,
+        candidate: FT8Candidate
     ) throws -> [Float] {
         try configuration.validate()
 
-        let symbolStart = candidate.startTime
-        + Double(symbolIndex) * configuration.symbolPeriod
+        guard !spectrogram.frames.isEmpty else {
+            throw SoftSymbolError.emptySpectrogram
+        }
 
-        guard let frame = spectrogram.frame(nearestTime: symbolStart) else {
+        let symbolStart =
+            candidate.startTime
+            + Double(symbolIndex) * configuration.symbolPeriod
+
+        let frameStep =
+            Double(spectrogram.hopSize) / Double(spectrogram.sampleRate)
+
+        let centreFrameIndex = Int((symbolStart / frameStep).rounded())
+
+        let firstFrameIndex = max(
+            0,
+            centreFrameIndex - configuration.timeIntegrationRadius
+        )
+        let lastFrameIndex = min(
+            spectrogram.frames.count - 1,
+            centreFrameIndex + configuration.timeIntegrationRadius
+        )
+
+        guard firstFrameIndex <= lastFrameIndex else {
             throw SoftSymbolError.insufficientObservations(symbol: symbolIndex)
         }
 
-        var linear = Array(repeating: Float.zero, count: 8)
+        var accumulatedPower = Array(repeating: Float.zero, count: 8)
+        var accumulatedWeight = Array(repeating: Float.zero, count: 8)
+        var observationCount = 0
 
-        for tone in 0..<8 {
+        for frameIndex in firstFrameIndex...lastFrameIndex {
+            let frame = spectrogram.frames[frameIndex]
+
+            // Triangular temporal weighting keeps the original nearest-frame
+            // observation dominant while using overlapping neighbouring FFTs
+            // to reduce a single-frame fade/noise spike.
+            let frameDistance = abs(frameIndex - centreFrameIndex)
+            let timeWeight = Float(
+                configuration.timeIntegrationRadius + 1 - frameDistance
+            )
+
             let elapsed = Float(frame.time - candidate.startTime)
-            let frequency = candidate.frequency
-            + Float(tone) * configuration.toneSpacing
-            + candidate.driftHzPerSecond * elapsed
 
-            let centreBin = Int(
-                ((frequency - frame.minimumFrequency) / frame.binWidth).rounded()
-            )
+            for tone in 0..<8 {
+                let frequency =
+                    candidate.frequency
+                    + Float(tone) * configuration.toneSpacing
+                    + candidate.driftHzPerSecond * elapsed
 
-            var decibelSamples: [Float] = []
-            decibelSamples.reserveCapacity(
-                configuration.integrationRadius * 2 + 1
-            )
+                let power = interpolatedLinearPower(
+                    at: frequency,
+                    in: frame
+                )
 
-            for offset in -configuration.integrationRadius...configuration.integrationRadius {
-                let bin = centreBin + offset
-                guard frame.decibels.indices.contains(bin) else {
+                guard power.isFinite, power > 0 else {
                     continue
                 }
-                decibelSamples.append(frame.decibels[bin])
+
+                accumulatedPower[tone] += power * timeWeight
+                accumulatedWeight[tone] += timeWeight
             }
 
-            let powers = VectorMath.linearPower(fromDecibels: decibelSamples)
-            linear[tone] = powers.isEmpty ? 0 : VectorMath.mean(powers)
+            observationCount += 1
         }
 
-        return linear.map { power in
-            10 * log10f(
-                max(power, Float.leastNonzeroMagnitude)
+        guard observationCount >= configuration.minimumObservationsPerSymbol else {
+            throw SoftSymbolError.insufficientObservations(symbol: symbolIndex)
+        }
+
+        return accumulatedPower.indices.map { tone in
+            let weight = accumulatedWeight[tone]
+            let meanPower = weight > 0
+                ? accumulatedPower[tone] / weight
+                : Float.leastNonzeroMagnitude
+
+            return 10 * log10f(
+                max(meanPower, Float.leastNonzeroMagnitude)
             )
         }
+    }
+
+    private func interpolatedLinearPower(
+        at frequency: Float,
+        in frame: WaterfallFrame
+    ) -> Float {
+        let exactBin =
+            (frequency - frame.minimumFrequency) / frame.binWidth
+
+        guard exactBin.isFinite else {
+            return 0
+        }
+
+        let lowerCentre = Int(floor(exactBin))
+        let fraction = exactBin - Float(lowerCentre)
+
+        var weightedPower: Float = 0
+        var totalWeight: Float = 0
+
+        // integrationRadius = 0 still performs two-bin linear interpolation.
+        // Larger radii add symmetric neighbouring interpolated samples.
+        for offset in -configuration.integrationRadius...configuration.integrationRadius {
+            let lower = lowerCentre + offset
+            let upper = lower + 1
+
+            guard frame.decibels.indices.contains(lower),
+                  frame.decibels.indices.contains(upper) else {
+                continue
+            }
+
+            let lowerPower = powf(10, frame.decibels[lower] / 10)
+            let upperPower = powf(10, frame.decibels[upper] / 10)
+
+            let interpolated =
+                lowerPower * (1 - fraction)
+                + upperPower * fraction
+
+            // Frequency neighbours use a triangular weight so the bins closest
+            // to the requested tone remain dominant.
+            let frequencyWeight = Float(
+                configuration.integrationRadius + 1 - abs(offset)
+            )
+
+            weightedPower += interpolated * frequencyWeight
+            totalWeight += frequencyWeight
+        }
+
+        guard totalWeight > 0 else {
+            return 0
+        }
+
+        return weightedPower / totalWeight
     }
 }
