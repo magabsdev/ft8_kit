@@ -27,3 +27,6 @@ swift test
 ```
 
 This package does not push or modify the GitHub repository.
+
+Actual Source is
+https://github.com/WSJTX/wsjtx
