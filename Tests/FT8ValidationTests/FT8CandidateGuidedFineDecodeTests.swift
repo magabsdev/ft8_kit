@@ -43,11 +43,16 @@ final class FT8CandidateGuidedFineDecodeTests:
                 )
             )
 
+        print("[FineDecodeTest] Running one baseline pass only")
+
         var base =
             FT8MultiPassDecoder()
 
+        // This checkpoint is specifically testing candidate refinement.
+        // Do not spend ~100 seconds running three full production passes
+        // before the refinement test even starts.
         base.configuration = .init(
-            maximumPasses: 3,
+            maximumPasses: 1,
             maximumSignalsPerPass: 1,
             minimumNewMessages: 1,
             minimumEnergyReductionFraction:
@@ -61,13 +66,6 @@ final class FT8CandidateGuidedFineDecodeTests:
                 60
         )
 
-        base.canceller.configuration = .init(
-            cancellationStrength: 1.00,
-            binRadius: 1,
-            timeTaperFloor: 0.50,
-            preserveNoiseFloor: true
-        )
-
         base.decoder.configuration
             .captureCandidateTraces = true
 
@@ -75,14 +73,32 @@ final class FT8CandidateGuidedFineDecodeTests:
             spectrogram: spectrogram
         )
 
+        print(
+            "[FineDecodeTest] Baseline complete: messages="
+                + "\(baseBatch.messages.count) traces="
+                + "\(baseBatch.candidateTraces.count)"
+        )
+
         var refiner =
             FT8CandidateGuidedFineDecoder()
 
-        // Keep this checkpoint focused on timing/frequency refinement.
-        // Robust LDPC retries can be re-enabled after we know whether the
-        // refined LLRs themselves improve the real-WAV failures.
+        // Keep this diagnostic quick and deterministic.
+        refiner.configuration.maximumSeeds = 4
+        refiner.configuration.coarseTimeRadius = 0.16
+        refiner.configuration.coarseTimeStep = 0.04
+        refiner.configuration.coarseFrequencyRadiusHz = 6.25
+        refiner.configuration.coarseFrequencyStepHz = 1.5625
+        refiner.configuration.coarseHypothesesRetained = 6
+        refiner.configuration.fineTimeRadius = 0.02
+        refiner.configuration.fineTimeStep = 0.01
+        refiner.configuration.fineFrequencyRadiusHz = 0.78125
+        refiner.configuration.fineFrequencyStepHz = 0.78125
+        refiner.configuration.fineSeedsPerCandidate = 2
+
         refiner.ldpcDecoder.configuration
             .enableRobustRetries = false
+
+        print("[FineDecodeTest] Starting bounded fine refinement")
 
         let result = try refiner.decode(
             spectrogram: spectrogram,
@@ -94,75 +110,27 @@ final class FT8CandidateGuidedFineDecodeTests:
         )
 
         print("Candidate-guided fine decode:")
-        print(
-            "  base messages: "
-                + "\(baseBatch.messages.count)"
-        )
-        print(
-            "  seeds selected: "
-                + "\(result.seedsSelected)"
-        )
-        print(
-            "  hypotheses tested: "
-                + "\(result.hypothesesTested)"
-        )
-        print(
-            "  LDPC attempts: "
-                + "\(result.ldpcAttempts)"
-        )
-        print(
-            "  new messages: "
-                + "\(result.messages.count)"
-        )
-        print(
-            "  elapsed: "
-                + "\(result.elapsedSeconds)"
-        )
+        print("  base messages: \(baseBatch.messages.count)")
+        print("  seeds selected: \(result.seedsSelected)")
+        print("  hypotheses tested: \(result.hypothesesTested)")
+        print("  LDPC attempts: \(result.ldpcAttempts)")
+        print("  new messages: \(result.messages.count)")
+        print("  elapsed: \(result.elapsedSeconds)")
 
-        for hypothesis
-        in result.bestHypotheses {
+        for hypothesis in result.bestHypotheses {
             print(
-                "  seed pass="
-                    + "\(hypothesis.seedPass)"
-                    + " candidate="
-                    + "\(hypothesis.seedCandidateIndex)"
-                    + " seedTime="
-                    + "\(hypothesis.seedTime)"
-                    + " seedFreq="
-                    + "\(hypothesis.seedFrequencyHz)"
+                "  seed pass=\(hypothesis.seedPass) "
+                    + "candidate=\(hypothesis.seedCandidateIndex)"
             )
             print(
-                "    refinedTime="
-                    + "\(hypothesis.startTime)"
-                    + " refinedFreq="
-                    + "\(hypothesis.frequencyHz)"
-                    + " costas="
-                    + "\(hypothesis.costasScore)"
-                    + " soft="
-                    + "\(String(describing: hypothesis.softConfidence))"
-                    + " syndrome="
-                    + "\(String(describing: hypothesis.syndromeWeight))"
-                    + " parity="
-                    + "\(String(describing: hypothesis.parityPassed))"
-                    + " crc="
-                    + "\(String(describing: hypothesis.crcPassed))"
-                    + " text="
-                    + "\(hypothesis.decodedText ?? "nil")"
-            )
-        }
-
-        for message in result.messages {
-            print(
-                "  decoded \""
-                    + message.decoded.text
-                    + "\" time="
-                    + "\(message.candidate.startTime)"
-                    + " frequency="
-                    + "\(message.candidate.frequency)"
-                    + " parity="
-                    + "\(message.ldpc.parityPassed)"
-                    + " crc="
-                    + "\(message.ldpc.crcPassed)"
+                "    refinedTime=\(hypothesis.startTime) "
+                    + "refinedFreq=\(hypothesis.frequencyHz) "
+                    + "costas=\(hypothesis.costasScore) "
+                    + "soft=\(String(describing: hypothesis.softConfidence)) "
+                    + "syndrome=\(String(describing: hypothesis.syndromeWeight)) "
+                    + "parity=\(String(describing: hypothesis.parityPassed)) "
+                    + "crc=\(String(describing: hypothesis.crcPassed)) "
+                    + "text=\(hypothesis.decodedText ?? "nil")"
             )
         }
 
@@ -172,22 +140,33 @@ final class FT8CandidateGuidedFineDecodeTests:
                     "Downloads/ft8-candidate-guided-fine-decode.txt"
                 )
 
-        let lines = result.bestHypotheses.map {
-            [
-                "seedPass=\($0.seedPass)",
-                "seedCandidate=\($0.seedCandidateIndex)",
-                "seedTime=\($0.seedTime)",
-                "seedFrequency=\($0.seedFrequencyHz)",
-                "refinedTime=\($0.startTime)",
-                "refinedFrequency=\($0.frequencyHz)",
-                "costas=\($0.costasScore)",
-                "soft=\(String(describing: $0.softConfidence))",
-                "syndrome=\(String(describing: $0.syndromeWeight))",
-                "parity=\(String(describing: $0.parityPassed))",
-                "crc=\(String(describing: $0.crcPassed))",
-                "text=\($0.decodedText ?? "")"
-            ].joined(separator: ",")
-        }
+        var lines: [String] = [
+            "baseMessages=\(baseBatch.messages.count)",
+            "seedsSelected=\(result.seedsSelected)",
+            "hypothesesTested=\(result.hypothesesTested)",
+            "ldpcAttempts=\(result.ldpcAttempts)",
+            "newMessages=\(result.messages.count)",
+            "elapsed=\(result.elapsedSeconds)"
+        ]
+
+        lines.append(
+            contentsOf: result.bestHypotheses.map {
+                [
+                    "seedPass=\($0.seedPass)",
+                    "seedCandidate=\($0.seedCandidateIndex)",
+                    "seedTime=\($0.seedTime)",
+                    "seedFrequency=\($0.seedFrequencyHz)",
+                    "refinedTime=\($0.startTime)",
+                    "refinedFrequency=\($0.frequencyHz)",
+                    "costas=\($0.costasScore)",
+                    "soft=\(String(describing: $0.softConfidence))",
+                    "syndrome=\(String(describing: $0.syndromeWeight))",
+                    "parity=\(String(describing: $0.parityPassed))",
+                    "crc=\(String(describing: $0.crcPassed))",
+                    "text=\($0.decodedText ?? "")"
+                ].joined(separator: ",")
+            }
+        )
 
         try lines
             .joined(separator: "\n")

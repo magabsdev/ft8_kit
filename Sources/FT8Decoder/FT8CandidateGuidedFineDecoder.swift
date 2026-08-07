@@ -27,20 +27,20 @@ public struct FT8CandidateGuidedFineDecodeConfiguration:
     public var minimumSoftConfidence: Float
 
     public init(
-        maximumSeeds: Int = 8,
+        maximumSeeds: Int = 4,
         minimumCandidateConfidence: Float = 0.68,
         maximumSeedSyndromeWeight: Int = 48,
         seedFrequencySeparationHz: Float = 18.75,
-        coarseTimeRadius: Double = 0.48,
+        coarseTimeRadius: Double = 0.16,
         coarseTimeStep: Double = 0.04,
-        coarseFrequencyRadiusHz: Float = 9.375,
+        coarseFrequencyRadiusHz: Float = 6.25,
         coarseFrequencyStepHz: Float = 1.5625,
-        coarseHypothesesRetained: Int = 12,
-        fineTimeRadius: Double = 0.04,
+        coarseHypothesesRetained: Int = 6,
+        fineTimeRadius: Double = 0.02,
         fineTimeStep: Double = 0.01,
-        fineFrequencyRadiusHz: Float = 1.5625,
+        fineFrequencyRadiusHz: Float = 0.78125,
         fineFrequencyStepHz: Float = 0.78125,
-        fineSeedsPerCandidate: Int = 3,
+        fineSeedsPerCandidate: Int = 2,
         minimumCostasScore: Float = 0.50,
         minimumSoftConfidence: Float = 0.08
     ) {
@@ -151,12 +151,24 @@ public struct FT8CandidateGuidedFineDecoder:
         var hypothesesTested = 0
         var ldpcAttempts = 0
 
-        for seed in seeds {
+        for (seedOffset, seed) in seeds.enumerated() {
+            print(
+                "[FineDecode] Seed \(seedOffset + 1)/\(seeds.count) "
+                    + "pass=\(seed.trace.pass) "
+                    + "candidate=\(seed.trace.candidateIndex) "
+                    + "time=\(seed.trace.startTime) "
+                    + "frequency=\(seed.trace.frequency)"
+            )
+
             let coarse = coarseHypotheses(
                 for: seed,
                 in: spectrogram
             )
             hypothesesTested += coarse.count
+
+            print(
+                "[FineDecode]   coarse hypotheses=\(coarse.count)"
+            )
 
             let retained = Array(
                 coarse
@@ -177,6 +189,10 @@ public struct FT8CandidateGuidedFineDecoder:
                         configuration
                             .coarseHypothesesRetained
                     )
+            )
+
+            print(
+                "[FineDecode]   retained for LDPC=\(retained.count)"
             )
 
             var rankedOutcomes:
@@ -208,6 +224,15 @@ public struct FT8CandidateGuidedFineDecoder:
                         )
                     }
                 }
+            }
+
+            if let currentBest = rankedOutcomes.sorted(by: outcomeIsBetter).first {
+                print(
+                    "[FineDecode]   coarse best syndrome="
+                        + "\(currentBest.ldpc.syndromeWeight) "
+                        + "parity=\(currentBest.ldpc.parityPassed) "
+                        + "crc=\(currentBest.ldpc.crcPassed)"
+                )
             }
 
             let fineBases = rankedOutcomes
@@ -264,6 +289,14 @@ public struct FT8CandidateGuidedFineDecoder:
             if let best = rankedOutcomes
                 .sorted(by: outcomeIsBetter)
                 .first {
+                print(
+                    "[FineDecode]   final best time="
+                        + "\(best.candidate.startTime) "
+                        + "frequency=\(best.candidate.frequency) "
+                        + "syndrome=\(best.ldpc.syndromeWeight) "
+                        + "parity=\(best.ldpc.parityPassed) "
+                        + "crc=\(best.ldpc.crcPassed)"
+                )
                 bestDiagnostics.append(
                     diagnostic(
                         seed: seed,
