@@ -26,6 +26,13 @@ public struct FT8CandidateGuidedFineDecodeConfiguration:
     public var minimumCostasScore: Float
     public var minimumSoftConfidence: Float
 
+    // WSJT-X-style ordered-statistics decoding is deliberately a bounded
+    // final rescue stage. Running OSD for every time/frequency/profile
+    // hypothesis is prohibitively expensive and is not how the search
+    // hierarchy should be structured.
+    public var maximumOSDRescuesPerSeed: Int
+    public var maximumOSDSyndromeWeight: Int
+
     public init(
         maximumSeeds: Int = 4,
         minimumCandidateConfidence: Float = 0.68,
@@ -42,7 +49,9 @@ public struct FT8CandidateGuidedFineDecodeConfiguration:
         fineFrequencyStepHz: Float = 0.78125,
         fineSeedsPerCandidate: Int = 2,
         minimumCostasScore: Float = 0.50,
-        minimumSoftConfidence: Float = 0.08
+        minimumSoftConfidence: Float = 0.08,
+        maximumOSDRescuesPerSeed: Int = 2,
+        maximumOSDSyndromeWeight: Int = 12
     ) {
         self.maximumSeeds = maximumSeeds
         self.minimumCandidateConfidence =
@@ -74,6 +83,10 @@ public struct FT8CandidateGuidedFineDecodeConfiguration:
             minimumCostasScore
         self.minimumSoftConfidence =
             minimumSoftConfidence
+        self.maximumOSDRescuesPerSeed =
+            max(0, maximumOSDRescuesPerSeed)
+        self.maximumOSDSyndromeWeight =
+            max(0, maximumOSDSyndromeWeight)
     }
 }
 
@@ -286,6 +299,94 @@ public struct FT8CandidateGuidedFineDecoder:
                                 decoded: message
                             )
                         )
+                    }
+                }
+            }
+
+            print(
+                "[FineDecode]   BP evaluation complete: outcomes=\(rankedOutcomes.count)"
+            )
+
+            let osdShortlist = Array(
+                rankedOutcomes
+                    .filter {
+                        !$0.ldpc.crcPassed
+                            && $0.ldpc.syndromeWeight
+                                <= configuration.maximumOSDSyndromeWeight
+                    }
+                    .sorted(by: osdCandidateIsBetter)
+                    .prefix(configuration.maximumOSDRescuesPerSeed)
+            )
+
+            print(
+                "[FineDecode]   OSD shortlist=\(osdShortlist.count)"
+            )
+
+            if !osdShortlist.isEmpty {
+                let osd = FT8OrderedStatisticsDecoder(
+                    configuration: .init(
+                        order: 1,
+                        pivotSearchExtraColumns: 20,
+                        maximumOrderOnePatterns: 91
+                    )
+                )
+
+                for (osdIndex, outcome) in osdShortlist.enumerated() {
+                    print(
+                        "[FineDecode]   OSD rescue \(osdIndex + 1)/\(osdShortlist.count) "
+                            + "profile=\(outcome.profileName) "
+                            + "syndrome=\(outcome.ldpc.syndromeWeight)"
+                    )
+
+                    guard let recovered = try osd.decode(
+                        logLikelihoodRatios:
+                            outcome.soft.logLikelihoodRatios
+                    ) else {
+                        print(
+                            "[FineDecode]     OSD produced no codeword"
+                        )
+                        continue
+                    }
+
+                    let message = try? messageDecoder.decode(
+                        recovered,
+                        softSymbols: outcome.soft
+                    )
+
+                    let rescued = RefinedOutcome(
+                        candidate: outcome.candidate,
+                        profileName: outcome.profileName,
+                        soft: outcome.soft,
+                        ldpc: recovered,
+                        message: message,
+                        correlation: outcome.correlation
+                    )
+
+                    rankedOutcomes.append(rescued)
+
+                    print(
+                        "[FineDecode]     OSD result syndrome="
+                            + "\(recovered.syndromeWeight) "
+                            + "parity=\(recovered.parityPassed) "
+                            + "crc=\(recovered.crcPassed)"
+                    )
+
+                    if recovered.crcPassed,
+                       let message,
+                       !excludingPayloads.contains(message.payload) {
+                        decoded.append(
+                            FT8CompleteDecode(
+                                candidate: rescued.candidate,
+                                softSymbols: rescued.soft,
+                                ldpc: rescued.ldpc,
+                                decoded: message
+                            )
+                        )
+
+                        print(
+                            "[FineDecode]     OSD CRC success; stopping rescue for this seed"
+                        )
+                        break
                     }
                 }
             }
@@ -572,43 +673,21 @@ public struct FT8CandidateGuidedFineDecoder:
 
             let primaryLDPC = try ldpcDecoder.decode(soft)
 
-            var selectedLDPC = primaryLDPC
-            var selectedMessage = try? messageDecoder.decode(
+            let message = try? messageDecoder.decode(
                 primaryLDPC,
                 softSymbols: soft
             )
 
-            // WSJT-X source-of-truth path: BP first, then an ordered-statistics
-            // rescue pass using channel reliability when BP did not produce
-            // a CRC-valid word. This replaces further ad-hoc LLR perturbation
-            // at the fine-decode layer.
-            if !primaryLDPC.crcPassed {
-                let osd = FT8OrderedStatisticsDecoder(
-                    configuration: .init(
-                        order: 1,
-                        pivotSearchExtraColumns: 20,
-                        maximumOrderOnePatterns: 91
-                    )
-                )
-
-                if let recovered = try osd.decode(
-                    logLikelihoodRatios: soft.logLikelihoodRatios
-                ) {
-                    selectedLDPC = recovered
-                    selectedMessage = try? messageDecoder.decode(
-                        recovered,
-                        softSymbols: soft
-                    )
-                }
-            }
-
+            // The fine-search layer is BP-only. OSD is intentionally deferred
+            // until all coarse/fine BP outcomes for this seed have been ranked.
+            // This keeps the expensive ordered-statistics rescue bounded.
             outcomes.append(
                 RefinedOutcome(
                     candidate: candidate,
                     profileName: variant.profileName,
                     soft: soft,
-                    ldpc: selectedLDPC,
-                    message: selectedMessage,
+                    ldpc: primaryLDPC,
+                    message: message,
                     correlation:
                         hypothesis.correlation
                 )
@@ -616,6 +695,36 @@ public struct FT8CandidateGuidedFineDecoder:
         }
 
         return outcomes
+    }
+
+    private func osdCandidateIsBetter(
+        _ lhs: RefinedOutcome,
+        _ rhs: RefinedOutcome
+    ) -> Bool {
+        if lhs.ldpc.parityPassed
+            != rhs.ldpc.parityPassed {
+            return lhs.ldpc.parityPassed
+        }
+
+        if lhs.ldpc.syndromeWeight
+            != rhs.ldpc.syndromeWeight {
+            return lhs.ldpc.syndromeWeight
+                < rhs.ldpc.syndromeWeight
+        }
+
+        if lhs.soft.averageConfidence
+            != rhs.soft.averageConfidence {
+            return lhs.soft.averageConfidence
+                > rhs.soft.averageConfidence
+        }
+
+        if lhs.correlation.score
+            != rhs.correlation.score {
+            return lhs.correlation.score
+                > rhs.correlation.score
+        }
+
+        return lhs.profileName < rhs.profileName
     }
 
     private func outcomeIsBetter(
