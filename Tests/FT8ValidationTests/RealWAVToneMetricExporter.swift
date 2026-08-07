@@ -157,7 +157,7 @@ enum RealWAVToneMetricExporter {
                 String(row.runnerUpTone)
             ]
 
-            fields.append(contentsOf: row.toneMetricsDB.map(String.init))
+            fields.append(contentsOf: row.toneMetricsDB.map { String($0) })
 
             fields.append(contentsOf: [
                 String(row.expectedToneMetricDB),
