@@ -30,17 +30,27 @@ public enum CostasCorrelator {
             for localIndex in CostasSequence.tones.indices {
                 let symbol = blockStart + localIndex
 
-                // Candidate startTime is the start of the first FT8 symbol.
-                // Correlation must sample at the centre of each symbol because
-                // the waterfall frame represents the analysis window centred
-                // on that instant.
+                // WaterfallFrame.time is the FFT WINDOW START, not its centre.
+                //
+                // With the normal FT8 waterfall (≈160–171 ms FFT window), a
+                // frame whose window starts at the FT8 symbol start naturally
+                // integrates energy across the body of that symbol. Sampling
+                // at startTime + 0.5 symbolPeriod incorrectly shifts the FFT
+                // window by ~80 ms and caused the synchronizer to report
+                // candidate.startTime about half a symbol too early.
+                //
+                // candidate.startTime is therefore consistently defined as:
+                //     start of the first FT8 symbol.
                 let time = startTime
-                    + (Double(symbol) + 0.5) * symbolPeriod
+                    + Double(symbol) * symbolPeriod
 
                 guard let frame = spectrogram.frame(nearestTime: time) else {
                     continue
                 }
 
+                // Drift is referenced to the candidate's first-symbol start.
+                // Use the requested symbol-window start, rather than frame.time,
+                // so rounding to the nearest waterfall hop cannot bias drift.
                 let elapsed = Float(time - startTime)
                 let expectedTone = Int(
                     CostasSequence.tones[localIndex]
