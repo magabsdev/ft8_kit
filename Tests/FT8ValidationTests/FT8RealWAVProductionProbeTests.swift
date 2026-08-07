@@ -115,9 +115,58 @@ final class FT8RealWAVProductionProbeTests: XCTestCase {
             parityReport
         )
 
-        try writeParityOutputs(
-            parityReport
+        let environment =
+            ProcessInfo.processInfo.environment
+        let fileManager = FileManager.default
+
+        let jsonURL = outputURL(
+            key: "FT8_REAL_WAV_PARITY_JSON",
+            environment: environment
         )
+        let csvURL = outputURL(
+            key: "FT8_REAL_WAV_PARITY_CSV",
+            environment: environment
+        )
+
+        for url in [jsonURL, csvURL].compactMap({ $0 }) {
+            try fileManager.createDirectory(
+                at: url.deletingLastPathComponent(),
+                withIntermediateDirectories: true,
+                attributes: nil
+            )
+        }
+
+        try RealWAVParityDiagnostics.write(
+            parityReport,
+            jsonURL: jsonURL,
+            csvURL: csvURL
+        )
+
+        if let jsonURL {
+            XCTAssertTrue(
+                fileManager.fileExists(
+                    atPath: jsonURL.path
+                ),
+                "Parity JSON was not created at \(jsonURL.path)."
+            )
+            print(
+                "Real WAV parity JSON written to: "
+                    + jsonURL.path
+            )
+        }
+
+        if let csvURL {
+            XCTAssertTrue(
+                fileManager.fileExists(
+                    atPath: csvURL.path
+                ),
+                "Parity CSV was not created at \(csvURL.path)."
+            )
+            print(
+                "Real WAV parity CSV written to: "
+                    + csvURL.path
+            )
+        }
 
         // This is diagnostic by design. It verifies that the production path
         // actually ran and that pipeline records were captured, but it does not
@@ -133,66 +182,6 @@ final class FT8RealWAVProductionProbeTests: XCTestCase {
         XCTAssertFalse(
             batch.pipelineRecords.isEmpty
         )
-    }
-
-    private func writeParityOutputs(
-        _ report: RealWAVParityReport
-    ) throws {
-        let environment =
-            ProcessInfo.processInfo.environment
-        let fileManager = FileManager.default
-
-        let jsonURL = outputURL(
-            key: "FT8_REAL_WAV_PARITY_JSON",
-            environment: environment
-        )
-        let csvURL = outputURL(
-            key: "FT8_REAL_WAV_PARITY_CSV",
-            environment: environment
-        )
-
-        for url in [jsonURL, csvURL]
-            .compactMap({ $0 }) {
-            try fileManager.createDirectory(
-                at: url.deletingLastPathComponent(),
-                withIntermediateDirectories: true,
-                attributes: nil
-            )
-        }
-
-        try RealWAVParityDiagnostics.write(
-            report,
-            jsonURL: jsonURL,
-            csvURL: csvURL
-        )
-
-        if let jsonURL {
-            XCTAssertTrue(
-                fileManager.fileExists(
-                    atPath: jsonURL.path
-                ),
-                "Parity JSON was not created at \(jsonURL.path)."
-            )
-
-            print(
-                "Real WAV parity JSON written to: "
-                    + jsonURL.path
-            )
-        }
-
-        if let csvURL {
-            XCTAssertTrue(
-                fileManager.fileExists(
-                    atPath: csvURL.path
-                ),
-                "Parity CSV was not created at \(csvURL.path)."
-            )
-
-            print(
-                "Real WAV parity CSV written to: "
-                    + csvURL.path
-            )
-        }
     }
 
     private func outputURL(
