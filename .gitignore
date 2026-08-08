@@ -17,3 +17,5 @@ DerivedData/
 *.xcuserstate
 /.swiftpm
 /.checkpoint-backups/
+/.swiftpm/
+/.swiftpm/xcode/
