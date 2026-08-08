@@ -409,30 +409,35 @@ public struct FT8CandidateGuidedFineDecoder:
 
 
 
-                        guard let message = try? messageDecoder.decode(
-
-
-                            recovered,
-
-
-                            softSymbols: outcome.soft
-
-
-                        ) else {
-
-
-                            // A parity/CRC-valid but non-displayable payload must not
-
-
-                            // outrank a real FT8 message. Continue with the next saved
-
-
-                            // BP reliability vector, as WSJT-X does with zsave(:,i).
-
-
+                        let message: FT8DecodedMessage
+                        do {
+                            message = try messageDecoder.decode(
+                                recovered,
+                                softSymbols: outcome.soft
+                            )
+                        } catch {
+                            // Diagnostic checkpoint: when BP/OSD has produced a
+                            // parity/CRC-valid LDPC codeword but WSJT-X-compatible
+                            // message unpacking rejects it, expose the complete LDPC
+                            // result rather than silently discarding the hypothesis.
+                            // String(reflecting:) deliberately avoids depending on a
+                            // private FT8LDPCResult payload-field name and therefore
+                            // remains valid while the decoder data model evolves.
+                            print(
+                                "[FineDecode]     CRC-valid unpack failed: "
+                                    + "profile=\(outcome.profileName) "
+                                    + "time=\(outcome.candidate.startTime) "
+                                    + "frequency=\(outcome.candidate.frequency) "
+                                    + "syndrome=\(recovered.syndromeWeight) "
+                                    + "parity=\(recovered.parityPassed) "
+                                    + "crc=\(recovered.crcPassed) "
+                                    + "error=\(String(reflecting: error))"
+                            )
+                            print(
+                                "[FineDecode]     CRC-valid LDPC state: "
+                                    + String(reflecting: recovered)
+                            )
                             continue
-
-
                         }
 
 
