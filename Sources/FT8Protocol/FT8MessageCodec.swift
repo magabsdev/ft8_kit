@@ -11,7 +11,7 @@ public enum FT8MessageCodec {
             return try packFreeText(text)
         case .standard(let to, let from, let extra):
             return try packStandard(to: to, from: from, extra: extra)
-        case .telemetry, .unsupported:
+        case .telemetry, .structured, .unsupported:
             throw FT8ProtocolError.unsupportedMessageType(type: -1, subtype: -1)
         }
     }
@@ -21,18 +21,29 @@ public enum FT8MessageCodec {
             throw FT8ProtocolError.invalidPayloadLength(payload.count)
         }
 
-        let i3 = Int(value(payload.bits, range: 74..<77))
+        // WSJT-X packjt77.f90 reads c77(72:77) as n3,i3.
         let n3 = Int(value(payload.bits, range: 71..<74))
+        let i3 = Int(value(payload.bits, range: 74..<77))
 
-        switch i3 {
-        case 0 where n3 == 0:
+        switch (i3, n3) {
+        case (0, 0):
             return unpackFreeText(payload)
-        case 0 where n3 == 5:
-            return .telemetry(payloadHex(payload.bits[0..<71]))
-        case 1, 2:
+        case (0, 1):
+            return try unpackDXpedition(payload)
+        case (0, 3), (0, 4):
+            return try unpackFieldDay(payload, n3: n3)
+        case (0, 5):
+            return .telemetry(unpackTelemetry(payload))
+        case (1, _), (2, _):
             return try unpackStandard(payload, i3: i3)
+        case (3, _):
+            return try unpackRTTY(payload)
+        case (4, _):
+            return try unpackNonstandard(payload)
+        case (5, _):
+            return try unpackVHFContest(payload)
         default:
-            return .unsupported(type: i3, subtype: n3, payloadHex: payloadHex(payload.bits[0..<77]))
+            throw FT8ProtocolError.unsupportedMessageType(type: i3, subtype: n3)
         }
     }
 
@@ -54,6 +65,15 @@ public enum FT8MessageCodec {
         let callTo = try unpack28(n29a >> 1, suffix: Int(n29a & 1), i3: i3)
         let callFrom = try unpack28(n29b >> 1, suffix: Int(n29b & 1), i3: i3)
         let extra = unpackGrid(grid, ir: ir)
+
+        if callTo == "CQ" || callTo.hasPrefix("CQ ") {
+            if ir == 1 { throw FT8ProtocolError.invalidPackedField }
+            if grid > maxGrid4 {
+                let report = Int(grid - maxGrid4)
+                if report >= 2 { throw FT8ProtocolError.invalidPackedField }
+            }
+        }
+
         return .standard(to: callTo, from: callFrom, extra: extra)
     }
 
@@ -137,6 +157,194 @@ public enum FT8MessageCodec {
             let formatted = String(format: "%+03d", value)
             return ir == 1 ? "R\(formatted)" : formatted
         }
+    }
+
+
+    // MARK: - WSJT-X unpack77 forms
+
+    private static let arrlSections = [
+        "AB","AK","AL","AR","AZ","BC","CO","CT","DE","EB",
+        "EMA","ENY","EPA","EWA","GA","GTA","IA","ID","IL","IN",
+        "KS","KY","LA","LAX","MAR","MB","MDC","ME","MI","MN",
+        "MO","MS","MT","NC","ND","NE","NFL","NH","NL","NLI",
+        "NM","NNJ","NNY","NT","NTX","NV","OH","OK","ONE","ONN",
+        "ONS","OR","ORG","PAC","PR","QC","RI","SB","SC","SCV",
+        "SD","SDG","SF","SFL","SJV","SK","SNJ","STX","SV","TN",
+        "UT","VA","VI","VT","WCF","WI","WMA","WNY","WPA","WTX",
+        "WV","WWA","WY","DX"
+    ]
+
+    private static let usCanadaMultipliers = [
+        "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA",
+        "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+        "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+        "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+        "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+        "NB","NS","QC","ON","MB","SK","AB","BC","NWT","NF",
+        "LB","NU","YT","PEI","DC"
+    ]
+
+    private static func unpackDXpedition(_ payload: FT8BitBuffer) throws -> FT8Message {
+        let n28a = UInt32(value(payload.bits, range: 0..<28))
+        let n28b = UInt32(value(payload.bits, range: 28..<56))
+        let n10 = Int(value(payload.bits, range: 56..<66))
+        let n5 = Int(value(payload.bits, range: 66..<71))
+
+        guard n28a > 2, n28b > 2 else {
+            throw FT8ProtocolError.invalidPackedField
+        }
+
+        let call1 = try unpack28(n28a, suffix: 0, i3: 1)
+        let call2 = try unpack28(n28b, suffix: 0, i3: 1)
+        let call3 = hashPlaceholder(bits: 10, value: n10)
+        let report = 2 * n5 - 30
+        return .structured("\(call1) RR73; \(call2) \(call3) \(signed2(report))")
+    }
+
+    private static func unpackFieldDay(_ payload: FT8BitBuffer, n3: Int) throws -> FT8Message {
+        let n28a = UInt32(value(payload.bits, range: 0..<28))
+        let n28b = UInt32(value(payload.bits, range: 28..<56))
+        let ir = Int(payload.bits[56])
+        let intx = Int(value(payload.bits, range: 57..<61))
+        let nclass = Int(value(payload.bits, range: 61..<64))
+        let isec = Int(value(payload.bits, range: 64..<71))
+
+        guard n28a > 2, n28b > 2,
+              (1...arrlSections.count).contains(isec) else {
+            throw FT8ProtocolError.invalidPackedField
+        }
+
+        let call1 = try unpack28(n28a, suffix: 0, i3: 1)
+        let call2 = try unpack28(n28b, suffix: 0, i3: 1)
+        let ntx = intx + 1 + (n3 == 4 ? 16 : 0)
+        let exchange = "\(ntx)\(Character(UnicodeScalar(65 + nclass)!))"
+        let section = arrlSections[isec - 1]
+        let text = ir == 1
+            ? "\(call1) \(call2) R \(exchange) \(section)"
+            : "\(call1) \(call2) \(exchange) \(section)"
+        return .structured(text)
+    }
+
+    private static func unpackTelemetry(_ payload: FT8BitBuffer) -> String {
+        let a = value(payload.bits, range: 0..<23)
+        let b = value(payload.bits, range: 23..<47)
+        let c = value(payload.bits, range: 47..<71)
+        let raw = String(format: "%06llX%06llX%06llX", a, b, c)
+        let trimmed = raw.drop(while: { $0 == "0" })
+        return trimmed.isEmpty ? "0" : String(trimmed).lowercased()
+    }
+
+    private static func unpackRTTY(_ payload: FT8BitBuffer) throws -> FT8Message {
+        let itu = Int(payload.bits[0])
+        let n28a = UInt32(value(payload.bits, range: 1..<29))
+        let n28b = UInt32(value(payload.bits, range: 29..<57))
+        let ir = Int(payload.bits[57])
+        let irpt = Int(value(payload.bits, range: 58..<61))
+        let nexch = Int(value(payload.bits, range: 61..<74))
+
+        let call1 = try unpack28(n28a, suffix: 0, i3: 1)
+        let call2 = try unpack28(n28b, suffix: 0, i3: 1)
+        let report = "5\(irpt + 2)9"
+
+        let exchange: String
+        if nexch > 8000 {
+            let multiplier = nexch - 8000
+            guard (1...usCanadaMultipliers.count).contains(multiplier) else {
+                throw FT8ProtocolError.invalidPackedField
+            }
+            exchange = usCanadaMultipliers[multiplier - 1]
+        } else {
+            guard (1...7999).contains(nexch) else {
+                throw FT8ProtocolError.invalidPackedField
+            }
+            exchange = String(format: "%04d", nexch)
+        }
+
+        var fields = [call1, call2]
+        if ir == 1 { fields.append("R") }
+        fields += [report, exchange]
+        let core = fields.joined(separator: " ")
+        return .structured(itu == 1 ? "TU; \(core)" : core)
+    }
+
+    private static func unpackNonstandard(_ payload: FT8BitBuffer) throws -> FT8Message {
+        let n12 = Int(value(payload.bits, range: 0..<12))
+        var n58 = value(payload.bits, range: 12..<70)
+        let iflip = Int(payload.bits[70])
+        let nrpt = Int(value(payload.bits, range: 71..<73))
+        let icq = Int(payload.bits[73])
+
+        let alphabet = Array(" 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ/")
+        var chars = [Character](repeating: " ", count: 11)
+        for index in stride(from: 10, through: 0, by: -1) {
+            chars[index] = alphabet[Int(n58 % 38)]
+            n58 /= 38
+        }
+        let nonstandard = String(chars).trimmingCharacters(in: .whitespaces)
+        guard !nonstandard.isEmpty else {
+            throw FT8ProtocolError.invalidPackedField
+        }
+
+        let hashed = hashPlaceholder(bits: 12, value: n12)
+        let call1 = iflip == 0 ? hashed : nonstandard
+        let call2 = iflip == 0 ? nonstandard : hashed
+
+        if icq == 1 {
+            guard iflip == 1 else { throw FT8ProtocolError.invalidPackedField }
+            return .structured("CQ \(call2)")
+        }
+
+        let suffix: String
+        switch nrpt {
+        case 0: suffix = ""
+        case 1: suffix = " RRR"
+        case 2: suffix = " RR73"
+        case 3: suffix = " 73"
+        default: throw FT8ProtocolError.invalidPackedField
+        }
+        return .structured("\(call1) \(call2)\(suffix)")
+    }
+
+    private static func unpackVHFContest(_ payload: FT8BitBuffer) throws -> FT8Message {
+        let n12 = Int(value(payload.bits, range: 0..<12))
+        let n22 = Int(value(payload.bits, range: 12..<34))
+        let ir = Int(payload.bits[34])
+        let irpt = Int(value(payload.bits, range: 35..<38))
+        let iserial = Int(value(payload.bits, range: 38..<49))
+        let igrid6 = Int(value(payload.bits, range: 49..<74))
+
+        guard (0...18_662_399).contains(igrid6) else {
+            throw FT8ProtocolError.invalidPackedField
+        }
+
+        let call1 = hashPlaceholder(bits: 12, value: n12)
+        let call2 = hashPlaceholder(bits: 22, value: n22)
+        let exchange = String(format: "%02d%04d", 52 + irpt, iserial)
+        let grid6 = unpackGrid6(igrid6)
+
+        let text = ir == 1
+            ? "\(call1) \(call2) R \(exchange) \(grid6)"
+            : "\(call1) \(call2) \(exchange) \(grid6)"
+        return .structured(text)
+    }
+
+    private static func unpackGrid6(_ packed: Int) -> String {
+        var n = packed
+        let f = n % 24; n /= 24
+        let e = n % 24; n /= 24
+        let d = n % 10; n /= 10
+        let c = n % 10; n /= 10
+        let b = n % 18; n /= 18
+        let a = n % 18
+        return "\(Character(UnicodeScalar(65 + a)!))\(Character(UnicodeScalar(65 + b)!))\(c)\(d)\(Character(UnicodeScalar(65 + e)!))\(Character(UnicodeScalar(65 + f)!))"
+    }
+
+    private static func hashPlaceholder(bits: Int, value: Int) -> String {
+        return "<HASH\(bits):\(String(value, radix: 16).uppercased())>"
+    }
+
+    private static func signed2(_ value: Int) -> String {
+        value >= 0 ? String(format: "+%02d", value) : String(format: "-%02d", abs(value))
     }
 
     private static func packFreeText(_ input: String) throws -> FT8BitBuffer {

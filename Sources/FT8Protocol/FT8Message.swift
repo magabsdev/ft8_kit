@@ -4,6 +4,9 @@ public enum FT8Message: Equatable, Sendable {
     case freeText(String)
     case standard(to: String, from: String, extra: String)
     case telemetry(String)
+    /// A valid WSJT-X 77-bit message form that does not yet have a
+    /// dedicated strongly typed FT8Message case.
+    case structured(String)
     case unsupported(type: Int, subtype: Int, payloadHex: String)
 
     public var displayText: String {
@@ -12,6 +15,7 @@ public enum FT8Message: Equatable, Sendable {
         case .standard(let to, let from, let extra):
             return [to, from, extra].filter { !$0.isEmpty }.joined(separator: " ")
         case .telemetry(let value): return value
+        case .structured(let value): return value
         case .unsupported(let type, let subtype, let payloadHex):
             return "[FT8 type \(type).\(subtype) \(payloadHex)]"
         }
