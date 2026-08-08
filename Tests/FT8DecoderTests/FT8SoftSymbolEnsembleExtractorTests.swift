@@ -9,12 +9,13 @@ final class FT8SoftSymbolEnsembleExtractorTests: XCTestCase {
     func testProductionProfilesAreBoundedAndUnique() {
         let profiles = FT8SoftSymbolEnsembleExtractor.productionProfiles
 
-        XCTAssertEqual(profiles.count, 4)
+        XCTAssertEqual(profiles.count, 5)
         XCTAssertEqual(Set(profiles.map(\.name)).count, profiles.count)
-        XCTAssertTrue(profiles.contains { $0.name == "precise" })
-        XCTAssertTrue(profiles.contains { $0.name == "balanced" })
-        XCTAssertTrue(profiles.contains { $0.name == "frequency-integrated" })
-        XCTAssertTrue(profiles.contains { $0.name == "temporal-integrated" })
+        XCTAssertTrue(profiles.contains { $0.name == "wsjtx-nsym1" })
+        XCTAssertTrue(profiles.contains { $0.name == "wsjtx-nsym2" })
+        XCTAssertTrue(profiles.contains { $0.name == "wsjtx-nsym3" })
+        XCTAssertTrue(profiles.contains { $0.name == "wsjtx-bit-normalized" })
+        XCTAssertTrue(profiles.contains { $0.name == "wsjtx-best" })
     }
 
     func testAllProfilesRecoverSyntheticCodeword() throws {
@@ -43,7 +44,7 @@ final class FT8SoftSymbolEnsembleExtractorTests: XCTestCase {
             candidate: candidate
         )
 
-        XCTAssertEqual(variants.count, 4)
+        XCTAssertEqual(variants.count, 5)
 
         for variant in variants {
             XCTAssertEqual(

@@ -240,9 +240,9 @@ final class SoftSymbolExtractorTests: XCTestCase {
         XCTAssertEqual(sigma, 2.83, accuracy: 0.03)
     }
 
-    func testProductionEnsembleStartsWithWSJTXAmplitudeProfile() {
+    func testProductionEnsembleStartsWithWSJTXNSym1Profile() {
         let profile = FT8SoftSymbolEnsembleExtractor.productionProfiles.first
-        XCTAssertEqual(profile?.name, "wsjtx-amplitude")
+        XCTAssertEqual(profile?.name, "wsjtx-nsym1")
         XCTAssertEqual(
             profile?.configuration.metricMode,
             .wsjtxNormalizedMaxAmplitude

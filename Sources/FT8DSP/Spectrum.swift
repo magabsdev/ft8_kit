@@ -5,6 +5,24 @@ public struct Spectrum: Equatable, Sendable {
     public let fftSize: Int
     public let magnitudes: [Float]
     public let powers: [Float]
+    public let real: [Float]
+    public let imaginary: [Float]
+
+    public init(
+        sampleRate: Float,
+        fftSize: Int,
+        magnitudes: [Float],
+        powers: [Float],
+        real: [Float] = [],
+        imaginary: [Float] = []
+    ) {
+        self.sampleRate = sampleRate
+        self.fftSize = fftSize
+        self.magnitudes = magnitudes
+        self.powers = powers
+        self.real = real
+        self.imaginary = imaginary
+    }
 
     public var binWidth: Float { sampleRate / Float(fftSize) }
 
@@ -58,11 +76,16 @@ public struct Spectrum: Equatable, Sendable {
             imaginary: Array(transformed.imaginary.prefix(oneSidedCount))
         )
         var magnitudes = Array(repeating: Float.zero, count: oneSidedCount)
+        var normalizedReal = Array(repeating: Float.zero, count: oneSidedCount)
+        var normalizedImaginary = Array(repeating: Float.zero, count: oneSidedCount)
 
         for i in 0..<oneSidedCount {
             let edge = i == 0 || i == oneSidedCount - 1
             let scale: Float = edge ? 1 : 2
-            magnitudes[i] = scale * rawMagnitudes[i] / coherentGain
+            let normalization = scale / coherentGain
+            normalizedReal[i] = transformed.real[i] * normalization
+            normalizedImaginary[i] = transformed.imaginary[i] * normalization
+            magnitudes[i] = rawMagnitudes[i] * normalization
         }
 
         let powers = VectorMath.multiply(magnitudes, magnitudes)
@@ -71,7 +94,9 @@ public struct Spectrum: Equatable, Sendable {
             sampleRate: sampleRate,
             fftSize: size,
             magnitudes: magnitudes,
-            powers: powers
+            powers: powers,
+            real: normalizedReal,
+            imaginary: normalizedImaginary
         )
     }
 }

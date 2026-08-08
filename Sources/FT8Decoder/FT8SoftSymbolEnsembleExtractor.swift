@@ -40,56 +40,25 @@ public struct FT8SoftSymbolEnsembleExtractor: Sendable {
     }
 
     public static let productionProfiles: [FT8SoftSymbolProfile] = [
-        FT8SoftSymbolProfile(
-            name: "wsjtx-amplitude",
-            configuration: SoftSymbolConfiguration(
-                integrationRadius: 0,
-                timeIntegrationRadius: 0,
-                minimumObservationsPerSymbol: 1,
-                llrScale: 1,
-                llrLimit: 24,
-                metricMode: .wsjtxNormalizedMaxAmplitude
-            )
-        ),
-        FT8SoftSymbolProfile(
-            name: "balanced",
-            configuration: SoftSymbolConfiguration(
-                integrationRadius: 0,
-                timeIntegrationRadius: 1,
-                minimumObservationsPerSymbol: 1,
-                llrScale: 1,
-                llrLimit: 24,
-                metricMode: .logMAP
-            )
-        ),
-        FT8SoftSymbolProfile(
-            name: "frequency-integrated",
-            configuration: SoftSymbolConfiguration(
-                integrationRadius: 1,
-                timeIntegrationRadius: 1,
-                minimumObservationsPerSymbol: 1,
-                llrScale: 1,
-                llrLimit: 24,
-                metricMode: .logMAP
-            )
-        ),
-        FT8SoftSymbolProfile(
-            name: "temporal-integrated",
-            configuration: SoftSymbolConfiguration(
-                integrationRadius: 0,
-                timeIntegrationRadius: 2,
-                minimumObservationsPerSymbol: 1,
-                llrScale: 1,
-                llrLimit: 24,
-                metricMode: .logMAP
-            )
-        )
+        FT8SoftSymbolProfile(name: "wsjtx-nsym1", configuration: .init(metricMode: .wsjtxNormalizedMaxAmplitude)),
+        FT8SoftSymbolProfile(name: "wsjtx-nsym2", configuration: .init(metricMode: .wsjtxNormalizedMaxAmplitude)),
+        FT8SoftSymbolProfile(name: "wsjtx-nsym3", configuration: .init(metricMode: .wsjtxNormalizedMaxAmplitude)),
+        FT8SoftSymbolProfile(name: "wsjtx-bit-normalized", configuration: .init(metricMode: .wsjtxNormalizedMaxAmplitude)),
+        FT8SoftSymbolProfile(name: "wsjtx-best", configuration: .init(metricMode: .wsjtxNormalizedMaxAmplitude))
+
     ]
 
     public func extract(
         from spectrogram: Spectrogram,
         candidate: FT8Candidate
     ) throws -> [FT8SoftSymbolVariant] {
+        if profiles == Self.productionProfiles {
+            return try FT8WSJTXSoftMetricExtractor().extract(
+                from: spectrogram,
+                candidate: candidate
+            )
+        }
+
         var variants: [FT8SoftSymbolVariant] = []
         variants.reserveCapacity(profiles.count)
 

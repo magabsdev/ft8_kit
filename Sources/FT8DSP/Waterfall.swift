@@ -64,6 +64,8 @@ public struct WaterfallFrame: Equatable, Sendable {
     public let decibels: [Float]
     public let intensities: [Float]
     public let noiseFloorDB: Float
+    public let real: [Float]
+    public let imaginary: [Float]
 
     public init(
         index: Int,
@@ -74,7 +76,9 @@ public struct WaterfallFrame: Equatable, Sendable {
         magnitudes: [Float],
         decibels: [Float],
         intensities: [Float],
-        noiseFloorDB: Float
+        noiseFloorDB: Float,
+        real: [Float] = [],
+        imaginary: [Float] = []
     ) {
         self.index = index
         self.sampleOffset = sampleOffset
@@ -85,6 +89,8 @@ public struct WaterfallFrame: Equatable, Sendable {
         self.decibels = decibels
         self.intensities = intensities
         self.noiseFloorDB = noiseFloorDB
+        self.real = real
+        self.imaginary = imaginary
     }
 
     public var count: Int { magnitudes.count }
@@ -183,6 +189,8 @@ public enum Waterfall {
             )
             let range = firstBin...lastBin
             let magnitudes = Array(spectrum.magnitudes[range])
+            let real = Array(spectrum.real[range])
+            let imaginary = Array(spectrum.imaginary[range])
             let decibels = magnitudes.map {
                 20 * log10f(max($0, Float.leastNonzeroMagnitude))
             }
@@ -206,7 +214,9 @@ public enum Waterfall {
                     magnitudes: magnitudes,
                     decibels: decibels,
                     intensities: intensities,
-                    noiseFloorDB: noise
+                    noiseFloorDB: noise,
+                    real: real,
+                    imaginary: imaginary
                 )
             )
 
