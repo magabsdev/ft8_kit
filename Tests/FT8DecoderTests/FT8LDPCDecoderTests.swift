@@ -17,6 +17,35 @@ final class FT8LDPCDecoderTests: XCTestCase {
         XCTAssertEqual(result.informationBits, vector.message)
     }
 
+    func testAllZeroLDPCResultIsMarkedDegenerate() throws {
+        let result = try FT8LDPCDecoder().decode(
+            logLikelihoodRatios: Array(repeating: Float(12), count: 174)
+        )
+
+        XCTAssertTrue(result.parityPassed)
+        XCTAssertTrue(result.crcPassed)
+        XCTAssertTrue(result.isDegenerateZeroCodeword)
+        XCTAssertTrue(result.codeword.bits.allSatisfy { $0 == 0 })
+    }
+
+    func testRealCodewordIsNotMarkedDegenerate() throws {
+        let vector = try makeVector("CQ TEST")
+        let result = try FT8LDPCDecoder().decode(
+            logLikelihoodRatios: llrs(for: vector.codeword, strength: 12)
+        )
+
+        XCTAssertTrue(result.crcPassed)
+        XCTAssertFalse(result.isDegenerateZeroCodeword)
+    }
+
+    func testOSDRejectsAllZeroCodewordAttractor() throws {
+        let result = try FT8OrderedStatisticsDecoder().decode(
+            logLikelihoodRatios: Array(repeating: Float(12), count: 174)
+        )
+
+        XCTAssertNil(result)
+    }
+
     func testCorrectsSingleInvertedChannelBit() throws {
         let vector = try makeVector("CQ TEST")
         var values = llrs(for: vector.codeword, strength: 10)

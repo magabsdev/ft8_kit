@@ -133,6 +133,14 @@ public struct FT8OrderedStatisticsDecoder: Sendable {
         }
 
         let codeword = FT8BitBuffer(originalOrder)
+
+        // The all-zero word belongs to the LDPC code and can pass the FT8 CRC,
+        // but it represents no FT8 message. Do not let OSD terminate on this
+        // trivial attractor; continue with other reliability snapshots instead.
+        guard codeword.bits.contains(1) else {
+            return nil
+        }
+
         guard FT8LDPCMatrix.isValid(codeword) else {
             return nil
         }

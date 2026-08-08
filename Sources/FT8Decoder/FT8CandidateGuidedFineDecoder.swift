@@ -223,7 +223,9 @@ public struct FT8CandidateGuidedFineDecoder:
                 ldpcAttempts += outcomes.count
                 rankedOutcomes.append(contentsOf: outcomes)
 
-                for outcome in outcomes where outcome.ldpc.crcPassed {
+                for outcome in outcomes
+                where outcome.ldpc.crcPassed
+                    && !outcome.ldpc.isDegenerateZeroCodeword {
                     guard let message = outcome.message,
                           !excludingPayloads.contains(message.payload)
                     else {
@@ -284,7 +286,9 @@ public struct FT8CandidateGuidedFineDecoder:
                     ldpcAttempts += outcomes.count
                     rankedOutcomes.append(contentsOf: outcomes)
 
-                    for outcome in outcomes where outcome.ldpc.crcPassed {
+                    for outcome in outcomes
+                where outcome.ldpc.crcPassed
+                    && !outcome.ldpc.isDegenerateZeroCodeword {
                         guard let message = outcome.message,
                               !excludingPayloads.contains(message.payload)
                         else {
@@ -310,7 +314,7 @@ public struct FT8CandidateGuidedFineDecoder:
             let osdShortlist = Array(
                 rankedOutcomes
                     .filter {
-                        !$0.ldpc.crcPassed
+                        !isUsableDecodedOutcome($0)
                             && $0.ldpc.syndromeWeight
                                 <= configuration.maximumOSDSyndromeWeight
                     }
@@ -409,6 +413,13 @@ public struct FT8CandidateGuidedFineDecoder:
 
 
 
+                        if recovered.isDegenerateZeroCodeword {
+                            print(
+                                "[FineDecode]     OSD rejected degenerate all-zero codeword; continuing snapshot search"
+                            )
+                            continue
+                        }
+
                         let message: FT8DecodedMessage
                         do {
                             message = try messageDecoder.decode(
@@ -488,6 +499,7 @@ public struct FT8CandidateGuidedFineDecoder:
                     )
 
                     if recovered.crcPassed,
+                       !recovered.isDegenerateZeroCodeword,
                        !excludingPayloads.contains(message.payload) {
                         decoded.append(
                             FT8CompleteDecode(
@@ -842,13 +854,34 @@ public struct FT8CandidateGuidedFineDecoder:
         return lhs.profileName < rhs.profileName
     }
 
+    private func isUsableDecodedOutcome(
+        _ outcome: RefinedOutcome
+    ) -> Bool {
+        outcome.ldpc.crcPassed
+            && !outcome.ldpc.isDegenerateZeroCodeword
+            && outcome.message != nil
+    }
+
     private func outcomeIsBetter(
         _ lhs: RefinedOutcome,
         _ rhs: RefinedOutcome
     ) -> Bool {
-        if lhs.ldpc.crcPassed
-            != rhs.ldpc.crcPassed {
-            return lhs.ldpc.crcPassed
+        let lhsUsable = isUsableDecodedOutcome(lhs)
+        let rhsUsable = isUsableDecodedOutcome(rhs)
+
+        if lhsUsable != rhsUsable {
+            return lhsUsable
+        }
+
+        let lhsNonZeroCRC =
+            lhs.ldpc.crcPassed
+            && !lhs.ldpc.isDegenerateZeroCodeword
+        let rhsNonZeroCRC =
+            rhs.ldpc.crcPassed
+            && !rhs.ldpc.isDegenerateZeroCodeword
+
+        if lhsNonZeroCRC != rhsNonZeroCRC {
+            return lhsNonZeroCRC
         }
 
         if lhs.ldpc.parityPassed

@@ -81,6 +81,13 @@ public struct FT8LDPCResult: Equatable, Sendable {
         self.crcPassed = crcPassed
         self.syndromeWeight = syndromeWeight
     }
+
+    /// The all-zero vector is a valid LDPC codeword and its zero payload can
+    /// also satisfy the CRC. It is nevertheless not a usable received FT8
+    /// message. Search/ranking code must not treat it as a successful decode.
+    public var isDegenerateZeroCodeword: Bool {
+        !codeword.bits.contains(1)
+    }
 }
 
 public struct FT8LDPCDecoder: Sendable {
