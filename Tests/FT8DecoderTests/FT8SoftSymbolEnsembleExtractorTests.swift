@@ -163,6 +163,23 @@ final class FT8SoftSymbolEnsembleExtractorTests: XCTestCase {
 
             let magnitudes = decibels.map { powf(10, $0 / 20) }
 
+            // The WSJT-X nsym=2/nsym=3 passes operate on coherent complex
+            // FFT evidence, not magnitude-only spectra. Use deterministic
+            // phase evolution so this synthetic fixture exercises the same
+            // path as a real Waterfall.analyse() frame.
+            var real = Array(repeating: Float.zero, count: columns)
+            var imaginary = Array(repeating: Float.zero, count: columns)
+
+            for bin in 0..<columns {
+                let phase =
+                    Float(frameIndex) * 0.173
+                    + Float(bin) * 0.011
+                    + 0.37 * sinf(Float(frameIndex + bin) * 0.019)
+
+                real[bin] = magnitudes[bin] * cosf(phase)
+                imaginary[bin] = magnitudes[bin] * sinf(phase)
+            }
+
             frames.append(
                 WaterfallFrame(
                     index: frameIndex,
@@ -175,7 +192,9 @@ final class FT8SoftSymbolEnsembleExtractorTests: XCTestCase {
                     intensities: decibels.map {
                         min(max(($0 - noise) / 70, 0), 1)
                     },
-                    noiseFloorDB: noise
+                    noiseFloorDB: noise,
+                    real: real,
+                    imaginary: imaginary
                 )
             )
         }

@@ -533,6 +533,76 @@ public struct FT8CandidateGuidedFineDecoder:
                         + "parity=\(best.ldpc.parityPassed) "
                         + "crc=\(best.ldpc.crcPassed)"
                 )
+
+                // Diagnostic checkpoint: a syndrome-zero / CRC-false result
+                // is already a valid (174,91) LDPC codeword. Log the exact
+                // FT8 77+14 information boundary before changing DSP/OSD
+                // search behaviour again.
+                if best.ldpc.parityPassed,
+                   !best.ldpc.crcPassed,
+                   best.ldpc.informationBits.count == 91 {
+                    let information = best.ldpc.informationBits.bits
+                    let payloadBits = Array(information.prefix(77))
+                    let receivedCRCBits = Array(information[77..<91])
+                    let payload = FT8BitBuffer(payloadBits)
+
+                    var receivedCRC: UInt16 = 0
+                    for bit in receivedCRCBits {
+                        receivedCRC =
+                            (receivedCRC << 1) | UInt16(bit)
+                    }
+
+                    if let expectedCRC =
+                        try? FT8CRC.checksum(payload: payload) {
+                        let xor = expectedCRC ^ receivedCRC
+
+                        let payloadText =
+                            payloadBits.map(String.init).joined()
+                        let receivedText =
+                            receivedCRCBits.map(String.init).joined()
+
+                        let expectedText = (0..<14).map { offset in
+                            let shift = 13 - offset
+                            return String(
+                                (expectedCRC >> UInt16(shift)) & 1
+                            )
+                        }.joined()
+
+                        print(
+                            "[FineDecode]   CRC boundary diagnostic:"
+                        )
+                        print(
+                            "[FineDecode]     payload77="
+                                + payloadText
+                        )
+                        print(
+                            "[FineDecode]     receivedCRC14="
+                                + receivedText
+                                + String(
+                                    format: " (0x%04X)",
+                                    receivedCRC
+                                )
+                        )
+                        print(
+                            "[FineDecode]     expectedCRC14="
+                                + expectedText
+                                + String(
+                                    format: " (0x%04X)",
+                                    expectedCRC
+                                )
+                        )
+                        print(
+                            "[FineDecode]     crcXor="
+                                + String(
+                                    format: "0x%04X",
+                                    xor
+                                )
+                                + " differingBits="
+                                + "\(xor.nonzeroBitCount)"
+                        )
+                    }
+                }
+
                 bestDiagnostics.append(
                     diagnostic(
                         seed: seed,
