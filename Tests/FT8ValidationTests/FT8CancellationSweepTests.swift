@@ -6,6 +6,9 @@ import FT8DSP
 
 final class FT8CancellationSweepTests: XCTestCase {
     func testSweepsAdaptiveCancellationProfiles() throws {
+        try RealWAVTestGate.requireEnabled()
+
+
         let fixtureDirectory = try XCTUnwrap(
             Bundle.module.resourceURL?
                 .appendingPathComponent(

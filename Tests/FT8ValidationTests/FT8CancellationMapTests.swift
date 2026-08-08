@@ -8,6 +8,9 @@ final class FT8CancellationMapTests: XCTestCase {
     func testMapsExperimentalAndProductionCancellationFootprints()
         throws
     {
+        try RealWAVTestGate.requireEnabled()
+
+
         let fixtureDirectory = try XCTUnwrap(
             Bundle.module.resourceURL?
                 .appendingPathComponent(

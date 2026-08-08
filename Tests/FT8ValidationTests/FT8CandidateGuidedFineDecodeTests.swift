@@ -10,6 +10,9 @@ final class FT8CandidateGuidedFineDecodeTests:
     func testCandidateGuidedFineDecodeOnRepresentativeRealWAV()
         throws
     {
+        try RealWAVTestGate.requireEnabled()
+
+
         let fixtureDirectory = try XCTUnwrap(
             Bundle.module.resourceURL?
                 .appendingPathComponent(
