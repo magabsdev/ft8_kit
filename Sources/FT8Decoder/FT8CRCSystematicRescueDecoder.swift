@@ -41,6 +41,8 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
     private struct SearchState: Sendable {
         let flippedPayloadBitIndices: [Int]
         let lastSearchOffset: Int
+        let payloadWeightedDistance: Float
+        let payloadWeightedDistanceIncrease: Float
         let weightedDistance: Float
         let weightedDistanceIncrease: Float
         let codewordBitChanges: Int
@@ -79,11 +81,14 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
         )
 
         let basePayload = Array(startingResult.informationBits.bits.prefix(77))
+        let payloadHard = Array(hard.prefix(77))
+        let payloadReliability = Array(reliability.prefix(77))
+        let startingPayloadDistance = weightedDistance(
+            basePayload,
+            hard: payloadHard,
+            reliability: payloadReliability
+        )
 
-        // Search the least-reliable payload decisions first, but use a much
-        // broader bounded pool than the previous fixed 14-bit / order-3 scan.
-        // Every trial is projected back onto the complete CRC(91,77)+LDPC(174,91)
-        // code before it is scored against the channel LLRs.
         let searchPositions = Array(
             (0..<77)
                 .sorted {
@@ -103,17 +108,25 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
             flipped.map(String.init).joined(separator: ",")
         }
 
-        func evaluate(_ flipped: [Int]) -> Candidate? {
-            guard tested < configuration.maximumHypotheses else { return nil }
-
-            let flipKey = key(for: flipped)
-            guard seenFlipSets.insert(flipKey).inserted else { return nil }
-            tested += 1
-
+        func projected(_ flipped: [Int]) -> (
+            information: FT8BitBuffer,
+            codeword: [UInt8],
+            codewordBitChanges: Int,
+            weightedDistance: Float,
+            weightedDistanceIncrease: Float,
+            payloadWeightedDistance: Float,
+            payloadWeightedDistanceIncrease: Float
+        )? {
             var payloadBits = basePayload
             for index in flipped {
                 payloadBits[index] ^= 1
             }
+
+            let payloadDistance = weightedDistance(
+                payloadBits,
+                hard: payloadHard,
+                reliability: payloadReliability
+            )
 
             let payload = FT8BitBuffer(payloadBits)
             guard let information = try? FT8CRC.append(to: payload) else {
@@ -129,30 +142,46 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
                 }
             }
 
-            guard changes <= configuration.maximumCodewordBitChanges else {
-                return nil
-            }
-
             let distance = weightedDistance(
                 codeword,
                 hard: hard,
                 reliability: reliability
             )
-            let increase = distance - startingDistance
 
-            guard increase <= configuration.maximumWeightedDistanceIncrease else {
+            return (
+                information,
+                codeword,
+                changes,
+                distance,
+                distance - startingDistance,
+                payloadDistance,
+                payloadDistance - startingPayloadDistance
+            )
+        }
+
+        func evaluate(_ flipped: [Int]) -> Candidate? {
+            guard tested < configuration.maximumHypotheses else { return nil }
+
+            let flipKey = key(for: flipped)
+            guard seenFlipSets.insert(flipKey).inserted else { return nil }
+            tested += 1
+
+            guard let trial = projected(flipped) else { return nil }
+
+            guard trial.codewordBitChanges <= configuration.maximumCodewordBitChanges,
+                  trial.weightedDistanceIncrease <= configuration.maximumWeightedDistanceIncrease else {
                 return nil
             }
 
-            let codewordBuffer = FT8BitBuffer(codeword)
+            let codewordBuffer = FT8BitBuffer(trial.codeword)
             guard FT8LDPCMatrix.isValid(codewordBuffer),
-                  FT8CRC.validate(information) else {
+                  FT8CRC.validate(trial.information) else {
                 return nil
             }
 
             let ldpc = FT8LDPCResult(
                 codeword: codewordBuffer,
-                informationBits: information,
+                informationBits: trial.information,
                 iterations: 0,
                 parityPassed: true,
                 crcPassed: true,
@@ -162,9 +191,26 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
             return Candidate(
                 ldpc: ldpc,
                 flippedPayloadBitIndices: flipped,
-                codewordBitChanges: changes,
-                weightedDistance: distance,
-                weightedDistanceIncrease: increase
+                codewordBitChanges: trial.codewordBitChanges,
+                weightedDistance: trial.weightedDistance,
+                weightedDistanceIncrease: trial.weightedDistanceIncrease
+            )
+        }
+
+        func makeState(
+            flipped: [Int],
+            lastSearchOffset: Int
+        ) -> SearchState? {
+            guard let trial = projected(flipped) else { return nil }
+
+            return SearchState(
+                flippedPayloadBitIndices: flipped,
+                lastSearchOffset: lastSearchOffset,
+                payloadWeightedDistance: trial.payloadWeightedDistance,
+                payloadWeightedDistanceIncrease: trial.payloadWeightedDistanceIncrease,
+                weightedDistance: trial.weightedDistance,
+                weightedDistanceIncrease: trial.weightedDistanceIncrease,
+                codewordBitChanges: trial.codewordBitChanges
             )
         }
 
@@ -172,7 +218,6 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
             guard let candidate else { return }
             retained.append(candidate)
 
-            // Keep the in-memory list bounded throughout the search.
             if retained.count > configuration.maximumResults * 8 {
                 retained = Array(
                     retained
@@ -182,8 +227,6 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
             }
         }
 
-        // Order zero is important: the payload may already be correct while BP
-        // has selected the wrong CRC/parity completion.
         record(evaluate([]))
 
         guard configuration.maximumFlipOrder > 0,
@@ -195,22 +238,18 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
             )
         }
 
-        // Order one is evaluated exhaustively over the bounded payload pool.
         var beam: [SearchState] = []
         for (offset, payloadIndex) in searchPositions.enumerated() {
             guard tested < configuration.maximumHypotheses else { break }
 
-            if let candidate = evaluate([payloadIndex]) {
-                record(candidate)
-                beam.append(
-                    SearchState(
-                        flippedPayloadBitIndices: [payloadIndex],
-                        lastSearchOffset: offset,
-                        weightedDistance: candidate.weightedDistance,
-                        weightedDistanceIncrease: candidate.weightedDistanceIncrease,
-                        codewordBitChanges: candidate.codewordBitChanges
-                    )
-                )
+            let flipped = [payloadIndex]
+            record(evaluate(flipped))
+
+            if let state = makeState(
+                flipped: flipped,
+                lastSearchOffset: offset
+            ) {
+                beam.append(state)
             }
         }
 
@@ -220,9 +259,6 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
                 .prefix(configuration.beamWidth)
         )
 
-        // For orders 2...N, only expand the most channel-plausible states.
-        // This is a bounded best-first/beam approximation to a much wider OSD
-        // search, but it stays entirely inside the valid FT8 cascaded code.
         if configuration.maximumFlipOrder >= 2 {
             for order in 2...configuration.maximumFlipOrder {
                 guard !beam.isEmpty,
@@ -247,17 +283,13 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
 
                         guard flipped.count == order else { continue }
 
-                        if let candidate = evaluate(flipped) {
-                            record(candidate)
-                            nextBeam.append(
-                                SearchState(
-                                    flippedPayloadBitIndices: flipped,
-                                    lastSearchOffset: offset,
-                                    weightedDistance: candidate.weightedDistance,
-                                    weightedDistanceIncrease: candidate.weightedDistanceIncrease,
-                                    codewordBitChanges: candidate.codewordBitChanges
-                                )
-                            )
+                        record(evaluate(flipped))
+
+                        if let next = makeState(
+                            flipped: flipped,
+                            lastSearchOffset: offset
+                        ) {
+                            nextBeam.append(next)
                         }
                     }
 
@@ -302,6 +334,12 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
         _ lhs: SearchState,
         _ rhs: SearchState
     ) -> Bool {
+        if lhs.payloadWeightedDistance != rhs.payloadWeightedDistance {
+            return lhs.payloadWeightedDistance < rhs.payloadWeightedDistance
+        }
+        if lhs.payloadWeightedDistanceIncrease != rhs.payloadWeightedDistanceIncrease {
+            return lhs.payloadWeightedDistanceIncrease < rhs.payloadWeightedDistanceIncrease
+        }
         if lhs.weightedDistance != rhs.weightedDistance {
             return lhs.weightedDistance < rhs.weightedDistance
         }
