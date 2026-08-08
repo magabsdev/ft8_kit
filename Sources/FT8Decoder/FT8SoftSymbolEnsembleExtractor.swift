@@ -41,14 +41,14 @@ public struct FT8SoftSymbolEnsembleExtractor: Sendable {
 
     public static let productionProfiles: [FT8SoftSymbolProfile] = [
         FT8SoftSymbolProfile(
-            name: "precise",
+            name: "wsjtx-amplitude",
             configuration: SoftSymbolConfiguration(
                 integrationRadius: 0,
                 timeIntegrationRadius: 0,
                 minimumObservationsPerSymbol: 1,
                 llrScale: 1,
                 llrLimit: 24,
-                metricMode: .maxLog
+                metricMode: .wsjtxNormalizedMaxAmplitude
             )
         ),
         FT8SoftSymbolProfile(

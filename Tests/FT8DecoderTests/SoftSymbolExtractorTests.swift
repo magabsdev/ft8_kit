@@ -196,6 +196,59 @@ final class SoftSymbolExtractorTests: XCTestCase {
         XCTAssertEqual(extracted.hardBits, expected)
     }
 
+    func testWSJTXNormalizedAmplitudeMetricPreservesSyntheticCodeword() throws {
+        let text = "CQ WSJTX"
+        let tones = try FT8Encoder.encode(text: text)
+        let expected = try FT8Encoder.encodeLDPC(
+            FT8CRC.append(to: FT8MessageCodec.pack(text))
+        )
+        let spectrogram = makeSpectrogram(
+            tones: tones,
+            startTime: 0.4,
+            baseFrequency: 1_000
+        )
+        let candidate = FT8Candidate(
+            startTime: 0.4,
+            frequency: 1_000,
+            syncScore: 1,
+            snrDB: 30,
+            confidence: 1
+        )
+
+        let extractor = SoftSymbolExtractor(
+            configuration: SoftSymbolConfiguration(
+                integrationRadius: 0,
+                timeIntegrationRadius: 0,
+                llrLimit: 24,
+                metricMode: .wsjtxNormalizedMaxAmplitude
+            )
+        )
+        let extracted = try extractor.extract(
+            from: spectrogram,
+            candidate: candidate
+        )
+
+        XCTAssertEqual(extracted.hardBits, expected)
+
+        let values = extracted.logLikelihoodRatios
+        let count = Float(values.count)
+        let mean = values.reduce(Float.zero, +) / count
+        let meanSquare = values.reduce(Float.zero) {
+            $0 + $1 * $1
+        } / count
+        let sigma = sqrtf(max(meanSquare - mean * mean, 0))
+        XCTAssertEqual(sigma, 2.83, accuracy: 0.03)
+    }
+
+    func testProductionEnsembleStartsWithWSJTXAmplitudeProfile() {
+        let profile = FT8SoftSymbolEnsembleExtractor.productionProfiles.first
+        XCTAssertEqual(profile?.name, "wsjtx-amplitude")
+        XCTAssertEqual(
+            profile?.configuration.metricMode,
+            .wsjtxNormalizedMaxAmplitude
+        )
+    }
+
     func testRejectsEmptySpectrogram() {
         let empty = Spectrogram(
             frames: [],

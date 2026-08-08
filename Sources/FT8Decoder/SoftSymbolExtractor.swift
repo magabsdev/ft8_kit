@@ -11,6 +11,10 @@ public enum SoftSymbolError: Error, Equatable, Sendable {
 public enum SoftSymbolMetricMode: String, Equatable, Sendable {
     case maxLog
     case logMAP
+
+    // WSJT-X FT8 pass-1 metric: max compatible tone amplitude
+    // difference, normalized across all 174 metrics.
+    case wsjtxNormalizedMaxAmplitude
 }
 
 public struct SoftSymbolConfiguration: Equatable, Sendable {
@@ -120,16 +124,27 @@ public struct SoftSymbolExtractor: Sendable {
                     toneMetricsDB: metrics
                 )
 
+                let scaledLLR: Float
+                if configuration.metricMode == .wsjtxNormalizedMaxAmplitude {
+                    scaledLLR = llr
+                } else {
+                    scaledLLR = llr * configuration.llrScale
+                }
+
                 llrs.append(
                     min(
                         max(
-                            llr * configuration.llrScale,
+                            scaledLLR,
                             -configuration.llrLimit
                         ),
                         configuration.llrLimit
                     )
                 )
             }
+        }
+
+        if configuration.metricMode == .wsjtxNormalizedMaxAmplitude {
+            llrs = normalizeWSJTXBitMetrics(llrs)
         }
 
         return FT8SoftSymbolExtraction(
@@ -250,6 +265,32 @@ public struct SoftSymbolExtractor: Sendable {
 
             return zero - one
 
+        case .wsjtxNormalizedMaxAmplitude:
+            // WSJT-X ft8b.f90 uses abs(FFT) amplitudes for its nsym=1
+            // bit metric. FT8Kit stores interpolated dB power here, so
+            // convert back to amplitude before taking compatible maxima.
+            //
+            // WSJT-X uses positive => bit 1. FT8Kit uses positive => bit 0,
+            // hence the deliberately reversed sign below.
+            var zero = -Float.infinity
+            var one = -Float.infinity
+
+            for tone in 0..<8 {
+                let bits = FT8ToneMapping.bits(forTone: tone)
+                let bit = bitIndex == 0
+                    ? bits.0
+                    : (bitIndex == 1 ? bits.1 : bits.2)
+                let amplitude = powf(10, toneMetricsDB[tone] / 20)
+
+                if bit == 0 {
+                    zero = max(zero, amplitude)
+                } else {
+                    one = max(one, amplitude)
+                }
+            }
+
+            return zero - one
+
         case .logMAP:
             // Preserve likelihood contribution from every compatible tone.
             // dB power is converted to natural-log space before log-sum-exp.
@@ -275,6 +316,40 @@ public struct SoftSymbolExtractor: Sendable {
             }
 
             return logSumExp(zero) - logSumExp(one)
+        }
+    }
+
+    // Port of WSJT-X normalizebmet(), followed by its FT8
+    // scalefac=2.83. Unlike ordinary profiles this scaling is global
+    // across the complete 174-bit metric vector.
+    private func normalizeWSJTXBitMetrics(_ values: [Float]) -> [Float] {
+        guard !values.isEmpty else {
+            return values
+        }
+
+        let count = Float(values.count)
+        let mean = values.reduce(Float.zero, +) / count
+        let meanSquare = values.reduce(Float.zero) {
+            $0 + $1 * $1
+        } / count
+        let variance = meanSquare - mean * mean
+
+        let sigma: Float
+        if variance > 0 {
+            sigma = sqrtf(variance)
+        } else {
+            sigma = sqrtf(max(meanSquare, 0))
+        }
+
+        guard sigma.isFinite, sigma > Float.leastNonzeroMagnitude else {
+            return values.map { _ in 0 }
+        }
+
+        return values.map {
+            min(
+                max(($0 / sigma) * 2.83, -configuration.llrLimit),
+                configuration.llrLimit
+            )
         }
     }
 
