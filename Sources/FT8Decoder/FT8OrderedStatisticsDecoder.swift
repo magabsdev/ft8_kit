@@ -86,10 +86,16 @@ public struct FT8OrderedStatisticsDecoder: Sendable {
             throw FT8LDPCError.invalidLLRCount(llr.count)
         }
 
-        let k = FT8LDPCMatrix.informationBitCount
+        // WSJT-X osd174_91 uses k = Keff, not the full 91-bit LDPC
+        // information dimension. The remaining 91-Keff CRC bits are
+        // cascaded into the LDPC generator and are therefore not independent
+        // MRB coordinates.
+        let k = configuration.effectiveDimension
         let n = FT8LDPCMatrix.codewordBitCount
 
-        var generator = Self.generatorBasis()
+        var generator = Self.wsjtxGeneratorBasis(
+            effectiveDimension: k
+        )
         precondition(generator.count == k)
 
         let reliabilityOrder = llr.indices.sorted {
@@ -287,79 +293,99 @@ public struct FT8OrderedStatisticsDecoder: Sendable {
         return value
     }
 
-    /// Construct a 91-row basis for null(H) over GF(2).
-    private static func generatorBasis() -> [[UInt8]] {
-        let rows = FT8LDPCMatrix.checkCount
-        let columns = FT8LDPCMatrix.codewordBitCount
-
-        var h = Array(
-            repeating: Array(repeating: UInt8(0), count: columns),
-            count: rows
-        )
-
-        for (row, variables) in FT8LDPCMatrix.checkToVariables.enumerated() {
-            for column in variables {
-                h[row][column] = 1
-            }
-        }
-
-        var pivotColumns: [Int] = []
-        var pivotRow = 0
-
-        for column in 0..<columns where pivotRow < rows {
-            guard let row = (pivotRow..<rows).first(
-                where: { h[$0][column] == 1 }
-            ) else {
-                continue
-            }
-
-            if row != pivotRow {
-                h.swapAt(row, pivotRow)
-            }
-
-            for other in 0..<rows where other != pivotRow {
-                if h[other][column] == 1 {
-                    for c in column..<columns {
-                        h[other][c] ^= h[pivotRow][c]
-                    }
-                }
-            }
-
-            pivotColumns.append(column)
-            pivotRow += 1
-        }
-
-        let pivotSet = Set(pivotColumns)
-        let freeColumns = (0..<columns).filter { !pivotSet.contains($0) }
-
-        precondition(
-            freeColumns.count == FT8LDPCMatrix.informationBitCount,
-            "FT8 parity-check matrix must have dimension 91"
-        )
+    /// Build the same Keff-dependent cascaded generator used by
+    /// WSJT-X `osd174_91.f90`.
+    ///
+    /// For Keff = 77 + p1:
+    /// - payload bits 0...76 are independent;
+    /// - CRC bits 77..<Keff are independent detection coordinates;
+    /// - CRC bits Keff..<91 are generated from the payload and cascaded into
+    ///   the LDPC code.
+    ///
+    /// This is materially different from taking an arbitrary Keff-row slice
+    /// of the (174,91) LDPC nullspace. The latter changes the code searched by
+    /// OSD and does not reproduce WSJT-X Keff semantics.
+    static func wsjtxGeneratorBasis(
+        effectiveDimension: Int
+    ) -> [[UInt8]] {
+        let k = min(91, max(77, effectiveDimension))
+        let n = FT8LDPCMatrix.codewordBitCount
 
         var basis: [[UInt8]] = []
-        basis.reserveCapacity(freeColumns.count)
+        basis.reserveCapacity(k)
 
-        for free in freeColumns {
-            var vector = Array(repeating: UInt8(0), count: columns)
-            vector[free] = 1
+        for row in 0..<k {
+            var information = Array(
+                repeating: UInt8(0),
+                count: FT8LDPCMatrix.informationBitCount
+            )
+            information[row] = 1
 
-            for row in stride(from: pivotColumns.count - 1, through: 0, by: -1) {
-                let pivot = pivotColumns[row]
-                var sum: UInt8 = 0
+            if row < 77 {
+                let payload = FT8BitBuffer(
+                    Array(information.prefix(77))
+                )
 
-                if pivot + 1 < columns {
-                    for column in (pivot + 1)..<columns where h[row][column] == 1 {
-                        sum ^= vector[column]
-                    }
+                guard let withCRC = try? FT8CRC.append(to: payload) else {
+                    preconditionFailure(
+                        "FT8 CRC generation failed while building WSJT-X OSD basis"
+                    )
                 }
 
-                vector[pivot] = sum
+                // WSJT-X computes all 14 CRC bits, then clears the first
+                // Keff-77 CRC positions. Those cleared positions are the CRC
+                // bits used as independent OSD/error-detection coordinates;
+                // the suffix remains cascaded into the code.
+                for index in 77..<91 {
+                    information[index] = withCRC[index]
+                }
+                if k > 77 {
+                    for index in 77..<k {
+                        information[index] = 0
+                    }
+                }
             }
 
-            basis.append(vector)
+            let codeword = encodeSystematicInformation(information)
+            precondition(codeword.count == n)
+            basis.append(codeword)
         }
 
         return basis
     }
+
+    /// FT8's (174,91) parity-check matrix is stored in systematic form
+    /// [A | I]. Therefore each of the 83 parity bits is the XOR of the
+    /// information-bit positions listed in the corresponding check row.
+    ///
+    /// This matches WSJT-X `encode174_91_nocrc`: CRC handling is deliberately
+    /// performed by `wsjtxGeneratorBasis`, while this routine performs only
+    /// the LDPC encoding.
+    private static func encodeSystematicInformation(
+        _ information: [UInt8]
+    ) -> [UInt8] {
+        precondition(
+            information.count == FT8LDPCMatrix.informationBitCount
+        )
+
+        var codeword = information
+        codeword.reserveCapacity(FT8LDPCMatrix.codewordBitCount)
+
+        for variables in FT8LDPCMatrix.checkToVariables {
+            var parity: UInt8 = 0
+
+            for variable in variables
+            where variable < FT8LDPCMatrix.informationBitCount {
+                parity ^= information[variable]
+            }
+
+            codeword.append(parity)
+        }
+
+        precondition(
+            codeword.count == FT8LDPCMatrix.codewordBitCount
+        )
+        return codeword
+    }
+
 }
