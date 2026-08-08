@@ -534,6 +534,77 @@ public struct FT8CandidateGuidedFineDecoder:
                         + "crc=\(best.ldpc.crcPassed)"
                 )
 
+                // CRC-directed systematic rescue: syndrome-zero / CRC-false
+                // means BP has landed on a valid LDPC codeword outside the
+                // complete FT8 CRC+LDPC code. Search only a bounded set of the
+                // least-reliable payload decisions before widening DSP/OSD.
+                if best.ldpc.parityPassed,
+                   !best.ldpc.crcPassed,
+                   best.ldpc.syndromeWeight == 0,
+                   !best.ldpc.isDegenerateZeroCodeword {
+                    let systematicRescuer =
+                        FT8CRCSystematicRescueDecoder()
+
+                    let rescueCandidates = try systematicRescuer.decode(
+                        logLikelihoodRatios:
+                            best.soft.logLikelihoodRatios,
+                        startingResult: best.ldpc
+                    )
+
+                    print(
+                        "[FineDecode]   CRC-directed rescue candidates="
+                            + "\(rescueCandidates.count)"
+                    )
+
+                    for (rescueIndex, rescue) in
+                        rescueCandidates.enumerated() {
+                        print(
+                            "[FineDecode]     rescue "
+                                + "\(rescueIndex + 1)/\(rescueCandidates.count) "
+                                + "payloadFlips="
+                                + "\(rescue.flippedPayloadBitIndices) "
+                                + "codewordChanges=\(rescue.codewordBitChanges) "
+                                + "distanceIncrease="
+                                + "\(rescue.weightedDistanceIncrease)"
+                        )
+
+                        let rescuedMessage: FT8DecodedMessage
+                        do {
+                            rescuedMessage = try messageDecoder.decode(
+                                rescue.ldpc,
+                                softSymbols: best.soft
+                            )
+                        } catch {
+                            print(
+                                "[FineDecode]       rescue unpack rejected: "
+                                    + String(reflecting: error)
+                            )
+                            continue
+                        }
+
+                        guard !excludingPayloads.contains(
+                            rescuedMessage.payload
+                        ) else {
+                            continue
+                        }
+
+                        decoded.append(
+                            FT8CompleteDecode(
+                                candidate: best.candidate,
+                                softSymbols: best.soft,
+                                ldpc: rescue.ldpc,
+                                decoded: rescuedMessage
+                            )
+                        )
+
+                        print(
+                            "[FineDecode]       CRC-directed rescue decoded: "
+                                + rescuedMessage.text
+                        )
+                        break
+                    }
+                }
+
                 // Diagnostic checkpoint: a syndrome-zero / CRC-false result
                 // is already a valid (174,91) LDPC codeword. Log the exact
                 // FT8 77+14 information boundary before changing DSP/OSD

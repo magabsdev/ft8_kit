@@ -1,0 +1,106 @@
+import XCTest
+import FT8Encoder
+import FT8Protocol
+@testable import FT8Decoder
+
+final class FT8CRCSystematicRescueDecoderTests: XCTestCase {
+    func testRecoversNearbyCRCValidCodewordFromSyndromeZeroCRCFailure() throws {
+        let trueInformation = try FT8CRC.append(
+            to: FT8MessageCodec.pack("CQ TEST")
+        )
+        let trueCodeword = try FT8Encoder.encodeLDPC(trueInformation)
+
+        let changedPayloadBit = 12
+        var wrongInformationBits = trueInformation.bits
+        wrongInformationBits[changedPayloadBit] ^= 1
+
+        let wrongCodeword = encodeSystematicInformation(wrongInformationBits)
+        let wrongInformation = FT8BitBuffer(wrongInformationBits)
+
+        XCTAssertTrue(FT8LDPCMatrix.isValid(FT8BitBuffer(wrongCodeword)))
+        XCTAssertFalse(FT8CRC.validate(wrongInformation))
+
+        let starting = FT8LDPCResult(
+            codeword: FT8BitBuffer(wrongCodeword),
+            informationBits: wrongInformation,
+            iterations: 0,
+            parityPassed: true,
+            crcPassed: false,
+            syndromeWeight: 0
+        )
+
+        var llr = trueCodeword.bits.map {
+            $0 == 0 ? Float(8) : Float(-8)
+        }
+        llr[changedPayloadBit] =
+            trueCodeword[changedPayloadBit] == 0 ? 0.05 : -0.05
+
+        let candidates = try FT8CRCSystematicRescueDecoder(
+            configuration: .init(
+                leastReliablePayloadBits: 8,
+                maximumFlipOrder: 2,
+                maximumHypotheses: 64,
+                maximumResults: 8,
+                maximumCodewordBitChanges: 40,
+                maximumWeightedDistanceIncrease: 100
+            )
+        ).decode(
+            logLikelihoodRatios: llr,
+            startingResult: starting
+        )
+
+        let recovered = try XCTUnwrap(
+            candidates.first { $0.ldpc.codeword == trueCodeword }
+        )
+
+        XCTAssertEqual(recovered.flippedPayloadBitIndices, [changedPayloadBit])
+        XCTAssertTrue(recovered.ldpc.parityPassed)
+        XCTAssertTrue(recovered.ldpc.crcPassed)
+        XCTAssertEqual(recovered.ldpc.informationBits, trueInformation)
+    }
+
+    func testRejectsNonSyndromeZeroStartingResult() throws {
+        let information = try FT8CRC.append(
+            to: FT8MessageCodec.pack("CQ TEST")
+        )
+        let codeword = try FT8Encoder.encodeLDPC(information)
+
+        let invalidStart = FT8LDPCResult(
+            codeword: codeword,
+            informationBits: information,
+            iterations: 1,
+            parityPassed: false,
+            crcPassed: false,
+            syndromeWeight: 1
+        )
+
+        let llr = codeword.bits.map {
+            $0 == 0 ? Float(8) : Float(-8)
+        }
+
+        let candidates = try FT8CRCSystematicRescueDecoder()
+            .decode(
+                logLikelihoodRatios: llr,
+                startingResult: invalidStart
+            )
+
+        XCTAssertTrue(candidates.isEmpty)
+    }
+
+    private func encodeSystematicInformation(
+        _ information: [UInt8]
+    ) -> [UInt8] {
+        var codeword = information
+
+        for variables in FT8LDPCMatrix.checkToVariables {
+            var parity: UInt8 = 0
+            for variable in variables
+            where variable < FT8LDPCMatrix.informationBitCount {
+                parity ^= information[variable]
+            }
+            codeword.append(parity)
+        }
+
+        return codeword
+    }
+}
