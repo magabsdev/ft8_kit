@@ -19,3 +19,4 @@ DerivedData/
 /.checkpoint-backups/
 /.swiftpm/
 /.swiftpm/xcode/
+/output.txt
