@@ -329,9 +329,12 @@ public struct FT8CandidateGuidedFineDecoder:
             if !osdShortlist.isEmpty {
                 let osd = FT8OrderedStatisticsDecoder(
                     configuration: .init(
-                        order: 1,
+                        order: 2,
                         pivotSearchExtraColumns: 20,
-                        maximumOrderOnePatterns: 91
+                        maximumOrderOnePatterns: 32,
+                        maximumOrderTwoPatterns: 384,
+                        effectiveDimension: 77,
+                        maximumRetainedCandidates: 64
                     )
                 )
 

@@ -3,32 +3,45 @@ import FT8Protocol
 
 /// Bounded ordered-statistics decoder for the FT8 (174,91) LDPC code.
 ///
-/// This follows the structure of WSJT-X `osd174_91.f90`:
-/// 1. rank channel bits by reliability,
-/// 2. construct a most-reliable basis (MRB),
-/// 3. form the order-0 codeword from MRB hard decisions,
-/// 4. optionally test bounded order-1 MRB error patterns,
-/// 5. choose the minimum reliability-weighted-distance codeword,
-/// 6. accept it only when the FT8 CRC is valid.
-///
-/// The implementation derives a generator basis from FT8Kit's parity-check
-/// matrix so that the WSJT-X algorithm can be expressed without duplicating
-/// the generated FT8 matrix constants.
+/// This checkpoint moves the decoder closer to the WSJT-X hybrid BP/OSD
+/// structure by separating OSD candidate generation from final FT8 CRC
+/// acceptance, supporting Keff = 77...91, and adding a bounded order-2 search.
 public struct FT8OrderedStatisticsDecoder: Sendable {
     public struct Configuration: Equatable, Sendable {
         public var order: Int
         public var pivotSearchExtraColumns: Int
         public var maximumOrderOnePatterns: Int
+        public var maximumOrderTwoPatterns: Int
+        public var effectiveDimension: Int
+        public var maximumRetainedCandidates: Int
 
         public init(
-            order: Int = 1,
+            order: Int = 2,
             pivotSearchExtraColumns: Int = 20,
-            maximumOrderOnePatterns: Int = 91
+            maximumOrderOnePatterns: Int = 91,
+            maximumOrderTwoPatterns: Int = 384,
+            effectiveDimension: Int = 77,
+            maximumRetainedCandidates: Int = 64
         ) {
-            self.order = order
-            self.pivotSearchExtraColumns = pivotSearchExtraColumns
-            self.maximumOrderOnePatterns = maximumOrderOnePatterns
+            self.order = min(2, max(0, order))
+            self.pivotSearchExtraColumns = max(0, pivotSearchExtraColumns)
+            self.maximumOrderOnePatterns = max(0, maximumOrderOnePatterns)
+            self.maximumOrderTwoPatterns = max(0, maximumOrderTwoPatterns)
+            self.effectiveDimension = min(91, max(77, effectiveDimension))
+            self.maximumRetainedCandidates = max(1, maximumRetainedCandidates)
         }
+
+        /// Number of CRC bits participating in the Keff screen.
+        public var effectiveCRCBitCount: Int {
+            effectiveDimension - 77
+        }
+    }
+
+    private struct Candidate {
+        let originalOrder: [UInt8]
+        let distance: Float
+        let crcPrefixMatched: Bool
+        let fullCRCPassed: Bool
     }
 
     public var configuration: Configuration
@@ -37,9 +50,38 @@ public struct FT8OrderedStatisticsDecoder: Sendable {
         self.configuration = configuration
     }
 
+    /// Decode using bounded OSD. Keff is used while generating/ranking
+    /// candidates; a result is returned only after the full 14-bit FT8 CRC
+    /// succeeds. This prevents partial CRC checks from becoming message
+    /// acceptance checks.
     public func decode(
         logLikelihoodRatios llr: [Float]
     ) throws -> FT8LDPCResult? {
+        let candidates = try generateCandidates(logLikelihoodRatios: llr)
+
+        guard let accepted = candidates
+            .filter(\.fullCRCPassed)
+            .min(by: { $0.distance < $1.distance })
+        else {
+            return nil
+        }
+
+        let codeword = FT8BitBuffer(accepted.originalOrder)
+        let information = FT8BitBuffer(Array(accepted.originalOrder.prefix(91)))
+
+        return FT8LDPCResult(
+            codeword: codeword,
+            informationBits: information,
+            iterations: 0,
+            parityPassed: true,
+            crcPassed: true,
+            syndromeWeight: 0
+        )
+    }
+
+    private func generateCandidates(
+        logLikelihoodRatios llr: [Float]
+    ) throws -> [Candidate] {
         guard llr.count == FT8LDPCMatrix.codewordBitCount else {
             throw FT8LDPCError.invalidLLRCount(llr.count)
         }
@@ -59,8 +101,9 @@ public struct FT8OrderedStatisticsDecoder: Sendable {
             indices.map { row[$0] }
         }
 
-        // WSJT-X searches a small distance beyond the diagonal for a pivot.
-        // Keep the same bounded MRB construction.
+        // Construct a most-reliable basis. As in the earlier checkpoint, the
+        // pivot search is deliberately bounded rather than performing an
+        // unconstrained column search.
         for diagonal in 0..<k {
             let searchEnd = min(
                 n - 1,
@@ -91,76 +134,129 @@ public struct FT8OrderedStatisticsDecoder: Sendable {
 
         let reorderedHard = indices.map { llr[$0] < 0 ? UInt8(1) : UInt8(0) }
         let reorderedReliability = indices.map { abs(llr[$0]) }
+        let baseMessage = Array(reorderedHard.prefix(k))
 
-        var message = Array(reorderedHard.prefix(k))
-        var best = encode(message, using: generator)
-        var bestDistance = weightedDistance(
-            best,
-            reorderedHard,
-            reorderedReliability
+        // Least-reliable MRB positions are the bounded OSD search set.
+        let leastReliableMRB = Array(
+            (0..<k).sorted {
+                reorderedReliability[$0] < reorderedReliability[$1]
+            }
         )
 
-        if configuration.order >= 1 {
-            // Order-1 is deliberately bounded. WSJT-X also treats OSD depth
-            // as a bounded search rather than an unconstrained bit-flip pass.
-            let orderOneIndices = (0..<k)
-                .sorted {
-                    reorderedReliability[$0] < reorderedReliability[$1]
+        var retained: [Candidate] = []
+        retained.reserveCapacity(configuration.maximumRetainedCandidates)
+
+        func consider(_ message: [UInt8]) {
+            let reorderedCodeword = encode(message, using: generator)
+            let distance = weightedDistance(
+                reorderedCodeword,
+                reorderedHard,
+                reorderedReliability
+            )
+
+            var originalOrder = Array(repeating: UInt8(0), count: n)
+            for reorderedIndex in 0..<n {
+                originalOrder[indices[reorderedIndex]] = reorderedCodeword[reorderedIndex]
+            }
+
+            // OSD must only rank actual LDPC codewords. Also reject the
+            // all-zero attractor before CRC handling.
+            let codeword = FT8BitBuffer(originalOrder)
+            guard codeword.bits.contains(1), FT8LDPCMatrix.isValid(codeword) else {
+                return
+            }
+
+            let information = FT8BitBuffer(Array(originalOrder.prefix(k)))
+            let prefixMatched = Self.crcPrefixMatches(
+                informationBits: information,
+                effectiveDimension: configuration.effectiveDimension
+            )
+
+            // Keff=77 intentionally imposes no CRC-bit screen. At larger Keff
+            // retain only candidates agreeing with the corresponding CRC prefix.
+            guard prefixMatched else { return }
+
+            let candidate = Candidate(
+                originalOrder: originalOrder,
+                distance: distance,
+                crcPrefixMatched: true,
+                fullCRCPassed: FT8CRC.validate(information)
+            )
+
+            retained.append(candidate)
+            retained.sort { lhs, rhs in
+                if lhs.fullCRCPassed != rhs.fullCRCPassed {
+                    return lhs.fullCRCPassed && !rhs.fullCRCPassed
                 }
-                .prefix(configuration.maximumOrderOnePatterns)
-
-            for bit in orderOneIndices {
-                message[bit] ^= 1
-                let candidate = encode(message, using: generator)
-                let distance = weightedDistance(
-                    candidate,
-                    reorderedHard,
-                    reorderedReliability
-                )
-
-                if distance < bestDistance {
-                    best = candidate
-                    bestDistance = distance
-                }
-
-                message[bit] ^= 1
+                return lhs.distance < rhs.distance
+            }
+            if retained.count > configuration.maximumRetainedCandidates {
+                retained.removeLast(retained.count - configuration.maximumRetainedCandidates)
             }
         }
 
-        var originalOrder = Array(repeating: UInt8(0), count: n)
-        for reorderedIndex in 0..<n {
-            originalOrder[indices[reorderedIndex]] = best[reorderedIndex]
+        // Order 0.
+        consider(baseMessage)
+
+        // Order 1.
+        if configuration.order >= 1 {
+            for bit in leastReliableMRB.prefix(configuration.maximumOrderOnePatterns) {
+                var message = baseMessage
+                message[bit] ^= 1
+                consider(message)
+            }
         }
 
-        let codeword = FT8BitBuffer(originalOrder)
+        // Order 2. Use the least-reliable subset and a hard global bound so a
+        // real-time decode cannot explode combinatorially.
+        if configuration.order >= 2 && configuration.maximumOrderTwoPatterns > 0 {
+            let poolCount = min(
+                leastReliableMRB.count,
+                max(2, configuration.maximumOrderOnePatterns)
+            )
+            let pool = Array(leastReliableMRB.prefix(poolCount))
+            var tested = 0
 
-        // The all-zero word belongs to the LDPC code and can pass the FT8 CRC,
-        // but it represents no FT8 message. Do not let OSD terminate on this
-        // trivial attractor; continue with other reliability snapshots instead.
-        guard codeword.bits.contains(1) else {
-            return nil
+            outer: for first in 0..<pool.count {
+                guard first + 1 < pool.count else { break }
+                for second in (first + 1)..<pool.count {
+                    var message = baseMessage
+                    message[pool[first]] ^= 1
+                    message[pool[second]] ^= 1
+                    consider(message)
+                    tested += 1
+                    if tested >= configuration.maximumOrderTwoPatterns {
+                        break outer
+                    }
+                }
+            }
         }
 
-        guard FT8LDPCMatrix.isValid(codeword) else {
-            return nil
+        return retained
+    }
+
+    /// WSJT-X Keff semantics for the CRC portion of the 91 information bits.
+    /// Keff=77 checks no CRC bits; Keff=91 checks all 14 CRC bits.
+    public static func crcPrefixMatches(
+        informationBits: FT8BitBuffer,
+        effectiveDimension: Int
+    ) -> Bool {
+        guard informationBits.count == 91 else { return false }
+
+        let keff = min(91, max(77, effectiveDimension))
+        let crcBitsToCheck = keff - 77
+        guard crcBitsToCheck > 0 else { return true }
+
+        let payload = FT8BitBuffer(Array(informationBits.bits.prefix(77)))
+        guard let expected = try? FT8CRC.append(to: payload) else { return false }
+
+        for offset in 0..<crcBitsToCheck {
+            let index = 77 + offset
+            if informationBits[index] != expected[index] {
+                return false
+            }
         }
-
-        let information = FT8BitBuffer(
-            Array(originalOrder.prefix(k))
-        )
-
-        guard FT8CRC.validate(information) else {
-            return nil
-        }
-
-        return FT8LDPCResult(
-            codeword: codeword,
-            informationBits: information,
-            iterations: 0,
-            parityPassed: true,
-            crcPassed: true,
-            syndromeWeight: 0
-        )
+        return true
     }
 
     private func encode(
@@ -185,11 +281,9 @@ public struct FT8OrderedStatisticsDecoder: Sendable {
         _ reliability: [Float]
     ) -> Float {
         var value: Float = 0
-
         for index in codeword.indices where codeword[index] != hard[index] {
             value += reliability[index]
         }
-
         return value
     }
 
