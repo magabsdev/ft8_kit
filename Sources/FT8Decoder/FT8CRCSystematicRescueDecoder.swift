@@ -9,21 +9,24 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
         public var maximumResults: Int
         public var maximumCodewordBitChanges: Int
         public var maximumWeightedDistanceIncrease: Float
+        public var beamWidth: Int
 
         public init(
-            leastReliablePayloadBits: Int = 14,
-            maximumFlipOrder: Int = 3,
-            maximumHypotheses: Int = 512,
-            maximumResults: Int = 8,
-            maximumCodewordBitChanges: Int = 28,
-            maximumWeightedDistanceIncrease: Float = 12
+            leastReliablePayloadBits: Int = 32,
+            maximumFlipOrder: Int = 5,
+            maximumHypotheses: Int = 4096,
+            maximumResults: Int = 12,
+            maximumCodewordBitChanges: Int = 80,
+            maximumWeightedDistanceIncrease: Float = 40,
+            beamWidth: Int = 96
         ) {
             self.leastReliablePayloadBits = min(77, max(1, leastReliablePayloadBits))
-            self.maximumFlipOrder = min(3, max(0, maximumFlipOrder))
+            self.maximumFlipOrder = min(5, max(0, maximumFlipOrder))
             self.maximumHypotheses = max(1, maximumHypotheses)
             self.maximumResults = max(1, maximumResults)
             self.maximumCodewordBitChanges = max(0, maximumCodewordBitChanges)
             self.maximumWeightedDistanceIncrease = max(0, maximumWeightedDistanceIncrease)
+            self.beamWidth = max(1, beamWidth)
         }
     }
 
@@ -33,6 +36,14 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
         public let codewordBitChanges: Int
         public let weightedDistance: Float
         public let weightedDistanceIncrease: Float
+    }
+
+    private struct SearchState: Sendable {
+        let flippedPayloadBitIndices: [Int]
+        let lastSearchOffset: Int
+        let weightedDistance: Float
+        let weightedDistanceIncrease: Float
+        let codewordBitChanges: Int
     }
 
     public var configuration: Configuration
@@ -68,17 +79,35 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
         )
 
         let basePayload = Array(startingResult.informationBits.bits.prefix(77))
+
+        // Search the least-reliable payload decisions first, but use a much
+        // broader bounded pool than the previous fixed 14-bit / order-3 scan.
+        // Every trial is projected back onto the complete CRC(91,77)+LDPC(174,91)
+        // code before it is scored against the channel LLRs.
         let searchPositions = Array(
             (0..<77)
-                .sorted { reliability[$0] < reliability[$1] }
+                .sorted {
+                    if reliability[$0] != reliability[$1] {
+                        return reliability[$0] < reliability[$1]
+                    }
+                    return $0 < $1
+                }
                 .prefix(configuration.leastReliablePayloadBits)
         )
 
-        var results: [Candidate] = []
         var tested = 0
+        var retained: [Candidate] = []
+        var seenFlipSets = Set<String>()
 
-        func consider(_ flipped: [Int]) {
-            guard tested < configuration.maximumHypotheses else { return }
+        func key(for flipped: [Int]) -> String {
+            flipped.map(String.init).joined(separator: ",")
+        }
+
+        func evaluate(_ flipped: [Int]) -> Candidate? {
+            guard tested < configuration.maximumHypotheses else { return nil }
+
+            let flipKey = key(for: flipped)
+            guard seenFlipSets.insert(flipKey).inserted else { return nil }
             tested += 1
 
             var payloadBits = basePayload
@@ -88,19 +117,20 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
 
             let payload = FT8BitBuffer(payloadBits)
             guard let information = try? FT8CRC.append(to: payload) else {
-                return
+                return nil
             }
 
             let codeword = encodeSystematicInformation(information.bits)
-            guard codeword.contains(1) else { return }
+            guard codeword.contains(1) else { return nil }
 
             let changes = zip(codeword, startingCodeword).reduce(into: 0) { count, pair in
                 if pair.0 != pair.1 {
                     count += 1
                 }
             }
+
             guard changes <= configuration.maximumCodewordBitChanges else {
-                return
+                return nil
             }
 
             let distance = weightedDistance(
@@ -111,13 +141,13 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
             let increase = distance - startingDistance
 
             guard increase <= configuration.maximumWeightedDistanceIncrease else {
-                return
+                return nil
             }
 
             let codewordBuffer = FT8BitBuffer(codeword)
             guard FT8LDPCMatrix.isValid(codewordBuffer),
                   FT8CRC.validate(information) else {
-                return
+                return nil
             }
 
             let ldpc = FT8LDPCResult(
@@ -129,74 +159,160 @@ public struct FT8CRCSystematicRescueDecoder: Sendable {
                 syndromeWeight: 0
             )
 
-            results.append(
-                Candidate(
-                    ldpc: ldpc,
-                    flippedPayloadBitIndices: flipped,
-                    codewordBitChanges: changes,
-                    weightedDistance: distance,
-                    weightedDistanceIncrease: increase
-                )
+            return Candidate(
+                ldpc: ldpc,
+                flippedPayloadBitIndices: flipped,
+                codewordBitChanges: changes,
+                weightedDistance: distance,
+                weightedDistanceIncrease: increase
             )
         }
 
-        consider([])
+        func record(_ candidate: Candidate?) {
+            guard let candidate else { return }
+            retained.append(candidate)
 
-        if configuration.maximumFlipOrder >= 1 {
-            for first in searchPositions {
-                guard tested < configuration.maximumHypotheses else { break }
-                consider([first])
+            // Keep the in-memory list bounded throughout the search.
+            if retained.count > configuration.maximumResults * 8 {
+                retained = Array(
+                    retained
+                        .sorted(by: candidateIsBetter)
+                        .prefix(configuration.maximumResults * 4)
+                )
             }
         }
 
+        // Order zero is important: the payload may already be correct while BP
+        // has selected the wrong CRC/parity completion.
+        record(evaluate([]))
+
+        guard configuration.maximumFlipOrder > 0,
+              tested < configuration.maximumHypotheses else {
+            return Array(
+                retained
+                    .sorted(by: candidateIsBetter)
+                    .prefix(configuration.maximumResults)
+            )
+        }
+
+        // Order one is evaluated exhaustively over the bounded payload pool.
+        var beam: [SearchState] = []
+        for (offset, payloadIndex) in searchPositions.enumerated() {
+            guard tested < configuration.maximumHypotheses else { break }
+
+            if let candidate = evaluate([payloadIndex]) {
+                record(candidate)
+                beam.append(
+                    SearchState(
+                        flippedPayloadBitIndices: [payloadIndex],
+                        lastSearchOffset: offset,
+                        weightedDistance: candidate.weightedDistance,
+                        weightedDistanceIncrease: candidate.weightedDistanceIncrease,
+                        codewordBitChanges: candidate.codewordBitChanges
+                    )
+                )
+            }
+        }
+
+        beam = Array(
+            beam
+                .sorted(by: stateIsBetter)
+                .prefix(configuration.beamWidth)
+        )
+
+        // For orders 2...N, only expand the most channel-plausible states.
+        // This is a bounded best-first/beam approximation to a much wider OSD
+        // search, but it stays entirely inside the valid FT8 cascaded code.
         if configuration.maximumFlipOrder >= 2 {
-            outer2: for firstOffset in 0..<searchPositions.count {
-                guard firstOffset + 1 < searchPositions.count else { break }
-                for secondOffset in (firstOffset + 1)..<searchPositions.count {
-                    if tested >= configuration.maximumHypotheses {
-                        break outer2
-                    }
-                    consider([
-                        searchPositions[firstOffset],
-                        searchPositions[secondOffset],
-                    ])
+            for order in 2...configuration.maximumFlipOrder {
+                guard !beam.isEmpty,
+                      tested < configuration.maximumHypotheses else {
+                    break
                 }
-            }
-        }
 
-        if configuration.maximumFlipOrder >= 3 {
-            outer3: for firstOffset in 0..<searchPositions.count {
-                guard firstOffset + 2 < searchPositions.count else { break }
-                for secondOffset in (firstOffset + 1)..<searchPositions.count {
-                    guard secondOffset + 1 < searchPositions.count else { break }
-                    for thirdOffset in (secondOffset + 1)..<searchPositions.count {
+                var nextBeam: [SearchState] = []
+
+                for state in beam {
+                    let nextOffset = state.lastSearchOffset + 1
+                    guard nextOffset < searchPositions.count else { continue }
+
+                    for offset in nextOffset..<searchPositions.count {
                         if tested >= configuration.maximumHypotheses {
-                            break outer3
+                            break
                         }
-                        consider([
-                            searchPositions[firstOffset],
-                            searchPositions[secondOffset],
-                            searchPositions[thirdOffset],
-                        ])
+
+                        var flipped = state.flippedPayloadBitIndices
+                        flipped.append(searchPositions[offset])
+                        flipped.sort()
+
+                        guard flipped.count == order else { continue }
+
+                        if let candidate = evaluate(flipped) {
+                            record(candidate)
+                            nextBeam.append(
+                                SearchState(
+                                    flippedPayloadBitIndices: flipped,
+                                    lastSearchOffset: offset,
+                                    weightedDistance: candidate.weightedDistance,
+                                    weightedDistanceIncrease: candidate.weightedDistanceIncrease,
+                                    codewordBitChanges: candidate.codewordBitChanges
+                                )
+                            )
+                        }
+                    }
+
+                    if tested >= configuration.maximumHypotheses {
+                        break
                     }
                 }
+
+                beam = Array(
+                    nextBeam
+                        .sorted(by: stateIsBetter)
+                        .prefix(configuration.beamWidth)
+                )
             }
         }
 
         return Array(
-            results
-                .sorted {
-                    if $0.weightedDistance != $1.weightedDistance {
-                        return $0.weightedDistance < $1.weightedDistance
-                    }
-                    if $0.flippedPayloadBitIndices.count != $1.flippedPayloadBitIndices.count {
-                        return $0.flippedPayloadBitIndices.count
-                            < $1.flippedPayloadBitIndices.count
-                    }
-                    return $0.codewordBitChanges < $1.codewordBitChanges
-                }
+            retained
+                .sorted(by: candidateIsBetter)
                 .prefix(configuration.maximumResults)
         )
+    }
+
+    private func candidateIsBetter(
+        _ lhs: Candidate,
+        _ rhs: Candidate
+    ) -> Bool {
+        if lhs.weightedDistance != rhs.weightedDistance {
+            return lhs.weightedDistance < rhs.weightedDistance
+        }
+        if lhs.weightedDistanceIncrease != rhs.weightedDistanceIncrease {
+            return lhs.weightedDistanceIncrease < rhs.weightedDistanceIncrease
+        }
+        if lhs.flippedPayloadBitIndices.count != rhs.flippedPayloadBitIndices.count {
+            return lhs.flippedPayloadBitIndices.count
+                < rhs.flippedPayloadBitIndices.count
+        }
+        return lhs.codewordBitChanges < rhs.codewordBitChanges
+    }
+
+    private func stateIsBetter(
+        _ lhs: SearchState,
+        _ rhs: SearchState
+    ) -> Bool {
+        if lhs.weightedDistance != rhs.weightedDistance {
+            return lhs.weightedDistance < rhs.weightedDistance
+        }
+        if lhs.weightedDistanceIncrease != rhs.weightedDistanceIncrease {
+            return lhs.weightedDistanceIncrease < rhs.weightedDistanceIncrease
+        }
+        if lhs.flippedPayloadBitIndices.count != rhs.flippedPayloadBitIndices.count {
+            return lhs.flippedPayloadBitIndices.count
+                < rhs.flippedPayloadBitIndices.count
+        }
+        return lhs.codewordBitChanges < rhs.codewordBitChanges
     }
 
     private func encodeSystematicInformation(
