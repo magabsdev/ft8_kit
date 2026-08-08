@@ -15,5 +15,5 @@
 DerivedData/
 
 *.xcuserstate
-/.swiftpm/
+/.swiftpm
 /.checkpoint-backups/
